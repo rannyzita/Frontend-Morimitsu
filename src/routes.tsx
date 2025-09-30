@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Login } from './pages/login/Login'
+import { RecuperarSenha } from './pages/resetPassword/recuperarSenha'
 
 export const AppRoutes = () => {
     return (
@@ -7,6 +8,7 @@ export const AppRoutes = () => {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<Navigate to="/login" replace />} />
+                <Route path="/recuperar-senha" element={<RecuperarSenha/>} />
                 <Route path='*' element={<h1>404 - Not Found!</h1>} />
             </Routes>
         </BrowserRouter>  
