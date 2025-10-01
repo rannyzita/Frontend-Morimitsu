@@ -34,7 +34,7 @@ export const Login: FC = () => {
                         
                         {/* Título "SIGN IN" */}
                         <div className="mb-10 border-b-3 border-[#690808] pb-1  self-center -translate-y-6">
-                            <h1 className="text-[#ffffff]  text-5xl font-normal tracking-wide">SIGN IN</h1>
+                            <h1 className="text-[#ffffff]  text-6xl font-normal tracking-wide">SIGN IN</h1>
                         </div>
 
                         {/* <<< MUDANÇA ESTRUTURAL AQUI >>>

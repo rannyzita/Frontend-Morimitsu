@@ -40,11 +40,11 @@ export const RecuperarSenha: FC = () => {
                                 
                                 {/* Título */}
                                 <div className="mb-4 border-b-2 border-red-800 pb-2 self-center">
-                                    <h1 className="text-white text-5xl font-normal tracking-wide">RECUPERAR SENHA</h1>
+                                    <h1 className="text-white text-6xl font-normal tracking-wide">RECUPERAR SENHA</h1>
                                 </div>
 
                                 {/* Texto descritivo */}
-                                <p className="text-center text-gray-400 text-sm">
+                                <p className="text-center text-white text-sm">
                                     Para iniciar a recuperação, digite seu e-mail de cadastro para que possamos enviar o código de 5 dígitos. Lembre-se de verificar sua caixa de spam caso não receba a mensagem em alguns minutos.
                                 </p>
                                 
