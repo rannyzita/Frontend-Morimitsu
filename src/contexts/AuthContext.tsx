@@ -23,7 +23,13 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>({
+        id: 'coord-001',
+        name: 'Coordenador Teste',
+        email: 'coordenador@teste.com',
+        cpf: '000.000.000-00',
+        role: 'coordenador', // A parte mais importante!
+    });
 
     // Função para simular o login
     // No futuro, aqui você faria a chamada para a sua API

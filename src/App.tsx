@@ -3,7 +3,9 @@ import { AppRoutes } from "./routes";
 export function App() {
 
   return (
-    <AppRoutes/>
+    <div className="min-h-screen bg-black"> 
+      <AppRoutes/>
+    </div>
   )
 }
 

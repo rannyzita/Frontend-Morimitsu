@@ -1,26 +1,35 @@
-import React from 'react';
-import { Outlet, useLocation } from 'react-router-dom'; 
-import { SideBar } from './SideBar';
+import React, { useState } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import { Sidebar } from './SideBar';
 import { TopBar } from './TopBar';
 import { Bottombar } from './BottomBar';
 
 export const MainLayout: React.FC = () => {
-    const location = useLocation(); // Hook para pegar informações da rota atual
-    const isHomePage = location.pathname === '/home'; // Verifica se a rota é a home ("/")
+    const location = useLocation();
+    const isHomePage = location.pathname === '/home';
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+    const toggleSidebar = () => {
+        setSidebarOpen(!isSidebarOpen);
+    };
 
     return (
-        <div className="flex h-screen bg-gray-100">
-            <SideBar/>
+        <div className="relative flex h-screen bg-black overflow-hidden">
+            <Sidebar isOpen={isSidebarOpen} />
             
-            <div className="flex-1 flex flex-col overflow-hidden">
-                <TopBar/>
-                
-                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 p-6">
-                    {/* O Outlet é o portal onde a página (Home, Perfil, etc.) será renderizada */}
-                    <Outlet /> 
-                </main>
+            {isSidebarOpen && (
+                <div
+                    onClick={toggleSidebar}
+                    className="fixed inset-0 z-40" 
+                ></div>
+            )}
 
-                {/* Renderização condicional da Bottombar */}
+            {/* CORREÇÃO PRINCIPAL: Removida a lógica de margem condicional */}
+            <div className="flex-1 flex flex-col transition-all duration-300 ease-in-out">
+                <TopBar onMenuClick={toggleSidebar} />
+                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 p-6">
+                    <Outlet />
+                </main>
                 {isHomePage && <Bottombar />}
             </div>
         </div>
