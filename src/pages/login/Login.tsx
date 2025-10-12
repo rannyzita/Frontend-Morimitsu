@@ -53,7 +53,7 @@ export const Login: FC = () => {
                                             className="w-full bg-transparent text-[#757575] focus:outline-none pr-8 text-lg"
                                             required
                                         />
-                                        <UserRound className="absolute right-4 text-gray-500" size={22} />
+                                        <UserRound className="absolute right-4 text-[#757575]" size={22} />
                                     </div>
                                 </div>
 
@@ -74,22 +74,19 @@ export const Login: FC = () => {
                                 </div>
                                 
                                 {/* Esqueceu a senha */}
-                                <div className="flex justify-start text-sm -mt-6"> {/* Exemplo: Puxa o texto para mais perto do campo de senha */}
+                                <div className="flex justify-start text-sm -mt-6"> 
                                     <Link to="/recuperar-senha" className="text-[#757575] font-normal hover:underline">
                                         Esqueceu a senha?
                                     </Link>
                                 </div>
                             </div>
 
-                        {/* <<< DIV DE ESPAÇAMENTO AQUI >>>
-                            Este div invisível cresce para ocupar todo o espaço vertical disponível,
-                            empurrando o botão para a parte inferior. */}
                             <div className="flex-grow"></div>
 
                         {/* Botão de login agora no final */}
                             <button
                                 type="submit"
-                                className="w-full py-3 bg-[#690808] text-white font-semibold rounded-md hover:bg-red-800 transition-colors text-lg"
+                                className="w-full py-3 bg-[#690808] text-white rounded-[10px] hover:bg-red-800 transition-colors text-lg"
                             >
                                 Entrar
                             </button>
