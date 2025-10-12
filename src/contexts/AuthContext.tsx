@@ -53,8 +53,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     );
 };
 
-// 4. Criando um Hook customizado (Opcional, mas é uma ótima prática)
-// Isso facilita o uso do nosso contexto nos outros componentes.
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {
