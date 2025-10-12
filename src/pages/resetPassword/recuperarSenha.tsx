@@ -43,7 +43,7 @@ export const RecuperarSenha: FC = () => {
         // Permite apenas um dígito por campo
         const digit = value.slice(-1);
 
-        if (/^[0-9]*$/.test(digit)) { // Opcional: Garante que apenas números sejam inseridos
+        if (/^[0-9]*$/.test(digit)) { 
             const updatedCode = [...code];
             updatedCode[index] = digit;
             setCode(updatedCode);
