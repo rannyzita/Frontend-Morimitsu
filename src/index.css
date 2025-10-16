@@ -8,10 +8,3 @@ input:-webkit-autofill:active {
 
     -webkit-text-fill-color: #757575 !important;
 }
-
-@layer base {
-    body {
-        background-color: #000000;
-        color: #ffffff;
-    }
-}
