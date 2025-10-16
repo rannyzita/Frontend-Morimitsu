@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import {
-    Users, User, Cake, GraduationCap, LogOut, ChevronLeft, ClipboardList, HomeIcon, CircleUserRound
+    Users, User, Cake, GraduationCap, LogOut, ChevronLeft, ClipboardList, HomeIcon, CircleUserRound, ListChecks
 } from 'lucide-react';
 
 type NavItemProps = {
@@ -79,7 +79,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
                                     <NavItem to='/relatorio' icon={ClipboardList}>Relatório</NavItem>
                                 </>
                             )}
-                            {/* ... */}
+                            {user.role === 'aluno/professor' && (
+                                <>
+                                    <NavItem to='/home' icon={HomeIcon}>Tela Inicial</NavItem>
+                                    <NavItem to='/meu-perfil' icon={CircleUserRound}>Meu Perfil</NavItem>
+                                    <NavItem to='/turmas' icon={ListChecks}>Frequências</NavItem>
+                                    <NavItem to='/aniversarios' icon={Cake}>Aniversários</NavItem>
+                                    <NavItem to='/relatorio' icon={ClipboardList}>Relatório</NavItem>
+                                </>
+                            )}
                         </ul>
                     </nav>
                     

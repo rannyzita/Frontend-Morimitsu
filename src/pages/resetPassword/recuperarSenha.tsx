@@ -128,14 +128,14 @@ export const RecuperarSenha: FC = () => {
                                     </p>
                                     
                                     <div className='relative'>
-                                        <label htmlFor='email' className='text-[#757575] text-lg mb-2 block'>E-mail:</label>
+                                        <label htmlFor='email' className='text-[#ffffff] text-lg mb-2 block'>E-mail:</label>
                                         <div className='relative flex items-center border-[1.95px] border-[#757575] rounded-2xl px-4 py-3 focus-within:border-[#690808]'>
                                             <input
                                                 id='email'
                                                 type='email'
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
-                                                className='w-full bg-transparent text-[#757575] focus:outline-none pr-8 text-lg'
+                                                className='w-full bg-transparent text-[#ffffff] focus:outline-none pr-8 text-lg'
                                                 required
                                             />
                                             <Mail className='absolute right-4 text-[#757575]' size={22} />
