@@ -2,12 +2,10 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    /* Cor do texto. Mude se a sua for diferente. */
+
     -webkit-text-fill-color: #757575 !important;
 
-    /* A cor de fundo que você quer. No seu caso, transparente ou a cor do seu container. */
-    box-shadow: 0 0 0 1000px transparent inset !important; /* Use 'transparent' ou a cor de fundo exata. */
+    box-shadow: 0 0 0 1000px transparent inset !important; 
 
-    /* Garante que a transição de cor do navegador seja removida. */
     transition: background-color 5000s ease-in-out 0s;
 }

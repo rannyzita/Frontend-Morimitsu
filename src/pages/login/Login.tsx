@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-// Ícones
 import { Eye, EyeOff, UserRound } from 'lucide-react';
 
 export const Login: FC = () => {

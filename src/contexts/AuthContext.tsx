@@ -28,25 +28,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         name: 'Coordenador Teste',
         email: 'coordenador@teste.com',
         cpf: '000.000.000-00',
-        role: 'coordenador', // A parte mais importante!
+        role: 'coordenador', 
     });
 
-    // Função para simular o login
-    // No futuro, aqui você faria a chamada para a sua API
     const login = (userData: User) => {
         setUser(userData);
-        // Você também poderia salvar o usuário no localStorage para manter a sessão
     };
 
-    // Função para fazer o logout
     const logout = () => {
         setUser(null);
-        // Limpar o localStorage se estiver usando
     };
 
-    // O valor que será compartilhado com todos os componentes filhos
     const value = {
-        isAuthenticated: !!user, // Converte o objeto 'user' para um booleano (true se existe, false se não)
+        isAuthenticated: !!user, 
         user,
         login,
         logout
