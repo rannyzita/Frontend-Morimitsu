@@ -14,7 +14,7 @@ export const MainLayout: React.FC = () => {
     };
 
     return (
-        <div className="relative flex h-screen bg-black overflow-hidden">
+        <div className="relative flex min-h-screen bg-black overflow-hidden">
             <Sidebar isOpen={isSidebarOpen} toggleSideBar={toggleSidebar}/>
             
             {isSidebarOpen && (
@@ -23,9 +23,10 @@ export const MainLayout: React.FC = () => {
 
             <div className="flex-1 flex flex-col transition-all duration-300 ease-in-out">
                 <TopBar onMenuClick={toggleSidebar} />
-                <main className="flex-1 overflow-x-hidden overflow-y-auto p-6">
+                <main className="flex-1 overflow-y-auto p-6">
                     <Outlet />
                 </main>
+                
                 {isHomePage && <Bottombar />}
             </div>
         </div>
