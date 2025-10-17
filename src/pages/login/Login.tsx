@@ -16,7 +16,7 @@ export const Login: FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        navigate('/');
+        navigate('/login');
     };
 
     return (
@@ -46,13 +46,13 @@ export const Login: FC = () => {
                                         id='username'
                                         variant="outlined"
                                         placeholder="Digite seu usuário"
-                                        className="[&_input]:!text-[#757575] [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]"
+                                        className="[&_input]:!text-[#9E9E9E] [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]"
                                         sx={{
                                             '& .MuiOutlinedInput-root': {
                                                 '& input:-webkit-autofill': {
                                                     transition: 'background-color 5000s ease-in-out 0s',
                                                     boxShadow: '0 0 0 30px #000000 inset !important',
-                                                    WebkitTextFillColor: '#757575 !important',
+                                                    WebkitTextFillColor: '#9E9E9E !important',
                                                 },
                                             },
                                         }}
@@ -76,7 +76,16 @@ export const Login: FC = () => {
                                         variant="outlined"
                                         placeholder="Digite sua senha"
                                         type={showPassword ? 'text' : 'password'}
-                                        className="[&_input]:!text-[#757575] [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]"
+                                        className="[&_input]:!text-[#9E9E9E] [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]"
+                                        sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                '& input:-webkit-autofill': {
+                                                    transition: 'background-color 5000s ease-in-out 0s',
+                                                    boxShadow: '0 0 0 30px #000000 inset !important',
+                                                    WebkitTextFillColor: '#9E9E9E !important',
+                                                },
+                                            },
+                                        }}
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position="end">

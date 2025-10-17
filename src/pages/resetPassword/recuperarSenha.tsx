@@ -1,7 +1,11 @@
 import type { FC } from 'react';
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; 
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
+// Componentes do MUI
+import { Box, TextField, Button, Link, InputAdornment, IconButton } from '@mui/material';
+
+// Ícones do Lucide
 import { Mail, Eye, EyeOff } from 'lucide-react';
 
 type CodeInputProps = {
@@ -9,7 +13,7 @@ type CodeInputProps = {
     index: number;
     onChange: (index: number, value: string) => void;
     onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-}
+};
 
 export const RecuperarSenha: FC = () => {
     const navigate = useNavigate();
@@ -25,55 +29,44 @@ export const RecuperarSenha: FC = () => {
 
     useEffect(() => {
         const nextEmptyIndex = code.findIndex(digit => digit === '');
-
-        if (nextEmptyIndex !== -1) {
+        if (nextEmptyIndex !== -1 && step === 'code') {
             inputRefs.current[nextEmptyIndex]?.focus();
         }
-    }, [code]); 
+    }, [code, step]);
 
-    function handleResendCode() {
+    const handleResendCode = () => {
         setLoadingResend(true);
         setTimeout(() => {
             setLoadingResend(false);
         }, 2000);
-    }
-    
-    // 1. LÓGICA DE FOCO REMOVIDA DAQUI
-    function handleCodeChange(index: number, value: string): void {
-        // Permite apenas um dígito por campo
-        const digit = value.slice(-1);
+    };
 
-        if (/^[0-9]*$/.test(digit)) { 
+    const handleCodeChange = (index: number, value: string) => {
+        const digit = value.slice(-1);
+        if (/^[0-9]*$/.test(digit)) {
             const updatedCode = [...code];
             updatedCode[index] = digit;
             setCode(updatedCode);
         }
-    }
-
-    const togglePassword = () => {
-        setShowPassword(!showPassword);
     };
 
-    const togglePasswordConfirmer = () => {
-        setShowPasswordConfirmer(!showPasswordConfirmer);
-    };
+    const togglePassword = () => setShowPassword(!showPassword);
+    const togglePasswordConfirmer = () => setShowPasswordConfirmer(!showPasswordConfirmer);
 
     const CodeInput = React.forwardRef<HTMLInputElement, CodeInputProps>(
-        ({ value, index, onChange, onKeyDown }, ref) => {
-            return (
-                <input
-                    ref={ref}
-                    type='text'
-                    maxLength={1}
-                    value={value}
-                    onChange={(e) => onChange(index, e.target.value)}
-                    onKeyDown={onKeyDown}
-                    id={`code-input-${index}`} 
-                    className='w-12 h-14 text-3xl text-center border-[1.95px] border-[#757575] rounded-lg focus:outline-none focus:border-[#690808] transition-colors caret-[#690808] bg-white text-black' 
-                    required
-                />
-            );
-        }
+        ({ value, index, onChange, onKeyDown }, ref) => (
+            <input
+                ref={ref}
+                type='text'
+                maxLength={1}
+                value={value}
+                onChange={(e) => onChange(index, e.target.value)}
+                onKeyDown={onKeyDown}
+                id={`code-input-${index}`}
+                className='w-12 h-14 text-3xl text-center border-[1.95px] border-[#757575] rounded-lg focus:outline-none focus:border-[#690808] transition-colors caret-[#690808] bg-white text-black'
+                required
+            />
+        )
     );
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
@@ -91,11 +84,12 @@ export const RecuperarSenha: FC = () => {
 
     const handleContinueSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Submetido, avançando para a próxima etapa...');
         if (step === 'email') {
-            setStep('code'); 
+            setStep('code');
         } else if (step === 'code') {
             setStep('reset');
+        } else if (step === 'reset') {
+            navigate('/login');
         }
     };
 
@@ -103,11 +97,10 @@ export const RecuperarSenha: FC = () => {
         console.log('Enviando e-mail para:', email);
     };
 
-
     return (
         <div className='flex justify-center items-center h-screen bg-black text-gray-400'>
-            <div className='flex flex-row w-full max-w-7xl h-[600px] items-center justify-center bg-black'>
-                <div className='flex-1 flex justify-center items-center h-full'>
+            <div className='flex flex-row w-full max-w-7xl h-[600px] items-center justify-center'>
+                <div className='flex-1 hidden md:flex justify-center items-center h-full'>
                     <img src='/MorimitsuLogo.jpeg' alt='Logo Morimitsu Jiu Jitsu' className='w-[550px] h-[550px] object-contain' />
                 </div>
 
@@ -116,180 +109,103 @@ export const RecuperarSenha: FC = () => {
 
                         {/* ETAPA 1: PEDIR O E-MAIL */}
                         {step === 'email' && (
-                            <form onSubmit={handleContinueSubmit} className='flex-grow flex flex-col'>
-                                
+                            <Box component="form" onSubmit={handleContinueSubmit} className='flex-grow flex flex-col'>
                                 <div className='mb-2 self-center -translate-y-6'>
-                                    <h1 className='text-[#ffffff] text-6xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>RECUPERAR SENHA</h1>
+                                    <h1 className='text-white text-6xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>RECUPERAR SENHA</h1>
                                 </div>
-
                                 <div className='space-y-6'>
-                                    <p className='text-center text-[#ffffff] leading-relaxed'>
+                                    <p className='text-center text-white leading-relaxed'>
                                         Para iniciar a recuperação, digite seu e-mail de cadastro para que possamos enviar o código de 5 dígitos. Lembre-se de verificar sua caixa de spam caso não receba a mensagem em alguns minutos.
                                     </p>
-                                    
-                                    <div className='relative'>
-                                        <label htmlFor='email' className='text-[#ffffff] text-lg mb-2 block'>E-mail:</label>
-                                        <div className='relative flex items-center border-[1.95px] border-[#757575] rounded-2xl px-4 py-3 focus-within:border-[#690808]'>
-                                            <input
-                                                id='email'
-                                                type='email'
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                                className='w-full bg-transparent text-[#ffffff] focus:outline-none pr-8 text-lg'
-                                                required
-                                            />
-                                            <Mail className='absolute right-4 text-[#757575]' size={22} />
-                                        </div>
+                                    <div>
+                                        <label htmlFor='email' className='text-[#9E9E9E] text-lg mb-2 block'>E-mail:</label>
+                                        <TextField required fullWidth id='email' variant="outlined" value={email} onChange={(e) => setEmail(e.target.value)}
+                                            placeholder="Digite seu e-mail"
+                                            className="[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]"
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    '& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active': {
+                                                        transition: 'background-color 5000s ease-in-out 0s',
+                                                        boxShadow: '0 0 0 30px #000000 inset !important',
+                                                        WebkitTextFillColor: '#757575 !important',
+                                                    },
+                                                },
+                                            }}
+                                        />
                                     </div>
-
-                                    <button
-                                        type='button'
-                                        onClick={handleSendEmailClick}
-                                        className='w-full py-3 bg-[#690808] text-white rounded-[10px] hover:bg-red-800 transition-colors text-lg'
-                                    >
+                                    <Button onClick={handleSendEmailClick} variant="contained" className='!w-full !py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !text-lg !normal-case'>
                                         Enviar E-mail
-                                    </button>
+                                    </Button>
                                 </div>
-
                                 <div className='flex-grow'></div>
-                                
                                 <div className='flex items-center justify-between mt-8'>
-                                    <Link to='/login' className='text-[#ffffff] font-normal hover:underline pl-4'>
-                                        Voltar
-                                    </Link>
-                                    <button
-                                        type='submit'
-                                        className='px-12 py-3 bg-[#690808] text-white rounded-[10px] hover:bg-red-800 transition-colors'
-                                    >
-                                        Continuar
-                                    </button>
+                                    <Link component={RouterLink} to='/login' className='!text-white !font-normal hover:!underline !pl-4'>Voltar</Link>
+                                    <Button type='submit' variant="contained" className='!px-12 !py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800'>Continuar</Button>
                                 </div>
-                            </form>
+                            </Box>
                         )}
 
                         {/* ETAPA 2: INSERIR O CÓDIGO */}
                         {step === 'code' && (
-                            <form onSubmit={handleContinueSubmit} className='flex-grow flex flex-col'>
+                            <Box component="form" onSubmit={handleContinueSubmit} className='flex-grow flex flex-col'>
                                 <div className='mb-4 self-center -translate-y-6'>
-                                    <h1 className='text-[#ffffff] text-6xl font-normal tracking-wide whitespace-nowrap border-b-3 border-[#690808] pb-2'>CÓDIGO DE RECUPERAÇÃO</h1>
+                                    <h1 className='text-white text-5xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>CÓDIGO DE RECUPERAÇÃO</h1>
                                 </div>
-
                                 <div className='space-y-6'>
-                                    <p className='text-center text-[#ffffff] leading-relaxed'>
+                                    <p className='text-center text-white leading-relaxed'>
                                         Agora, insira o código que enviamos para o seu e-mail exem***@gmail.com. Caso não tenha chegado, você pode reenviar o código abaixo.
                                     </p>
-
                                     <div className='flex justify-between space-x-2 my-8'>
-                                        {code.map((digit:string, index: number) => (
-                                            <CodeInput 
-                                                key={index}
-                                                index={index}
-                                                value={digit}
-                                                onChange={handleCodeChange}
-                                                ref={(el: HTMLInputElement | null) => { inputRefs.current[index] = el; }}
-                                                onKeyDown={(e) => handleKeyDown(e, index)}
-                                            />
+                                        {code.map((digit, index) => (
+                                            <CodeInput key={index} index={index} value={digit} onChange={handleCodeChange} ref={(el) => { inputRefs.current[index] = el; }} onKeyDown={(e) => handleKeyDown(e, index)} />
                                         ))}
                                     </div>
-
-                                    <button
-                                        type='button'
-                                        onClick={handleResendCode}  
-                                        disabled={loadingResend}
-                                        className='w-full py-3 bg-[#690808] text-white rounded-[10px] hover:bg-red-800 transition-colors text-lg disabled:bg-red-900/50 disabled:cursor-not-allowed'
-                                    >
+                                    <Button onClick={handleResendCode} disabled={loadingResend} variant="contained" className='!w-full !py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !text-lg !normal-case disabled:!bg-red-900/50'>
                                         {loadingResend ? 'Enviando...' : 'Reenviar Código'}
-                                    </button>
+                                    </Button>
                                 </div>
-
                                 <div className='flex-grow'></div>
-                                
                                 <div className='flex items-center justify-between mt-8'>
-                                    <button
-                                        type='button'
-                                        onClick={()=> setStep('email')}
-                                        className='text-[#ffffff] font-normal hover:underline pl-4 bg-transparent'
-                                    >
-                                        Voltar
-                                    </button>
-
-                                    <button
-                                        type='submit'
-                                        className='px-12 py-3 bg-[#690808] text-white rounded-[10px] hover:bg-red-800 transition-colors'
-                                    >
-                                        Continuar
-                                    </button>
+                                    <Button onClick={() => setStep('email')} className='!text-white !font-normal hover:!underline !pl-4 !bg-transparent !normal-case'>Voltar</Button>
+                                    <Button type='submit' variant="contained" className='!px-12 !py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800'>Continuar</Button>
                                 </div>
-                            </form>
+                            </Box>
                         )}
 
                         {/* ETAPA 3: NOVA SENHA */}
                         {step === 'reset' && (
-                            <form className='flex-grow flex flex-col'>
+                            <Box component="form" onSubmit={handleContinueSubmit} className='flex-grow flex flex-col'>
                                 <div className='mb-4 self-center -translate-y-6'>
-                                    <h1 className='text-[#ffffff] text-6xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>ATUALIZAR SENHA</h1>
+                                    <h1 className='text-white text-5xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>ATUALIZAR SENHA</h1>
                                 </div>
-
-                                <div className='space-y-6 '>
-                                    <p className='text center text-[#757575] leading relaxed'>
-                                    Sua nova senha precisa ter:<br></br>
-                                    • No mínimo 8 caracteres<br></br>
-                                    • Pelo menos uma letra maiúscula (A-Z)<br></br>
-                                    • Pelo menos um número (0-9)
+                                <div className='space-y-6'>
+                                    <p className='text-[#757575] leading-relaxed'>
+                                        Sua nova senha precisa ter:<br />
+                                        • No mínimo 8 caracteres<br />
+                                        • Pelo menos uma letra maiúscula (A-Z)<br />
+                                        • Pelo menos um número (0-9)
                                     </p>
-                                </div>
-                                
-                                <div className='space-y-6 mt-4'>
-                                    <div className='relative'>
+                                    <div>
                                         <label htmlFor='password' className='text-[#757575] text-lg mb-2 block'>Insira a nova senha:</label>
-                                        <div className='relative flex items-center border border-[#757575] rounded-2xl px-4 py-3 focus-within:border-[#690808]'>
-                                            <input
-                                                id='password'
-                                                type={showPassword ? 'text' : 'password'}
-                                                className='w-full bg-transparent text-[#757575] focus:outline-none pr-8 text-lg'
-                                                required
-                                            />
-                                            <span onClick={togglePassword} className='absolute right-4 cursor-pointer text-[#757575]'>
-                                                {showPassword ? <Eye size={22} /> : <EyeOff size={22} />}
-                                            </span>
-                                        </div>
+                                        <TextField required fullWidth id='password' variant="outlined" placeholder="Digite sua nova senha" type={showPassword ? 'text' : 'password'}
+                                            className="[&_input]:!text-[#757575] [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]"
+                                            InputProps={{ endAdornment: <InputAdornment position="end"><IconButton onClick={togglePassword} edge="end" className="!text-[#757575]">{showPassword ? <Eye size={22} /> : <EyeOff size={22} />}</IconButton></InputAdornment> }}
+                                        />
                                     </div>
-
-                                    <div className='relative'>
+                                    <div>
                                         <label htmlFor='passwordConfirmer' className='text-[#757575] text-lg mb-2 block'>Confirme a senha:</label>
-                                        <div className='relative flex items-center border border-[#757575] rounded-2xl px-4 py-3 focus-within:border-[#690808]'>
-                                            <input
-                                                id='passwordConfirmer'
-                                                type={showPasswordConfirmer ? 'text' : 'password'}
-                                                className='w-full bg-transparent text-[#757575] focus:outline-none pr-8 text-lg'
-                                                required
-                                            />
-                                            <span onClick={togglePasswordConfirmer} className='absolute right-4 cursor-pointer text-[#757575]'>
-                                                {showPasswordConfirmer ? <Eye size={22} /> : <EyeOff size={22} />}
-                                            </span>
-                                        </div>
+                                        <TextField required fullWidth id='passwordConfirmer' variant="outlined" placeholder="Confirme sua nova senha" type={showPasswordConfirmer ? 'text' : 'password'}
+                                            className="[&_input]:!text-[#757575] [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]"
+                                            InputProps={{ endAdornment: <InputAdornment position="end"><IconButton onClick={togglePasswordConfirmer} edge="end" className="!text-[#757575]">{showPasswordConfirmer ? <Eye size={22} /> : <EyeOff size={22} />}</IconButton></InputAdornment> }}
+                                        />
                                     </div>
                                 </div>
-
                                 <div className='flex-grow'></div>
-
                                 <div className='flex items-center justify-between mt-8'>
-                                    <button
-                                        type='button'
-                                        onClick={()=> setStep('code')}
-                                        className='text-[#ffffff] font-normal hover:underline pl-4 bg-transparent'
-                                    >
-                                        Voltar
-                                    </button>
-
-                                    <button
-                                        type='submit'
-                                        className='px-12 py-3 bg-[#690808] text-white rounded-[10px] hover:bg-red-800 transition-colors'
-                                    >
-                                        Continuar
-                                    </button>
+                                    <Button onClick={() => setStep('code')} className='!text-white !font-normal hover:!underline !pl-4 !bg-transparent !normal-case'>Voltar</Button>
+                                    <Button type='submit' variant="contained" className='!px-12 !py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800'>Confirmar</Button>
                                 </div>
-                            </form>
+                            </Box>
                         )}
                     </div>
                 </div>
