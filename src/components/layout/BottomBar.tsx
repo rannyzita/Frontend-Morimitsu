@@ -30,7 +30,6 @@ export const Bottombar: React.FC = () => {
                         <Box component='span' sx={{ color: 'white' }}>OUR</Box>{' '}
                         <Box component='span' sx={{ color: '#3E0404' }}>LOCATIONS</Box>
                     </Typography>
-                    {/* CORREÇÃO: Usando classes do Tailwind para os bullets, em vez de digitá-los manualmente */}
                     <ul className='space-y-2 list-disc pl-5 text-gray-300'>
                         <li>Juazeiro do Norte, Ceará</li>
                         <li>Crato, Ceará</li>
@@ -50,7 +49,6 @@ export const Bottombar: React.FC = () => {
                             <Instagram fontSize='medium'></Instagram>
                             <span>@morimitsu_kmbjj_cedro</span>
                         </Link>
-                        {/* CORREÇÃO: Link do Instagram atualizado */}
                         <Link href='https://www.instagram.com/saulobezerrabjj' target='_blank' rel='noopener' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
                             <Instagram fontSize='medium'></Instagram>
                             <span>@saulobezerrabjj</span>

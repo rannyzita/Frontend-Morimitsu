@@ -14,16 +14,16 @@ export const MainLayout: React.FC = () => {
     };
 
     return (
-        <div className="relative flex min-h-screen bg-black">
+        <div className="relative flex h-screen overflow-hidden bg-black">
             <Sidebar isOpen={isSidebarOpen} toggleSideBar={toggleSidebar}/>
             
             {isSidebarOpen && (
                 <div onClick={toggleSidebar} className="md:hidden fixed inset-0 bg-black/60 z-40"></div>
             )}
 
-            <div className="flex-1 flex flex-col transition-all duration-300 ease-in-out">
+            <div className="flex-1 flex flex-col transition-all duration-300 ease-in-out overflow-y-auto">
                 <TopBar onMenuClick={toggleSidebar} />
-                <main className="flex-grow   p-6">
+                <main className="min-h-[90vh] p-6">
                     <Outlet />
                 </main>
                 {isHomePage && <Bottombar />}
