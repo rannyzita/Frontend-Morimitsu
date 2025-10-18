@@ -12,7 +12,7 @@ export const Bottombar: React.FC = () => {
             className='bg-[#690808] py-8 px-8 md:px-24'
         >
             <Grid container spacing={{ xs: 6, md: 40 }}>
-
+                
                 {/* 1 - ABOUT US */}
                 <Grid item xs={12} md={4}>
                     <Typography variant='h5' className='!font-bold !mb-4 tracking-wide'>
