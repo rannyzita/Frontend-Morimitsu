@@ -48,12 +48,12 @@ interface BigButtonProps {
 const BigButton: FC<BigButtonProps> = ({ icon, label }) => (
     <button 
         className='bg-[#880000] text-white p-6 rounded-lg border-[10px] border-[#3E0404] 
-                    flex items-center gap-4 text-2xl font-bold tracking-wide
+                    flex items-center gap-4 text-4xl font-bold tracking-wide
                     hover:bg-[#8e0303] transition-colors duration-200
                     w-full' 
     >
         {icon}
-        <span className='flex-1 text-left'>{label}</span> 
+        <span className='flex-1 text-center'>{label}</span> 
     </button>
 );
 interface BirthdayCardProps {
