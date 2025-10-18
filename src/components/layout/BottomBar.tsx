@@ -7,10 +7,8 @@ export const Bottombar: React.FC = () => {
     return (
         <Box
             component='footer'
-            className='bg-[#690808] py-8 px-8 md:px-24'
+            className='bg-[#690808] py-10 px-8 md:px-24'
         >
-            {/* MUDANÇA 1: O 'spacing' md era 40, agora é 8. 
-                Isso dá mais espaço para as colunas. */}
             <Grid container spacing={{ xs: 6, md: 8 }}>
                 
                 {/* 1 - ABOUT US */}

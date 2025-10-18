@@ -23,7 +23,7 @@ export const MainLayout: React.FC = () => {
 
             <div className="flex-1 flex flex-col transition-all duration-300 ease-in-out overflow-y-auto">
                 <TopBar onMenuClick={toggleSidebar} />
-                <main className="min-h-[90vh] p-6">
+                <main className="min-h-[108vh] p-6">
                     <Outlet />
                 </main>
                 {isHomePage && <Bottombar />}
