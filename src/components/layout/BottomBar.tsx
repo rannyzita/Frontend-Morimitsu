@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { Box, Grid, Typography, Link } from '@mui/material';
-
 import { Mail, Phone } from 'lucide-react';
 import { Instagram } from '@mui/icons-material';
 
@@ -11,7 +9,9 @@ export const Bottombar: React.FC = () => {
             component='footer'
             className='bg-[#690808] py-8 px-8 md:px-24'
         >
-            <Grid container spacing={{ xs: 6, md: 40 }}>
+            {/* MUDANÇA 1: O 'spacing' md era 40, agora é 8. 
+                Isso dá mais espaço para as colunas. */}
+            <Grid container spacing={{ xs: 6, md: 8 }}>
                 
                 {/* 1 - ABOUT US */}
                 <Grid item xs={12} md={4}>
@@ -26,42 +26,62 @@ export const Bottombar: React.FC = () => {
 
                 {/* 2 - OUR LOCATIONS */}
                 <Grid item xs={12} md={4}>
-                    <Typography variant='h5' className='!font-bold !mb-4 tracking-wide'>
+                    <Typography variant='h5' className='!font-bold !mb-4 tracking-wide text-center'>
                         <Box component='span' sx={{ color: 'white' }}>OUR</Box>{' '}
                         <Box component='span' sx={{ color: '#3E0404' }}>LOCATIONS</Box>
                     </Typography>
-                    <ul className='space-y-2 list-disc pl-5 text-gray-300'>
-                        <li>Juazeiro do Norte, Ceará</li>
-                        <li>Crato, Ceará</li>
-                        <li>Aquiraz, Ceará</li>
-                        <li>Cedro, Ceará</li>
-                    </ul>
+                    {/* Eu também centralizei seu Locations, como você pediu antes */}
+                    <div className='flex justify-center'>
+                        <ul className='space-y-2 list-disc pl-5 text-gray-300'>
+                            <li>Juazeiro do Norte, Ceará</li>
+                            <li>Crato, Ceará</li>
+                            <li>Aquiraz, Ceará</li>
+                            <li>Cedro, Ceará</li>
+                        </ul>
+                    </div>
                 </Grid>
                 
                 {/* 3 - CONTACT US */}
                 <Grid item xs={12} md={4}>
-                    <Typography variant='h5' className='!font-bold !mb-4 tracking-wide'>
+                    
+                    <Typography variant='h5' className='!font-bold !mb-4 tracking-wide text-center'>
                         <Box component='span' sx={{ color: 'white' }}>CONTACT</Box>{' '}
                         <Box component='span' sx={{ color: '#3E0404' }}>US</Box>
                     </Typography>
-                    <div className='space-y-3'>
-                        <Link href='https://www.instagram.com/morimitsu_kmrbjj_cedro' target='_blank' rel='noopener' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
-                            <Instagram fontSize='medium' sx={{color: '#3E0404'}}></Instagram>
-                            <span>@morimitsu_kmbjj_cedro</span>
-                        </Link>
-                        <Link href='https://www.instagram.com/saulobezerrabjj' target='_blank' rel='noopener' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
-                            <Instagram fontSize='medium' sx={{color: '#3E0404'}}></Instagram>
-                            <span>@saulobezerrabjj</span>
-                        </Link>
-                        <Link href='mailto:saulo@ifce.edu.br' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
-                            <Mail size={20} color='#3E0404'/>
-                            <span>saulo@ifce.edu.br</span>
-                        </Link>
-                        <Link href='tel:88999650480' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
-                            <Phone size={20} color='#3E0404'/>
-                            <span>88 9965-0480</span>
-                        </Link>
-                    </div>
+
+                    {/* MUDANÇA 2: O 'spacing' interno era 10, agora é 4. 
+                        Isso aproxima as colunas de contato. */}
+                    <Grid container justifyContent="center" spacing={4}>
+
+                        {/* Coluna da Esquerda (auto-width) */}
+                        <Grid item> 
+                            <div className='flex flex-col space-y-3'>
+                                <Link href='https://www.instagram.com/morimitsu_kmrbjj_cedro' target='_blank' rel='noopener' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
+                                    <Instagram fontSize='medium' sx={{color: '#3E0404'}}></Instagram>
+                                    <span>@morimitsu_kmbjj_cedro</span>
+                                </Link>
+                                <Link href='https://www.instagram.com/saulobezerrabjj' target='_blank' rel='noopener' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
+                                    <Instagram fontSize='medium' sx={{color: '#3E0404'}}></Instagram>
+                                    <span>@saulobezerrabjj</span>
+                                </Link>
+                            </div>
+                        </Grid>
+
+                        {/* Coluna da Direita (auto-width) */}
+                        <Grid item>
+                            <div className='flex flex-col space-y-4'>
+                                <Link href='mailto:saulo@ifce.edu.br' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
+                                    <Mail size={20} color='#3E0404'/>
+                                    <span>saulo@ifce.edu.br</span>
+                                </Link>
+                                <Link href='tel:88999650480' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
+                                    <Phone size={20} color='#3E0404'/>
+                                    <span>88 9965-0480</span>
+                                </Link>
+                            </div>
+                        </Grid>
+
+                    </Grid> 
                 </Grid>
             </Grid>
         </Box>
