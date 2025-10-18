@@ -46,19 +46,19 @@ export const Bottombar: React.FC = () => {
                     </Typography>
                     <div className='space-y-3'>
                         <Link href='https://www.instagram.com/morimitsu_kmrbjj_cedro' target='_blank' rel='noopener' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
-                            <Instagram fontSize='medium'></Instagram>
+                            <Instagram fontSize='medium' sx={{color: '#3E0404'}}></Instagram>
                             <span>@morimitsu_kmbjj_cedro</span>
                         </Link>
                         <Link href='https://www.instagram.com/saulobezerrabjj' target='_blank' rel='noopener' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
-                            <Instagram fontSize='medium'></Instagram>
+                            <Instagram fontSize='medium' sx={{color: '#3E0404'}}></Instagram>
                             <span>@saulobezerrabjj</span>
                         </Link>
                         <Link href='mailto:saulo@ifce.edu.br' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
-                            <Mail size={20} />
+                            <Mail size={20} color='#3E0404'/>
                             <span>saulo@ifce.edu.br</span>
                         </Link>
                         <Link href='tel:88999650480' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
-                            <Phone size={20} />
+                            <Phone size={20} color='#3E0404'/>
                             <span>88 9965-0480</span>
                         </Link>
                     </div>
