@@ -10,20 +10,7 @@ import deleteClassIcon from './assets/Delete-Class.png';
 import editClassIcon from './assets/Edit-Class.png';
 import seeClassIcon from './assets/See-Class.png';
 
-const ActionButton: FC<{ icon: ReactNode, label: string }> = ({ icon, label }) => (
-    <button className='relative flex items-center justify-center bg-[#690808] p-4 rounded-lg 
-                            font-semibold text-lg hover:bg-[rgb(170,0,0)] transition-colors
-                            w-full lg:w-150 
-                        '
-    >
-        
-        <div className="absolute left-4 top-1/2 -translate-y-1/2">
-            {icon}
-        </div>
-        
-        <span>{label}</span>
-    </button>
-);
+import { ActionButton } from '../../components/Button/ActionButton';
 
 export const GerenciamentoTurmas: FC = () => {
     return (
