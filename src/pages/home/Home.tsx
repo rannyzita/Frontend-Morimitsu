@@ -93,8 +93,6 @@ const BirthdayCard: FC<BirthdayCardProps> = ({ date, name, team }) => (
     </div>
 );
 
-// --- Componente Home ---
-
 export const Home: FC = () => {
 
     const [currentPage, setCurrentPage] = useState(0); 
@@ -237,61 +235,57 @@ export const Home: FC = () => {
             </section>
 
             {/* SEÇÃO 2: Aniversariantes do Mês */}
-            <section className='pb-2'> 
-    <header className='flex items-center gap-3 mb-6'>
-        <Cake size={58} className='text-white' />
-        <Typography variant='h4' className='text-white !font-bold'>
-            ANIVERSÁRIANTES DO MÊS:
-        </Typography>
-    </header>
+            <section className='pb-4'> 
+                <header className='flex items-center gap-4 mb-6'>
+                    <Cake size={58} className='text-white' />
+                    <Typography variant='h4' className='text-white !font-bold'>
+                        ANIVERSÁRIANTES DO MÊS:
+                    </Typography>
+                </header>
 
-    <div className="relative flex items-center">
+                <div className="relative flex items-center">
 
-        <div 
-            className={`pr-2 ${showLeftArrow ? 'visible' : 'invisible'}`}
-        >
-            <ChevronLeft 
-                size={32} 
-                className="text-white cursor-pointer" 
-                // MUDANÇA 2: onClick para rolar para a esquerda
-                onClick={handleScrollLeft} 
-            />
-        </div>
+                    <div 
+                        className={`${showLeftArrow ? 'visible' : 'invisible'}`}
+                    >
+                        <ChevronLeft 
+                            size={32} 
+                            className="text-white cursor-pointer" 
+                            onClick={handleScrollLeft} 
+                        />
+                    </div>
 
-        {/* MUDANÇA 3: Adicionado o 'ref' e o 'onScroll' */}
-        <div 
-            ref={scrollContainerRef}
-            onScroll={checkScroll} 
-            className='flex overflow-x-auto gap-30 pb-4 flex-1
-                        [&::-webkit-scrollbar]:h-2
-                        [&::-webkit-scrollbar-thumb]:bg-[#880000]
-                        [&::-webkit-scrollbar-track]:bg-[#3E0404] 
-                        [&::-webkit-scrollbar-thumb]:rounded-full'
-        >
-            
-            {birthdayMembers.map((member) => (
-                <BirthdayCard 
-                    key={member.name}
-                    date={member.date}
-                    name={member.name}
-                    team={member.team}
-                />
-            ))}
-        </div>
+                    <div 
+                        ref={scrollContainerRef}
+                        onScroll={checkScroll} 
+                        className='flex overflow-x-auto gap-30 pb-4 flex-1
+                                    [&::-webkit-scrollbar]:h-2
+                                    [&::-webkit-scrollbar-thumb]:bg-[#880000]
+                                    [&::-webkit-scrollbar-track]:bg-[#3E0404] 
+                                    [&::-webkit-scrollbar-thumb]:rounded-full'
+                    >
+                        
+                        {birthdayMembers.map((member) => (
+                            <BirthdayCard 
+                                key={member.name}
+                                date={member.date}
+                                name={member.name}
+                                team={member.team}
+                            />
+                        ))}
+                    </div>
 
-        {/* MUDANÇA 4: Seta da Direita com Lógica */}
-        <div 
-            className={`pl-2 ${showRightArrow ? 'visible' : 'invisible'}`}
-        >
-            <ChevronRight 
-                size={32} 
-                className="text-white cursor-pointer" 
-                // MUDANÇA 5: onClick para rolar para a direita
-                onClick={handleScrollRight}
-            />
-        </div>
-    </div>
-</section>
+                    <div 
+                        className={`pl-2 ${showRightArrow ? 'visible' : 'invisible'}`}
+                    >
+                        <ChevronRight 
+                            size={32} 
+                            className="text-white cursor-pointer" 
+                            onClick={handleScrollRight}
+                        />
+                    </div>
+                </div>
+            </section>
         </Box>
     );
 }
