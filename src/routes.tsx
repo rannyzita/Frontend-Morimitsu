@@ -6,6 +6,7 @@ import { AuthProvider } from './contexts/AuthContext'
 import { Login } from './pages/login/Login'
 import { RecuperarSenha } from './pages/resetPassword/recuperarSenha'
 import { Home } from './pages/home/Home'
+import { GerenciamentoTurmas } from './pages/classManagement/class'
 
 export const AppRoutes = () => {
     return (
@@ -19,6 +20,7 @@ export const AppRoutes = () => {
                     <Route element={<MainLayout />}>
                         <Route path='/home' element={<Home />} />
                         <Route path='*' element={<h1>404 - Not Found!</h1>} />
+                        <Route path='/gerenciamento-turmas' element={<GerenciamentoTurmas />} />
                     </Route>
 
                 </Routes>

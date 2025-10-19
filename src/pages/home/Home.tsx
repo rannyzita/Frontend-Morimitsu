@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import type { FC, ReactNode } from 'react';
 import { Box, Typography } from '@mui/material';
 
@@ -173,18 +174,22 @@ export const Home: FC = () => {
                     <>
                         {/* Botão Turmas */}
                         <div className='lg:col-span-3 flex self-center'> 
-                            <BigButton 
-                                icon={<Users size={61} />} 
-                                label='TURMAS' 
-                            />
+                            <Link to={'/gerenciamento-turmas'} className='w-full'>
+                                <BigButton 
+                                    icon={<Users size={61} />} 
+                                    label='TURMAS' 
+                                />
+                            </Link>
                         </div>
                         
                         {/* Botão Graduação */}
                         <div className='lg:col-span-3 flex self-center'> 
-                            <BigButton 
-                                icon={<GraduationCap size={61} />} 
-                                label='GRADUAÇÃO' 
-                            />
+                            <Link to={'/graduacao'} className='w-full'>
+                                <BigButton 
+                                    icon={<GraduationCap size={61} />} 
+                                    label='GRADUAÇÃO' 
+                                />
+                            </Link>
                         </div>
 
                         {/* Card Alunos Aptos */}
