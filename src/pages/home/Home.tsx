@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { FC, ReactNode } from 'react';
 import { Box, Typography } from '@mui/material';
 import { 
@@ -5,6 +6,7 @@ import {
     GraduationCap, 
     Cake, 
     ChevronRight, 
+    ChevronLeft, 
     User,
     Bell
 } from 'lucide-react';
@@ -27,6 +29,16 @@ const graduationStudents = [
         status: 'Está próximo de se graduar!', 
         progressLabel: 'Próxima Faixa: Azul', 
     },
+    { 
+        name: 'Ana Julia - Turma Kids', 
+        status: 'Está próximo de se graduar!', 
+        progressLabel: 'Grau: 3/4', 
+    },
+    { 
+        name: 'Lucas Mendes - Turma Adulto', 
+        status: 'Está próximo de se graduar!', 
+        progressLabel: 'Próxima Faixa: Roxa', 
+    },
 ];
 
 const birthdayMembers = [
@@ -35,9 +47,9 @@ const birthdayMembers = [
     { date: '10/10', name: 'Julianna Souza', team: 'TURMA KIDS' },
     { date: '29/10', name: 'Enzo Alves', team: 'TURMA KIDS' },
     { date: '05/11', name: 'Pedro Sampaio', team: 'TURMA ADULTA' },
-	{ date: '05/11', name: 'Pedro Sampaio', team: 'TURMA ADULTA' },
-	{ date: '05/11', name: 'Pedro Sampaio', team: 'TURMA ADULTA' },
-	{ date: '05/11', name: 'Pedro Sampaio', team: 'TURMA ADULTA' },
+    { date: '05/11', name: 'Pedro Sampaio', team: 'TURMA ADULTA' },
+    { date: '05/11', name: 'Pedro Sampaio', team: 'TURMA ADULTA' },
+    { date: '05/11', name: 'Pedro Sampaio', team: 'TURMA ADULTA' },
 ];
 
 interface BigButtonProps {
@@ -71,7 +83,6 @@ const BirthdayCard: FC<BirthdayCardProps> = ({ date, name, team }) => (
             <Typography variant='body1' className='!font-semibold'>{name}</Typography>
         </div>
         
-        {/* Placeholder para o Avatar */}
         <div className='bg-white/20 rounded-full p-5 text-white'>
             <User size={64} /> 
         </div>
@@ -82,11 +93,39 @@ const BirthdayCard: FC<BirthdayCardProps> = ({ date, name, team }) => (
     </div>
 );
 
-export const Home: FC = () => {
-    return (
-        <Box component='div' className='flex flex-col px-22 min-h-screen'> 
+// --- Componente Home ---
 
-            <section className='grid grid-cols-1 lg:grid-cols-10 gap-28 items-start flex-1 justify-center'>
+export const Home: FC = () => {
+
+    // --- MUDANÇA: Lógica de paginação corrigida ---
+    const [currentPage, setCurrentPage] = useState(0); 
+    const STUDENTS_PER_PAGE = 3; 
+
+    const totalPages = Math.ceil(graduationStudents.length / STUDENTS_PER_PAGE);
+    
+    const startIndex = currentPage * STUDENTS_PER_PAGE;
+    const endIndex = startIndex + STUDENTS_PER_PAGE;
+    
+    const currentStudents = graduationStudents.slice(startIndex, endIndex);
+
+    // MUDANÇA: Lógica de "Próximo" para na última página
+    const handleNextPage = () => {
+        if (currentPage < totalPages - 1) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    // MUDANÇA: Adicionada lógica de "Anterior"
+    const handlePrevPage = () => {
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    return (
+        <Box component='div' className='flex flex-col px-20 min-h-screen'> 
+
+            <section className='grid grid-cols-1 lg:grid-cols-10 gap-20 items-start flex-1 justify-center'>
                 
                 {/* Botão Turmas */}
                 <div className='lg:col-span-3 flex self-center'> 
@@ -104,38 +143,61 @@ export const Home: FC = () => {
                     />
                 </div>
 
-				<div className='lg:col-span-3 bg-[#880000] rounded-lg text-white border-[10px] border-[#3E0404] overflow-hidden self-center'>
-					
-					<div className='flex justify-center pt-4'> 
-						<div className='inline-flex items-center gap-3 bg-[#3E0404] rounded-lg px-4 py-4'>
-							<span className='text-lg font-bold tracking-wide'> 
-								ALUNOS APTOS À GRADUAÇÃO
-							</span>
-							<Bell className='w-8 h-8 text-white' />
-						</div>
-					</div>
+                {/* Card Alunos Aptos */}
+                <div className='lg:col-span-3 bg-[#880000] rounded-lg text-white border-[10px] border-[#3E0404] overflow-hidden self-center'>
+                    
+                    <div className='flex justify-center pt-4'> 
+                        <div className='inline-flex items-center gap-3 bg-[#3E0404] rounded-lg px-4 py-4'>
+                            <span className='text-lg font-bold tracking-wide'> 
+                                ALUNOS APTOS À GRADUAÇÃO
+                            </span>
+                            <Bell className='w-8 h-8 text-white' />
+                        </div>
+                    </div>
 
-					<div className='space-y-3 px-5 pt-4'>
-						{graduationStudents.map((student) => (
-							<div key={student.name} className='border-b border-white pb-2 last:border-b-0'>
-								<Typography variant='body1' className='!font-semibold'>{student.name}</Typography>
-								<div className='flex justify-between items-center mt-1'>
-									<Typography variant='body2' className='text-white !text-sm'>
-										{student.status}
-									</Typography>
-									<span className='text-white text-xs'>
-										{student.progressLabel}
-									</span>
-								</div>
-							</div>
-						))}
-					</div>
+                    <div className='space-y-3 px-5 pt-4 min-h-60'>
+                        {currentStudents.map((student) => (
+                            <div key={student.name} className='border-b border-white pb-2 last:border-b-0'>
+                                <Typography variant='body1' className='!font-semibold'>{student.name}</Typography>
+                                <div className='flex justify-between items-center mt-1'>
+                                    <Typography variant='body2' className='text-white !text-sm'>
+                                        {student.status}
+                                    </Typography>
+                                    <span className='text-white text-xs'>
+                                        {student.progressLabel}
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
 
-					<div className='flex justify-center items-center mt-3 space-x-2 text-white px-5 pb-4'>
-						<span>1/2</span>
-						<ChevronRight size={20} />
-					</div>
-				</div>
+                    {totalPages > 1 && (
+                        <div className='flex justify-between items-center mt-3 text-white px-5 pb-4'>
+                            
+                            <button 
+                                onClick={handlePrevPage} 
+                                className={`cursor-pointer hover:text-gray-300 transition-colors ${
+                                    currentPage === 0 ? 'invisible' : 'visible'
+                                }`}
+                                disabled={currentPage === 0}
+                            >
+                                <ChevronLeft size={20} />
+                            </button>
+                            
+                            <span>{currentPage + 1}/{totalPages}</span>
+
+                            <button 
+                                onClick={handleNextPage}
+                                className={`cursor-pointer hover:text-gray-300 transition-colors ${
+                                    currentPage === totalPages - 1 ? 'invisible' : 'visible'
+                                }`}
+                                disabled={currentPage === totalPages - 1}
+                            >
+                                <ChevronRight size={20} />
+                            </button>
+                        </div>
+                    )}
+                </div>
 
             </section>
 
@@ -148,9 +210,7 @@ export const Home: FC = () => {
                     </Typography>
                 </header>
 
-                {/* Wrapper para container rolável + seta */}
                 <div className="relative flex items-center">
-                    {/* Container Rlável Horizontalmente */}
                     <div className='flex overflow-x-auto gap-30 pb-4 flex-1
                                     [&::-webkit-scrollbar]:h-2
                                     [&::-webkit-scrollbar-thumb]:bg-neutral-700
@@ -167,7 +227,6 @@ export const Home: FC = () => {
                         ))}
                     </div>
 
-                    {/* Seta de navegação à direita */}
                     <div className="pl-2">
                         <ChevronRight size={32} className="text-white cursor-pointer" />
                     </div>
