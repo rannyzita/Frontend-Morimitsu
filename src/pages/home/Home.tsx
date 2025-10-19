@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import type { FC, ReactNode } from 'react';
 import { Box, Typography } from '@mui/material';
+
+import { useAuth } from '../../contexts/AuthContext';
+
 import { 
     Users, 
     GraduationCap, 
@@ -8,8 +11,11 @@ import {
     ChevronRight, 
     ChevronLeft, 
     User,
-    Bell
+    Bell,
+    ListChecks,
+    ClipboardList
 } from 'lucide-react';
+
 
 // --- Dados Mock (Exemplo) ---
 
@@ -95,6 +101,10 @@ const BirthdayCard: FC<BirthdayCardProps> = ({ date, name, team }) => (
 
 export const Home: FC = () => {
 
+    const { user, logout } = useAuth();
+
+    if (!user) return null;
+
     const [currentPage, setCurrentPage] = useState(0); 
     const STUDENTS_PER_PAGE = 3; 
 
@@ -160,78 +170,101 @@ export const Home: FC = () => {
 
             <section className='grid grid-cols-1 lg:grid-cols-10 gap-20 items-start flex-1 justify-center'>
                 
-                {/* Botão Turmas */}
-                <div className='lg:col-span-3 flex self-center'> 
-                    <BigButton 
-                        icon={<Users size={61} />} 
-                        label='TURMAS' 
-                    />
-                </div>
-                
-                {/* Botão Graduação */}
-                <div className='lg:col-span-3 flex self-center'> 
-                    <BigButton 
-                        icon={<GraduationCap size={61} />} 
-                        label='GRADUAÇÃO' 
-                    />
-                </div>
-
-                {/* Card Alunos Aptos */}
-                <div className='lg:col-span-3 bg-[#880000] rounded-lg text-white border-[10px] border-[#3E0404] overflow-hidden self-center'>
-                    
-                    <div className='flex justify-center pt-4'> 
-                        <div className='inline-flex items-center gap-3 bg-[#3E0404] rounded-lg px-4 py-4'>
-                            <span className='text-lg font-bold tracking-wide'> 
-                                ALUNOS APTOS À GRADUAÇÃO
-                            </span>
-                            <Bell className='w-8 h-8 text-white' />
+                { user.role === 'coordenador' && (
+                    <>
+                        {/* Botão Turmas */}
+                        <div className='lg:col-span-3 flex self-center'> 
+                            <BigButton 
+                                icon={<Users size={61} />} 
+                                label='TURMAS' 
+                            />
                         </div>
-                    </div>
+                        
+                        {/* Botão Graduação */}
+                        <div className='lg:col-span-3 flex self-center'> 
+                            <BigButton 
+                                icon={<GraduationCap size={61} />} 
+                                label='GRADUAÇÃO' 
+                            />
+                        </div>
 
-                    <div className='space-y-3 px-5 pt-4 min-h-60'>
-                        {currentStudents.map((student) => (
-                            <div key={student.name} className='border-b border-white pb-2 last:border-b-0'>
-                                <Typography variant='body1' className='!font-semibold'>{student.name}</Typography>
-                                <div className='flex justify-between items-center mt-1'>
-                                    <Typography variant='body2' className='text-white !text-sm'>
-                                        {student.status}
-                                    </Typography>
-                                    <span className='text-white text-xs'>
-                                        {student.progressLabel}
+                        {/* Card Alunos Aptos */}
+                        <div className='lg:col-span-3 bg-[#880000] rounded-lg text-white border-[10px] border-[#3E0404] overflow-hidden self-center'>
+                            
+                            <div className='flex justify-center pt-4'> 
+                                <div className='inline-flex items-center gap-3 bg-[#3E0404] rounded-lg px-4 py-4'>
+                                    <span className='text-lg font-bold tracking-wide'> 
+                                        ALUNOS APTOS À GRADUAÇÃO
                                     </span>
+                                    <Bell className='w-8 h-8 text-white' />
                                 </div>
                             </div>
-                        ))}
-                    </div>
 
-                    {totalPages > 1 && (
-                        <div className='flex justify-between items-center mt-3 text-white px-5 pb-4'>
-                            
-                            <button 
-                                onClick={handlePrevPage} 
-                                className={`cursor-pointer hover:text-gray-300 transition-colors ${
-                                    currentPage === 0 ? 'invisible' : 'visible'
-                                }`}
-                                disabled={currentPage === 0}
-                            >
-                                <ChevronLeft size={20} />
-                            </button>
-                            
-                            <span>{currentPage + 1}/{totalPages}</span>
+                            <div className='space-y-3 px-5 pt-4 min-h-60'>
+                                {currentStudents.map((student) => (
+                                    <div key={student.name} className='border-b border-white pb-2 last:border-b-0'>
+                                        <Typography variant='body1' className='!font-semibold'>{student.name}</Typography>
+                                        <div className='flex justify-between items-center mt-1'>
+                                            <Typography variant='body2' className='text-white !text-sm'>
+                                                {student.status}
+                                            </Typography>
+                                            <span className='text-white text-xs'>
+                                                {student.progressLabel}
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
 
-                            <button 
-                                onClick={handleNextPage}
-                                className={`cursor-pointer hover:text-gray-300 transition-colors ${
-                                    currentPage === totalPages - 1 ? 'invisible' : 'visible'
-                                }`}
-                                disabled={currentPage === totalPages - 1}
-                            >
-                                <ChevronRight size={20} />
-                            </button>
+                            {totalPages > 1 && (
+                                <div className='flex justify-between items-center mt-3 text-white px-5 pb-4'>
+                                    
+                                    <button 
+                                        onClick={handlePrevPage} 
+                                        className={`cursor-pointer hover:text-gray-300 transition-colors ${
+                                            currentPage === 0 ? 'invisible' : 'visible'
+                                        }`}
+                                        disabled={currentPage === 0}
+                                    >
+                                        <ChevronLeft size={20} />
+                                    </button>
+                                    
+                                    <span>{currentPage + 1}/{totalPages}</span>
+
+                                    <button 
+                                        onClick={handleNextPage}
+                                        className={`cursor-pointer hover:text-gray-300 transition-colors ${
+                                            currentPage === totalPages - 1 ? 'invisible' : 'visible'
+                                        }`}
+                                        disabled={currentPage === totalPages - 1}
+                                    >
+                                        <ChevronRight size={20} />
+                                    </button>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
+                    </>
+                )}
 
+                { user.role === 'aluno/professor' && (
+                    <>
+                        {/* Botão Turmas */}
+                        <div className='lg:col-span-3 flex self-center'> 
+                            <BigButton 
+                                icon={<ListChecks size={61} />} 
+                                label='FREQUÊNCIA' 
+                            />
+                        </div>
+                        
+                        {/* Botão Graduação */}
+                        <div className='lg:col-span-3 flex self-center'> 
+                            <BigButton 
+                                icon={<ClipboardList size={61} />} 
+                                label='RELATÓRIO' 
+                            />
+                        </div>
+                    </>
+                )}
             </section>
 
             {/* SEÇÃO 2: Aniversariantes do Mês */}
@@ -243,14 +276,14 @@ export const Home: FC = () => {
                     </Typography>
                 </header>
 
-                <div className="relative flex items-center">
+                <div className='relative flex items-center pr-2'>
 
                     <div 
-                        className={`${showLeftArrow ? 'visible' : 'invisible'}`}
+                        className={`pr-8 ${showLeftArrow ? 'visible' : 'invisible'}`}
                     >
                         <ChevronLeft 
-                            size={32} 
-                            className="text-white cursor-pointer" 
+                            size={42} 
+                            className='text-white cursor-pointer' 
                             onClick={handleScrollLeft} 
                         />
                     </div>
@@ -276,11 +309,11 @@ export const Home: FC = () => {
                     </div>
 
                     <div 
-                        className={`pl-2 ${showRightArrow ? 'visible' : 'invisible'}`}
+                        className={`pl-8 ${showRightArrow ? 'visible' : 'invisible'}`}
                     >
                         <ChevronRight 
-                            size={32} 
-                            className="text-white cursor-pointer" 
+                            size={42} 
+                            className='text-white cursor-pointer' 
                             onClick={handleScrollRight}
                         />
                     </div>

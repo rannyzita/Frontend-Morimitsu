@@ -28,7 +28,7 @@ export const Bottombar: React.FC = () => {
                         <Box component='span' sx={{ color: 'white' }}>OUR</Box>{' '}
                         <Box component='span' sx={{ color: '#3E0404' }}>LOCATIONS</Box>
                     </Typography>
-                    {/* Eu também centralizei seu Locations, como você pediu antes */}
+        
                     <div className='flex justify-center'>
                         <ul className='space-y-2 list-disc pl-5 text-gray-300'>
                             <li>Juazeiro do Norte, Ceará</li>
@@ -47,13 +47,10 @@ export const Bottombar: React.FC = () => {
                         <Box component='span' sx={{ color: '#3E0404' }}>US</Box>
                     </Typography>
 
-                    {/* MUDANÇA 2: O 'spacing' interno era 10, agora é 4. 
-                        Isso aproxima as colunas de contato. */}
                     <Grid container justifyContent="center" spacing={4}>
 
-                        {/* Coluna da Esquerda (auto-width) */}
                         <Grid item> 
-                            <div className='flex flex-col space-y-3'>
+                            <div className='flex flex-col gap-4'>
                                 <Link href='https://www.instagram.com/morimitsu_kmrbjj_cedro' target='_blank' rel='noopener' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
                                     <Instagram fontSize='medium' sx={{color: '#3E0404'}}></Instagram>
                                     <span>@morimitsu_kmbjj_cedro</span>
@@ -65,9 +62,8 @@ export const Bottombar: React.FC = () => {
                             </div>
                         </Grid>
 
-                        {/* Coluna da Direita (auto-width) */}
                         <Grid item>
-                            <div className='flex flex-col space-y-4'>
+                            <div className='flex flex-col gap-4'>
                                 <Link href='mailto:saulo@ifce.edu.br' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
                                     <Mail size={20} color='#3E0404'/>
                                     <span>saulo@ifce.edu.br</span>

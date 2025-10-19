@@ -67,7 +67,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
                 <div className='flex items-center'>
                     <nav className='flex-grow'>
                         <ul className='space-y-3'>
-                            {/* ... (seus NavItems aqui) */}
                             {user.role === 'coordenador' && (
                                 <>
                                     <NavItem to='/home' icon={HomeIcon}>Tela Inicial</NavItem>
