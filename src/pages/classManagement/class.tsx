@@ -12,9 +12,8 @@ import seeClassIcon from './assets/See-Class.png';
 
 const ActionButton: FC<{ icon: ReactNode, label: string }> = ({ icon, label }) => (
     <button className='relative flex items-center justify-center bg-[#690808] p-4 rounded-lg 
-                        font-semibold text-lg hover:bg-[rgb(170,0,0)] transition-colors
-                        
-                        w-full lg:w-150 
+                            font-semibold text-lg hover:bg-[rgb(170,0,0)] transition-colors
+                            w-full lg:w-150 
                         '
     >
         

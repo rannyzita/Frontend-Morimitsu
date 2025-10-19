@@ -24,13 +24,11 @@ export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, classNa
                         flex flex-col overflow-hidden 
                         w-full h-auto 
                         
-                        // 2. Estilos TABLET (md: 768px+)
                         //    - Ocupa a maior parte da tela, altura automática
                         md:w-5/6 md:h-auto 
 
                         // 3. Estilos DESKTOP (lg: 1024px+)
-                        //    - Tamanho FIXO como você pediu
-                        lg:w-[960px] lg:h-[720px] 
+                        lg:w-[1200px] lg:h-[720px] 
                         
                         ${className}`}
         >
