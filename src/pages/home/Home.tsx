@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { FC, ReactNode } from 'react';
 import { Box, Typography } from '@mui/material';
 import { 
@@ -97,7 +97,6 @@ const BirthdayCard: FC<BirthdayCardProps> = ({ date, name, team }) => (
 
 export const Home: FC = () => {
 
-    // --- MUDANÇA: Lógica de paginação corrigida ---
     const [currentPage, setCurrentPage] = useState(0); 
     const STUDENTS_PER_PAGE = 3; 
 
@@ -108,19 +107,55 @@ export const Home: FC = () => {
     
     const currentStudents = graduationStudents.slice(startIndex, endIndex);
 
-    // MUDANÇA: Lógica de "Próximo" para na última página
     const handleNextPage = () => {
         if (currentPage < totalPages - 1) {
             setCurrentPage(currentPage + 1);
         }
     };
 
-    // MUDANÇA: Adicionada lógica de "Anterior"
     const handlePrevPage = () => {
         if (currentPage > 0) {
             setCurrentPage(currentPage - 1);
         }
     };
+    
+    // --- LÓGICA DO CARROSSEL DE ANIVERSARIANTES ---
+
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+    const [showLeftArrow, setShowLeftArrow] = useState(false);
+    const [showRightArrow, setShowRightArrow] = useState(true);
+
+    const handleScrollRight = () => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+        }
+    };
+
+    const handleScrollLeft = () => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+        }
+    };
+
+    const checkScroll = () => {
+        const container = scrollContainerRef.current;
+        if (container) {
+            const { scrollLeft, scrollWidth, clientWidth } = container;
+
+            setShowLeftArrow(scrollLeft > 0);
+
+            setShowRightArrow(Math.ceil(scrollLeft) + clientWidth < scrollWidth);
+        }
+    };
+
+    useEffect(() => {
+        checkScroll(); 
+        
+        window.addEventListener('resize', checkScroll);
+
+        return () => window.removeEventListener('resize', checkScroll);
+    }, [birthdayMembers]); 
 
     return (
         <Box component='div' className='flex flex-col px-20 min-h-screen'> 
@@ -203,35 +238,60 @@ export const Home: FC = () => {
 
             {/* SEÇÃO 2: Aniversariantes do Mês */}
             <section className='pb-2'> 
-                <header className='flex items-center gap-3 mb-6'>
-                    <Cake size={58} className='text-white' />
-                    <Typography variant='h4' className='text-white !font-bold'>
-                        ANIVERSÁRIANTES DO MÊS:
-                    </Typography>
-                </header>
+    <header className='flex items-center gap-3 mb-6'>
+        <Cake size={58} className='text-white' />
+        <Typography variant='h4' className='text-white !font-bold'>
+            ANIVERSÁRIANTES DO MÊS:
+        </Typography>
+    </header>
 
-                <div className="relative flex items-center">
-                    <div className='flex overflow-x-auto gap-30 pb-4 flex-1
-                                    [&::-webkit-scrollbar]:h-2
-                                    [&::-webkit-scrollbar-thumb]:bg-neutral-700
-                                    [&::-webkit-scrollbar-track]:bg-neutral-900
-                                    [&::-webkit-scrollbar-thumb]:rounded-full'>
-                        
-                        {birthdayMembers.map((member) => (
-                            <BirthdayCard 
-                                key={member.name}
-                                date={member.date}
-                                name={member.name}
-                                team={member.team}
-                            />
-                        ))}
-                    </div>
+    <div className="relative flex items-center">
 
-                    <div className="pl-2">
-                        <ChevronRight size={32} className="text-white cursor-pointer" />
-                    </div>
-                </div>
-            </section>
+        <div 
+            className={`pr-2 ${showLeftArrow ? 'visible' : 'invisible'}`}
+        >
+            <ChevronLeft 
+                size={32} 
+                className="text-white cursor-pointer" 
+                // MUDANÇA 2: onClick para rolar para a esquerda
+                onClick={handleScrollLeft} 
+            />
+        </div>
+
+        {/* MUDANÇA 3: Adicionado o 'ref' e o 'onScroll' */}
+        <div 
+            ref={scrollContainerRef}
+            onScroll={checkScroll} 
+            className='flex overflow-x-auto gap-30 pb-4 flex-1
+                        [&::-webkit-scrollbar]:h-2
+                        [&::-webkit-scrollbar-thumb]:bg-[#880000]
+                        [&::-webkit-scrollbar-track]:bg-[#3E0404] 
+                        [&::-webkit-scrollbar-thumb]:rounded-full'
+        >
+            
+            {birthdayMembers.map((member) => (
+                <BirthdayCard 
+                    key={member.name}
+                    date={member.date}
+                    name={member.name}
+                    team={member.team}
+                />
+            ))}
+        </div>
+
+        {/* MUDANÇA 4: Seta da Direita com Lógica */}
+        <div 
+            className={`pl-2 ${showRightArrow ? 'visible' : 'invisible'}`}
+        >
+            <ChevronRight 
+                size={32} 
+                className="text-white cursor-pointer" 
+                // MUDANÇA 5: onClick para rolar para a direita
+                onClick={handleScrollRight}
+            />
+        </div>
+    </div>
+</section>
         </Box>
     );
 }
