@@ -5,7 +5,6 @@ import type { ReactNode } from 'react';
 
 import { Users, ListChecks, UserPlus, Eye, Plus, Edit } from 'lucide-react'; 
 
-// Crie seus botões (ou deixe-os aqui)
 const ActionButton: FC<{ icon: ReactNode, label: string }> = ({ icon, label }) => (
     <button className='flex items-center justify-center gap-4 bg-[#880000] p-4 rounded-lg 
                         font-semibold text-lg hover:bg-[#a00] transition-colors'>
