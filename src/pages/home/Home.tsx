@@ -196,7 +196,7 @@ export const Home: FC = () => {
                         <div className='lg:col-span-3 bg-[#880000] rounded-lg text-white border-[10px] border-[#3E0404] overflow-hidden self-center'>
                             
                             <div className='flex justify-center pt-4'> 
-                                <div className='inline-flex items-center gap-3 bg-[#3E0404] rounded-lg px-4 py-4'>
+                                <div className='inline-flex items-center gap-3 bg-[#3E0404] rounded-lg px-4 py-4 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
                                     <span className='text-lg font-bold tracking-wide'> 
                                         ALUNOS APTOS À GRADUAÇÃO
                                     </span>

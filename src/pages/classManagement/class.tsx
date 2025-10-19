@@ -1,9 +1,8 @@
 import type { FC } from 'react';
 import { Box } from '@mui/material';
 import { PageLayout } from './../../components/layout/BigCardGray'; 
-import type { ReactNode } from 'react';
 
-import { Users, ListChecks, UserPlus, Eye, Plus, Edit } from 'lucide-react'; 
+import { Users, ListChecks, UserPlus } from 'lucide-react'; 
 
 import createClassIcon from './assets/Create-Class.png';
 import deleteClassIcon from './assets/Delete-Class.png';
