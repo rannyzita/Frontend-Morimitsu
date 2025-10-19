@@ -8,8 +8,7 @@ import { Users, ListChecks, UserPlus, Eye, Plus, Edit } from 'lucide-react';
 // Crie seus botões (ou deixe-os aqui)
 const ActionButton: FC<{ icon: ReactNode, label: string }> = ({ icon, label }) => (
     <button className='flex items-center justify-center gap-4 bg-[#880000] p-4 rounded-lg 
-                        font-semibold text-lg hover:bg-[#a00] transition-colors
-                        border-4 border-[#3E0404]'>
+                        font-semibold text-lg hover:bg-[#a00] transition-colors'>
         {icon}
         <span>{label}</span>
     </button>
@@ -32,7 +31,7 @@ export const GerenciamentoTurmas: FC = () => {
                 {/* 3. O conteúdo (children) da sua página */}
                 <div className='flex flex-col gap-4'>
                     <ActionButton icon={<ListChecks size={20} />} label='REALIZAR FREQUÊNCIA' />
-                    <ActionButton icon={<UserPlus size={20} />} label='ADICIONAR ALUNO' />
+                    <ActionButton icon={<UserPlus size={20} />} label='ENTURMAR ALUNO' />
                     <ActionButton icon={<Eye size={20} />} label='VER TURMAS' />
                     <ActionButton icon={<Plus size={20} />} label='CRIAR TURMA' />
                     <ActionButton icon={<Edit size={20} />} label='EDITAR TURMA' />
