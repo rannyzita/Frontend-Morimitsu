@@ -20,10 +20,6 @@ export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, classNa
     return (
         <Box 
             component='div' 
-            // --- MUDANÇAS AQUI ---
-
-            // 1. Estilos MOBILE (Padrão):
-            //    - Ocupa a tela inteira, altura automática.
             className={`bg-[#1E1E1E] text-white rounded-2xl shadow-xl
                         flex flex-col overflow-hidden 
                         w-full h-auto 
@@ -39,14 +35,13 @@ export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, classNa
                         ${className}`}
         >
         
-            {/* Header com padding responsivo */}
             <header className='flex flex-col gap-4 px-6 pt-6 md:px-8 md:pt-8'>
                 <div className='relative flex justify-center items-center h-12'>
                 
                     <button 
                         onClick={handleGoBack}
                         className='absolute left-0 top-1/2 -translate-y-1/2 text-white 
-                                hover:text-white transition-colors'
+                                hover:text-white transition-colors cursor-pointer'
                     >
                         <ArrowLeft size={32} />
                     </button>

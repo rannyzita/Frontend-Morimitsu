@@ -15,7 +15,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
                 className='p-2 rounded-md hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors'
                 aria-label='Abrir Menu'
             >
-                <AlignJustify size={40} />
+                <AlignJustify size={40} className='cursor-pointer' />
             </button>
 
             <div className='flex items-center space-x-4'>

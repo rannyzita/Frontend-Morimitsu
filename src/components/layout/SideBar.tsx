@@ -94,7 +94,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
                         onClick={toggleSideBar} 
                         className='p-2 rounded-full text-white-400 hover:bg-[#690808] hover:text-white transition-colors'
                     >
-                        <ChevronLeft size={32}/>
+                        <ChevronLeft size={32} className='cursor-pointer'/>
                     </button>
                 </div>
             </div>
@@ -102,7 +102,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
             <div className='pb-6'>
                 <button
                     onClick={handleLogout}
-                    className='flex items-center space-x-4 p-3 w-full rounded-lg hover:bg-[#690808] hover:text-white transition-colors'
+                    className='flex items-center space-x-4 p-3 w-full rounded-lg hover:bg-[#690808] hover:text-white transition-colors cursor-pointer'
                 >
                     <LogOut size={22} />
                     <span className='font-medium'>Logout</span>
