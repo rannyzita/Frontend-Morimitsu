@@ -10,6 +10,7 @@ import editClassIcon from './assets/Edit-Class.png';
 import seeClassIcon from './assets/See-Class.png';
 
 import { ActionButton } from '../../components/Button/ActionButton';
+import { Pagination } from '../../components/Pagination/Pagination';
 
 export const GerenciamentoTurmas: FC = () => {
     return (
