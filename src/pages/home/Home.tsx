@@ -16,7 +16,6 @@ import {
     ClipboardList
 } from 'lucide-react';
 
-
 // --- Dados Mock (Exemplo) ---
 
 const graduationStudents = [
