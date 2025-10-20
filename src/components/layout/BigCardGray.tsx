@@ -28,7 +28,7 @@ export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, classNa
                         md:w-5/6 md:h-auto 
 
                         // 3. Estilos DESKTOP (lg: 1024px+)
-                        lg:w-[1200px] lg:h-[720px] 
+                        lg:w-[1200px] lg:max-h-[85vh]
                         
                         ${className}`}
         >
@@ -58,12 +58,10 @@ export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, classNa
                 )}
             </header>
 
-            {/* --- MUDANÇA PRINCIPAL NO MAIN --- */}
             <main 
                 className={`
-                    // 1. Mobile/Tablet: Padding normal, altura automática
                     px-6 pb-6
-                    md:px-8 md:pb-8
+                    md:px-8 md:pb-14
                     
                     // 2. Desktop (lg:):
                     //    - 'lg:flex-1': Faz o main ocupar o resto da altura fixa

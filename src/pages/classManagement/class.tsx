@@ -10,13 +10,12 @@ import editClassIcon from './assets/Edit-Class.png';
 import seeClassIcon from './assets/See-Class.png';
 
 import { ActionButton } from '../../components/Button/ActionButton';
-import { Pagination } from '../../components/Pagination/Pagination';
 
 export const GerenciamentoTurmas: FC = () => {
     return (
         <Box 
             component='div' 
-            className='flex flex-col items-center min-h-screen py-12 px-4'
+            className='flex flex-col items-center justify-center h-full p-4'
         >
             <PageLayout 
                 title='GERENCIAMENTO DE TURMAS' 
