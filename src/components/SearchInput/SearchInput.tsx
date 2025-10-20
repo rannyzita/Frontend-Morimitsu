@@ -15,7 +15,7 @@ export const SearchInput: FC<SearchInputProps> = ({
     className = '' 
 }) => {
     return (
-        <div className={`relative ${className}`}>
+        <div className={`relative ${className} gap-4`}>
             <input 
                 type='text'
                 placeholder={placeholder}

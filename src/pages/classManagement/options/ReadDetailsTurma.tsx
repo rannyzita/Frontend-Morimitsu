@@ -1,15 +1,12 @@
-import { useState, type FC, type ReactNode } from 'react';
+import { useState, type FC, } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCardGray'; 
 import { Pagination } from '../../../components/Pagination/Pagination'; 
 import { Award, X } from 'lucide-react'; 
 
-// Importando o seu componente de busca reutilizável
 import { SearchInput } from '../../../components/SearchInput/SearchInput'; 
 
-// --- Importe os ícones que você vai usar ---
-// (Estes caminhos são exemplos, ajuste para o seu projeto)
 import turmaBabyIcon from './assetsTest/IconBaby.png';
 import studentAvatar1 from './assetsTest/IconBaby.png'; 
 import studentAvatar2 from './assetsTest/TurmaInfantil.png';
@@ -30,7 +27,6 @@ const mockAlunos = [
     // Adicione mais alunos para testar a rolagem
 ];
 
-// --- Subcomponente para a Lista de Alunos ---
 interface StudentListItemProps {
     avatar: string;
     name: string;
@@ -42,25 +38,25 @@ interface StudentListItemProps {
 
 const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, currentClasses, totalClasses, onPromote, onRemove }) => {
     return (
-        <div className="flex items-center gap-3 bg-[#690808] p-3 rounded-lg w-full lg:w-[650px]
-                        shadow-[0_5px_15px_rgba(0,0,0,0.3)]">
+        <div className='flex items-center gap-3 bg-[#690808] p-3 rounded-[10px] w-full lg:w-[950px]
+                        shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
             
-            <img src={avatar} alt={name} className="w-10 h-10 rounded-full flex-shrink-0" />
-            <Award size={24} className="text-white flex-shrink-0" />
+            <img src={avatar} alt={name} className='w-10 h-10 rounded-full flex-shrink-0' />
+            <Award size={24} className='text-white flex-shrink-0' />
             
-            <span className="flex-1 text-white font-semibold truncate">{name}</span>
+            <span className='flex-1 text-white font-semibold truncate'>{name}</span>
             
-            <div className="flex flex-col items-end text-xs flex-shrink-0">
-                <span className="text-white">Aulas: {currentClasses}/{totalClasses}</span>
+            <div className='flex flex-col items-end text-xs flex-shrink-0'>
+                <span className='text-white'>Aulas: {currentClasses}/{totalClasses}</span>
                 <button 
                     onClick={onPromote} 
-                    className="bg-red-800 text-white p-1 rounded hover:bg-red-700 mt-1"
+                    className='bg-red-800 text-white p-1 rounded hover:bg-red-700 mt-1'
                 >
                     PROMOVER P/ PROFESSOR(A)
                 </button>
             </div>
 
-            <button onClick={onRemove} className="text-white hover:text-gray-300 ml-2 flex-shrink-0">
+            <button onClick={onRemove} className='text-white hover:text-gray-300 ml-2 flex-shrink-0'>
                 <X size={20} />
             </button>
         </div>
@@ -77,15 +73,12 @@ export const VerDetalhesTurma: FC = () => {
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
-        // TODO: Fazer chamada de API para buscar alunos da 'page'
     };
 
-    // Filtra os alunos baseado na busca (mockado)
     const filteredAlunos = mockAlunos.filter(aluno => 
         aluno.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    // TODO: Buscar dados da turma (nome, ícone) da API usando o 'id'
     const turma = mockTurma; 
 
     return (
@@ -97,21 +90,19 @@ export const VerDetalhesTurma: FC = () => {
             {/* 2. Layout do Card (Título e Ícone dinâmicos) */}
             <PageLayout 
                 title={turma.nome.toUpperCase()} 
-                icon={<img src={turma.icone} alt={turma.nome} className="w-10 h-10" />}
+                icon={<img src={turma.icone} alt={turma.nome} className='w-10 h-10' />}
             >
                 {/* 3. Conteúdo Interno (h-full para grudar a paginação embaixo) */}
-                <div className='flex flex-col h-full gap-6'>
+                <div className='flex flex-col h-full gap-6 pt-8'>
                     
-                    {/* Componente de Busca Reutilizável */}
                     <SearchInput
                         value={searchQuery}
                         onChange={setSearchQuery} 
-                        placeholder="Digite o nome do aluno"
-                        className="w-full lg:w-[650px] mx-auto" 
+                        placeholder='Digite o nome do aluno'
+                        className='w-full lg:w-[650px] mx-auto' 
                     />
 
-                    {/* Lista de Alunos (com scroll interno) */}
-                    <div className='flex-1 flex flex-col gap-3 items-center overflow-y-auto pr-2'>
+                    <div className='flex-1 flex flex-col gap-3 items-center overflow-y-auto pr-2 pt-8'>
                         {filteredAlunos.map(aluno => (
                             <StudentListItem
                                 key={aluno.id}
@@ -125,7 +116,6 @@ export const VerDetalhesTurma: FC = () => {
                         ))}
                     </div>
                     
-                    {/* Paginação (grudada no fundo) */}
                     <Pagination 
                         currentPage={currentPage}
                         totalPages={totalPages}
