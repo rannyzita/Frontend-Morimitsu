@@ -5,6 +5,8 @@ import {
     Users, User, Cake, GraduationCap, LogOut, ChevronLeft, ClipboardList, HomeIcon, CircleUserRound, ListChecks
 } from 'lucide-react';
 
+import { Link } from 'react-router-dom';
+
 type NavItemProps = {
     to: string;
     icon: React.ElementType;
@@ -53,14 +55,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
         `}>
             
             <div className='flex flex-col items-center text-center mb-10'>
-                <img
-                    src='/IconProfile.png' 
-                    alt='Foto do perfil'
-                    className='w-36 h-36 rounded-full object-cover mb-4'
-                />
-                <h2 className='text-xl font-semibold'>
-                    {user.role === 'coordenador' ? user.name : 'aluno/professor'}
-                </h2>
+                <Link to='/meu-perfil' className='cursor-pointer'>
+                    <img
+                        src='/IconProfile.png' 
+                        alt='Foto do perfil'
+                        className='w-36 h-36 rounded-full object-cover mb-4'
+                    />
+                </Link>
+                <Link to='/meu-perfil' className='cursor-pointer'>
+                    <h2 className='text-xl font-semibold'>
+                        {user.role === 'coordenador' ? user.name : 'aluno/professor'}
+                    </h2>
+                </Link>
             </div>
 
             <div className='flex-grow flex flex-col'>
