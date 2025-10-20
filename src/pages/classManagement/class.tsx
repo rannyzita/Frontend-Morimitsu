@@ -25,36 +25,36 @@ export const GerenciamentoTurmas: FC = () => {
             >
                 <div className='flex flex-col gap-6 mt-14 items-center'>
 
-                    <Link to={'/gerenciamento-turmas/realizar-frequencia'} className='cursor-pointer'>
+                    <Link to={'/gerenciamento-turmas/realizar-frequencia'}>
                         <ActionButton icon={<ListChecks size={32} strokeWidth={3} />} label='REALIZAR FREQUÊNCIA' />    
                     </Link>
                     
-                    <Link to={'/gerenciamento-turmas/enturmar-aluno'} className='cursor-pointer'>
+                    <Link to={'/gerenciamento-turmas/enturmar-aluno'}>
                         <ActionButton icon={<UserPlus size={32} strokeWidth={3} />} label='ENTURMAR ALUNO' />
                     </Link>
 
-                    <Link to={'/gerenciamento-turmas/ver-turmas'} className='cursor-pointer'>
+                    <Link to={'/gerenciamento-turmas/ver-turmas'}>
                         <ActionButton 
                             icon={<img src={seeClassIcon} alt='' className='w-8 h-8' />} 
                             label='VER TURMAS' 
                         />
                     </Link>
 
-                    <Link to={'/gerenciamento-turmas/criar-turma'} className='cursor-pointer'>
+                    <Link to={'/gerenciamento-turmas/criar-turma'}>
                         <ActionButton 
                             icon={<img src={createClassIcon} alt='' className='w-12 h-8' />} 
                             label='CRIAR TURMA' 
                         />
                     </Link>
 
-                    <Link to={'/gerenciamento-turmas/editar-turma'} className='cursor-pointer'>
+                    <Link to={'/gerenciamento-turmas/editar-turma'}>
                         <ActionButton 
                             icon={<img src={editClassIcon} alt='' className='w-12 h-8' />} 
                             label='EDITAR TURMA' 
                         />
                     </Link>
 
-                    <Link to={'/gerenciamento-turmas/excluir-turma'} className='cursor-pointer'>
+                    <Link to={'/gerenciamento-turmas/excluir-turma'}>
                         <ActionButton 
                             icon={<img src={deleteClassIcon} alt='' className='w-12 h-8' />} 
                             label='EXCLUIR TURMA' 

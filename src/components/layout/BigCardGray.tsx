@@ -14,7 +14,7 @@ export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, classNa
     const navigate = useNavigate();
 
     const handleGoBack = () => {
-        navigate(-1); 
+        navigate('/home'); 
     };
 
     return (
@@ -26,9 +26,6 @@ export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, classNa
                         
                         md:w-5/6 md:h-auto 
 
-                        /* --- MUDANÇA AQUI --- */
-                        /* Trocado 'lg:max-h-[85vh]' (altura máxima) */
-                        /* por 'lg:h-[85vh]' (altura FIXA) */
                         lg:w-[1200px] lg:h-[84vh] 
                         
                         ${className}`}

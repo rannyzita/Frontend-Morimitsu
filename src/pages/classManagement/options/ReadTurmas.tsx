@@ -1,22 +1,36 @@
-// Em: src/pages/classManagement/VerTurmas.tsx
-
-import { useState, type FC } from 'react';
+import { type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCardGray'; 
 import { Link } from 'react-router-dom';
 
-// MUDANÇA 1: Importar o seu ActionButton
-import { ActionButton } from '../../../components/Button/ActionButton';
+// MUDANÇA 1: A importação do ActionButton foi REMOVIDA
+// import { ActionButton } from '../../../components/Button/ActionButton'; 
 
-// Importar os ícones
-import turmaBaby from './assetsTest/IconBaby.png'
-import turmaInfantil from './assetsTest/TurmaInfantil.png'
-import turmaMista from './assetsTest/iconMista.png' // Corrigi o caminho/nome
+import turmaBaby from './assetsTest/IconBaby.png';
+import turmaInfantil from './assetsTest/TurmaInfantil.png';
+import turmaMista from './assetsTest/iconMista.png';
 
-import SeeClass from '../assets/See-Class.png'
-// MUDANÇA 3: Definição do 'ClassButton' REMOVIDA
+import seeClassIcon from '../assets/See-Class.png'; 
 
-// Mock data (sem mudança)
+const ClassButton: FC<{ icon: ReactNode, label: string, to: string }> = ({ icon, label, to }) => (
+    <Link 
+        to={to}
+        className='flex items-center justify-between bg-[#690808] p-4 rounded-lg 
+                    font-semibold text-lg hover:bg-[rgb(170,0,0)] transition-colors
+                    w-full lg:w-150 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
+    >
+        <div className="flex items-center justify-center w-8 h-8">
+            {icon}
+        </div>
+        
+        <span className="text-center">
+            {label}
+        </span>
+        
+        <div className="w-8 h-8" /> 
+    </Link>
+);
+
 const turmasDaPagina = [
     { id: 1, label: 'TURMA BABY', icon: turmaBaby },
     { id: 2, label: 'TURMA INFANTIL', icon: turmaInfantil },
@@ -24,13 +38,6 @@ const turmasDaPagina = [
 ];
 
 export const VerTurmas: FC = () => {
-    
-    // Lógica da paginação (sem mudança)
-    const [currentPage, setCurrentPage] = useState(2); 
-    const totalPages = 10; 
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-    };
 
     return (
         <Box 
@@ -39,26 +46,19 @@ export const VerTurmas: FC = () => {
         >
             <PageLayout 
                 title='VER TURMAS' 
-                icon={<img src={SeeClass} alt='' className='w-8 h-8' />}
+                icon={<img src={seeClassIcon} alt='' className='w-8 h-8' />} 
             >
-                <div className='flex flex-col gap-6 mt-14 items-center'>
+                <div className='flex flex-col h-full gap-6 items-center justify-center'>
                     
-                    {/* MUDANÇA 4: Usando <Link> + <ActionButton> */}
                     {turmasDaPagina.map(turma => (
-                        <Link 
+                        <ClassButton
                             key={turma.id}
                             to={`/gerenciamento-turmas/ver/${turma.id}`}
-                            // O Link precisa ter a mesma largura do botão
-                            className='w-full lg:w-96' 
-                        >
-                            <ActionButton
-                                label={turma.label}
-                                icon={<img src={turma.icon} alt={turma.label} className='w-8 h-8'/>}
-                            />
-                        </Link>
+                            label={turma.label}
+                            icon={<img src={turma.icon} alt={turma.label} className='w-8 h-8'/>}
+                        />
                     ))}
                 </div>
-
             </PageLayout>
         </Box>
     );
