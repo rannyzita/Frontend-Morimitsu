@@ -24,11 +24,12 @@ export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, classNa
                         flex flex-col overflow-hidden 
                         w-full h-auto 
                         
-                        //    - Ocupa a maior parte da tela, altura automática
                         md:w-5/6 md:h-auto 
 
-                        // 3. Estilos DESKTOP (lg: 1024px+)
-                        lg:w-[1200px] lg:max-h-[85vh]
+                        /* --- MUDANÇA AQUI --- */
+                        /* Trocado 'lg:max-h-[85vh]' (altura máxima) */
+                        /* por 'lg:h-[85vh]' (altura FIXA) */
+                        lg:w-[1200px] lg:h-[84vh] 
                         
                         ${className}`}
         >
@@ -53,7 +54,6 @@ export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, classNa
                 </div>
 
                 {title && (
-                  // Borda separadora
                     <hr className='border-white' /> 
                 )}
             </header>
@@ -63,9 +63,6 @@ export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, classNa
                     px-6 pb-6
                     md:px-8 md:pb-14
                     
-                    // 2. Desktop (lg:):
-                    //    - 'lg:flex-1': Faz o main ocupar o resto da altura fixa
-                    //    - 'lg:overflow-y-auto': Cria a barra de rolagem SÓ no main
                     lg:flex-1 lg:overflow-y-auto
                 `}
             >
