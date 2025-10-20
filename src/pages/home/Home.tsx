@@ -166,7 +166,7 @@ export const Home: FC = () => {
     }, [birthdayMembers]); 
 
     return (
-        <Box component='div' className='flex flex-col px-20 gap-10 p-6 lg:p-10'> 
+        <Box component='div' className='flex flex-col gap-10 py-6 lg:py-26 px-30'> 
 
             <section className='grid grid-cols-1 lg:grid-cols-10 gap-20 items-start flex-1 justify-center'>
                 
@@ -280,7 +280,7 @@ export const Home: FC = () => {
                     </Typography>
                 </header>
 
-                <div className='relative flex items-center pr-2'>
+                <div className='relative flex items-center pr-2 ml-[-74px]'>
 
                     <div 
                         className={`pr-8 ${showLeftArrow ? 'visible' : 'invisible'}`}
