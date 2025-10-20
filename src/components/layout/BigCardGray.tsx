@@ -15,7 +15,7 @@ export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, classNa
 
     // arrumar isso aqui depois, se for paginas que nao dependem de outras, ai volta pra home mesmo
     const handleGoBack = () => {
-        navigate('/home'); 
+        navigate(-1); 
     };
 
     return (

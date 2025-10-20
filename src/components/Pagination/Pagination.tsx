@@ -1,4 +1,6 @@
-import type { FC } from 'react';
+// src/components/Pagination/Pagination.tsx (ou onde ele estiver)
+
+import type { FC, ReactNode } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface PaginationProps {
@@ -12,15 +14,14 @@ const PageButton: FC<{
     isDisabled?: boolean;
     isActive?: boolean;
     children: React.ReactNode;
-}> = ({ onClick, isDisabled, isActive, children }) => {
+    isArrowButton?: boolean;
+}> = ({ onClick, isDisabled, isActive, children, isArrowButton = false }) => {
     
-    const baseStyle = 'w-9 h-9 rounded flex items-center justify-center transition-colors';
-    
-    const activeStyle = 'bg-white text-black font-bold';
-    
-    const inactiveStyle = 'text-gray-400 hover:text-white';
-    
-    const disabledStyle = 'opacity-50 cursor-not-allowed text-gray-600';
+    const baseStyle = 'w-9 h-9 rounded-md flex items-center justify-center transition-colors text-white'; 
+    const activeStyle = 'border border-white bg-[#131212] font-semibold text-white'; 
+    const inactiveStyle = 'border border-transparent bg-[#131212] hover:bg-neutral-700 text-white'; 
+    const disabledStyle = 'opacity-50 cursor-not-allowed text-neutral-600';
+    const arrowStyle = 'border border-transparent bg-transparent hover:bg-neutral-800';
 
     return (
         <button
@@ -28,7 +29,10 @@ const PageButton: FC<{
             disabled={isDisabled}
             className={`
                 ${baseStyle} 
-                ${isActive ? activeStyle : inactiveStyle}
+                ${isArrowButton 
+                    ? arrowStyle 
+                    : (isActive ? activeStyle : inactiveStyle)
+                }
                 ${isDisabled ? disabledStyle : ''}
             `}
         >
@@ -38,24 +42,20 @@ const PageButton: FC<{
 };
 
 
+// --- COMPONENTE Pagination ---
 export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
     
+    // --- MUDANÇA NA LÓGICA DE GERAR NÚMEROS ---
     const getPageNumbers = (): (number | string)[] => {
-
-        if (totalPages <= 7) {
+        // Se tiver 4 páginas ou menos, mostra todos os números
+        if (totalPages <= 4) {
             return Array.from({ length: totalPages }, (_, i) => i + 1);
         }
-
-        if (currentPage <= 3) {
-            return [1, 2, 3, '...', totalPages];
-        }
-
-        if (currentPage >= totalPages - 2) {
-            return [1, '...', totalPages - 2, totalPages - 1, totalPages];
-        }
-
-        return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+        
+        // Se tiver 5 páginas ou mais, mostra SEMPRE o formato 1, 2, 3, ..., N
+        return [1, 2, 3, '...', totalPages];
     };
+    // --- FIM DA MUDANÇA ---
 
     const pageNumbers = getPageNumbers();
 
@@ -71,22 +71,27 @@ export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPag
         }
     };
 
+    // Não mostra nada se tiver 1 página ou menos
     if (totalPages <= 1) {
-        return null;
+        return null; 
     }
 
     return (
-        // Container principal da paginação
+        // Container da Paginação (sem mudanças)
         <nav className='flex justify-center items-center gap-2 mt-8'>
-            <PageButton onClick={handlePrevious} isDisabled={currentPage === 1}>
-                <ChevronLeft size={24} color='white'/>
+            
+            {/* Botão Anterior */}
+            <PageButton onClick={handlePrevious} isDisabled={currentPage === 1} isArrowButton={true}>
+                <ChevronLeft size={26} /> 
             </PageButton>
     
+            {/* Números das Páginas */}
             {pageNumbers.map((page, index) => {
+                // Se for '...', mostra o texto
                 if (page === '...') {
                     return (
                         <span 
-                            key={index} 
+                            key={`ellipsis-${index}`} 
                             className='flex items-center justify-center w-9 h-9 text-gray-400'
                         >
                             ...
@@ -94,19 +99,22 @@ export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPag
                     );
                 }
     
+                // Se for um número, mostra o PageButton
                 return (
                     <PageButton
-                        key={index}
+                        key={page} 
                         onClick={() => onPageChange(page as number)}
-                        isActive={currentPage === page}
+                        // O botão ativo ainda será destacado corretamente
+                        isActive={currentPage === page} 
                     >
                         {page}
                     </PageButton>
                 );
             })}
     
-            <PageButton onClick={handleNext} isDisabled={currentPage === totalPages}>
-                <ChevronRight size={24} color='white'/>
+            {/* Botão Próximo */}
+            <PageButton onClick={handleNext} isDisabled={currentPage === totalPages} isArrowButton={true}>
+                <ChevronRight size={26} /> 
             </PageButton>
         </nav>
     );
