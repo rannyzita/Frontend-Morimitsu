@@ -7,6 +7,7 @@ import { Login } from './pages/login/Login'
 import { RecuperarSenha } from './pages/resetPassword/recuperarSenha'
 import { Home } from './pages/home/Home'
 import { GerenciamentoTurmas } from './pages/classManagement/class'
+import { VerTurmas } from './pages/classManagement/options/ReadTurmas'
 import { Profile } from './pages/Profile/Profile'
 
 export const AppRoutes = () => {
@@ -22,6 +23,7 @@ export const AppRoutes = () => {
                         <Route path='/home' element={<Home />} />
                         <Route path='*' element={<h1>404 - Not Found!</h1>} />
                         <Route path='/gerenciamento-turmas' element={<GerenciamentoTurmas />} />
+                        <Route path='/gerenciamento-turmas/ver-turmas' element={<VerTurmas />} />
                         <Route path='/meu-perfil' element={<Profile></Profile>} />
                     </Route>
                 </Routes>
