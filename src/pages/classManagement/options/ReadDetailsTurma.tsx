@@ -19,7 +19,6 @@ const mockTurma = {
     icone: turmaBabyIcon,
 };
 
-// MUDANÇA 1: Adicionados mais alunos para criar múltiplas páginas
 const initialAlunos = [
     { id: 1, name: 'Antônio Henrique Pereira da Silva', avatar: studentAvatar1, current: 30, total: 40, isPromoted: false },
     { id: 2, name: 'Anna Cristina Laurencio de Oliveira', avatar: studentAvatar2, current: 30, total: 40, isPromoted: false },
@@ -67,7 +66,6 @@ export const VerDetalhesTurma: FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [alunos, setAlunos] = useState(initialAlunos);
     
-    // MUDANÇA 2: Página atual começa em 1
     const [currentPage, setCurrentPage] = useState(1);
     
     const handleTogglePromoted = (studentId: number, isChecked: boolean) => {
@@ -82,12 +80,11 @@ export const VerDetalhesTurma: FC = () => {
         aluno.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    // MUDANÇA 3: Lógica da paginação
     const STUDENTS_PER_PAGE = 5;
     const totalPages = Math.ceil(filteredAlunos.length / STUDENTS_PER_PAGE);
     const startIndex = (currentPage - 1) * STUDENTS_PER_PAGE;
     const endIndex = startIndex + STUDENTS_PER_PAGE;
-    const currentAlunos = filteredAlunos.slice(startIndex, endIndex); // <- Alunos da página atual
+    const currentAlunos = filteredAlunos.slice(startIndex, endIndex); 
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -126,7 +123,6 @@ export const VerDetalhesTurma: FC = () => {
                             />
                         ))}
                     </div>
-                    {/* MUDANÇA 5: Passando 'totalPages' calculado */}
                     <Pagination 
                         currentPage={currentPage}
                         totalPages={totalPages}
