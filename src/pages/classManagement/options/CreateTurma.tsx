@@ -1,58 +1,12 @@
 import { useState, type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCardGray'; // Mantenha sua importação original
+import { PageLayout } from '../../../components/layout/BigCardGray'; 
 import { FeedbackToast } from '../../../components/Feedback/Feedback'
+import { FormField } from '../../../components/formField/formField';
+
 import { User, SquarePen, ChevronDown } from 'lucide-react';
 
-import createClassIcon from '../assets/Create-Class.png'; // Mantenha sua importação original
-
-// --- Componente FormField com a lógica da seta corrigida ---
-const FormField: FC<{
-    label: string;
-    value: string;
-    onChange: (value: string) => void;
-    type?: string;
-    isSelect?: boolean;
-    className?: string;
-}> = ({ label, value, onChange, type = 'text', isSelect = false, className = '' }) => {
-    const [isSelectOpen, setIsSelectOpen] = useState(false);
-
-    return (
-        <div className={`flex flex-col gap-1 ${className}`}>
-            <label className='text-sm text-gray-400'>{label}</label>
-            <div className='relative'>
-                {isSelect ? (
-                    <>
-                        <select
-                            value={value}
-                            onChange={(e) => {
-                                onChange(e.target.value);
-                                setIsSelectOpen(false);
-                            }}
-                            onMouseDown={() => setIsSelectOpen(true)}
-                            onBlur={() => setIsSelectOpen(false)}
-                            className='w-full bg-neutral-700 p-3 rounded-lg appearance-none focus:outline-none text-white border border-neutral-600'
-                        >
-                            <option value='Saulo Bezerra'>Saulo Bezerra</option>
-                            <option value='Outro Professor'>Outro Professor</option>
-                        </select>
-                        <ChevronDown 
-                            size={24} 
-                            className={`absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none transition-transform duration-200 ${isSelectOpen ? 'rotate-180' : ''}`} 
-                        />
-                    </>
-                ) : (
-                    <input 
-                        type={type} 
-                        value={value} 
-                        onChange={(e) => onChange(e.target.value)}
-                        className={`w-full bg-neutral-700 p-3 rounded-lg focus:outline-none text-white border border-neutral-600`}
-                    />
-                )}
-            </div>
-        </div>
-    );
-};
+import createClassIcon from '../assets/Create-Class.png'; 
 
 // --- Componente AvatarUpload ---
 const AvatarUpload: FC<{ imageSrc: string | null; onEdit: () => void }> = ({ imageSrc, onEdit }) => (
@@ -75,7 +29,6 @@ const AvatarUpload: FC<{ imageSrc: string | null; onEdit: () => void }> = ({ ima
 );
 
 
-// --- Componente Principal CreateTurma ---
 export const CreateTurma: FC = () => {
     
     const [turmaName, setTurmaName] = useState('Turma Baby');
@@ -141,7 +94,6 @@ export const CreateTurma: FC = () => {
                 </div>
             </PageLayout>
             
-            {/* Renderiza o toast de feedback se ele estiver visível */}
             {feedback.visible && (
                 <FeedbackToast
                     message={feedback.message}
