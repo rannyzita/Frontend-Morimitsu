@@ -84,7 +84,6 @@ export const CreateTurma: FC = () => {
     const [responsible, setResponsible] = useState('Saulo Bezerra');
     const [avatarImage, setAvatarImage] = useState<string | null>(null);
 
-    // Estado para controlar o feedback
     const [feedback, setFeedback] = useState<{
         visible: boolean;
         message: string;
@@ -95,7 +94,6 @@ export const CreateTurma: FC = () => {
         console.log('Editar avatar clicado!');
     };
     
-    // Função para mostrar o feedback ao clicar em "Criar"
     const handleCreateClick = () => {
         setFeedback({ 
             visible: true, 
