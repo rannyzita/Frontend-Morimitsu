@@ -1,22 +1,20 @@
 import { useState, type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCardGray';
-import { User, SquarePen, ChevronDown, Calendar } from 'lucide-react';
+import { PageLayout } from '../../../components/layout/BigCardGray'; // Mantenha sua importação original
+import { FeedbackToast } from '../../../components/Feedback/Feedback'
+import { User, SquarePen, ChevronDown } from 'lucide-react';
 
-import createClassIcon from '../assets/Create-Class.png';
+import createClassIcon from '../assets/Create-Class.png'; // Mantenha sua importação original
 
-interface FormFieldProps {
+// --- Componente FormField com a lógica da seta corrigida ---
+const FormField: FC<{
     label: string;
-    placeholder?: string;
     value: string;
     onChange: (value: string) => void;
     type?: string;
-    icon?: ReactNode; 
     isSelect?: boolean;
     className?: string;
-}
-
-const FormField: FC<FormFieldProps> = ({ label, placeholder, value, onChange, type = 'text', icon, isSelect = false, className = '' }) => {
+}> = ({ label, value, onChange, type = 'text', isSelect = false, className = '' }) => {
     const [isSelectOpen, setIsSelectOpen] = useState(false);
 
     return (
@@ -29,11 +27,10 @@ const FormField: FC<FormFieldProps> = ({ label, placeholder, value, onChange, ty
                             value={value}
                             onChange={(e) => {
                                 onChange(e.target.value);
-                                setIsSelectOpen(false); 
+                                setIsSelectOpen(false);
                             }}
-                            
-                            onMouseDown={() => setIsSelectOpen(true)} 
-                            onBlur={() => setIsSelectOpen(false)}      
+                            onMouseDown={() => setIsSelectOpen(true)}
+                            onBlur={() => setIsSelectOpen(false)}
                             className='w-full bg-neutral-700 p-3 rounded-lg appearance-none focus:outline-none text-white border border-neutral-600'
                         >
                             <option value='Saulo Bezerra'>Saulo Bezerra</option>
@@ -45,33 +42,21 @@ const FormField: FC<FormFieldProps> = ({ label, placeholder, value, onChange, ty
                         />
                     </>
                 ) : (
-                    <>
-                        <input 
-                            type={type} 
-                            placeholder={placeholder}
-                            value={value} 
-                            onChange={(e) => onChange(e.target.value)}
-                            className={`w-full bg-neutral-700 p-3 rounded-lg focus:outline-none text-white border border-neutral-600 ${icon ? 'pl-10' : ''}`}
-                        />
-                        {icon && (
-                            <div className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400'>
-                                {icon}
-                            </div>
-                        )}
-                    </>
+                    <input 
+                        type={type} 
+                        value={value} 
+                        onChange={(e) => onChange(e.target.value)}
+                        className={`w-full bg-neutral-700 p-3 rounded-lg focus:outline-none text-white border border-neutral-600`}
+                    />
                 )}
             </div>
         </div>
     );
 };
 
-interface AvatarUploadProps {
-    imageSrc: string | null;
-    onEdit: () => void;
-}
-
-const AvatarUpload: FC<AvatarUploadProps> = ({ imageSrc, onEdit }) => (
-    <div className='relative mx-auto w-38 h-38'>
+// --- Componente AvatarUpload ---
+const AvatarUpload: FC<{ imageSrc: string | null; onEdit: () => void }> = ({ imageSrc, onEdit }) => (
+    <div className='relative mx-auto w-32 h-32'>
         <div className='w-full h-full rounded-full bg-neutral-700 flex items-center justify-center'>
             {imageSrc ? (
                 <img src={imageSrc} alt='Avatar da Turma' className='w-full h-full rounded-full object-cover' />
@@ -84,12 +69,13 @@ const AvatarUpload: FC<AvatarUploadProps> = ({ imageSrc, onEdit }) => (
             className='absolute bottom-0 right-0 bg-neutral-600 p-1.5 rounded-full
                         text-gray-300 cursor-pointer hover:text-white'
         >
-            <SquarePen size={28} />
+            <SquarePen size={20} />
         </button>
     </div>
 );
 
 
+// --- Componente Principal CreateTurma ---
 export const CreateTurma: FC = () => {
     
     const [turmaName, setTurmaName] = useState('Turma Baby');
@@ -98,10 +84,26 @@ export const CreateTurma: FC = () => {
     const [responsible, setResponsible] = useState('Saulo Bezerra');
     const [avatarImage, setAvatarImage] = useState<string | null>(null);
 
+    // Estado para controlar o feedback
+    const [feedback, setFeedback] = useState<{
+        visible: boolean;
+        message: string;
+        type: 'success' | 'error';
+    }>({ visible: false, message: '', type: 'success' });
+
     const handleAvatarEdit = () => {
         console.log('Editar avatar clicado!');
     };
     
+    // Função para mostrar o feedback ao clicar em "Criar"
+    const handleCreateClick = () => {
+        setFeedback({ 
+            visible: true, 
+            message: 'Turma criada com sucesso!', 
+            type: 'success' 
+        });
+    };
+
     return (
         <Box 
             component='div' 
@@ -112,39 +114,43 @@ export const CreateTurma: FC = () => {
                 icon={<img src={createClassIcon} alt='' className='w-12 h-8' />}
             >
                 <div className='flex flex-col justify-center min-h-[65vh] gap-16 px-16'>
-
-                    {/* 1. Avatar */}
                     <AvatarUpload imageSrc={avatarImage} onEdit={handleAvatarEdit} />
 
-                    {/* 2. Grid de Formulários */}
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4 items-end'>
-                        
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 items-end'>
                         <FormField 
                             label='Nome da Turma:' 
                             value={turmaName} 
                             onChange={setTurmaName}
                         />
-                        
                         <FormField 
                             label='Responsável:' 
                             value={responsible} 
                             onChange={setResponsible}
                             isSelect={true}
                         />
-                        
                         <FormField label='Faixa Etária Mínima:' value={minAge} onChange={setMinAge} type='number' />
                         <FormField label='Faixa Etária Máxima:' value={maxAge} onChange={setMaxAge} type='number' />
                     </div>
 
-                    {/* 3. Botão Criar */}
-                    <div className='flex justify-center'>
-                        <button className='bg-[#690808] text-white font-semibold py-3 px-50 rounded-lg
+                    <div className='flex justify-center pt-8'>
+                        <button 
+                            onClick={handleCreateClick}
+                            className='bg-[#690808] text-white font-semibold py-3 px-50 rounded-lg
                                         hover:bg-red-800 transition-colors shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
                             Criar
                         </button>
                     </div>
                 </div>
             </PageLayout>
+            
+            {/* Renderiza o toast de feedback se ele estiver visível */}
+            {feedback.visible && (
+                <FeedbackToast
+                    message={feedback.message}
+                    type={feedback.type}
+                    onClose={() => setFeedback({ ...feedback, visible: false })}
+                />
+            )}
         </Box>
     );
 };
