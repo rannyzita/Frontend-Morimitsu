@@ -2,19 +2,21 @@ import { useState, type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCardGray'; 
 import { FeedbackToast } from '../../../components/Feedback/Feedback'; 
-import { FormField } from '../../../components/formField/formField';
+import { FormField } from '../../../components/formField/formField'; 
+import { ActionSelectionScreen } from './ActionSelectScreen'; // 1. Importando o componente reutilizável
 import { User, SquarePen } from 'lucide-react';
 
-import editClassIcon from '../assets/Edit-Class.png'; 
+// 2. Importando o seu ícone
+import editClassIcon from '../assets/Edit-Class.png'
 
-// --- Dados Mock (simulando o que viria do seu banco de dados) ---
+// --- Dados Mock ---
 const turmasMock = [
     { id: 1, label: 'Turma Baby', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=👶', minAge: '4', maxAge: '6', responsible: 'Saulo Bezerra' },
     { id: 2, label: 'Turma Infantil', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=👧', minAge: '7', maxAge: '10', responsible: 'Outro Professor' },
     { id: 3, label: 'Turma Mista', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=🧑‍🤝‍🧑', minAge: '11', maxAge: '14', responsible: 'Saulo Bezerra' },
 ];
 
-// --- Sub-componente para o Formulário de Edição (conteúdo do Passo 2) ---
+// --- Sub-componente para o Formulário de Edição (Passo 2) ---
 const EditingForm: FC<{ turmaId: number }> = ({ turmaId }) => {
     const turmaData = turmasMock.find(t => t.id === turmaId);
     if (!turmaData) return <div>Turma não encontrada!</div>;
@@ -60,27 +62,6 @@ const EditingForm: FC<{ turmaId: number }> = ({ turmaId }) => {
     );
 };
 
-// --- Sub-componente para a Tela de Seleção (conteúdo do Passo 1) ---
-const SelectionList: FC<{ onSelectTurma: (id: number) => void }> = ({ onSelectTurma }) => (
-    <div className='flex flex-col items-center gap-6 mt-8'>
-        <h2 className='text-gray-400 text-sm tracking-wider'>SELECIONE A TURMA QUE DESEJA EDITAR:</h2>
-        <hr className='w-full border-white/20' />
-        <div className='flex flex-col gap-4 w-full items-center mt-4'>
-            {turmasMock.map(item => (
-                <div key={item.id} className='flex items-center justify-between bg-[#690808] p-4 rounded-lg w-full max-w-lg shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                    <div className='flex items-center gap-4'>
-                        <img src={item.icon} alt={item.label} className='w-8 h-8 rounded-full' />
-                        <span className='font-semibold text-lg'>{item.label}</span>
-                    </div>
-                    <button onClick={() => onSelectTurma(item.id)} className='text-white hover:text-gray-300'>
-                        <SquarePen size={24} />
-                    </button>
-                </div>
-            ))}
-        </div>
-    </div>
-);
-
 
 // --- Componente Principal que gerencia o fluxo ---
 export const EditTurma: FC = () => {
@@ -89,7 +70,7 @@ export const EditTurma: FC = () => {
     const isSelectionStep = selectedTurmaId === null;
     const pageTitle = isSelectionStep ? 'EDITAR TURMAS' : 'EDITAR TURMA';
     
-    // 2. AQUI ESTÁ A MUDANÇA: O ícone agora é sempre a sua imagem importada.
+    // 3. O ícone do título agora é sempre a sua imagem
     const pageIcon = <img src={editClassIcon} alt='Editar Turma' className='w-12 h-8' />;
 
     return (
@@ -102,7 +83,13 @@ export const EditTurma: FC = () => {
                 icon={pageIcon}
             >
                 {isSelectionStep ? (
-                    <SelectionList onSelectTurma={(id) => setSelectedTurmaId(id)} />
+                    // 4. Usando o ActionSelectionScreen reutilizável no lugar do SelectionList
+                    <ActionSelectionScreen 
+                        instructionText='SELECIONE A TURMA QUE DESEJA EDITAR:'
+                        items={turmasMock}
+                        actionType='edit'
+                        onActionClick={(id) => setSelectedTurmaId(id)}
+                    />
                 ) : (
                     <EditingForm turmaId={selectedTurmaId!} />
                 )}
