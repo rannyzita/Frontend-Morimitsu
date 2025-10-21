@@ -7,10 +7,16 @@ import { Login } from './pages/login/Login'
 import { RecuperarSenha } from './pages/resetPassword/recuperarSenha'
 import { Home } from './pages/home/Home'
 
+// Paginas de turma
 import { GerenciamentoTurmas } from './pages/classManagement/class'
-import { VerTurmas } from './pages/classManagement/options/ReadTurmas'
-import { VerDetalhesTurma } from './pages/classManagement/options/ReadDetailsTurma'
 
+import { CreateTurma } from './pages/classManagement/options/CreateTurma'
+import { DeleteTurma } from './pages/classManagement/options/DeleteTurma'
+import { EditTurma } from './pages/classManagement/options/EditTurma'
+import { VerDetalhesTurma } from './pages/classManagement/options/ReadDetailsTurma'
+import { VerTurmas } from './pages/classManagement/options/ReadTurmas'
+
+// Pagina de Perfil
 import { Profile } from './pages/Profile/Profile'
 
 export const AppRoutes = () => {
@@ -26,13 +32,13 @@ export const AppRoutes = () => {
                         <Route path='/home' element={<Home />} />
                         <Route path='*' element={<h1>404 - Not Found!</h1>} />
 
+                        {/* Rotas de turma */}
                         <Route path='/gerenciamento-turmas' element={<GerenciamentoTurmas />} />
                         
-                        <Route path='/gerenciamento-turmas/ver-turmas' element={<VerTurmas />} />
-                        <Route path="/gerenciamento-turmas/ver/:id" element={<VerDetalhesTurma />} />
-
-                        <Route path='/gerenciamento-turmas/criar-turma' element={<VerTurmas />} />
-                        <Route path='/gerenciamento-turmas/ver-turmas' element={<VerTurmas />} />
+                        <Route path='/gerenciamento-turmas/criar-turma' element={<CreateTurma />} />
+                        <Route path='/gerenciamento-turmas/deletar-turma' element={<DeleteTurma />} />
+                        <Route path='/gerenciamento-turmas/editar-turma' element={<EditTurma />} />
+                        <Route path="/gerenciamento-turmas/ver/:id" element={<VerDetalhesTurma />} /> 
                         <Route path='/gerenciamento-turmas/ver-turmas' element={<VerTurmas />} />
 
                         <Route path='/meu-perfil' element={<Profile></Profile>} />

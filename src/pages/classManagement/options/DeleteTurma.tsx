@@ -4,7 +4,7 @@ import { PageLayout } from '../../../components/layout/BigCardGray';
 
 import createClassIcon from '../assets/Create-Class.png';
 
-export const CreateTurma: FC = () => {
+export const DeleteTurma: FC = () => {
     return (
         <Box 
             component='div' 
