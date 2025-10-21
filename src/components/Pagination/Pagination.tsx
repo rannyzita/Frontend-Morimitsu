@@ -1,5 +1,3 @@
-// src/components/Pagination/Pagination.tsx (ou onde ele estiver)
-
 import type { FC, ReactNode } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -45,17 +43,13 @@ const PageButton: FC<{
 // --- COMPONENTE Pagination ---
 export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
     
-    // --- MUDANÇA NA LÓGICA DE GERAR NÚMEROS ---
     const getPageNumbers = (): (number | string)[] => {
-        // Se tiver 4 páginas ou menos, mostra todos os números
         if (totalPages <= 4) {
             return Array.from({ length: totalPages }, (_, i) => i + 1);
         }
         
-        // Se tiver 5 páginas ou mais, mostra SEMPRE o formato 1, 2, 3, ..., N
         return [1, 2, 3, '...', totalPages];
     };
-    // --- FIM DA MUDANÇA ---
 
     const pageNumbers = getPageNumbers();
 
@@ -71,23 +65,18 @@ export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPag
         }
     };
 
-    // Não mostra nada se tiver 1 página ou menos
     if (totalPages <= 1) {
         return null; 
     }
 
     return (
-        // Container da Paginação (sem mudanças)
         <nav className='flex justify-center items-center gap-2 mt-8'>
             
-            {/* Botão Anterior */}
             <PageButton onClick={handlePrevious} isDisabled={currentPage === 1} isArrowButton={true}>
                 <ChevronLeft size={26} /> 
             </PageButton>
     
-            {/* Números das Páginas */}
             {pageNumbers.map((page, index) => {
-                // Se for '...', mostra o texto
                 if (page === '...') {
                     return (
                         <span 
@@ -99,12 +88,10 @@ export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPag
                     );
                 }
     
-                // Se for um número, mostra o PageButton
                 return (
                     <PageButton
                         key={page} 
                         onClick={() => onPageChange(page as number)}
-                        // O botão ativo ainda será destacado corretamente
                         isActive={currentPage === page} 
                     >
                         {page}
@@ -112,7 +99,6 @@ export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPag
                 );
             })}
     
-            {/* Botão Próximo */}
             <PageButton onClick={handleNext} isDisabled={currentPage === totalPages} isArrowButton={true}>
                 <ChevronRight size={26} /> 
             </PageButton>
