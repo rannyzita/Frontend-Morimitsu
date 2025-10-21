@@ -40,16 +40,32 @@ const PageButton: FC<{
 };
 
 
-// --- COMPONENTE Pagination ---
 export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
     
+    // --- MUDANÇA NA LÓGICA DE GERAR NÚMEROS ---
     const getPageNumbers = (): (number | string)[] => {
+        // Regra 1: Se tiver 4 páginas ou menos, mostra todos os números.
         if (totalPages <= 4) {
             return Array.from({ length: totalPages }, (_, i) => i + 1);
         }
-        
-        return [1, 2, 3, '...', totalPages];
+
+        // Regra 2: Se estiver perto do COMEÇO (páginas 1, 2, 3).
+        // Mostra: 1, 2, 3, ..., N
+        if (currentPage <= 3) {
+            return [1, 2, 3, '...', totalPages];
+        }
+
+        // Regra 3: Se estiver perto do FIM (últimas 3 páginas).
+        // Mostra: 1, ..., N-2, N-1, N
+        if (currentPage >= totalPages - 2) {
+            return [1, '...', totalPages - 2, totalPages - 1, totalPages];
+        }
+
+        // Regra 4: Se estiver no MEIO.
+        // Mostra: 1, ..., atual-1, atual, atual+1, ..., N
+        return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
     };
+    // --- FIM DA MUDANÇA ---
 
     const pageNumbers = getPageNumbers();
 
@@ -71,9 +87,8 @@ export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPag
 
     return (
         <nav className='flex justify-center items-center gap-2 mt-8'>
-            
             <PageButton onClick={handlePrevious} isDisabled={currentPage === 1} isArrowButton={true}>
-                <ChevronLeft size={26} /> 
+                <ChevronLeft size={24} /> 
             </PageButton>
     
             {pageNumbers.map((page, index) => {
@@ -90,7 +105,7 @@ export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPag
     
                 return (
                     <PageButton
-                        key={page} 
+                        key={page}
                         onClick={() => onPageChange(page as number)}
                         isActive={currentPage === page} 
                     >
@@ -100,7 +115,7 @@ export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPag
             })}
     
             <PageButton onClick={handleNext} isDisabled={currentPage === totalPages} isArrowButton={true}>
-                <ChevronRight size={26} /> 
+                <ChevronRight size={24} /> 
             </PageButton>
         </nav>
     );
