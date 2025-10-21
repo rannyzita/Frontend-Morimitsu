@@ -54,7 +54,7 @@ export const GerenciamentoTurmas: FC = () => {
                         />
                     </Link>
 
-                    <Link to={'/gerenciamento-turmas/excluir-turma'}>
+                    <Link to={'/gerenciamento-turmas/deletar-turma'}>
                         <ActionButton 
                             icon={<img src={deleteClassIcon} alt='' className='w-12 h-8' />} 
                             label='EXCLUIR TURMA' 

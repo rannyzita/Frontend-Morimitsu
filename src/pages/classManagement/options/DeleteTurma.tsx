@@ -1,23 +1,132 @@
-import type { FC } from 'react';
+import { useState, type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCardGray';
+import { PageLayout } from '../../../components/layout/BigCardGray'; 
+import { ActionSelectionScreen } from './ActionSelectScreen';
+import { FeedbackToast } from '../../../components/Feedback/Feedback';
 
-import createClassIcon from '../assets/Create-Class.png';
+// Importe o seu ícone de exclusão
+import deleteClassIcon from '../assets/Delete-Class.png'; 
 
+// --- Dados Mock ---
+const turmasMock = [
+    { id: 1, label: 'Turma Baby', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=👶' },
+    { id: 2, label: 'Turma Infantil', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=👧' },
+    { id: 3, label: 'Turma Mista', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=🧑‍🤝‍🧑' },
+];
+
+// --- COMPONENTE: Modal de Confirmação ---
+interface ConfirmationModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onConfirm: () => void;
+    title: string;
+    children: ReactNode;
+}
+
+const ConfirmationModal: FC<ConfirmationModalProps> = ({ isOpen, onClose, onConfirm, title, children }) => {
+    if (!isOpen) return null;
+
+    return (
+        // Backdrop
+        <div className='fixed inset-0 
+                        bg-black/10      /* <--- MUDANÇA: Opacidade reduzida para 40% */
+                        backdrop-blur-[4px] 
+                        flex items-center justify-center z-50'>
+            
+            {/* Conteúdo do Modal */}
+            <div className='bg-white text-black rounded-xl shadow-lg p-8 w-full max-w-md mx-4'>
+                <div className='text-center'>
+                    <h2 className='text-2xl font-bold mb-4'>{title}</h2>
+                    <div className='text-gray-600 text-sm mb-8'>
+                        {children}
+                    </div>
+                </div>
+                <div className='flex justify-center gap-8'>
+                    <button 
+                        onClick={onClose}
+                        className='bg-neutral-800 text-white font-semibold py-3 px-18 rounded-lg hover:bg-neutral-700 transition-colors'
+                    >
+                        NÃO
+                    </button>
+                    <button 
+                        onClick={onConfirm}
+                        className='bg-[#690808] text-white font-semibold py-3 px-18 rounded-lg hover:bg-red-800 transition-colors'
+                    >
+                        SIM
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+
+// --- COMPONENTE PRINCIPAL DA PÁGINA ---
 export const DeleteTurma: FC = () => {
+    const [turmaToDelete, setTurmaToDelete] = useState<number | null>(null);
+    const [feedback, setFeedback] = useState({ visible: false, message: '', type: 'success' as 'success' | 'error' });
+
+    const pageTitle = 'EXCLUIR TURMAS';
+    const pageIcon = <img src={deleteClassIcon} alt='Excluir Turma' className='w-12 h-8' />;
+
+    const handleOpenConfirmModal = (id: number) => {
+        setTurmaToDelete(id);
+    };
+
+    const handleCloseConfirmModal = () => {
+        setTurmaToDelete(null);
+    };
+    
+    const handleConfirmDelete = () => {
+        if (turmaToDelete === null) return;
+
+        console.log(`Excluindo turma com ID: ${turmaToDelete}`);
+        handleCloseConfirmModal(); 
+        setFeedback({ 
+            visible: true, 
+            message: 'Turma excluída com sucesso!', 
+            type: 'success' 
+        });
+    };
+
     return (
         <Box 
             component='div' 
             className='flex flex-col items-center justify-center h-full p-4'
         >
             <PageLayout 
-                title='CRIAR TURMA' 
-                icon={<img src={createClassIcon} alt='' className='w-12 h-8' />}
+                title={pageTitle}
+                icon={pageIcon}
             >
-                <div className='flex flex-col gap-6 mt-14 items-center'>
-
-
+                <div className='max-w-5xl mx-auto'>
+                    <div className='flex flex-col gap-6'>
+                        
+                        <ActionSelectionScreen 
+                            instructionText='SELECIONE A TURMA QUE DESEJA EXCLUIR:'
+                            items={turmasMock}
+                            actionType='delete'
+                            onActionClick={handleOpenConfirmModal}
+                        />
+                    </div>
                 </div>
+                
+                <ConfirmationModal
+                    isOpen={turmaToDelete !== null}
+                    onClose={handleCloseConfirmModal}
+                    onConfirm={handleConfirmDelete}
+                    title='Tem certeza que deseja excluir a Turma selecionada?'
+                >
+                    <p>Ao confirmar, todos os dados da turma, serão permanentemente removidos.</p>
+                    <p className='mt-2 font-bold'>Esta ação não pode ser desfeita.</p>
+                </ConfirmationModal>
+                
+                {feedback.visible && (
+                    <FeedbackToast 
+                        message={feedback.message} 
+                        type={feedback.type} 
+                        onClose={() => setFeedback({ ...feedback, visible: false })} 
+                    />
+                )}
             </PageLayout>
         </Box>
     );

@@ -52,7 +52,7 @@ const EditingForm: FC<{ turmaId: number }> = ({ turmaId }) => {
                     <FormField label='Faixa Etária Máxima:' value={maxAge} onChange={setMaxAge} type='number' showEditIcon={true} />
                 </div>
                 <div className='flex justify-center pt-8'>
-                    <button onClick={handleConfirmClick} className='bg-[#690808] text-white font-semibold py-3 px-10 rounded-lg hover:bg-red-800 transition-colors shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
+                    <button onClick={handleConfirmClick} className='bg-[#690808] text-white font-semibold py-3 px-50 rounded-lg hover:bg-red-800 transition-colors shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
                         Confirmar Alterações
                     </button>
                 </div>
