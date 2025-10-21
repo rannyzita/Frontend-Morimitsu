@@ -8,14 +8,24 @@ interface PageLayoutProps {
     title?: string;
     icon?: ReactNode;
     className?: string;
+    backPath?: string;
 }
 
-export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, className }) => {
+export const PageLayout: FC<PageLayoutProps> = ({ 
+    children, 
+    title, 
+    icon, 
+    className, 
+    backPath  
+}) => {
     const navigate = useNavigate();
 
-    // arrumar isso aqui depois, se for paginas que nao dependem de outras, ai volta pra home mesmo
     const handleGoBack = () => {
-        navigate(-1); 
+        if (backPath) {
+            navigate(backPath);
+        } else {
+            navigate(-1); // Senão, mantém o comportamento padrão
+        }
     };
 
     return (

@@ -91,7 +91,7 @@ export const Profile: FC = () => {
 
     return (
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
-            <PageLayout>
+            <PageLayout backPath='/home'>
                 <div className='flex flex-col gap-6'>
                     
                     <div className='flex justify-between items-center bg-[#690808] p-4 rounded-lg'>
