@@ -58,13 +58,14 @@ export const PageLayout: FC<PageLayoutProps> = ({ children, title, icon, classNa
 
             <main 
                 className={`
-                    px-6 pb-6
-                    md:px-8 md:pb-14
-                    
+                    px-6 py-8
+                    md:px-8 md:py-7
                     lg:flex-1 lg:overflow-y-auto
                 `}
             >
-                {children}
+                <div className='max-w-5xl mx-auto'>
+                    {children}
+                </div>
             </main>
         </Box>
     );

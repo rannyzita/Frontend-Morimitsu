@@ -92,77 +92,75 @@ export const Profile: FC = () => {
     return (
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
             <PageLayout>
-                <div className='max-w-5xl mx-auto'> 
-                    <div className='flex flex-col gap-6'>
-                        
-                        <div className='flex justify-between items-center bg-[#690808] p-4 rounded-lg'>
-                            <div className='flex items-center gap-4'>
-                                <img 
-                                    src={FaixaTeste} 
-                                    alt='Ícone de faixa' 
-                                    className='w-28 h-20' 
-                                />
-                                <div>
-                                    {/* --- MUDANÇA 1: Ícone de edição ao lado do nome --- */}
-                                    <div className='flex items-center gap-2'>
-                                        <h1 className='text-xl md:text-2xl font-bold'>SAULO BEZERRA</h1>
-                                        <SquarePen size={26} className='text-white cursor-pointer hover:text-white' />
-                                    </div>
-                                    <p className='text-sm text-gray-300'>Coordenador</p>
-                                </div>
-                            </div>
-                            
-                            <div className='relative flex 
-                                            items-center justify-center flex-shrink-0 ml-2'>
-                                <img 
-                                    src='/IconProfile.png' 
-                                    alt='Ícone de perfil' 
-                                    className='w-20 h-20 rounded-full' 
-                                />
-                                {/* Botão de edição sobre a imagem */}
-                                <button className='absolute bottom-0 left-17 border-[#690808] 
-                                                text-white cursor-pointer hover:text-white'>
-                                    <SquarePen size={20} />
-                                </button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h2 className='text-2xl font-semibold text-center tracking-wide text-white'>DADOS PESSOAIS</h2>
-                            <hr className='bg-white mt-3 h-0.5 border-0' />
-                        </div>
-
-                        <div className='grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6'>
-                            <ProfileField label='Nome Completo:' value='Nome completo do Usuário' />
-                            <ProfileField 
-                                label='Data de Nascimento:' 
-                                value='18/01/1980' 
-                                startIcon={<Calendar size={18} />} 
+                <div className='flex flex-col gap-6'>
+                    
+                    <div className='flex justify-between items-center bg-[#690808] p-4 rounded-lg'>
+                        <div className='flex items-center gap-4'>
+                            <img 
+                                src={FaixaTeste} 
+                                alt='Ícone de faixa' 
+                                className='w-28 h-20' 
                             />
-                            <ProfileField label='CPF:' value='XXX.XXX.XXX-XX' />
-                            <div className='flex flex-col gap-2'>
-                                <label className='text-sm text-gray-400'>Gênero:</label>
-                                <div className='flex gap-4 pt-3'>
-                                    <GenderRadio label='Feminino' value='F' isChecked={gender === 'F'} onChange={setGender} />
-                                    <GenderRadio label='Masculino' value='M' isChecked={gender === 'M'} onChange={setGender} />
-                                    <GenderRadio label='Outro' value='O' isChecked={gender === 'O'} onChange={setGender} />
+                            <div>
+                                {/* --- MUDANÇA 1: Ícone de edição ao lado do nome --- */}
+                                <div className='flex items-center gap-2'>
+                                    <h1 className='text-xl md:text-2xl font-bold'>SAULO BEZERRA</h1>
+                                    <SquarePen size={26} className='text-white cursor-pointer hover:text-white' />
                                 </div>
+                                <p className='text-sm text-gray-300'>Coordenador</p>
                             </div>
-                            <ProfileField label='E-mail:' value='EmailDoUsuario@gmail.com' type='email' />
-                            <ProfileField label='Endereço:' value='EnderecoDoUsuario, XXX, Bairro' />
-                            <ProfileField label='Senha:' value='************' type='password' />
-                            <ProfileField label='Telefone:' value='(XX) XXXXX-XXXX' />
                         </div>
                         
-                        <div className='flex justify-end mt-4'>
-                            <button className='flex items-center gap-2 text-white hover:text-white 
-                                                transition-colors cursor-pointer'>
-                                <span>Logout</span>
-                                <LogOut size={32} />
+                        <div className='relative flex 
+                                        items-center justify-center flex-shrink-0 ml-2'>
+                            <img 
+                                src='/IconProfile.png' 
+                                alt='Ícone de perfil' 
+                                className='w-20 h-20 rounded-full' 
+                            />
+                            {/* Botão de edição sobre a imagem */}
+                            <button className='absolute bottom-0 left-17 border-[#690808] 
+                                            text-white cursor-pointer hover:text-white'>
+                                <SquarePen size={20} />
                             </button>
                         </div>
-
                     </div>
+
+                    <div>
+                        <h2 className='text-2xl font-semibold text-center tracking-wide text-white'>DADOS PESSOAIS</h2>
+                        <hr className='bg-white mt-3 h-0.5 border-0' />
+                    </div>
+
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6'>
+                        <ProfileField label='Nome Completo:' value='Nome completo do Usuário' />
+                        <ProfileField 
+                            label='Data de Nascimento:' 
+                            value='18/01/1980' 
+                            startIcon={<Calendar size={18} />} 
+                        />
+                        <ProfileField label='CPF:' value='XXX.XXX.XXX-XX' />
+                        <div className='flex flex-col gap-2'>
+                            <label className='text-sm text-gray-400'>Gênero:</label>
+                            <div className='flex gap-4 pt-3'>
+                                <GenderRadio label='Feminino' value='F' isChecked={gender === 'F'} onChange={setGender} />
+                                <GenderRadio label='Masculino' value='M' isChecked={gender === 'M'} onChange={setGender} />
+                                <GenderRadio label='Outro' value='O' isChecked={gender === 'O'} onChange={setGender} />
+                            </div>
+                        </div>
+                        <ProfileField label='E-mail:' value='EmailDoUsuario@gmail.com' type='email' />
+                        <ProfileField label='Endereço:' value='EnderecoDoUsuario, XXX, Bairro' />
+                        <ProfileField label='Senha:' value='************' type='password' />
+                        <ProfileField label='Telefone:' value='(XX) XXXXX-XXXX' />
+                    </div>
+                    
+                    <div className='flex justify-end mt-4'>
+                        <button className='flex items-center gap-2 text-white hover:text-white 
+                                            transition-colors cursor-pointer'>
+                            <span>Logout</span>
+                            <LogOut size={32} />
+                        </button>
+                    </div>
+
                 </div> 
             </PageLayout>
         </Box>
