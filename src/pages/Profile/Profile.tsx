@@ -2,6 +2,7 @@ import { useState, type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../components/layout/BigCardGray';
 import { SquarePen, LogOut, Calendar } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import FaixaTeste  from './assetsTest/FaixaPretaTeste.png'
 
@@ -42,7 +43,6 @@ const ProfileField: FC<{
     </div>
 );
 
-// --- COMPONENTE GenderRadio (CORRIGIDO) ---
 interface GenderRadioProps {
     label: string;
     value: string;
@@ -102,7 +102,7 @@ export const Profile: FC = () => {
                                 className='w-28 h-20' 
                             />
                             <div>
-                                {/* --- MUDANÇA 1: Ícone de edição ao lado do nome --- */}
+                
                                 <div className='flex items-center gap-2'>
                                     <h1 className='text-xl md:text-2xl font-bold'>SAULO BEZERRA</h1>
                                     <SquarePen size={26} className='text-white cursor-pointer hover:text-white' />
@@ -149,7 +149,9 @@ export const Profile: FC = () => {
                         </div>
                         <ProfileField label='E-mail:' value='EmailDoUsuario@gmail.com' type='email' />
                         <ProfileField label='Endereço:' value='EnderecoDoUsuario, XXX, Bairro' />
-                        <ProfileField label='Senha:' value='************' type='password' />
+                        <Link to='/recuperar-senha' className='w-full'>
+                            <ProfileField label='Senha:' value='************' type='password' />    
+                        </Link>
                         <ProfileField label='Telefone:' value='(XX) XXXXX-XXXX' />
                     </div>
                     
