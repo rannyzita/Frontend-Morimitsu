@@ -3,9 +3,6 @@ import { Box } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCardGray'; 
 import { Link } from 'react-router-dom';
 
-// MUDANÇA 1: A importação do ActionButton foi REMOVIDA
-// import { ActionButton } from '../../../components/Button/ActionButton'; 
-
 import turmaBaby from './assetsTest/IconBaby.png';
 import turmaInfantil from './assetsTest/TurmaInfantil.png';
 import turmaMista from './assetsTest/iconMista.png';
@@ -48,16 +45,23 @@ export const VerTurmas: FC = () => {
                 title='VER TURMAS' 
                 icon={<img src={seeClassIcon} alt='' className='w-8 h-8' />} 
             >
-                <div className='flex flex-col h-full gap-6 items-center justify-center'>
+                {/* 1. Wrappers de layout (igual aos outros) */}
+                <div className='max-w-5xl mx-auto'>
+                    <div className='flex flex-col gap-6'>
                     
-                    {turmasDaPagina.map(turma => (
-                        <ClassButton
-                            key={turma.id}
-                            to={`/gerenciamento-turmas/ver/${turma.id}`}
-                            label={turma.label}
-                            icon={<img src={turma.icon} alt={turma.label} className='w-8 h-8'/>}
-                        />
-                    ))}
+                        <div className='flex flex-col gap-6 items-center w-full pt-24'>
+                            
+                            {turmasDaPagina.map(turma => (
+                                <ClassButton
+                                    key={turma.id}
+                                    to={`/gerenciamento-turmas/ver/${turma.id}`}
+                                    label={turma.label}
+                                    icon={<img src={turma.icon} alt={turma.label} className='w-8 h-8'/>}
+                                />
+                            ))}
+                        </div>
+                        
+                    </div>
                 </div>
             </PageLayout>
         </Box>
