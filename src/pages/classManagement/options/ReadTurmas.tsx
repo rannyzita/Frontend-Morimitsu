@@ -46,10 +46,10 @@ export const VerTurmas: FC = () => {
                 icon={<img src={seeClassIcon} alt='' className='w-8 h-8' />} 
             >
                 {/* 1. Wrappers de layout (igual aos outros) */}
-                <div className='max-w-5xl mx-auto'>
+                <div className='max-w-5xl mx-auto pb-24'>
                     <div className='flex flex-col gap-6'>
                     
-                        <div className='flex flex-col gap-6 items-center w-full pt-24'>
+                        <div className='flex flex-col gap-6 items-center w-full pt-20 lg:pt-24'>
                             
                             {turmasDaPagina.map(turma => (
                                 <ClassButton
