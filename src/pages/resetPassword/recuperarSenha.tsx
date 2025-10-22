@@ -98,20 +98,26 @@ export const RecuperarSenha: FC = () => {
     };
 
     return (
-        <div className='flex justify-center items-center h-screen bg-black text-gray-400'>
-            <div className='flex flex-row w-full max-w-7xl h-[600px] items-center justify-center'>
-                <div className='flex-1 hidden md:flex justify-center items-center h-full'>
-                    <img src='/MorimitsuLogo.jpeg' alt='Logo Morimitsu Jiu Jitsu' className='w-[550px] h-[550px] object-contain' />
+        // Wrapper principal (Layout responsivo)
+        <div className='flex justify-center items-start md:items-center min-h-screen text-gray-400 pt-16 md:pt-0'>
+            
+            <div className='flex flex-col md:flex-row w-full max-w-7xl h-auto md:h-[600px] items-center justify-center'>
+                
+                {/* Imagem */}
+                <div className='flex-1 flex justify-center items-center h-full mb-8 md:mb-0'>
+                    <img src='/MorimitsuLogo.jpeg' alt='Logo Morimitsu Jiu Jitsu' className='w-[200px] h-[200px] md:w-[550px] md:h-[550px] object-contain' />
                 </div>
 
-                <div className='flex-1 flex justify-center items-center h-full p-8 md:p-12'>
-                    <div className='w-full max-w-sm h-full flex flex-col'>
+                {/* Formulário */}
+                <div className='flex-1 flex justify-center items-center h-full w-full p-8 md:p-12'>
+                    <div className='w-full max-w-sm h-auto flex flex-col'>
 
                         {/* ETAPA 1: PEDIR O E-MAIL */}
                         {step === 'email' && (
                             <Box component="form" onSubmit={handleContinueSubmit} className='flex-grow flex flex-col'>
-                                <div className='mb-2 self-center -translate-y-6'>
-                                    <h1 className='text-white text-6xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>RECUPERAR SENHA</h1>
+                                {/* AQUI: mb-10 (igual ao Login) */}
+                                <div className='mb-10 self-center'>
+                                    <h1 className='text-white text-4xl sm:text-5xl font-normal tracking-wide sm:whitespace-nowrap border-b-2 border-[#690808] pb-2'>RECUPERAR SENHA</h1>
                                 </div>
                                 <div className='space-y-6'>
                                     <p className='text-center text-white leading-relaxed'>
@@ -137,7 +143,7 @@ export const RecuperarSenha: FC = () => {
                                         Enviar E-mail
                                     </Button>
                                 </div>
-                                <div className='flex-grow'></div>
+                                <div className='flex-grow mt-8'></div>
                                 <div className='flex items-center justify-between mt-8'>
                                     <Link component={RouterLink} to='/login' className='!text-white !font-normal hover:!underline !pl-4'>Voltar</Link>
                                     <Button type='submit' variant="contained" className='!px-12 !py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800'>Continuar</Button>
@@ -148,8 +154,9 @@ export const RecuperarSenha: FC = () => {
                         {/* ETAPA 2: INSERIR O CÓDIGO */}
                         {step === 'code' && (
                             <Box component="form" onSubmit={handleContinueSubmit} className='flex-grow flex flex-col'>
-                                <div className='mb-4 self-center -translate-y-6'>
-                                    <h1 className='text-white text-5xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>CÓDIGO DE RECUPERAÇÃO</h1>
+                                {/* AQUI: mb-10 (igual ao Login) */}
+                                <div className='mb-10 self-center'>
+                                    <h1 className='text-white text-4xl md:text-5xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>CÓDIGO DE RECUPERAÇÃO</h1>
                                 </div>
                                 <div className='space-y-6'>
                                     <p className='text-center text-white leading-relaxed'>
@@ -164,7 +171,7 @@ export const RecuperarSenha: FC = () => {
                                         {loadingResend ? 'Enviando...' : 'Reenviar Código'}
                                     </Button>
                                 </div>
-                                <div className='flex-grow'></div>
+                                <div className='flex-grow mt-8'></div>
                                 <div className='flex items-center justify-between mt-8'>
                                     <Button onClick={() => setStep('email')} className='!text-white !font-normal hover:!underline !pl-4 !bg-transparent !normal-case'>Voltar</Button>
                                     <Button type='submit' variant="contained" className='!px-12 !py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800'>Continuar</Button>
@@ -175,8 +182,9 @@ export const RecuperarSenha: FC = () => {
                         {/* ETAPA 3: NOVA SENHA */}
                         {step === 'reset' && (
                             <Box component="form" onSubmit={handleContinueSubmit} className='flex-grow flex flex-col'>
-                                <div className='mb-4 self-center -translate-y-6'>
-                                    <h1 className='text-white text-5xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>ATUALIZAR SENHA</h1>
+                                {/* AQUI: mb-10 (igual ao Login) */}
+                                <div className='mb-10 self-center'>
+                                    <h1 className='text-white text-4xl md:text-5xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>ATUALIZAR SENHA</h1>
                                 </div>
                                 <div className='space-y-6'>
                                     <p className='text-[#757575] leading-relaxed'>
@@ -200,7 +208,7 @@ export const RecuperarSenha: FC = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className='flex-grow'></div>
+                                <div className='flex-grow mt-8'></div>
                                 <div className='flex items-center justify-between mt-8'>
                                     <Button onClick={() => setStep('code')} className='!text-white !font-normal hover:!underline !pl-4 !bg-transparent !normal-case'>Voltar</Button>
                                     <Button type='submit' variant="contained" className='!px-12 !py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800'>Confirmar</Button>
