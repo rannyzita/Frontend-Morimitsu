@@ -42,13 +42,13 @@ export const PageLayout: FC<PageLayoutProps> = ({
                         ${className}`}
         >
         
-            <header className='flex flex-col gap-4 px-6 pt-6 md:px-8 md:pt-8'>
+            <header className='flex flex-col gap-4 px-6 pt-6 lg:px-8 lg:pt-8'>
                 <div className='relative flex justify-center items-center h-12'>
                 
                     <button 
                         onClick={handleGoBack}
-                        className='absolute left-0 top-1/2 -translate-y-1/2 text-white 
-                                hover:text-white transition-colors cursor-pointer'
+                        className='absolute left-0 top-[98px] -translate-y-1/2 text-white 
+                                hover:text-white transition-colors cursor-pointer lg:top-1/2 lg:-translate-y-1/2'
                     >
                         <ArrowLeft size={32}/>
                     </button>
