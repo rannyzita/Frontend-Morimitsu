@@ -41,9 +41,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
 
     if (!user) return null;
 
-    const handleLogout = () => {
-        logout();
-        navigate('/login');
+    const handleLogout = async () => {
+        await logout(); 
+        navigate('/login'); 
     };
 
     return (
