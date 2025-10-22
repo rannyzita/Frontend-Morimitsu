@@ -6,7 +6,7 @@ interface User {
     name: string;
     email: string;
     cpf: string;
-    role: 'coordenador' | 'aluno/professor';
+    role: 'COORDENADOR' | 'PROFESSOR';
 }
 
 interface authContextType {
@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         name: 'Coordenador Teste',
         email: 'coordenador@teste.com',
         cpf: '000.000.000-00',
-        role: 'coordenador', 
+        role: 'COORDENADOR', 
     });
 
     const login = (userData: User) => {

@@ -20,16 +20,17 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
 
             <div className='flex items-center space-x-4'>
                     <Link to={'/home'}>
-                        <span className="hidden sm:block text-lg font-medium tracking-wide">
+                        {/* MUDANÇA AQUI: text-sm para celular, sm:text-lg para telas maiores */}
+                        <span className='text-[12px] tracking-wide sm:block lg:text-lg'>
                             Morimitsu Tradição Jiu-Jitsu
                         </span>
                     </Link>
                     
                     <Link to={'/home'}>
                         <img 
-                            src="/Icone-Morimitsu.png" 
-                            alt="Logo Morimitsu" 
-                            className="w-14 h-14 object-cover rounded-full"
+                            src='/Icone-Morimitsu.png' 
+                            alt='Logo Morimitsu' 
+                            className='w-10 h-10 lg:w-14 lg:h-14 object-cover rounded-full'
                         />
                     </Link>
                 </div>

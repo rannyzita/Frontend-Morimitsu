@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import type { FC, ReactNode } from 'react';
@@ -65,12 +66,16 @@ interface BigButtonProps {
 
 const BigButton: FC<BigButtonProps> = ({ icon, label }) => (
     <button 
-        className='bg-[#880000] text-white p-6 rounded-lg border-[10px] border-[#3E0404] 
-                    flex items-center gap-4 text-4xl font-bold tracking-wide
+        className='bg-[#880000] text-white p-4 lg:p-6 rounded-lg border-[10px] border-[#3E0404] 
+                    flex items-center  gap-3 lg:gap-4 text-2xl lg:text-4xl font-bold tracking-wide
                     hover:bg-[#8e0303] transition-colors duration-200
                     w-full cursor-pointer' 
+
     >
-        {icon}
+        <div className='w-[40px] md:w-[61px]'> 
+            {React.cloneElement(icon as React.ReactElement, { className: 'w-full h-full' })}
+        </div>
+
         <span className='flex-1 text-center'>{label}</span> 
     </button>
 );
@@ -82,14 +87,14 @@ interface BirthdayCardProps {
 
 const BirthdayCard: FC<BirthdayCardProps> = ({ date, name, team }) => (
     <div 
-        className='bg-[#880000] rounded-lg p-2 flex flex-col items-center gap-3 min-w-[250px] border-[10px] border-[#3E0404]'
+        className='bg-[#880000] rounded-lg p-2 flex flex-col items-center gap-3 min-w-[200px] lg:min-w-[250px] border-[10px] border-[#3E0404]'
     >
         <div className='text-center text-white'>
             <Typography variant='h4' className='!font-bold'>{date}</Typography>
-            <Typography variant='body1' className='!font-semibold'>{name}</Typography>
+            <Typography variant='body1'>{name}</Typography>
         </div>
         
-        <div className='bg-white/20 rounded-full p-5 text-white'>
+        <div className='bg-white/20 rounded-full p-4 sm:p-5 text-white'>
             <User size={64} /> 
         </div>
 
@@ -148,12 +153,18 @@ export const Home: FC = () => {
 
     const checkScroll = () => {
         const container = scrollContainerRef.current;
+        
+        const isDesktop = window.innerWidth >= 1024; 
+    
         if (container) {
             const { scrollLeft, scrollWidth, clientWidth } = container;
-
-            setShowLeftArrow(scrollLeft > 0);
-
-            setShowRightArrow(Math.ceil(scrollLeft) + clientWidth < scrollWidth);
+    
+            setShowLeftArrow(scrollLeft > 0 && isDesktop);
+    
+            setShowRightArrow(Math.ceil(scrollLeft) + clientWidth < scrollWidth && isDesktop);
+        } else {
+            setShowLeftArrow(false);
+            setShowRightArrow(false);
         }
     };
 
@@ -165,49 +176,33 @@ export const Home: FC = () => {
         return () => window.removeEventListener('resize', checkScroll);
     }, [birthdayMembers]); 
 
+    // className='w-full max-w-7xl mx-auto flex flex-col gap-10 py-6 px-8 md:px-10 lg:py-12 lg:px-20'
+
     return (
-        <Box component='div' className='flex flex-col gap-10 py-6 lg:py-26 px-30'> 
+        <Box component='div' className='max-w-7xl mx-auto lg:max-w-full lg:mx-0 flex flex-col gap-10 py-6 px-8 lg:py-26 lg:px-30'> 
 
-            <section className='grid grid-cols-1 lg:grid-cols-10 gap-20 items-start flex-1 justify-center'>
+            <section className='grid grid-cols-1 lg:grid-cols-10 gap-8 lg:gap-20 items-start flex-1 justify-center'>
                 
-                { user.role === 'coordenador' && (
+                { user.role === 'COORDENADOR' && (
                     <>
-                        {/* Botão Turmas */}
-                        <div className='lg:col-span-3 flex self-center'> 
-                            <Link to={'/gerenciamento-turmas'} className='w-full'>
-                                <BigButton 
-                                    icon={<Users size={61} />} 
-                                    label='TURMAS' 
-                                />
-                            </Link>
-                        </div>
-                        
-                        {/* Botão Graduação */}
-                        <div className='lg:col-span-3 flex self-center'> 
-                            <Link to={'/graduacao'} className='w-full'>
-                                <BigButton 
-                                    icon={<GraduationCap size={61} />} 
-                                    label='GRADUAÇÃO' 
-                                />
-                            </Link>
-                        </div>
-
-                        {/* Card Alunos Aptos */}
-                        <div className='lg:col-span-3 bg-[#880000] rounded-lg text-white border-[10px] border-[#3E0404] overflow-hidden self-center'>
+                        <div className='lg:col-span-4 xl:col-span-3 
+                                    order-1 lg:order-3 
+                                    bg-[#880000] rounded-lg text-white border-[10px] border-[#3E0404] 
+                                    overflow-hidden self-stretch flex flex-col'>
                             
-                            <div className='flex justify-center pt-4'> 
-                                <div className='inline-flex items-center gap-3 bg-[#3E0404] rounded-lg px-4 py-4 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                                    <span className='text-lg font-bold tracking-wide'> 
+                            <div className='flex justify-center pt-4 px-4'> 
+                                <div className='inline-flex items-center gap-2 md:gap-3 bg-[#3E0404] rounded-lg px-3 py-3 md:px-4 md:py-4 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
+                                    <span className='text-[13px] md:text-base font-bold tracking-wide text-center'> 
                                         ALUNOS APTOS À GRADUAÇÃO
                                     </span>
-                                    <Bell className='w-8 h-8 text-white' />
+                                    <Bell className='w-6 h-6 md:w-8 md:h-8 text-white flex-shrink-0' />
                                 </div>
                             </div>
 
-                            <div className='space-y-3 px-5 pt-4 min-h-60'>
+                            <div className='space-y-2 px-4 md:px-5 pt-3 h-[230px] overflow-y-auto'>
                                 {currentStudents.map((student) => (
                                     <div key={student.name} className='border-b border-white pb-2 last:border-b-0'>
-                                        <Typography variant='body1' className='!font-semibold'>{student.name}</Typography>
+                                        <Typography variant='body2' className='!font-semibold'>{student.name}</Typography>
                                         <div className='flex justify-between items-center mt-1'>
                                             <Typography variant='body2' className='text-white !text-sm'>
                                                 {student.status}
@@ -220,9 +215,9 @@ export const Home: FC = () => {
                                 ))}
                             </div>
 
+                            {/* Paginação */}
                             {totalPages > 1 && (
                                 <div className='flex justify-between items-center mt-3 text-white px-5 pb-4'>
-                                    
                                     <button 
                                         onClick={handlePrevPage} 
                                         className={`cursor-pointer hover:text-gray-300 transition-colors ${
@@ -247,21 +242,41 @@ export const Home: FC = () => {
                                 </div>
                             )}
                         </div>
+
+                        {/* Botão Turmas */}
+                        {/* MOBILE: order-2 (Segundo) | DESKTOP: lg:order-1 (Primeiro) */}
+                        <div className='lg:col-span-3 xl:col-span-3 order-2 lg:order-1 flex self-center'> 
+                            <Link to={'/gerenciamento-turmas'} className='w-full'>
+                                <BigButton 
+                                    icon={<Users />} 
+                                    label='TURMAS' 
+                                />
+                            </Link>
+                        </div>
+                        
+                        {/* Botão Graduação */}
+                        {/* MOBILE: order-3 (Terceiro) | DESKTOP: lg:order-2 (Segundo) */}
+                        <div className='lg:col-span-3 xl:col-span-3 order-3 lg:order-2 flex self-center'> 
+                            <Link to={'/graduacao'} className='w-full'>
+                                <BigButton 
+                                    icon={<GraduationCap />} 
+                                    label='GRADUAÇÃO' 
+                                />
+                            </Link>
+                        </div>
                     </>
                 )}
 
-                { user.role === 'aluno/professor' && (
+                { user.role === 'PROFESSOR' && (
                     <>
-                        {/* Botão Turmas */}
-                        <div className='lg:col-span-3 flex self-center'> 
+                        <div className='lg:col-span-3 flex self-center pt-10 lg:pb-0'> 
                             <BigButton 
                                 icon={<ListChecks size={61} />} 
                                 label='FREQUÊNCIA' 
                             />
                         </div>
                         
-                        {/* Botão Graduação */}
-                        <div className='lg:col-span-3 flex self-center'> 
+                        <div className='lg:col-span-3 flex self-center pb-20 lg:pb-0'> 
                             <BigButton 
                                 icon={<ClipboardList size={61} />} 
                                 label='RELATÓRIO' 
@@ -273,17 +288,17 @@ export const Home: FC = () => {
 
             {/* SEÇÃO 2: Aniversariantes do Mês */}
             <section className='pb-4'> 
-                <header className='flex items-center gap-4 mb-6'>
-                    <Cake size={58} className='text-white' />
-                    <Typography variant='h4' className='text-white !font-bold'>
+                <header className='flex items-center gap-3 lg:gap-4 mb-6'>
+                <Cake className='text-white flex-shrink-0 w-12 h-12 lg:w-[68px] lg:h-[68px]' />
+                    <Typography variant='h6' className='text-white !font-bold !text-[18px] lg:!text-4xl'>
                         ANIVERSÁRIANTES DO MÊS:
                     </Typography>
                 </header>
 
-                <div className='relative flex items-center pr-2 ml-[-74px]'>
+                <div className='relative flex items-center pl-8 lg:pr-2 ml-[-74px]'>
 
                     <div 
-                        className={`pr-8 ${showLeftArrow ? 'visible' : 'invisible'}`}
+                        className={`lg:pr-8 ${showLeftArrow ? 'visible' : 'invisible'}`}
                     >
                         <ChevronLeft 
                             size={42} 
@@ -295,7 +310,7 @@ export const Home: FC = () => {
                     <div 
                         ref={scrollContainerRef}
                         onScroll={checkScroll} 
-                        className='flex overflow-x-auto gap-30 pb-4 flex-1
+                        className='flex overflow-x-auto gap-4 lg:gap-30 pb-4 flex-1
                                     [&::-webkit-scrollbar]:h-2
                                     [&::-webkit-scrollbar-thumb]:bg-[#880000]
                                     [&::-webkit-scrollbar-track]:bg-[#3E0404] 
@@ -313,7 +328,7 @@ export const Home: FC = () => {
                     </div>
 
                     <div 
-                        className={`pl-8 ${showRightArrow ? 'visible' : 'invisible'}`}
+                        className={`lg:pl-8 ${showRightArrow ? 'visible' : 'invisible'}`}
                     >
                         <ChevronRight 
                             size={42} 

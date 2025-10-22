@@ -11,7 +11,7 @@ export const Bottombar: React.FC = () => {
         >
             <Grid container spacing={{ xs: 6, md: 8 }}>
                 
-                {/* 1 - ABOUT US */}
+                {/* 1 - ABOUT US (Sem alterações estruturais) */}
                 <Grid item xs={12} md={4}>
                     <Typography variant='h5' className='!font-bold !mb-4 tracking-wide'>
                         <Box component='span' sx={{ color: 'white' }}>ABOUT</Box>{' '}
@@ -22,14 +22,16 @@ export const Bottombar: React.FC = () => {
                     </Typography>
                 </Grid>
 
-                {/* 2 - OUR LOCATIONS */}
+                {/* 2 - OUR LOCATIONS (Alinhamento corrigido) */}
                 <Grid item xs={12} md={4}>
-                    <Typography variant='h5' className='!font-bold !mb-4 tracking-wide text-center'>
+                    {/* Alinhamento: Padrão esquerda, Centralizado no MD */}
+                    <Typography variant='h5' className='!font-bold !mb-4 tracking-wide md:text-center'>
                         <Box component='span' sx={{ color: 'white' }}>OUR</Box>{' '}
                         <Box component='span' sx={{ color: '#3E0404' }}>LOCATIONS</Box>
                     </Typography>
         
-                    <div className='flex justify-center'>
+                    {/* Alinhamento: Padrão esquerda, Centralizado no MD */}
+                    <div className='flex md:justify-center'> 
                         <ul className='space-y-2 list-disc pl-5 text-gray-300'>
                             <li>Juazeiro do Norte, Ceará</li>
                             <li>Crato, Ceará</li>
@@ -42,39 +44,47 @@ export const Bottombar: React.FC = () => {
                 {/* 3 - CONTACT US */}
                 <Grid item xs={12} md={4}>
                     
-                    <Typography variant='h5' className='!font-bold !mb-4 tracking-wide text-center'>
+                    {/* Alinhamento: Padrão esquerda, Centralizado no MD */}
+                    <Typography variant='h5' className='!font-bold !mb-4 tracking-wide md:text-center'>
                         <Box component='span' sx={{ color: 'white' }}>CONTACT</Box>{' '}
                         <Box component='span' sx={{ color: '#3E0404' }}>US</Box>
                     </Typography>
 
-                    <Grid container justifyContent="center" spacing={4}>
+                    {/* USANDO O GRID DO MUI: xs=12 faz com que fiquem UM ABAIXO DO OUTRO no mobile.
+                        md=6 faz com que fiquem LADO A LADO no desktop. */}
+                    <Grid container spacing={{ xs: 2, md: 4 }} className='md:justify-center'>
 
-                        <Grid item> 
+                        {/* BLOCO 1: Instagram (xs=12 para vertical no mobile; md=6 para 2 colunas no desktop) */}
+                        <Grid item xs={12} md={6}> 
                             <div className='flex flex-col gap-4'>
                                 <Link href='https://www.instagram.com/morimitsu_kmrbjj_cedro' target='_blank' rel='noopener' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
-                                    <Instagram fontSize='medium' sx={{color: '#3E0404'}}></Instagram>
-                                    <span>@morimitsu_kmbjj_cedro</span>
+                                    {/* COR RIGOROSAMENTE BRANCA para mobile (como na imagem) */}
+                                    <Instagram fontSize='medium' sx={{color: 'white'}}></Instagram>
+                                    <span>@morimitsu_kmrbjj_cedro</span>
                                 </Link>
                                 <Link href='https://www.instagram.com/saulobezerrabjj' target='_blank' rel='noopener' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
-                                    <Instagram fontSize='medium' sx={{color: '#3E0404'}}></Instagram>
+                                    {/* COR RIGOROSAMENTE BRANCA para mobile */}
+                                    <Instagram fontSize='medium' sx={{color: 'white'}}></Instagram>
                                     <span>@saulobezerrabjj</span>
                                 </Link>
                             </div>
                         </Grid>
 
-                        <Grid item>
+                        {/* BLOCO 2: Email e Telefone (xs=12 para vertical no mobile; md=6 para 2 colunas no desktop) */}
+                        <Grid item xs={12} md={6}>
                             <div className='flex flex-col gap-4'>
                                 <Link href='mailto:saulo@ifce.edu.br' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
-                                    <Mail size={20} color='#3E0404'/>
+                                    {/* CORRIGIDO: Cor do ícone Mail para branco */}
+                                    <Mail size={20} color='white'/>
                                     <span>saulo@ifce.edu.br</span>
                                 </Link>
                                 <Link href='tel:88999650480' className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'>
-                                    <Phone size={20} color='#3E0404'/>
+                                    {/* CORRIGIDO: Cor do ícone Phone para branco */}
+                                    <Phone size={20} color='white'/>
                                     <span>88 9965-0480</span>
                                 </Link>
                             </div>
                         </Grid>
-
                     </Grid> 
                 </Grid>
             </Grid>
