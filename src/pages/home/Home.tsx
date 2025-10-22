@@ -276,7 +276,7 @@ export const Home: FC = () => {
                             />
                         </div>
                         
-                        <div className='lg:col-span-3 flex self-center pb-20 lg:pb-0'> 
+                        <div className='lg:col-span-3 flex self-center lg:pt-10 pb-20 lg:pb-0'> 
                             <BigButton 
                                 icon={<ClipboardList size={61} />} 
                                 label='RELATÓRIO' 

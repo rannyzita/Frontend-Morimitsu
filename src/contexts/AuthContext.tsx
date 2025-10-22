@@ -1,5 +1,9 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
+
+// Chave usada para armazenar o token no localStorage
+const TOKEN_KEY = 'authToken';
+const USER_KEY = 'user'; // Chave para armazenar o objeto User
 
 interface User {
     id: string;
@@ -12,7 +16,8 @@ interface User {
 interface authContextType {
     isAuthenticated: boolean;
     user: User | null;
-    login: (userData: User) => void;
+    token: string | null;
+    login: (token: string, userData: User) => void;
     logout: () => void;
 }
 
@@ -23,28 +28,69 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<User | null>({
-        id: 'coord-001',
-        name: 'Coordenador Teste',
-        email: 'coordenador@teste.com',
-        cpf: '000.000.000-00',
-        role: 'COORDENADOR', 
-    });
+    // Estado inicial: Ambos são null, e serão carregados no useEffect
+    const [user, setUser] = useState<User | null>(null);
+    const [token, setToken] = useState<string | null>(null);
+    
+    // Indica se a verificação inicial do localStorage já terminou
+    const [isLoading, setIsLoading] = useState(true); 
 
-    const login = (userData: User) => {
+    // --- Lógica de Inicialização e Carregamento (Persistência) ---
+    useEffect(() => {
+        const storedToken = localStorage.getItem(TOKEN_KEY);
+        const storedUser = localStorage.getItem(USER_KEY);
+
+        if (storedToken && storedUser) {
+            try {
+                const parsedUser: User = JSON.parse(storedUser);
+                setToken(storedToken);
+                setUser(parsedUser);
+            } catch (error) {
+                // Se falhar (dados corrompidos), limpamos tudo
+                console.error("Erro ao carregar dados do usuário persistidos:", error);
+                localStorage.removeItem(TOKEN_KEY);
+                localStorage.removeItem(USER_KEY);
+            }
+        }
+        setIsLoading(false);
+    }, []); 
+
+    // --- Funções de Autenticação ---
+
+    // Atualizado para receber token e userData do componente Login
+    const login = (newToken: string, userData: User) => {
+        // 1. Salvar no Estado
+        setToken(newToken);
         setUser(userData);
+        
+        // 2. Persistir no LocalStorage
+        localStorage.setItem(TOKEN_KEY, newToken);
+        localStorage.setItem(USER_KEY, JSON.stringify(userData));
     };
 
     const logout = () => {
+        // 1. Limpar o Estado
         setUser(null);
+        setToken(null);
+        
+        // 2. Limpar o LocalStorage
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(USER_KEY);
     };
 
     const value = {
         isAuthenticated: !!user, 
         user,
+        token,
         login,
         logout
     };
+
+    // Renderiza o contexto apenas após a verificação inicial do localStorage
+    if (isLoading) {
+        // Opcional: Aqui você pode retornar um spinner de carregamento global
+        return <div>Carregando...</div>; 
+    }
 
     return (
         <AuthContext.Provider value={value}>
