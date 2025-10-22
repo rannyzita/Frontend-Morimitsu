@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from './../../components/layout/BigCardGray'; 
+import { PageLayout } from './../../components/layout/BigCardGray';
 
-import { Users, ListChecks, UserPlus } from 'lucide-react'; 
+import { Users, ListChecks, UserPlus } from 'lucide-react';
 
 import { Link } from 'react-router-dom';
 
@@ -15,49 +15,83 @@ import { ActionButton } from '../../components/Button/ActionButton';
 
 export const GerenciamentoTurmas: FC = () => {
     return (
-        <Box 
-            component='div' 
+        <Box
+            component='div'
             className='flex flex-col items-center justify-center h-full p-4'
         >
-            <PageLayout 
-                title='GERENCIAMENTO DE TURMAS' 
-                icon={<Users size={50} />}
+            <PageLayout
+                // Ajustes de ícone e título para responsividade
+                title='GERENCIAMENTO DE TURMAS'
+                icon={<Users size={36} className='lg:w-[50px] lg:h-[50px]' />}
             >
-                <div className='flex flex-col gap-6 mt-14 items-center'>
+                {/* O items-center aqui deve garantir a centralização no desktop */}
+                <div className='flex flex-col pb-18 lg:pb-0 gap-6 mt-10 lg:mt-14 items-center'>
 
-                    <Link to={'/gerenciamento-turmas/realizar-frequencia'}>
-                        <ActionButton icon={<ListChecks size={32} strokeWidth={3} />} label='REALIZAR FREQUÊNCIA' />    
-                    </Link>
-                    
-                    <Link to={'/gerenciamento-turmas/enturmar-aluno'}>
-                        <ActionButton icon={<UserPlus size={32} strokeWidth={3} />} label='ENTURMAR ALUNO' />
-                    </Link>
-
-                    <Link to={'/gerenciamento-turmas/ver-turmas'}>
-                        <ActionButton 
-                            icon={<img src={seeClassIcon} alt='' className='w-8 h-8' />} 
-                            label='VER TURMAS' 
+                    {/* Botão 1: REALIZAR FREQUÊNCIA */}
+                    <Link
+                        to={'/gerenciamento-turmas/realizar-frequencia'}
+                        // MOBILE: Largura total (w-full), mas limitada (max-w-sm)
+                        // DESKTOP: Remove limites (lg:max-w-none) e largura forçada (lg:w-auto)
+                        className='w-full max-w-sm lg:max-w-none lg:w-auto'
+                    >
+                        <ActionButton
+                            icon={<ListChecks size={24} strokeWidth={3} className='lg:w-8 lg:h-8' />}
+                            label='REALIZAR FREQUÊNCIA'
                         />
                     </Link>
 
-                    <Link to={'/gerenciamento-turmas/criar-turma'}>
-                        <ActionButton 
-                            icon={<img src={createClassIcon} alt='' className='w-12 h-8' />} 
-                            label='CRIAR TURMA' 
+                    {/* Botão 2: ENTURMAR ALUNO */}
+                    <Link
+                        to={'/gerenciamento-turmas/enturmar-aluno'}
+                        className='w-full max-w-sm lg:max-w-none lg:w-auto'
+                    >
+                        <ActionButton
+                            icon={<UserPlus size={24} strokeWidth={3} className='lg:w-8 lg:h-8' />}
+                            label='ENTURMAR ALUNO'
                         />
                     </Link>
 
-                    <Link to={'/gerenciamento-turmas/editar-turma'}>
-                        <ActionButton 
-                            icon={<img src={editClassIcon} alt='' className='w-12 h-8' />} 
-                            label='EDITAR TURMA' 
+                    {/* Botão 3: VER TURMAS */}
+                    <Link
+                        to={'/gerenciamento-turmas/ver-turmas'}
+                        className='w-full max-w-sm lg:max-w-none lg:w-auto'
+                    >
+                        <ActionButton
+                            icon={<img src={seeClassIcon} alt='' className='w-6 h-6 lg:w-8 lg:h-8' />}
+                            label='VER TURMAS'
                         />
                     </Link>
 
-                    <Link to={'/gerenciamento-turmas/deletar-turma'}>
-                        <ActionButton 
-                            icon={<img src={deleteClassIcon} alt='' className='w-12 h-8' />} 
-                            label='EXCLUIR TURMA' 
+                    {/* Botão 4: CRIAR TURMA */}
+                    <Link
+                        to={'/gerenciamento-turmas/criar-turma'}
+                        className='w-full max-w-sm lg:max-w-none lg:w-auto'
+                    >
+                        <ActionButton
+                            icon={<img src={createClassIcon} alt='' className='w-6 h-6 lg:w-12 lg:h-8' />}
+                            label='CRIAR TURMA'
+                        />
+                    </Link>
+
+                    {/* Botão 5: EDITAR TURMA */}
+                    <Link
+                        to={'/gerenciamento-turmas/editar-turma'}
+                        className='w-full max-w-sm lg:max-w-none lg:w-auto'
+                    >
+                        <ActionButton
+                            icon={<img src={editClassIcon} alt='' className='w-6 h-6 lg:w-12 lg:h-8' />}
+                            label='EDITAR TURMA'
+                        />
+                    </Link>
+
+                    {/* Botão 6: EXCLUIR TURMA */}
+                    <Link
+                        to={'/gerenciamento-turmas/deletar-turma'}
+                        className='w-full max-w-sm lg:max-w-none lg:w-auto'
+                    >
+                        <ActionButton
+                            icon={<img src={deleteClassIcon} alt='' className='w-6 h-6 lg:w-12 lg:h-8' />}
+                            label='EXCLUIR TURMA'
                         />
                     </Link>
                 </div>

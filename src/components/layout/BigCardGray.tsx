@@ -24,7 +24,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
         if (backPath) {
             navigate(backPath);
         } else {
-            navigate(-1); // Senão, mantém o comportamento padrão
+            navigate(-1); 
         }
     };
 
@@ -50,13 +50,13 @@ export const PageLayout: FC<PageLayoutProps> = ({
                         className='absolute left-0 top-1/2 -translate-y-1/2 text-white 
                                 hover:text-white transition-colors cursor-pointer'
                     >
-                        <ArrowLeft size={32} />
+                        <ArrowLeft size={32}/>
                     </button>
 
                     {title && (
                         <div className='flex items-center gap-3'>
                         {icon}
-                            <h1 className='text-xl md:text-2xl font-bold tracking-wide'>{title}</h1>
+                            <h1 className='text-[13px] lg:text-2xl font-bold tracking-wide'>{title}</h1>
                         </div>
                     )}
                 </div>
