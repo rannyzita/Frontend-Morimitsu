@@ -19,6 +19,8 @@ import { VerTurmas } from './pages/classManagement/options/ReadTurmas'
 // Pagina de Perfil
 import { Profile } from './pages/Profile/Profile'
 
+import { NotFound } from './pages/NotFound/notFound'
+
 export const AppRoutes = () => {
     return (
         <AuthProvider>
@@ -30,7 +32,7 @@ export const AppRoutes = () => {
                     
                     <Route element={<MainLayout />}>
                         <Route path='/home' element={<Home />} />
-                        <Route path='*' element={<h1>404 - Not Found!</h1>} />
+                        <Route path='*' element={<NotFound />} />
 
                         {/* Rotas de turma */}
                         <Route path='/gerenciamento-turmas' element={<GerenciamentoTurmas />} />
