@@ -1,9 +1,9 @@
 import { useState, type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCardGray'; 
-import { FeedbackToast } from '../../../components/Feedback/Feedback'; 
-import { FormField } from '../../../components/formField/formField'; 
-import { ActionSelectionScreen } from './ActionSelectScreen'; // 1. Importando o componente reutilizável
+import { PageLayout } from '../../../components/layout/BigCardGray';
+import { FeedbackToast } from '../../../components/Feedback/Feedback';
+import { FormField } from '../../../components/formField/formField';
+import { ActionSelectionScreen } from './ActionSelectScreen';
 import { User, SquarePen } from 'lucide-react';
 
 // 2. Importando o seu ícone
@@ -33,26 +33,42 @@ const EditingForm: FC<{ turmaId: number }> = ({ turmaId }) => {
     };
 
     const AvatarUpload: FC<{ imageSrc: string | null; onEdit: () => void }> = ({ imageSrc, onEdit }) => (
-        <div className='relative mx-auto w-32 h-32'>
+        <div className='relative mx-auto w-24 h-24 md:w-32 md:h-32'>
             <div className='w-full h-full rounded-full bg-neutral-700 flex items-center justify-center'>
-                {imageSrc ? <img src={imageSrc} alt='Avatar' className='w-full h-full rounded-full object-cover' /> : <User size={60} className='text-gray-500' />}
+                {imageSrc ? <img src={imageSrc} alt='Avatar' className='w-full h-full rounded-full object-cover' /> : <User size={48} className='text-gray-500 md:w-[60px] md:h-[60px]' />}
             </div>
-            <button onClick={onEdit} className='absolute bottom-0 right-0 bg-neutral-600 p-1.5 rounded-full text-gray-300 cursor-pointer hover:text-white'><SquarePen size={20} /></button>
+            {/* Ícone de edição menor no mobile (size=16) */}
+            <button onClick={onEdit} className='absolute bottom-0 right-0 bg-neutral-600 p-1 rounded-full text-gray-300 cursor-pointer hover:text-white'>
+                <SquarePen size={16} className='md:w-5 md:h-5'/>
+            </button>
         </div>
     );
 
     return (
         <>
-            <div className='flex flex-col justify-center min-h-[65vh] gap-16 px-16'>
-                <AvatarUpload imageSrc={avatarImage} onEdit={() => {}} />
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6'>
+            <div className='flex flex-col justify-center min-h-[65vh] gap-10 px-4 md:px-16'>
+                
+                <div className='flex flex-col gap-8'>
+                    <AvatarUpload imageSrc={avatarImage} onEdit={() => {}} />
+                </div>
+                
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4 md:gap-y-6'>
                     <FormField label='Nome da Turma:' value={turmaName} onChange={setTurmaName} showEditIcon={true} />
                     <FormField label='Responsável:' value={responsible} onChange={setResponsible} isSelect={true} showEditIcon={true} />
                     <FormField label='Faixa Etária Mínima:' value={minAge} onChange={setMinAge} type='number' showEditIcon={true} />
                     <FormField label='Faixa Etária Máxima:' value={maxAge} onChange={setMaxAge} type='number' showEditIcon={true} />
                 </div>
-                <div className='flex justify-center pt-8'>
-                    <button onClick={handleConfirmClick} className='bg-[#690808] text-white font-semibold py-3 px-50 rounded-lg hover:bg-red-800 transition-colors shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
+                
+                {/* AJUSTE 3: Botão de Confirmação - Ocupa largura total no mobile, centralizado no desktop */}
+                <div className='flex justify-center pt-3 md:pt-8'>
+                    <button 
+                        onClick={handleConfirmClick} 
+                        // Mobile: w-full (largura total), py-2 (padding menor), px-4 (padding para evitar que o texto encoste nas bordas)
+                        // Desktop: py-3 (padding maior), px-50 (valor original)
+                        className='bg-[#690808] text-white font-semibold w-full max-w-sm py-4 px-4 rounded-lg 
+                                   hover:bg-red-800 transition-colors shadow-[0_5px_15px_rgba(0,0,0,0.3)] 
+                                   md:w-auto md:max-w-none md:py-3 md:px-50'
+                    >
                         Confirmar Alterações
                     </button>
                 </div>
@@ -63,14 +79,13 @@ const EditingForm: FC<{ turmaId: number }> = ({ turmaId }) => {
 };
 
 
-// --- Componente Principal que gerencia o fluxo ---
+// --- Componente Principal que gerencia o fluxo (Mantido como estava) ---
 export const EditTurma: FC = () => {
     const [selectedTurmaId, setSelectedTurmaId] = useState<number | null>(null);
 
     const isSelectionStep = selectedTurmaId === null;
     const pageTitle = isSelectionStep ? 'EDITAR TURMAS' : 'EDITAR TURMA';
-    
-    // 3. O ícone do título agora é sempre a sua imagem
+
     const pageIcon = <img src={editClassIcon} alt='Editar Turma' className='w-12 h-8' />;
 
     return (
@@ -83,7 +98,6 @@ export const EditTurma: FC = () => {
                 icon={pageIcon}
             >
                 {isSelectionStep ? (
-                    // 4. Usando o ActionSelectionScreen reutilizável no lugar do SelectionList
                     <ActionSelectionScreen 
                         instructionText='SELECIONE A TURMA QUE DESEJA EDITAR:'
                         items={turmasMock}
