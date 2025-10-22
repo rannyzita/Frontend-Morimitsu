@@ -40,22 +40,33 @@ interface StudentListItemProps {
 
 const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, currentClasses, totalClasses, studentId, isPromoted, onTogglePromoted }) => {
     return (
-        <div className="flex items-center gap-3 bg-[#690808] p-3 rounded-lg w-full lg:w-[950px] shadow-[0_5px_15px_rgba(0,0,0,0.3)]">
-            <img src={avatar} alt={name} className="w-10 h-10 rounded-full flex-shrink-0" />
-            <Award size={24} className="text-white flex-shrink-0" />
-            <div className="h-10 border-l border-white opacity-50 mx-1 flex-shrink-0" />
-            <span className="flex-1 text-white font-semibold truncate text-left">{name}</span>
-            <div className="h-10 border-l border-white opacity-50 mx-1 flex-shrink-0" />
-            <span className="text-white text-sm flex-shrink-0">Aulas: {currentClasses}/{totalClasses}</span>
-            <div className="h-10 border-l border-white opacity-50 mx-1 flex-shrink-0" />
-            <div className="relative flex flex-col items-center bg-[#3E0404] py-2 px-1 rounded w-32 flex-shrink-0">
-                <div className="pr-5"> 
-                    <span className="block text-white text-[10px] leading-tight text-center">PROMOVER P/</span>
-                    <span className="block text-white text-[10px] leading-tight text-center">PROFESSOR(A)</span>
+        <div className="flex flex-col lg:flex-row lg:items-center gap-3 bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]">
+            
+            <div className="flex items-center gap-3 w-full lg:w-auto">
+                <img src={avatar} alt={name} className="w-8 h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0" />
+                <Award size={20} className="text-white flex-shrink-0 lg:w-6 lg:h-6" />
+                <div className="h-8 lg:h-10 border-l border-white opacity-50 mx-1 flex-shrink-0" />
+                <span className="flex-1 text-white font-semibold truncate text-left text-[10px] lg:text-base">{name}</span>
+            </div>
+
+            {/* LINHA 2 MOBILE / FIM DESKTOP: Aulas e Checkbox (Flex no mobile) */}
+            <div className="flex items-center justify-between w-full lg:w-auto lg:gap-3 lg:ml-auto">
+                
+                <div className="h-10 border-l border-white opacity-50 mx-1 flex-shrink-0 hidden lg:block" />
+                {/* Indicador de Aulas */}
+                <span className="text-white text-xs lg:text-sm flex-shrink-0 pl-2 lg:pl-0">Aulas: {currentClasses}/{totalClasses}</span>
+                
+
+                {/* Checkbox de Promoção */}
+                <div className="relative flex flex-col items-center justify-center bg-[#3E0404] py-1 px-1 rounded w-32 flex-shrink-0 h-10">
+                    <div className="pr-5"> 
+                        <span className="block text-white text-[9px] lg:text-[10px] leading-tight text-center">PROMOVER P/</span>
+                        <span className="block text-white text-[9px] lg:text-[10px] leading-tight text-center">PROFESSOR(A)</span>
+                    </div>
+                    <input type="checkbox" checked={isPromoted} onChange={(e) => onTogglePromoted(studentId, e.target.checked)}
+                        className="absolute right-1 top-1/2 -translate-y-1/2 w-3.5 h-3.5 lg:w-4 lg:h-4 bg-transparent border border-white rounded-sm appearance-none checked:bg-white checked:border-transparent cursor-pointer focus:outline-none focus:ring-1 focus:ring-white" 
+                    />
                 </div>
-                <input type="checkbox" checked={isPromoted} onChange={(e) => onTogglePromoted(studentId, e.target.checked)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 bg-transparent border border-white rounded-sm appearance-none checked:bg-white checked:border-transparent cursor-pointer focus:outline-none focus:ring-1 focus:ring-white" 
-                />
             </div>
         </div>
     );
@@ -99,17 +110,17 @@ export const VerDetalhesTurma: FC = () => {
         >
             <PageLayout 
                 title={turma.nome.toUpperCase()} 
-                icon={<img src={turma.icone} alt={turma.nome} className='w-10 h-10' />}
+                icon={<img src={turma.icone} alt={turma.nome} className='w-8 h-8 lg:w-10 lg:h-10' />}
             >
-                <div className='flex flex-col h-full gap-6 pt-8'>
+                <div className='flex flex-col h-full gap-4 pt-8 lg:gap-6 lg:pt-8'>
                     <SearchInput
                         value={searchQuery}
                         onChange={setSearchQuery} 
                         placeholder='Digite o nome do aluno'
-                        className='w-full lg:w-[650px] mx-auto' 
+                        className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto' 
                     />
-                    <div className='flex-1 flex flex-col gap-3 items-center overflow-y-auto pr-2 mt-4'>
-                        {/* MUDANÇA 4: Mapeando 'currentAlunos' */}
+                    
+                    <div className='flex-1 flex flex-col gap-3 items-center overflow-y-auto pr-0 lg:pr-2 mt-2 lg:mt-4'>
                         {currentAlunos.map(aluno => (
                             <StudentListItem
                                 key={aluno.id}
