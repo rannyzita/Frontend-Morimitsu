@@ -1,17 +1,17 @@
-import { useState, type FC, } from 'react';
+import { useState, type FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCardGray'; 
-import { Pagination } from '../../../components/Pagination/Pagination'; 
+import { PageLayout } from '../../../components/layout/BigCardGray';
+import { Pagination } from '../../../components/Pagination/Pagination';
 import { Award } from 'lucide-react';
 
-import { SearchInput } from '../../../components/SearchInput/SearchInput'; 
+import { SearchInput } from '../../../components/SearchInput/SearchInput';
 
 import turmaBabyIcon from './assetsTest/IconBaby.png';
-import studentAvatar1 from './assetsTest/IconBaby.png'; 
+import studentAvatar1 from './assetsTest/IconBaby.png';
 import studentAvatar2 from './assetsTest/TurmaInfantil.png';
 import studentAvatar3 from './assetsTest/iconMista.png';
-import studentAvatar4 from './assetsTest/IconBaby.png'; 
+import studentAvatar4 from './assetsTest/IconBaby.png';
 
 const mockTurma = {
     id: '1',
@@ -40,31 +40,28 @@ interface StudentListItemProps {
 
 const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, currentClasses, totalClasses, studentId, isPromoted, onTogglePromoted }) => {
     return (
-        <div className="flex flex-col lg:flex-row lg:items-center gap-3 bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]">
-            
-            <div className="flex items-center gap-3 w-full lg:w-auto">
-                <img src={avatar} alt={name} className="w-8 h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0" />
-                <Award size={20} className="text-white flex-shrink-0 lg:w-6 lg:h-6" />
-                <div className="h-8 lg:h-10 border-l border-white opacity-50 mx-1 flex-shrink-0" />
-                <span className="flex-1 text-white font-semibold truncate text-left text-[10px] lg:text-base">{name}</span>
+        <div className='flex flex-col lg:flex-row lg:items-center gap-3 bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
+
+            <div className='flex items-center gap-3 w-full lg:w-auto'>
+                <img src={avatar} alt={name} className='w-8 h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0' />
+                <Award size={20} className='text-white flex-shrink-0 lg:w-6 lg:h-6' />
+                <div className='h-8 lg:h-10 border-l border-white opacity-50 mx-1 flex-shrink-0' />
+                <span className='flex-1 text-white font-semibold truncate text-left text-[10px] lg:text-base'>{name}</span>
             </div>
 
-            {/* LINHA 2 MOBILE / FIM DESKTOP: Aulas e Checkbox (Flex no mobile) */}
-            <div className="flex items-center justify-between w-full lg:w-auto lg:gap-3 lg:ml-auto">
-                
-                <div className="h-10 border-l border-white opacity-50 mx-1 flex-shrink-0 hidden lg:block" />
-                {/* Indicador de Aulas */}
-                <span className="text-white text-xs lg:text-sm flex-shrink-0 pl-2 lg:pl-0">Aulas: {currentClasses}/{totalClasses}</span>
-                
+            <div className='flex items-center justify-between w-full lg:w-auto lg:gap-3 lg:ml-auto'>
 
-                {/* Checkbox de Promoção */}
-                <div className="relative flex flex-col items-center justify-center bg-[#3E0404] py-1 px-1 rounded w-32 flex-shrink-0 h-10">
-                    <div className="pr-5"> 
-                        <span className="block text-white text-[9px] lg:text-[10px] leading-tight text-center">PROMOVER P/</span>
-                        <span className="block text-white text-[9px] lg:text-[10px] leading-tight text-center">PROFESSOR(A)</span>
+                <div className='h-10 border-l border-white opacity-50 mx-1 flex-shrink-0 hidden lg:block' />
+
+                <span className='text-white text-xs lg:text-sm flex-shrink-0 pl-2 lg:pl-0'>Aulas: {currentClasses}/{totalClasses}</span>
+
+                <div className='relative flex flex-col items-center justify-center bg-[#3E0404] py-1 px-1 rounded w-36 flex-shrink-0 h-10'>
+                    <div className='pr-5'>
+                        <span className='block text-white text-[9px] lg:text-[10px] leading-tight text-center'>PROMOVER P/</span>
+                        <span className='block text-white text-[9px] lg:text-[10px] leading-tight text-center'>PROFESSOR(A)</span>
                     </div>
-                    <input type="checkbox" checked={isPromoted} onChange={(e) => onTogglePromoted(studentId, e.target.checked)}
-                        className="absolute right-1 top-1/2 -translate-y-1/2 w-3.5 h-3.5 lg:w-4 lg:h-4 bg-transparent border border-white rounded-sm appearance-none checked:bg-white checked:border-transparent cursor-pointer focus:outline-none focus:ring-1 focus:ring-white" 
+                    <input type='checkbox' checked={isPromoted} onChange={(e) => onTogglePromoted(studentId, e.target.checked)}
+                        className='absolute right-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 lg:w-4 lg:h-4 bg-transparent border border-white rounded-sm appearance-none checked:bg-white checked:border-transparent cursor-pointer focus:outline-none focus:ring-1 focus:ring-white'
                     />
                 </div>
             </div>
@@ -73,12 +70,30 @@ const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, currentClasse
 };
 
 export const VerDetalhesTurma: FC = () => {
-    const { id } = useParams<{ id: string }>(); 
+    const { id } = useParams<{ id: string }>();
     const [searchQuery, setSearchQuery] = useState('');
     const [alunos, setAlunos] = useState(initialAlunos);
-    
+
     const [currentPage, setCurrentPage] = useState(1);
-    
+
+    const [studentsPerPage, setStudentsPerPage] = useState(5);
+
+    useEffect(() => {
+        const updateStudentsPerPage = () => {
+            const newStudentsPerPage = window.innerWidth < 1024 ? 3 : 5;
+            setStudentsPerPage(newStudentsPerPage);
+
+            if (newStudentsPerPage !== studentsPerPage) {
+                 setCurrentPage(1);
+            }
+        };
+
+        updateStudentsPerPage();
+        window.addEventListener('resize', updateStudentsPerPage);
+
+        return () => window.removeEventListener('resize', updateStudentsPerPage);
+    }, []); 
+
     const handleTogglePromoted = (studentId: number, isChecked: boolean) => {
         const updatedAlunos = alunos.map(aluno => ({
             ...aluno,
@@ -87,40 +102,42 @@ export const VerDetalhesTurma: FC = () => {
         setAlunos(updatedAlunos);
     };
 
-    const filteredAlunos = alunos.filter(aluno => 
+    const filteredAlunos = alunos.filter(aluno =>
         aluno.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const STUDENTS_PER_PAGE = 5;
-    const totalPages = Math.ceil(filteredAlunos.length / STUDENTS_PER_PAGE);
-    const startIndex = (currentPage - 1) * STUDENTS_PER_PAGE;
-    const endIndex = startIndex + STUDENTS_PER_PAGE;
-    const currentAlunos = filteredAlunos.slice(startIndex, endIndex); 
+    const totalPages = Math.ceil(filteredAlunos.length / studentsPerPage);
+    const startIndex = (currentPage - 1) * studentsPerPage;
+    const endIndex = startIndex + studentsPerPage;
+    const currentAlunos = filteredAlunos.slice(startIndex, endIndex);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
 
-    const turma = mockTurma; 
+    const turma = mockTurma;
+
+    const mobileHeightClass = studentsPerPage === 3 ? 'h-[270px]' : 'h-full';
+
 
     return (
-        <Box 
-            component='div' 
+        <Box
+            component='div'
             className='flex flex-col items-center justify-center h-full p-4'
         >
-            <PageLayout 
-                title={turma.nome.toUpperCase()} 
+            <PageLayout
+                title={turma.nome.toUpperCase()}
                 icon={<img src={turma.icone} alt={turma.nome} className='w-8 h-8 lg:w-10 lg:h-10' />}
             >
                 <div className='flex flex-col h-full gap-4 pt-8 lg:gap-6 lg:pt-8'>
                     <SearchInput
                         value={searchQuery}
-                        onChange={setSearchQuery} 
+                        onChange={setSearchQuery}
                         placeholder='Digite o nome do aluno'
-                        className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto' 
+                        className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto'
                     />
-                    
-                    <div className='flex-1 flex flex-col gap-3 items-center overflow-y-auto pr-0 lg:pr-2 mt-2 lg:mt-4'>
+
+                    <div className={`flex-1 ${mobileHeightClass} lg:min-h-[400px] flex flex-col gap-6 items-center overflow-y-auto pr-0 lg:pr-2 mt-2 lg:mt-4`}>
                         {currentAlunos.map(aluno => (
                             <StudentListItem
                                 key={aluno.id}
@@ -133,8 +150,12 @@ export const VerDetalhesTurma: FC = () => {
                                 onTogglePromoted={handleTogglePromoted}
                             />
                         ))}
+
+                        {studentsPerPage > currentAlunos.length && (
+                            <div className='flex-1'></div>
+                        )}
                     </div>
-                    <Pagination 
+                    <Pagination
                         currentPage={currentPage}
                         totalPages={totalPages}
                         onPageChange={handlePageChange}
