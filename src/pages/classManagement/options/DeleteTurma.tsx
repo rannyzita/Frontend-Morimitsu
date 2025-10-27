@@ -13,8 +13,6 @@ const turmasMock = [
     { id: 2, label: 'Turma Infantil', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=👧' },
     { id: 3, label: 'Turma Mista', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=🧑‍🤝‍🧑' },
 ];
-
-// --- COMPONENTE: Modal de Confirmação (AJUSTADO PARA RESPONSIVIDADE) ---
 interface ConfirmationModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -27,34 +25,27 @@ const ConfirmationModal: FC<ConfirmationModalProps> = ({ isOpen, onClose, onConf
     if (!isOpen) return null;
 
     return (
-        // Backdrop
         <div className='fixed inset-0
                         bg-black/40      
                         backdrop-blur-[4px]
                         flex items-center justify-center z-50'>
 
-            {/* Conteúdo do Modal */}
-            {/* Altura e largura ajustada para mobile (max-w-xs) e padding reduzido (p-6) */}
             <div className='bg-white text-black rounded-xl shadow-lg p-6 w-full max-w-xs sm:max-w-md mx-4'>
                 <div className='text-center'>
-                    {/* Título menor no mobile */}
                     <h2 className='text-xl font-bold mb-3 sm:text-2xl'>{title}</h2>
                     <div className='text-gray-600 text-sm mb-6'>
                         {children}
                     </div>
                 </div>
-                {/* Botões: Ocupam largura total (w-full) no mobile */}
                 <div className='flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-8'>
                     <button
                         onClick={onClose}
-                        // Botão Mobile: w-full e padding vertical maior (py-3)
                         className='bg-neutral-800 text-white font-semibold py-3 w-full rounded-lg hover:bg-neutral-700 transition-colors'
                     >
                         NÃO
                     </button>
                     <button
                         onClick={onConfirm}
-                        // Botão Mobile: w-full e padding vertical maior (py-3)
                         className='bg-[#690808] text-white font-semibold py-3 w-full rounded-lg hover:bg-red-800 transition-colors'
                     >
                         SIM
