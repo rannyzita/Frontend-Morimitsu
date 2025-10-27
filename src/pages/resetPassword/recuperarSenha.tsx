@@ -118,7 +118,6 @@ export const RecuperarSenha: FC = () => {
         }
     };
 
-
     // IMPLEMENTAÇÃO DA CHAMADA DE API PARA SOLICITAR CÓDIGO
     const handleSendEmailClick = async () => {
         if (!email) {

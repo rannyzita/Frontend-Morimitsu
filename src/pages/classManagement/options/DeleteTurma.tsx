@@ -72,7 +72,6 @@ export const DeleteTurma: FC = () => {
     const [feedback, setFeedback] = useState({ visible: false, message: '', type: 'success' as 'success' | 'error' });
 
     const pageTitle = 'EXCLUIR TURMAS';
-    // ÍCONE PRINCIPAL: Ajustado para responsividade
     const pageIcon = <img src={deleteClassIcon} alt='Excluir Turma' className='w-8 h-6 lg:w-12 lg:h-8' />;
 
     const handleOpenConfirmModal = (id: number) => {
@@ -86,7 +85,6 @@ export const DeleteTurma: FC = () => {
     const handleConfirmDelete = () => {
         if (turmaToDelete === null) return;
 
-        // Na aplicação real, a exclusão da turma seria feita aqui
         console.log(`Excluindo turma com ID: ${turmaToDelete}`);
         handleCloseConfirmModal();
         setFeedback({
@@ -94,10 +92,8 @@ export const DeleteTurma: FC = () => {
             message: 'Turma excluída com sucesso!',
             type: 'success'
         });
-        // Lógica: Remover a turma de turmasMock se fosse um estado real
     };
 
-    // Ajuste de Altura: Adicionando gap vertical para forçar o PageLayout a ser mais alto no mobile
     return (
         <Box
             component='div'
@@ -107,10 +103,8 @@ export const DeleteTurma: FC = () => {
                 title={pageTitle}
                 icon={pageIcon}
             >
-                {/* Contêiner principal com espaçamento otimizado para mobile */}
                 <div className='max-w-5xl mx-auto'>
                     <div className='flex flex-col gap-4 lg:gap-6'> 
-
                         <ActionSelectionScreen
                             instructionText='SELECIONE A TURMA QUE DESEJA EXCLUIR:'
                             items={turmasMock}
