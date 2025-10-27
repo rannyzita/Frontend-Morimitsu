@@ -3,8 +3,7 @@ import { Box } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCardGray';
 import { ActionSelectionScreen } from './ActionSelectScreen';
 import { FeedbackToast } from '../../../components/Feedback/Feedback';
-
-// Importe o seu ícone de exclusão
+import { AlertModal } from '../../../components/Alert/alert';
 import deleteClassIcon from '../assets/Delete-Class.png';
 
 // --- Dados Mock ---
@@ -13,7 +12,7 @@ const turmasMock = [
     { id: 2, label: 'Turma Infantil', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=👧' },
     { id: 3, label: 'Turma Mista', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=🧑‍🤝‍🧑' },
 ];
-interface ConfirmationModalProps {
+interface AlertModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm: () => void;
@@ -21,40 +20,40 @@ interface ConfirmationModalProps {
     children: ReactNode;
 }
 
-const ConfirmationModal: FC<ConfirmationModalProps> = ({ isOpen, onClose, onConfirm, title, children }) => {
-    if (!isOpen) return null;
+// const AlertModal: FC<AlertModalProps> = ({ isOpen, onClose, onConfirm, title, children }) => {
+//     if (!isOpen) return null;
 
-    return (
-        <div className='fixed inset-0
-                        bg-black/40      
-                        backdrop-blur-[4px]
-                        flex items-center justify-center z-50'>
+//     return (
+//         <div className='fixed inset-0
+//                         bg-black/40      
+//                         backdrop-blur-[4px]
+//                         flex items-center justify-center z-50'>
 
-            <div className='bg-white text-black rounded-xl shadow-lg p-6 w-full max-w-xs sm:max-w-md mx-4'>
-                <div className='text-center'>
-                    <h2 className='text-xl font-bold mb-3 sm:text-2xl'>{title}</h2>
-                    <div className='text-gray-600 text-sm mb-6'>
-                        {children}
-                    </div>
-                </div>
-                <div className='flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-8'>
-                    <button
-                        onClick={onClose}
-                        className='bg-neutral-800 text-white font-semibold py-3 w-full rounded-lg hover:bg-neutral-700 transition-colors'
-                    >
-                        NÃO
-                    </button>
-                    <button
-                        onClick={onConfirm}
-                        className='bg-[#690808] text-white font-semibold py-3 w-full rounded-lg hover:bg-red-800 transition-colors'
-                    >
-                        SIM
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
+//             <div className='bg-white text-black rounded-xl shadow-lg p-6 w-full max-w-xs sm:max-w-md mx-4'>
+//                 <div className='text-center'>
+//                     <h2 className='text-xl font-bold mb-3 sm:text-2xl'>{title}</h2>
+//                     <div className='text-gray-600 text-sm mb-6'>
+//                         {children}
+//                     </div>
+//                 </div>
+//                 <div className='flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-8'>
+//                     <button
+//                         onClick={onClose}
+//                         className='bg-neutral-800 text-white font-semibold py-3 w-full rounded-lg hover:bg-neutral-700 transition-colors'
+//                     >
+//                         NÃO
+//                     </button>
+//                     <button
+//                         onClick={onConfirm}
+//                         className='bg-[#690808] text-white font-semibold py-3 w-full rounded-lg hover:bg-red-800 transition-colors'
+//                     >
+//                         SIM
+//                     </button>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
 
 
 // --- COMPONENTE PRINCIPAL DA PÁGINA ---
@@ -105,7 +104,7 @@ export const DeleteTurma: FC = () => {
                     </div>
                 </div>
 
-                <ConfirmationModal
+                <AlertModal
                     isOpen={turmaToDelete !== null}
                     onClose={handleCloseConfirmModal}
                     onConfirm={handleConfirmDelete}
@@ -113,7 +112,17 @@ export const DeleteTurma: FC = () => {
                 >
                     <p>Ao confirmar, todos os dados da turma serão permanentemente removidos.</p>
                     <p className='mt-2 font-bold'>Esta ação não pode ser desfeita.</p>
-                </ConfirmationModal>
+                </AlertModal>
+
+                {/* <AlertModal
+                    isOpen={turmaToDelete !== null}
+                    onClose={handleCloseConfirmModal}
+                    onConfirm={handleConfirmDelete}
+                    title='Tem certeza que deseja excluir a Turma selecionada?'
+                >
+                    <p>Ao confirmar, todos os dados da turma serão permanentemente removidos.</p>
+                    <p className='mt-2 font-bold'>Esta ação não pode ser desfeita.</p>
+                </AlertModal> */}
 
                 {feedback.visible && (
                     <FeedbackToast

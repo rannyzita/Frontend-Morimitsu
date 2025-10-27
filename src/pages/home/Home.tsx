@@ -176,8 +176,6 @@ export const Home: FC = () => {
         return () => window.removeEventListener('resize', checkScroll);
     }, [birthdayMembers]); 
 
-    // className='w-full max-w-7xl mx-auto flex flex-col gap-10 py-6 px-8 md:px-10 lg:py-12 lg:px-20'
-
     return (
         <Box component='div' className='max-w-7xl mx-auto lg:max-w-full lg:mx-0 flex flex-col gap-10 py-6 px-8 lg:py-26 lg:px-30'> 
 

@@ -7,7 +7,7 @@ import { Bottombar } from './BottomBar';
 export const MainLayout: React.FC = () => {
     const location = useLocation();
     const isHomePage = location.pathname === '/home';
-    const [isSidebarOpen, setSidebarOpen] = useState(true);
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
 
     const toggleSidebar = () => {
         setSidebarOpen(!isSidebarOpen);
