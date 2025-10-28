@@ -1,64 +1,22 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-
-import api from '../../../API/api';
-
+import { Link as RouterLink } from 'react-router-dom';
 import { Box, TextField, Button, Link, InputAdornment, IconButton } from '@mui/material';
 import { Eye, EyeOff, Mail } from 'lucide-react';
-
-import { useAuth } from '../../contexts/AuthContext';
+import { useLogin } from '../../hooks/Uselogin';
 
 export const Login: FC = () => {
-    const navigate = useNavigate();
-    const { login } = useAuth();
+    const { handleLogin, loading, error } = useLogin();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
 
     const togglePassword = () => setShowPassword(!showPassword);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null);
-        setLoading(true);
-
-        try {
-            const response = await api.post('/auth/login', {
-                identifier: email,
-                password: password
-            });
-
-            const { token, user: userData } = response.data;
-            
-            if (token && userData?.id && userData.tipo_usuario) {
-
-                const userObject = {
-                    id: userData.id,
-                    name: userData.nome || 'Usuário',
-                    email: userData.email,
-                    cpf: userData.cpf || '',
-                    role: userData.tipo_usuario as ('COORDENADOR' | 'PROFESSOR'),
-                };
-
-                login(token, userObject);
-
-                navigate('/home');
-            } else {
-                throw new Error('Dados de autenticação incompletos recebidos da API.');
-            }
-
-        } catch (err: any) {
-            console.error('Falha no login:', err);
-            setError(err.response?.data?.message || 'Identificador ou senha inválidos. Tente novamente.');
-
-        } finally {
-            setLoading(false);
-        }
+        handleLogin(email, password);
     };
 
     return (
@@ -83,7 +41,7 @@ export const Login: FC = () => {
                             <h1 className='text-white text-5xl md:text-6xl font-normal tracking-wide'>SIGN IN</h1>
                         </div>
 
-                        <Box component='form' onSubmit={handleSubmit} className='flex-grow flex flex-col'>
+                        <Box component='form' onSubmit={onSubmit} className='flex-grow flex flex-col'>
                             <div className='space-y-6 mt-4'>
 
                                 <div>
@@ -161,10 +119,8 @@ export const Login: FC = () => {
                                 )}
                             </div>
 
-                            {/* Espaçador flexível */}
                             <div className='flex-grow mt-8'></div>
 
-                            {/* Botão de Entrar com estado de loading */}
                             <Button
                                 type='submit'
                                 variant='contained'

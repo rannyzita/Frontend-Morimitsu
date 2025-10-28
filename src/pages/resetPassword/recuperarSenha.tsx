@@ -9,6 +9,8 @@ import { Box, TextField, Button, Link, InputAdornment, IconButton, Alert, Circul
 
 import { Mail, Eye, EyeOff } from 'lucide-react';
 
+import { AlertMessage } from '../../components/FeedbackPassword/Feedback';
+
 type CodeInputProps = {
     value: string;
     index: number;
@@ -157,24 +159,36 @@ export const RecuperarSenha: FC = () => {
         } 
         
         else if (step === 'code') {
-            
             const fullCode = code.join('');
+    
             if (fullCode.length !== 5 || !/^\d{5}$/.test(fullCode)) {
                 setError('O código deve conter 5 dígitos.');
                 setLoading(false);
                 return;
             }
     
-            setStep('reset');
-            setLoading(false); 
-            
-            return; 
+            try {
+                const response = await api.post('/auth/verify-reset-code', {
+                    codigoRecuperacao: fullCode,
+                });
     
-        } 
+                if (response.data?.message === 'Código válido') {
+                    setStep('reset');
+                } else {
+                    setError('Código inválido ou expirado.');
+                }
+            } catch (err: any) {
+                console.error('Erro ao verificar código:', err);
+                const errorMessage = err.response?.data?.message || 'Código inválido ou erro de conexão.';
+                setError(errorMessage);
+            } finally {
+                setLoading(false);
+            }
+    
+            return;
+        }
         
         else if (step === 'reset') {
-            
-            // Validações de senha (front-end)
             if (newPassword !== confirmPassword) {
                 setError('As novas senhas não coincidem.');
                 setLoading(false);
@@ -185,20 +199,21 @@ export const RecuperarSenha: FC = () => {
                 setLoading(false);
                 return;
             }
-            
-            const resetToken = code.join(''); 
     
+            const resetToken = code.join(''); 
+        
             const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
     
             try {
                 await api.post('/auth/reset-password', {
-                    token: resetToken,
+                    codigoRecuperacao: resetToken, 
                     newPassword: newPassword,
+                    confirmPassword: confirmPassword, 
                 }, config);
     
                 setSuccessMessage('Senha atualizada com sucesso! Você será redirecionado.');
-            
-                setTimeout(() => navigate('/login'), 3000); 
+    
+                setTimeout(() => navigate('/login'), 3000);
     
             } catch (err: any) {
                 console.error('Erro ao resetar senha:', err);
@@ -225,107 +240,103 @@ export const RecuperarSenha: FC = () => {
                 <div className='flex-1 flex justify-center items-center h-full w-full p-8 md:p-12'>
                     <div className='w-full max-w-sm h-auto flex flex-col'>
                         
-                        {(error || successMessage) && (
-                            <Alert 
-                                severity={error ? 'error' : 'success'} 
-                                className={`!mb-4 ${successMessage ? '!bg-green-700/10 !text-green-400 !border !border-green-600' : ''}`}
-                                sx={{
-                                    '& .MuiAlert-root': {
-                                        display: 'flex',
-                                        flexDirection: successMessage ? 'row-reverse' : 'row',
-                                        justifyContent: successMessage ? 'flex-end' : 'flex-start', 
-                                        alignItems: 'center',
-                                    },
-                                    '& .MuiAlert-icon': { 
-                                        color: successMessage ? '#34D399 !important' : 'inherit',
-                                        marginRight: successMessage ? '0' : '8px', 
-                                        marginLeft: successMessage ? '8px' : '0', // Adiciona margem à esquerda do ícone (direita do texto)
-                                    },
-                                    textAlign: successMessage ? 'right' : 'left', // Alinha o texto da mensagem
-                                }}
-                            >
-                                {error || successMessage}
-                            </Alert>
-                        )}
-    
                         {/* ETAPA 1: PEDIR O E-MAIL (CORRIGIDA) */}
                         {step === 'email' && (
-                            <Box component="form" onSubmit={handleContinueSubmit} className='flex-grow flex flex-col'>
-                                
+                            <Box component='form' onSubmit={handleContinueSubmit} className='flex-grow flex flex-col'>
                                 <div className='mb-6 self-center'>
-                                    <h1 className='text-white text-3xl sm:text-5xl font-normal tracking-wide sm:whitespace-nowrap border-b-2 border-[#690808] pb-2'>RECUPERAR SENHA</h1>
+                                    <h1 className='text-white text-3xl sm:text-5xl font-normal tracking-wide sm:whitespace-nowrap border-b-2 border-[#690808] pb-2'>
+                                        RECUPERAR SENHA
+                                    </h1>
                                 </div>
-                                
+
                                 <div className='space-y-6'>
                                     <p className='text-center text-white leading-relaxed text-[13px] md:text-base'>
-                                        Para iniciar a recuperação, digite seu e-mail de cadastro para que possamos enviar o código de 5 dígitos. Lembre-se de verificar sua caixa de spam caso não receba a mensagem em alguns minutos.
+                                        Para iniciar a recuperação, digite seu e-mail de cadastro para que possamos enviar o código de 5 dígitos.
+                                        Lembre-se de verificar sua caixa de spam caso não receba a mensagem em alguns minutos.
                                     </p>
-                                    
+
                                     <div>
-                                        <label htmlFor='email' className='text-[#9E9E9E] text-base md:text-lg mb-2 block'>E-mail:</label>
-                                        <TextField 
-                                            required fullWidth id='email' variant="outlined" 
-                                            value={email} onChange={(e) => setEmail(e.target.value)}
-                                            placeholder="Digite seu e-mail"
-                                            className="[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]"
-                                            sx={{
+                                        <label htmlFor='email' className='text-[#9E9E9E] text-base md:text-lg mb-2 block'>
+                                        E-mail:
+                                        </label>
+                                        <TextField
+                                            required
+                                            fullWidth
+                                            id='email'
+                                            variant='outlined'
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            placeholder='Digite seu e-mail'
+                                            className='[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
+                                        sx={{
                                                 '& .MuiOutlinedInput-root': {
-                                                    '& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active': {
-                                                        transition: 'background-color 5000s ease-in-out 0s',
-                                                        boxShadow: '0 0 0 30px #000000 inset !important',
-                                                        WebkitTextFillColor: '#757575 !important',
-                                                    },
+                                                '& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active': {
+                                                    transition: 'background-color 5000s ease-in-out 0s',
+                                                    boxShadow: '0 0 0 30px #000000 inset !important',
+                                                    WebkitTextFillColor: '#757575 !important',
                                                 },
-                                            }}
+                                            },
+                                        }}
                                         />
                                     </div>
-                                    
-                                    {/* BOTÃO PRINCIPAL: Envia o e-mail e mostra o loading */}
-                                    <Button 
-                                        onClick={handleSendEmailClick} 
-                                        type='button' // Essencial: Impede submit/reload
-                                        variant="contained" 
-                                        className='!w-full !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !text-base md:!text-lg !normal-case'
-                                        disabled={loading || !email}
-                                    >
-                                        {loading ? <CircularProgress size={24} color="inherit" /> : 'Enviar E-mail'}
-                                    </Button>
-                                    
-                                    {/* FEEDBACK ESPECÍFICO (Mensagem verde conforme a imagem) */}
-                                    {successMessage && !error && (
-                                        <p className='text-green-500 text-sm text-center'>
-                                            {successMessage}
-                                        </p>
-                                    )}
-                                    
+
+                                    {/* BOTÃO ENVIAR E-MAIL */}
+                                    <div className='relative flex flex-col items-center w-full'>
+                                        <Button
+                                            onClick={handleSendEmailClick}
+                                            type='button'
+                                            variant='contained'
+                                            className='!w-full !py-[10px] md:!py-[12px] !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !text-base md:!text-lg !normal-case'
+                                            disabled={loading || !email}
+                                            sx={{
+                                                minHeight: '52px',
+                                            }}
+                                        >
+                                            {loading ? <CircularProgress size={22} color='inherit' /> : 'Enviar Código'}
+                                        </Button>
+
+                                        {/* ALERTA FIXO LOGO ABAIXO DO BOTÃO */}
+                                        {(error || successMessage) && (
+                                            <div className='absolute top-full w-full flex justify-center'>
+                                                <div className='w-full max-w-[500px]'>
+                                                    <AlertMessage error={error} successMessage={successMessage} />
+                                                </div>
+                                            </div>
+                                        )}
+                                        </div>
                                 </div>
-                                
+
                                 <div className='flex-grow mt-8'></div>
-                                
+
                                 <div className='flex items-center justify-between mt-12'>
-                                    <Link component={RouterLink} to='/login' className='!text-white !font-normal hover:!underline !pl-4'>Voltar</Link>
-                                    
-                                    {/* BOTÃO SECUNDÁRIO/FLUXO: Avança de etapa */}
-                                    <Button 
+                                    <Link
+                                        component={RouterLink}
+                                        to='/login'
+                                        className='!text-white !font-normal hover:!underline !pl-4'
+                                    >
+                                        Voltar
+                                    </Link>
+
+                                    {/* BOTÃO CONTINUAR */}
+                                    <Button
                                         onClick={() => {
-                                            if (successMessage && !error) { 
-                                                setStep('code'); 
+                                            if (successMessage && !error) {
+                                                setStep('code');
                                             } else {
-                                                handleSendEmailClick(); 
+                                                setError('Envie o código primeiro!');
                                             }
                                         }}
-                                        type='button' 
-                                        variant="contained" 
-                                        className='!px-12 !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800'
-                                        // Habilitado apenas se o e-mail foi enviado com sucesso e não está carregando
-                                        disabled={loading || !email || !(!!successMessage && !error)} 
+                                        type='button'
+                                        variant='contained'
+                                        className='!px-12 !py-[10px] md:!py-[12px] !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !normal-case'
+                                        disabled={loading}
                                     >
-                                        {'Continuar'}
+                                        Continuar
                                     </Button>
                                 </div>
                             </Box>
                         )}
-    
+
                         {/* ETAPA 2: INSERIR O CÓDIGO (OK) */}
                         {step === 'code' && (
                             <Box component='form' onSubmit={handleContinueSubmit} className='flex-grow flex flex-col'>
