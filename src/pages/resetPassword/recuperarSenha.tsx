@@ -106,7 +106,7 @@ export default function PasswordResetPage() {
                 </div>
 
                 {/* Formulário */}
-                <div className='flex-1 flex justify-center items-center h-full w-full p-8 md:p-12'>
+                <div className='flex-1 flex justify-center items-center w-full min-h-[600px] p-8 md:p-12'>
                     <div className='w-full max-w-sm h-auto flex flex-col'>
 
                         {/* ETAPA 1: PEDIR O E-MAIL */}
