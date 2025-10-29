@@ -4,7 +4,7 @@ import { MainLayout } from './components/layout/MainLayout'
 import { AuthProvider } from './contexts/AuthContext'
 
 import { Login } from './pages/login/Login'
-import { RecuperarSenha } from './pages/resetPassword/recuperarSenha'
+import  RecuperarSenha from './pages/resetPassword/recuperarSenha'
 import { Home } from './pages/home/Home'
 
 // Paginas de turma

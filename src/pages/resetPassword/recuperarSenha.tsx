@@ -6,7 +6,6 @@ import { Eye, EyeOff } from 'lucide-react';
 import { usePasswordReset } from '../../hooks/UsePasswordReset';
 import { AlertMessage } from '../../components/FeedbackPassword/Feedback';
 
-// Componente de input para código
 type CodeInputProps = InputHTMLAttributes<HTMLInputElement> & {
     index: number;
     value: string;
