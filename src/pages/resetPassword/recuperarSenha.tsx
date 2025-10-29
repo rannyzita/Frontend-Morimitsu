@@ -49,6 +49,8 @@ export default function PasswordResetPage() {
         handleResendCode,
         handleVerifyCode,
         handleResetPassword,
+        codeSent,
+        setCodeSent,
         inputRefs,
     } = usePasswordReset();
 
@@ -56,16 +58,38 @@ export default function PasswordResetPage() {
     const [showPasswordConfirmer, setShowPasswordConfirmer] = useState(false);
     const [showFirstStepMessage, setShowFirstStepMessage] = useState(false);
 
+    const [emailError, setEmailError] = useState(false);
+
     useEffect(() => {
         if (showFirstStepMessage && email) {
             setShowFirstStepMessage(false);
+        }
+        if (emailError && email) {
+            setEmailError(false);
         }
     }, [email]);
     
     const togglePassword = () => setShowPassword(!showPassword);
     const togglePasswordConfirmer = () => setShowPasswordConfirmer(!showPasswordConfirmer);
 
-    // Navegação automática no código
+    const handleSubmitEmail = () => {
+        if (!email) {
+            setEmailError(true); 
+        } else {
+            setEmailError(false); 
+            handleSendEmail();  
+        }
+    };
+
+    const handleContinueCode = () => {
+        if (!codeSent) {
+            setShowFirstStepMessage(true);
+            return;
+        }
+    
+        setStep('code');
+    };
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
         if (e.key === 'Backspace' && !code[index] && index > 0) {
             inputRefs.current[index - 1]?.focus();
@@ -125,23 +149,27 @@ export default function PasswordResetPage() {
 
                                     <div className='relative flex flex-col items-center w-full'>
                                         <Button
-                                            onClick={handleSendEmail}
+                                            onClick={handleSubmitEmail}
                                             type='button'
                                             variant='contained'
                                             className='!w-full !py-[10px] md:!py-[12px] !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !text-base md:!text-lg !normal-case'
-                                            disabled={loading || !email}
+                                            disabled={loading} 
                                             sx={{ minHeight: '52px' }}
                                         >
-                                        {loading ? <CircularProgress size={22} color='inherit' /> : 'Enviar Código'}
+                                            {loading ? <CircularProgress size={22} color='inherit' /> : 'Enviar Código'}
                                         </Button>
 
-                                        {(error || successMessage) && (
-                                            <div className='absolute top-full w-full flex justify-center mt-2'>
-                                                <div className='w-full max-w-[500px]'>
-                                                <AlertMessage 
-                                                    error={error} 
-                                                    successMessage={successMessage} 
-                                                />
+                                        {(error || successMessage || emailError || showFirstStepMessage) && (
+                                            <div className='absolute top-full !right-0 mt-2 flex justify-end'>
+                                                <div className='max-w-[500px] w-fit'>
+                                                    <AlertMessage 
+                                                        error={
+                                                            error || 
+                                                            (emailError ? 'Insira um e-mail!' : null) ||
+                                                            (showFirstStepMessage ? 'Envie o código primeiro!' : null)
+                                                        }
+                                                        successMessage={successMessage} 
+                                                    />
                                                 </div>
                                             </div>
                                         )}
@@ -150,14 +178,14 @@ export default function PasswordResetPage() {
 
                                 <div className='flex-grow mt-8'></div>
 
-                                <div className='flex items-center justify-between mt-12'>
+                                <div className='flex items-center justify-between mt-16'>
                                     <Link component={RouterLink} to='/login' className='!text-white !font-normal hover:!underline !pl-4'>
                                         Voltar
                                     </Link>
 
-                                    <div className='relative flex flex-col items-center w-full'>
+                                    <div className='relative flex flex-col items-end'>
                                         <Button
-                                            onClick={() => setShowFirstStepMessage(true)}
+                                            onClick={handleContinueCode}
                                             type='button'
                                             variant='contained'
                                             className='!px-12 !py-[10px] md:!py-[12px] !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !normal-case'
@@ -165,24 +193,10 @@ export default function PasswordResetPage() {
                                         >
                                             Continuar
                                         </Button>
-
-                                        {/* ALERTA ABAIXO DO BOTÃO */}
-                                        {(error || successMessage || showFirstStepMessage) && (
-                                            <div className='absolute top-full w-full flex justify-center mt-2'>
-                                                <div className='w-full max-w-[500px]'>
-                                                <AlertMessage 
-                                                    error={error || (showFirstStepMessage ? 'Envie o código primeiro!' : null)}
-                                                    
-                                                    successMessage={successMessage} 
-                                                />
-                                                </div>
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
                             </Box>
                         )}
-
 
                         {/* ETAPA 2: INSERIR O CÓDIGO */}
                         {step === 'code' && (
@@ -223,7 +237,7 @@ export default function PasswordResetPage() {
 
                             <div className='flex-grow mt-18'></div>
 
-                            <div className='flex items-center justify-between mt-8'>
+                            <div className='flex items-center justify-between mt-16'>
                             <Button onClick={() => setStep('email')} className='!text-white !font-normal hover:!underline !pl-4 !bg-transparent !normal-case'>
                                 Voltar
                             </Button>
@@ -303,7 +317,7 @@ export default function PasswordResetPage() {
 
                             <div className='flex-grow mt-8'></div>
 
-                            <div className='flex items-center justify-between mt-8'>
+                            <div className='flex items-center justify-between mt-16'>
                             <Button onClick={() => setStep('code')} className='!text-white !font-normal hover:!underline !pl-4 !bg-transparent !normal-case'>Voltar</Button>
                             <Button
                                 type='submit'

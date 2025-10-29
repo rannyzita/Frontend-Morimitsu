@@ -19,6 +19,7 @@ export function usePasswordReset() {
     const [code, setCode] = useState<string[]>(Array(5).fill(''));
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [codeSent, setCodeSent] = useState(false);
 
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -27,15 +28,13 @@ export function usePasswordReset() {
 
     const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
-    // Foco automático no próximo campo de código
     useEffect(() => {
         const nextEmptyIndex = code.findIndex((digit) => digit === '');
         if (nextEmptyIndex !== -1 && step === 'code') {
-        inputRefs.current[nextEmptyIndex]?.focus();
+            inputRefs.current[nextEmptyIndex]?.focus();
         }
     }, [code, step]);
 
-    // Limpa mensagens ao mudar de etapa
     useEffect(() => {
         setError(null);
         setSuccessMessage(null);
@@ -53,8 +52,8 @@ export function usePasswordReset() {
 
         try {
             await requestPasswordReset(email, token as any);
-            setSuccessMessage('Código enviado! Verifique seu e-mail.');
-            setStep('code');
+            setSuccessMessage('Código enviado! Verifique seu e-mail!');
+            setCodeSent(true); 
         } catch (err: any) {
             console.error('Erro ao solicitar código:', err);
             setError(err.response?.data?.message || 'E-mail não encontrado ou erro no servidor.');
@@ -152,5 +151,7 @@ export function usePasswordReset() {
         handleResetPassword,
         setStep,
         inputRefs,
+        codeSent,
+        setCodeSent
     };
 }

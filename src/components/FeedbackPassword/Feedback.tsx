@@ -12,25 +12,30 @@ export const AlertMessage: FC<AlertMessageProps> = ({
     successMessage,
     className = '',
 }) => {
-
     if (!error && !successMessage) return null;
+
+    const isError = Boolean(error);
 
     return (
         <Alert
-            severity={error ? 'error' : 'success'}
-            className={`!mt-4 ${successMessage ? '!bg-green-700/10 !text-green-400 !border !border-green-600' : ''} ${className}`}
+            severity={isError ? 'error' : 'success'}
+            icon={false}
+            className={`!mt-4 !bg-transparent !shadow-none !border-none ${className}`}
             sx={{
+                backgroundColor: 'transparent !important',
+                color: isError ? '#ef4444' : '#22c55e', 
+                textDecoration: 'underline',
+                textDecorationColor: isError ? '#ef4444' : '#22c55e',
+                textUnderlineOffset: '3px',
+                textDecorationThickness: '1.5px',
+                border: 'none',
                 display: 'flex',
-                flexDirection: successMessage ? 'row-reverse' : 'row',
-                justifyContent: successMessage ? 'flex-end' : 'flex-start',
                 alignItems: 'center',
+                justifyContent: successMessage ? 'flex-end' : 'flex-start',
                 '& .MuiAlert-icon': {
-                color: successMessage ? '#34D399 !important' : 'inherit',
-                marginRight: successMessage ? '0' : '8px',
-                marginLeft: successMessage ? '8px' : '0',
+                    display: 'none',
                 },
-                textAlign: successMessage ? 'right' : 'left',
-        }}
+            }}
         >
             {error || successMessage}
         </Alert>
