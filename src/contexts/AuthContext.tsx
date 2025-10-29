@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import api from '../../API/api'; 
 
+// --- Interfaces (sem mudança) ---
 interface UserData {
     id: number;
     name: string;
@@ -24,11 +25,10 @@ interface AuthContextType {
     isLoading: boolean; 
 }
 
-// Criação do Contexto
+// --- Contexto (sem mudança) ---
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// --- HOOK DE CONSUMO ---
-
+// --- Hook useAuth (sem mudança) ---
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {
@@ -37,52 +37,76 @@ export const useAuth = () => {
     return context;
 };
 
-// --- PROVIDER ---
+// --- PROVIDER (COM AS MUDANÇAS) ---
 
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useState<UserData | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true); // Começa true
 
     const isAuthenticated = useMemo(() => !!token && !!user, [token, user]);
     
+    // --- MUDANÇA AQUI ---
     const login = useCallback((newToken: string, userData: UserData) => {
-        // Armazena o token e os dados do usuário
+        // Armazena AMBOS no localStorage
         localStorage.setItem('token', newToken);
+        localStorage.setItem('user', JSON.stringify(userData)); // Salva o usuário como string
+        
+        // Define o token no header da API para requisições futuras
+        api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+        
+        // Atualiza os estados
         setToken(newToken);
         setUser(userData);
-        
     }, []);
 
+    // --- MUDANÇA AQUI ---
     const logout = useCallback(async () => {
         
         if (token) {
             try {
                 await api.post('/auth/logout'); 
                 console.log("Logout bem-sucedido na API.");
-
             } catch (error) {
                 console.error("Erro durante o logout na API, mas o token será limpo localmente:", error);
             }
         }
         
+        // Limpa AMBOS do localStorage
         localStorage.removeItem('token');
+        localStorage.removeItem('user'); // Remove o usuário
+        
+        // Limpa o header da API
+        delete api.defaults.headers.common['Authorization'];
+
+        // Limpa os estados
         setUser(null);
         setToken(null);
     }, [token]);
 
+    // --- MUDANÇA AQUI ---
     useEffect(() => {
+        // Ao carregar a app, tenta pegar ambos do localStorage
         const storedToken = localStorage.getItem('token');
+        const storedUser = localStorage.getItem('user'); // Pega o usuário
         
-        if (storedToken) {
+        if (storedToken && storedUser) {
+            // Se ambos existem, seta o estado com eles
+            const userData: UserData = JSON.parse(storedUser); // Converte string de volta para objeto
+            
             setToken(storedToken);
+            setUser(userData);
+            
+            // Importante: Não se esqueça de reconfigurar o header da API!
+            api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
         }
         
+        // Termina o loading
         setIsLoading(false);
         
-    }, []);
+    }, []); // Array vazio, roda apenas uma vez no carregamento
 
-    // O valor do contexto
+    // O valor do contexto (sem mudança)
     const contextValue = useMemo(() => ({
         user,
         token,

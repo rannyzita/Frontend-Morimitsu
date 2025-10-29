@@ -20,7 +20,7 @@ const CodeInput = forwardRef<HTMLInputElement, CodeInputProps>(({ index, value, 
             type="text"
             inputMode="numeric"
             maxLength={1}
-            className="w-12 h-12 md:w-14 md:h-14 text-center text-white text-xl md:text-2xl rounded-lg bg-[#1e1e1e] border border-[#757575] focus:outline-none"
+            className="w-12 h-12 md:w-14 md:h-14 text-center text-black text-xl md:text-2xl rounded-lg bg-white border border-[#757575] focus:outline-none"
             value={value}
             onChange={(e) => onChange(index, e.target.value)}
             onKeyDown={(e) => onKeyDown(e, index)}
@@ -28,6 +28,24 @@ const CodeInput = forwardRef<HTMLInputElement, CodeInputProps>(({ index, value, 
     );
 });
 CodeInput.displayName = 'CodeInput';
+
+const maskEmail = (email: string): string => {
+    if (!email) return ''; 
+    
+    const parts = email.split('@');
+    if (parts.length !== 2) return email; 
+
+    const [username, domain] = parts;
+
+    let maskedUsername;
+    if (username.length <= 3) {
+        maskedUsername = username.charAt(0) + '***';
+    } else {
+        maskedUsername = username.substring(0, 3) + '***';
+    }
+    
+    return `${maskedUsername}@${domain}`;
+};
 
 export default function PasswordResetPage() {
     const {
@@ -107,13 +125,12 @@ export default function PasswordResetPage() {
 
                 {/* Formulário */}
                 <div className='flex-1 flex justify-center items-center w-full min-h-[600px] p-8 md:p-12'>
-                    <div className='w-full max-w-sm h-auto flex flex-col'>
-
+                    <div className='w-full max-w-sm h-full flex flex-col'>
                         {/* ETAPA 1: PEDIR O E-MAIL */}
                         {step === 'email' && (
-                            <Box component='form' onSubmit={(e) => e.preventDefault()} className='flex-grow flex flex-col'>
+                            <Box component='form' onSubmit={(e) => e.preventDefault()} className='flex-grow flex flex-col justify-between relative pb-4'>
                                 <div className='mb-6 self-center'>
-                                    <h1 className='text-white text-3xl sm:text-5xl font-normal tracking-wide sm:whitespace-nowrap border-b-2 border-[#690808] pb-2'>
+                                    <h1 className='text-white text-[22px] sm:text-5xl font-normal tracking-wide sm:whitespace-nowrap border-b-2 border-[#690808] pb-2'>
                                         RECUPERAR SENHA
                                     </h1>
                                 </div>
@@ -124,7 +141,7 @@ export default function PasswordResetPage() {
                                         Lembre-se de verificar sua caixa de spam caso não receba a mensagem em alguns minutos.
                                     </p>
 
-                                    <div>
+                                    <div className='my-8'>
                                         <label htmlFor='email' className='text-[#9E9E9E] text-base md:text-lg mb-2 block'>E-mail:</label>
                                         <TextField
                                             required
@@ -136,12 +153,12 @@ export default function PasswordResetPage() {
                                             placeholder='Digite seu e-mail'
                                             className='[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
                                         sx={{
-                                            '& .MuiOutlinedInput-root': {
-                                            '& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active': {
-                                                transition: 'background-color 5000s ease-in-out 0s',
-                                                boxShadow: '0 0 0 30px #000000 inset !important',
-                                                WebkitTextFillColor: '#757575 !important',
-                                            },
+                                                '& .MuiOutlinedInput-root': {
+                                                '& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active': {
+                                                    transition: 'background-color 5000s ease-in-out 0s',
+                                                    boxShadow: '0 0 0 30px #000000 inset !important',
+                                                    WebkitTextFillColor: '#757575 !important',
+                                                },
                                             },
                                         }}
                                         />
@@ -176,163 +193,167 @@ export default function PasswordResetPage() {
                                     </div>
                                 </div>
 
-                                <div className='flex-grow mt-8'></div>
+                                {/* <div className='flex-grow'></div> */}
 
-                                <div className='flex items-center justify-between mt-16'>
-                                    <Link component={RouterLink} to='/login' className='!text-white !font-normal hover:!underline !pl-4'>
+                                <div className='flex items-center justify-between mt-32'>
+                                    <Button 
+                                        component={RouterLink}  
+                                        to='/login' 
+                                        className='!text-white !font-normal hover:!underline !pl-4 !bg-transparent !normal-case'
+                                    >
                                         Voltar
-                                    </Link>
-
-                                    <div className='relative flex flex-col items-end'>
-                                        <Button
-                                            onClick={handleContinueCode}
-                                            type='button'
-                                            variant='contained'
-                                            className='!px-12 !py-[10px] md:!py-[12px] !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !normal-case'
-                                            disabled={loading}
-                                        >
-                                            Continuar
-                                        </Button>
-                                    </div>
+                                    </Button>
+                                    
+                                    <Button
+                                        onClick={handleContinueCode}
+                                        type='button'
+                                        variant='contained'
+                                        className='!px-12 !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !normal-case'
+                                        disabled={loading}
+                                    >
+                                        Continuar
+                                    </Button>
                                 </div>
                             </Box>
                         )}
 
                         {/* ETAPA 2: INSERIR O CÓDIGO */}
                         {step === 'code' && (
-                        <Box component='form' onSubmit={(e) => { e.preventDefault(); handleVerifyCode(); }} className='flex-grow flex flex-col'>
-                            <div className='mb-10 self-center'>
-                            <h1 className='text-white text-2xl md:text-5xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>
-                                CÓDIGO DE RECUPERAÇÃO
-                            </h1>
-                            </div>
+                            <Box component='form' onSubmit={(e) => { e.preventDefault(); handleVerifyCode(); }} className='flex-grow flex flex-col justify-between relative pb-4'>
+                                <div className='mb-6 self-center'>
+                                    <h1 className='text-white text-[22px] sm:text-5xl font-normal tracking-wide sm:whitespace-nowrap border-b-2 border-[#690808] pb-2'>
+                                        CÓDIGO DE RECUPERAÇÃO
+                                    </h1>
+                                </div>
 
-                            <div className='space-y-6'>
-                            <p className='text-center text-white leading-relaxed text-[13px] md:text-base'>
-                                Agora, insira o código que enviamos para o seu e-mail **{email}**. Caso não tenha chegado, você pode reenviar o código abaixo.
-                            </p>
+                                <div className='space-y-6'>
+                                    <p className='text-center text-white leading-relaxed text-[13px] md:text-base'>
+                                        Agora, insira o código que enviamos para o seu e-mail {maskEmail(email)}. Caso não tenha chegado, você pode reenviar o código abaixo.
+                                    </p>
 
-                            <div className='flex justify-between space-x-2 my-8'>
-                                {code.map((digit, index) => (
-                                <CodeInput
-                                    key={index}
-                                    index={index}
-                                    value={digit}
-                                    onChange={handleCodeChange as any}
-                                    ref={(el) => { inputRefs.current[index] = el; }}
-                                    onKeyDown={(e) => handleKeyDown(e, index)}
-                                />
-                                ))}
-                            </div>
+                                    <div className='flex justify-between space-x-2 my-8'>
+                                        {code.map((digit, index) => (
+                                            <CodeInput
+                                                key={index}
+                                                index={index}
+                                                value={digit}
+                                                onChange={handleCodeChange as any}
+                                                ref={(el) => { inputRefs.current[index] = el; }}
+                                                onKeyDown={(e) => handleKeyDown(e, index)}
+                                            />
+                                        ))}
+                                    </div>
 
-                            <Button
-                                onClick={handleResendCode}
-                                disabled={loadingResend}
-                                variant='contained'
-                                className='!w-full !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !text-base md:!text-lg !normal-case disabled:!bg-red-900/50'
-                            >
-                                {loadingResend ? <CircularProgress size={24} color='inherit' /> : 'Reenviar Código'}
-                            </Button>
-                            </div>
+                                    <Button
+                                        onClick={handleResendCode}
+                                        disabled={loadingResend}
+                                        variant='contained'
+                                        className='!w-full !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !text-base md:!text-lg !normal-case disabled:!bg-red-900/50'
+                                    >
+                                        {loadingResend ? <CircularProgress size={24} color='inherit' /> : 'Reenviar Código'}
+                                    </Button>
+                                </div>
 
-                            <div className='flex-grow mt-18'></div>
+                                {/* <div className='flex-grow'></div> */}
 
-                            <div className='flex items-center justify-between mt-16'>
-                            <Button onClick={() => setStep('email')} className='!text-white !font-normal hover:!underline !pl-4 !bg-transparent !normal-case'>
-                                Voltar
-                            </Button>
-                            <Button
-                                type='submit'
-                                variant='contained'
-                                className='!px-12 !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800'
-                                disabled={loading || code.join('').length !== 5}
-                            >
-                                {loading ? <CircularProgress size={24} color='inherit' /> : 'Continuar'}
-                            </Button>
-                            </div>
-                        </Box>
+                                <div className='flex items-center justify-between mt-32'>
+                                    <Button onClick={() => setStep('email')} className='!text-white !font-normal hover:!underline !pl-4 !bg-transparent !normal-case'>
+                                        Voltar
+                                    </Button>
+
+                                    <Button
+                                        type='submit'
+                                        variant='contained'
+                                        className='!px-12 !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !normal-case'
+                                        disabled={loading || code.join('').length !== 5}
+                                    >
+                                        {loading ? <CircularProgress size={24} color='inherit' /> : 'Continuar'}
+                                    </Button>
+                                </div>
+                            </Box>
                         )}
 
                         {/* ETAPA 3: NOVA SENHA */}
                         {step === 'reset' && (
-                        <Box component='form' onSubmit={(e) => { e.preventDefault(); handleResetPassword(); }} className='flex-grow flex flex-col'>
-                            <div className='mb-10 self-center'>
-                            <h1 className='text-white text-4xl md:text-5xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>
-                                ATUALIZAR SENHA
-                            </h1>
-                            </div>
+                            <Box component='form' onSubmit={(e) => { e.preventDefault(); handleResetPassword(); }} className='flex-grow flex flex-col justify-between relative pb-4'>
+                                <div className='mb-6 self-center'>
+                                    <h1 className='text-white text-[22px] sm:text-5xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2'>
+                                        ATUALIZAR SENHA
+                                    </h1>
+                                </div>
 
-                            <div className='space-y-6'>
-                            <p className='text-white leading-relaxed text-[13px] md:text-base'>
-                                Sua nova senha precisa ter:<br />
-                                • No mínimo 8 caracteres<br />
-                                • Pelo menos uma letra maiúscula (A-Z)<br />
-                                • Pelo menos um número (0-9)
-                            </p>
+                                <div className='space-y-6'>
 
-                            <div>
-                                <label htmlFor='password' className='text-[#9E9E9E] text-base md:text-lg mb-2 block'>Insira a nova senha:</label>
-                                <TextField
-                                required
-                                fullWidth
-                                id='password'
-                                variant='outlined'
-                                placeholder='Digite sua nova senha'
-                                type={showPassword ? 'text' : 'password'}
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
-                                className='[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
-                                InputProps={{
-                                    endAdornment: <InputAdornment position='end'>
-                                    <IconButton onClick={togglePassword} edge='end' className='!text-[#9E9E9E]'>
-                                        {showPassword ? <Eye size={22} /> : <EyeOff size={22} />}
-                                    </IconButton>
-                                    </InputAdornment>
-                                }}
-                                />
-                            </div>
+                                <p className='text-white leading-relaxed text-[13px] md:text-base'>
+                                    Sua nova senha precisa ter:<br />
+                                    • No mínimo 8 caracteres<br />
+                                    • Pelo menos uma letra maiúscula (A-Z)<br />
+                                    • Pelo menos um número (0-9)
+                                </p>
 
-                            <div>
-                                <label htmlFor='passwordConfirmer' className='text-[#9E9E9E] text-base md:text-lg mb-2 block'>Confirme a senha:</label>
-                                <TextField
-                                required
-                                fullWidth
-                                id='passwordConfirmer'
-                                variant='outlined'
-                                placeholder='Confirme sua nova senha'
-                                type={showPasswordConfirmer ? 'text' : 'password'}
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                className='[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
-                                InputProps={{
-                                    endAdornment: <InputAdornment position='end'>
-                                    <IconButton onClick={togglePasswordConfirmer} edge='end' className='!text-[#9E9E9E]'>
-                                        {showPasswordConfirmer ? <Eye size={22} /> : <EyeOff size={22} />}
-                                    </IconButton>
-                                    </InputAdornment>
-                                }}
-                                />
-                            </div>
-                            </div>
+                                <div>
+                                    <label htmlFor='password' className='text-[#9E9E9E] text-base md:text-lg mb-2 block'>Insira a nova senha:</label>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        id='password'
+                                        variant='outlined'
+                                        placeholder='Digite sua nova senha'
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        className='[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position='end'>
+                                                <IconButton onClick={togglePassword} edge='end' className='!text-[#9E9E9E]'>
+                                                    {showPassword ? <Eye size={22} /> : <EyeOff size={22} />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }}
+                                    />
+                                </div>
 
-                            <div className='flex-grow mt-8'></div>
+                                    <div>
+                                        <label htmlFor='passwordConfirmer' className='text-[#9E9E9E] text-base md:text-lg mb-2 block'>Confirme a senha:</label>
+                                        <TextField
+                                            required
+                                            fullWidth
+                                            id='passwordConfirmer'
+                                            variant='outlined'
+                                            placeholder='Confirme sua nova senha'
+                                            type={showPasswordConfirmer ? 'text' : 'password'}
+                                            value={confirmPassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                            className='[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
+                                            InputProps={{
+                                                endAdornment: <InputAdornment position='end'>
+                                                <IconButton onClick={togglePasswordConfirmer} edge='end' className='!text-[#9E9E9E]'>
+                                                    {showPasswordConfirmer ? <Eye size={22} /> : <EyeOff size={22} />}
+                                                </IconButton>
+                                                </InputAdornment>
+                                            }}
+                                        />
+                                    </div>
+                                </div>
 
-                            <div className='flex items-center justify-between mt-16'>
-                            <Button onClick={() => setStep('code')} className='!text-white !font-normal hover:!underline !pl-4 !bg-transparent !normal-case'>Voltar</Button>
-                            <Button
-                                type='submit'
-                                variant='contained'
-                                className='!px-12 !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800'
-                                disabled={loading || !newPassword || newPassword !== confirmPassword}
-                            >
-                                {loading ? <CircularProgress size={24} color='inherit' /> : 'Confirmar'}
-                            </Button>
-                            </div>
-                        </Box>
+                                {/* <div className='flex-grow'></div> */}
+
+                                <div className='flex items-center justify-between mt-32'>
+                                    <Button onClick={() => setStep('code')} className='!text-white !font-normal hover:!underline !pl-4 !bg-transparent !normal-case'>Voltar</Button>
+
+                                    <Button
+                                        type='submit'
+                                        variant='contained'
+                                        className='!px-12 !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !normal-case'
+                                        disabled={loading || !newPassword || newPassword !== confirmPassword}
+                                    >
+                                        {loading ? <CircularProgress size={24} color='inherit' /> : 'Confirmar'}
+                                    </Button>
+                                </div>
+                            </Box>
                         )}
                     </div>
                 </div>
-
             </div>
         </div>
     );

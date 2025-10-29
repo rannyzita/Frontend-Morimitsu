@@ -36,7 +36,6 @@ export const AppRoutes = () => {
 
                         {/* Rotas de turma */}
                         <Route path='/gerenciamento-turmas' element={<GerenciamentoTurmas />} />
-                        
                         <Route path='/gerenciamento-turmas/criar-turma' element={<CreateTurma />} />
                         <Route path='/gerenciamento-turmas/deletar-turma' element={<DeleteTurma />} />
                         <Route path='/gerenciamento-turmas/editar-turma' element={<EditTurma />} />

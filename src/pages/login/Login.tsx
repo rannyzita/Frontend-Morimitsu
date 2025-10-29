@@ -43,16 +43,15 @@ export const Login: FC = () => {
 
                         <Box component='form' onSubmit={onSubmit} className='flex-grow flex flex-col'>
                             <div className='space-y-6 mt-4'>
-
                                 <div>
-                                    <label htmlFor='email' className='text-[#757575] text-lg mb-2 block'>E-mail:</label>
+                                    <label htmlFor='email' className='text-[#757575] text-lg mb-2 block'>Usuário:</label>
                                     <TextField
                                         required
                                         fullWidth
                                         id='email'
                                         variant='outlined'
-                                        type='email'
-                                        placeholder='Digite seu e-mail'
+                                        type='text'
+                                        placeholder='Digite seu e-mail, CPF ou Matrícula'
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         className='[&_input]:!text-[#9E9E9E] [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
@@ -65,13 +64,13 @@ export const Login: FC = () => {
                                                 },
                                             },
                                         }}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position='end'>
-                                                    <Mail className='text-[#757575]' size={22} />
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        // InputProps={{
+                                        //     endAdornment: (
+                                        //         <InputAdornment position='end'>
+                                        //             <Mail className='text-[#757575]' size={22} />
+                                        //         </InputAdornment>
+                                        //     ),
+                                        // }}
                                     />
                                 </div>
 
