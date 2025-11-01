@@ -45,7 +45,6 @@ export const VerTurmas: FC = () => {
                 title='VER TURMAS' 
                 icon={<img src={seeClassIcon} alt='' className='w-8 h-8' />} 
             >
-                {/* 1. Wrappers de layout (igual aos outros) */}
                 <div className='max-w-5xl mx-auto pb-24'>
                     <div className='flex flex-col gap-6'>
                     
