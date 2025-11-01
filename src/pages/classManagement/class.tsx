@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from './../../components/layout/BigCardGray';
+import { PageLayout } from '../../components/layout/BigCard';
 
 import { Users, ListChecks, UserPlus } from 'lucide-react';
 

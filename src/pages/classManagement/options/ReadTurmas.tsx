@@ -1,6 +1,6 @@
 import { type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCardGray'; 
+import { PageLayout } from '../../../components/layout/BigCard'; 
 import { Link } from 'react-router-dom';
 
 import turmaBaby from './assetsTest/IconBaby.png';

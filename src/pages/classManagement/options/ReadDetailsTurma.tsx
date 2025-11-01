@@ -1,7 +1,7 @@
 import { useState, type FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCardGray';
+import { PageLayout } from '../../../components/layout/BigCard';
 import { Pagination } from '../../../components/Pagination/Pagination';
 import { Award } from 'lucide-react';
 

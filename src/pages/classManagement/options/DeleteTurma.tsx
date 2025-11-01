@@ -1,6 +1,6 @@
 import { useState, type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCardGray';
+import { PageLayout } from '../../../components/layout/BigCard';
 import { ActionSelectionScreen } from './ActionSelectScreen';
 import { FeedbackToast } from '../../../components/Feedback/Feedback';
 import { AlertModal } from '../../../components/Alert/alert';
