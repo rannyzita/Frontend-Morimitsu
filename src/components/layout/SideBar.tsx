@@ -78,7 +78,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
                                     <NavItem to='/home' icon={HomeIcon}>Tela Inicial</NavItem>
                                     <NavItem to='/meu-perfil' icon={CircleUserRound}>Meu Perfil</NavItem>
                                     <NavItem to='/gerenciamento-turmas' icon={Users}>Turmas</NavItem>
-                                    <NavItem to='/usuarios' icon={User}>Usuários</NavItem>
+                                    <NavItem to='/gerenciamento-usuarios' icon={User}>Usuários</NavItem>
                                     <NavItem to='/aniversarios' icon={Cake}>Aniversários</NavItem>
                                     <NavItem to='/graduacao' icon={GraduationCap}>Graduação</NavItem>
                                     <NavItem to='/relatorio' icon={ClipboardList}>Relatório</NavItem>

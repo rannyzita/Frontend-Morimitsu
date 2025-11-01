@@ -20,18 +20,13 @@ export const GerenciamentoTurmas: FC = () => {
             className='flex flex-col items-center justify-center h-full p-4'
         >
             <PageLayout
-                // Ajustes de ícone e título para responsividade
                 title='GERENCIAMENTO DE TURMAS'
                 icon={<Users size={36} className='lg:w-[50px] lg:h-[50px]' />}
             >
-                {/* O items-center aqui deve garantir a centralização no desktop */}
                 <div className='flex flex-col pb-18 lg:pb-0 gap-6 mt-10 lg:mt-14 items-center'>
 
-                    {/* Botão 1: REALIZAR FREQUÊNCIA */}
                     <Link
                         to={'/gerenciamento-turmas/realizar-frequencia'}
-                        // MOBILE: Largura total (w-full), mas limitada (max-w-sm)
-                        // DESKTOP: Remove limites (lg:max-w-none) e largura forçada (lg:w-auto)
                         className='w-full max-w-sm lg:max-w-none lg:w-auto'
                     >
                         <ActionButton
@@ -40,7 +35,6 @@ export const GerenciamentoTurmas: FC = () => {
                         />
                     </Link>
 
-                    {/* Botão 2: ENTURMAR ALUNO */}
                     <Link
                         to={'/gerenciamento-turmas/enturmar-aluno'}
                         className='w-full max-w-sm lg:max-w-none lg:w-auto'

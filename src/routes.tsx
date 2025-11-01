@@ -7,7 +7,7 @@ import { Login } from './pages/login/Login'
 import  RecuperarSenha from './pages/resetPassword/recuperarSenha'
 import { Home } from './pages/home/Home'
 
-// Paginas de turma
+// Pagina de turma
 import { GerenciamentoTurmas } from './pages/classManagement/class'
 
 import { CreateTurma } from './pages/classManagement/options/CreateTurma'
@@ -16,6 +16,10 @@ import { EditTurma } from './pages/classManagement/options/EditTurma'
 import { VerDetalhesTurma } from './pages/classManagement/options/ReadDetailsTurma'
 import { VerTurmas } from './pages/classManagement/options/ReadTurmas'
 
+// Pagina de Usuário
+import { GerenciamentoUsuarios } from './pages/UserManagement/userManagement'
+
+// import { VerUsuarios } from './pages/UserManagement/options/ReadUser'
 // Pagina de Perfil
 import { Profile } from './pages/Profile/Profile'
 
@@ -42,6 +46,11 @@ export const AppRoutes = () => {
                         <Route path="/gerenciamento-turmas/ver/:id" element={<VerDetalhesTurma />} /> 
                         <Route path='/gerenciamento-turmas/ver-turmas' element={<VerTurmas />} />
 
+                        {/* Rotas de Usuário */}
+                        <Route path='/gerenciamento-usuarios' element={<GerenciamentoUsuarios />} />
+                        {/* <Route path='/gerenciamento-usuarios/ver-usuarios' element={<VerUsuarios />} /> */}
+
+                        {/* Rota de Usuário */}
                         <Route path='/meu-perfil' element={<Profile></Profile>} />
                     </Route>
                 </Routes>

@@ -31,17 +31,16 @@ export const PageLayout: FC<PageLayoutProps> = ({
     return (
         <Box 
             component='div' 
-            className={`bg-[#1E1E1E] text-white rounded-2xl shadow-xl
+            className={`!bg-transparent lg:bg-[#1E1E1E] text-white rounded-2xl 
+                        shadow-none lg:shadow-xl
                         flex flex-col overflow-hidden 
                         w-full h-auto 
                         
                         md:w-5/6 md:h-auto 
 
                         lg:w-[1200px] lg:h-[84vh] 
-                        
-                        ${className}`}
+            ${className}`}
         >
-        
             <header className='flex flex-col gap-4 px-6 pt-6 lg:px-8 lg:pt-8'>
                 <div className='relative flex justify-center items-center h-12'>
                 
