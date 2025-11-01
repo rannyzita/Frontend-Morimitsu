@@ -31,7 +31,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
     return (
         <Box 
             component='div' 
-            className={`!bg-transparent lg:bg-[#1E1E1E] text-white rounded-2xl 
+            className={`bg-transparent md:bg-[#1E1E1E] text-white rounded-2xl 
                         shadow-none lg:shadow-xl
                         flex flex-col overflow-hidden 
                         w-full h-auto 
