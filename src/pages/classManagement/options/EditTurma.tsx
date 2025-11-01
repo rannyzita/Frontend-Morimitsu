@@ -1,22 +1,19 @@
 import { useState, type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCard';
+import { PageLayout } from '../../../components/layout/BigCardGray_';
 import { FeedbackToast } from '../../../components/Feedback/Feedback';
 import { FormField } from '../../../components/formField/formField';
 import { ActionSelectionScreen } from './ActionSelectScreen';
 import { User, SquarePen } from 'lucide-react';
 
-// 2. Importando o seu ícone
 import editClassIcon from '../assets/Edit-Class.png'
 
-// --- Dados Mock ---
 const turmasMock = [
     { id: 1, label: 'Turma Baby', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=👶', minAge: '4', maxAge: '6', responsible: 'Saulo Bezerra' },
     { id: 2, label: 'Turma Infantil', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=👧', minAge: '7', maxAge: '10', responsible: 'Outro Professor' },
     { id: 3, label: 'Turma Mista', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=🧑‍🤝‍🧑', minAge: '11', maxAge: '14', responsible: 'Saulo Bezerra' },
 ];
 
-// --- Sub-componente para o Formulário de Edição (Passo 2) ---
 const EditingForm: FC<{ turmaId: number }> = ({ turmaId }) => {
     const turmaData = turmasMock.find(t => t.id === turmaId);
     if (!turmaData) return <div>Turma não encontrada!</div>;
@@ -59,12 +56,9 @@ const EditingForm: FC<{ turmaId: number }> = ({ turmaId }) => {
                     <FormField label='Faixa Etária Máxima:' value={maxAge} onChange={setMaxAge} type='number' showEditIcon={true} />
                 </div>
                 
-                {/* AJUSTE 3: Botão de Confirmação - Ocupa largura total no mobile, centralizado no desktop */}
                 <div className='flex justify-center pt-3 md:pt-8'>
                     <button 
                         onClick={handleConfirmClick} 
-                        // Mobile: w-full (largura total), py-2 (padding menor), px-4 (padding para evitar que o texto encoste nas bordas)
-                        // Desktop: py-3 (padding maior), px-50 (valor original)
                         className='bg-[#690808] text-white font-semibold w-full max-w-sm py-4 px-4 rounded-lg 
                                    hover:bg-red-800 transition-colors shadow-[0_5px_15px_rgba(0,0,0,0.3)] 
                                    md:w-auto md:max-w-none md:py-3 md:px-50'

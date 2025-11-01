@@ -1,6 +1,6 @@
 import { useState, type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../components/layout/BigCard';
+import { PageLayout } from '../../components/layout/BigCardGray_';
 import { SquarePen, LogOut, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
