@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCard';
 import { Pagination } from '../../../components/Pagination/Pagination';
-import { Award } from 'lucide-react';
+import { Award, OctagonAlert} from 'lucide-react';
 
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 
@@ -53,10 +53,10 @@ const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, currentClasse
 
                 <div className='h-10 border-l border-white opacity-50 mx-1 flex-shrink-0 hidden lg:block' />
 
-                <span className='text-white text-xs lg:text-sm flex-shrink-0 pl-2 lg:pl-0'>Aulas: {currentClasses}/{totalClasses}</span>
+                <span className='text-white text-xs lg:text-sm flex-shrink-0 pl-2 md:pl-0'>Aulas: {currentClasses}/{totalClasses}</span>
 
                 <div className='relative flex flex-col items-center justify-center bg-[#3E0404] py-1 px-1 rounded w-36 flex-shrink-0 h-10'>
-                    <div className='pr-5'>
+                    <div className='pr-5'>  
                         <span className='block text-white text-[9px] lg:text-[10px] leading-tight text-center'>PROMOVER P/</span>
                         <span className='block text-white text-[9px] lg:text-[10px] leading-tight text-center'>PROFESSOR(A)</span>
                     </div>
@@ -84,7 +84,7 @@ export const VerDetalhesTurma: FC = () => {
             setStudentsPerPage(newStudentsPerPage);
 
             if (newStudentsPerPage !== studentsPerPage) {
-                 setCurrentPage(1);
+                setCurrentPage(1);
             }
         };
 
@@ -137,7 +137,7 @@ export const VerDetalhesTurma: FC = () => {
                         className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto'
                     />
 
-                    <div className={`flex-1 ${mobileHeightClass} lg:min-h-[400px] flex flex-col gap-6 items-center overflow-y-auto pr-0 lg:pr-2 mt-2 lg:mt-4`}>
+                    <div className={`flex-1 ${mobileHeightClass} md:min-h-[400px] flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-4`}>
                         {currentAlunos.map(aluno => (
                             <StudentListItem
                                 key={aluno.id}
