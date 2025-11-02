@@ -27,7 +27,7 @@ export const AlertModal: FC<AlertModalProps> = ({
                     <div className='text-gray-600 text-sm mb-6'>{children}</div>
                 </div>
 
-                <div className='flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-8'>
+                <div className='flex flex-row gap-8 sm:flex-row sm:justify-center sm:gap-8'>
                     <button
                         onClick={onClose}
                         className='bg-neutral-800 text-white font-semibold py-3 w-full rounded-lg hover:bg-neutral-700 transition-colors'
