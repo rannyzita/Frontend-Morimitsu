@@ -34,44 +34,78 @@ const initialAlunos = [
 ];
 
 interface StudentListItemProps {
-    avatar: string; name: string; currentClasses: number; totalClasses: number; studentId: number; isPromoted: boolean;
+    avatar: string; name: string; currentClasses: number; totalClasses: number; studentId: number; isPromoted: boolean; index: number;
     onTogglePromoted: (studentId: number, isPromoted: boolean) => void;
 }
 
-const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, currentClasses, totalClasses, studentId, isPromoted, onTogglePromoted }) => {
+const StudentListItem: FC<StudentListItemProps> = ({
+    avatar,
+    name,
+    currentClasses,
+    totalClasses,
+    studentId,
+    isPromoted,
+    onTogglePromoted,
+    index 
+}) => {
     return (
-        <div className='flex flex-col lg:flex-row lg:items-center bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
-
+        <div
+            className='flex flex-col lg:flex-row lg:items-center bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]'
+        >
             <div className='flex items-center gap-1 md:gap-3 w-full lg:w-auto'>
-                <img src={avatar} alt={name} className='w-8 h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0' />
-                <Award size={20} className='text-white flex-shrink-0 lg:w-6 lg:h-6' />
-
+                <img
+                    src={avatar}
+                    alt={name}
+                    className='w-8 h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0'
+                />
+                <Award
+                    size={20}
+                    className='text-white flex-shrink-0 lg:w-6 lg:h-6'
+                />
                 <div className='h-8 lg:h-10 border-l border-white opacity-50 mx-1 flex-shrink-0' />
 
-                <span className='flex-1 text-white truncate text-left text-[10px] md:text-[14px] lg:text-base'>{name}</span>
-                <OctagonAlert color='#3C0000' className='lg:hidden' strokeWidth={3}></OctagonAlert>
+                <span className='flex-1 text-white truncate text-left text-[10px] md:text-[14px] lg:text-base'>
+                    {name}
+                </span>
             </div>
 
-            <div className='flex items-center justify-between w-full lg:w-auto lg:gap-3 lg:ml-auto'>
-
+            <div
+                    className={`flex items-center justify-between w-full lg:w-auto lg:gap-3 lg:ml-auto ${
+                    index !== 0 ? "lg:justify-end" : ""
+                }`}
+            >
                 <div className='h-10 border-l border-white opacity-50 mx-1 flex-shrink-0 hidden lg:block' />
-                {/* So mostra no desktop aq */}
-                <span className='hidden lg:flex text-white text-xs lg:text-sm flex-shrink-0 pl-2 md:pl-0'>Aulas: {currentClasses}/{totalClasses}</span>
+                    <span className='hidden lg:flex text-white text-xs lg:text-sm flex-shrink-0 pl-2 md:pl-0 pr-6'>
+                        Aulas: {currentClasses}/{totalClasses}
+                    </span>
 
-                {/* So mostra no desktop aq */}
-                <div className='hidden relative lg:flex flex-col items-center justify-center bg-[#3E0404] py-1 px-1 rounded w-36 flex-shrink-0 h-10'>
-                    <div className='pr-5'>  
-                        <span className='block text-white text-[9px] lg:text-[10px] leading-tight text-center'>PROMOVER P/</span>
-                        <span className='block text-white text-[9px] lg:text-[10px] leading-tight text-center'>PROFESSOR(A)</span>
-                    </div>
-                    <input type='checkbox' checked={isPromoted} onChange={(e) => onTogglePromoted(studentId, e.target.checked)}
+                    {/* Só o primeiro aluno mostra o promover */}
+                    {index === 0 && (
+                    <div className='hidden relative lg:flex flex-col items-center justify-center bg-[#3E0404] py-1 px-1 rounded w-36 flex-shrink-0 h-10'>
+                        <div className='pr-5'>
+                            <span className='block text-white text-[9px] lg:text-[10px] leading-tight text-center'>
+                                PROMOVER P/
+                            </span>
+                            <span className='block text-white text-[9px] lg:text-[10px] leading-tight text-center'>
+                                PROFESSOR(A)
+                            </span>
+                        </div>
+
+                        <input
+                            type='checkbox'
+                            checked={isPromoted}
+                            onChange={(e) =>
+                                onTogglePromoted(studentId, e.target.checked)
+                        }
                         className='absolute right-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 lg:w-4 lg:h-4 bg-transparent border border-white rounded-sm appearance-none checked:bg-white checked:border-transparent cursor-pointer focus:outline-none focus:ring-1 focus:ring-white'
-                    />
+                        />
                 </div>
+                )}
             </div>
         </div>
     );
 };
+
 
 export const VerDetalhesTurma: FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -125,47 +159,54 @@ export const VerDetalhesTurma: FC = () => {
 
 
     return (
-        <Box
-            component='div'
-            className='flex flex-col items-center justify-center h-full p-4 pt-4'
+  <Box
+    component='div'
+    className='flex flex-col items-center justify-center h-full p-4 pt-4 relative'
+  >
+    <PageLayout
+      title={turma.nome.toUpperCase()}
+      icon={<img src={turma.icone} alt={turma.nome} className='w-8 h-8 lg:w-10 lg:h-10' />}
+      className='flex flex-col h-full relative'
+    >
+      <div className='flex flex-col h-full gap-4 pt-8 lg:gap-2 lg:pt-8'>
+        <SearchInput
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder='Digite o nome do aluno'
+          className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto'
+        />
+
+        {/* Lista de alunos */}
+        <div
+          className={`flex-1 ${mobileHeightClass} flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-4 mb-20`}
         >
-            <PageLayout
-                title={turma.nome.toUpperCase()}
-                icon={<img src={turma.icone} alt={turma.nome} className='w-8 h-8 lg:w-10 lg:h-10' />}
-            >
-                <div className='flex flex-col h-full gap-4 pt-8 lg:gap-2 lg:pt-8'>
-                    <SearchInput
-                        value={searchQuery}
-                        onChange={setSearchQuery}
-                        placeholder='Digite o nome do aluno'
-                        className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto'
-                    />
+          {currentAlunos.map((aluno, index) => (
+            <StudentListItem
+              key={aluno.id}
+              index={index}
+              studentId={aluno.id}
+              name={aluno.name}
+              avatar={aluno.avatar}
+              currentClasses={aluno.current}
+              totalClasses={aluno.total}
+              isPromoted={aluno.isPromoted}
+              onTogglePromoted={handleTogglePromoted}
+            />
+          ))}
+        </div>
 
-                    <div className={`flex-1 ${mobileHeightClass} md:min-h-[400px] flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-4`}>
-                        {currentAlunos.map(aluno => (
-                            <StudentListItem
-                                key={aluno.id}
-                                studentId={aluno.id}
-                                name={aluno.name}
-                                avatar={aluno.avatar}
-                                currentClasses={aluno.current}
-                                totalClasses={aluno.total}
-                                isPromoted={aluno.isPromoted}
-                                onTogglePromoted={handleTogglePromoted}
-                            />
-                        ))}
+        {/* Pagination fixa */}
+        <div className='absolute bottom-10 left-1/2 transform -translate-x-1/2 w-full max-w-[650px]'>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      </div>
+    </PageLayout>
+  </Box>
+);
 
-                        {studentsPerPage > currentAlunos.length && (
-                            <div className='flex-1'></div>
-                        )}
-                    </div>
-                    <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={handlePageChange}
-                    />
-                </div>
-            </PageLayout>
-        </Box>
-    );
+
 }
