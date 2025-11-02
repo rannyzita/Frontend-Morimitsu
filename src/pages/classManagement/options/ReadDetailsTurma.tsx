@@ -118,7 +118,7 @@ export const VerDetalhesTurma: FC = () => {
 
     useEffect(() => {
         const updateStudentsPerPage = () => {
-            const newStudentsPerPage = window.innerWidth < 1024 ? 3 : 5;
+            const newStudentsPerPage = window.innerWidth < 768 ? 4 : 5;
             setStudentsPerPage(newStudentsPerPage);
 
             if (newStudentsPerPage !== studentsPerPage) {
@@ -159,54 +159,52 @@ export const VerDetalhesTurma: FC = () => {
 
 
     return (
-  <Box
-    component='div'
-    className='flex flex-col items-center justify-center h-full p-4 pt-4 relative'
-  >
-    <PageLayout
-      title={turma.nome.toUpperCase()}
-      icon={<img src={turma.icone} alt={turma.nome} className='w-8 h-8 lg:w-10 lg:h-10' />}
-      className='flex flex-col h-full relative'
-    >
-      <div className='flex flex-col h-full gap-4 pt-8 lg:gap-2 lg:pt-8'>
-        <SearchInput
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder='Digite o nome do aluno'
-          className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto'
-        />
-
-        {/* Lista de alunos */}
-        <div
-          className={`flex-1 ${mobileHeightClass} flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-4 mb-20`}
+        <Box
+            component='div'
+            className='flex flex-col items-center justify-center h-full p-4 pt-4 relative'
         >
-          {currentAlunos.map((aluno, index) => (
-            <StudentListItem
-              key={aluno.id}
-              index={index}
-              studentId={aluno.id}
-              name={aluno.name}
-              avatar={aluno.avatar}
-              currentClasses={aluno.current}
-              totalClasses={aluno.total}
-              isPromoted={aluno.isPromoted}
-              onTogglePromoted={handleTogglePromoted}
-            />
-          ))}
-        </div>
+            <PageLayout
+                title={turma.nome.toUpperCase()}
+                icon={<img src={turma.icone} alt={turma.nome} className='w-8 h-8 lg:w-10 lg:h-10' />}
+                className='flex flex-col h-full relative'
+            >
+                <div className='flex flex-col h-full gap-4 pt-8 lg:gap-2 lg:pt-8'>
+                    <SearchInput
+                        value={searchQuery}
+                        onChange={setSearchQuery}
+                        placeholder='Digite o nome do aluno'
+                        className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto'
+                    />
 
-        {/* Pagination fixa */}
-        <div className='absolute bottom-10 left-1/2 transform -translate-x-1/2 w-full max-w-[650px]'>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
-        </div>
-      </div>
-    </PageLayout>
-  </Box>
-);
+                    {/* Lista de alunos */}
+                    <div
+                        className={`flex-1 ${mobileHeightClass} flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-4 mb-20`}
+                    >
+                    {currentAlunos.map((aluno, index) => (
+                        <StudentListItem
+                            key={aluno.id}
+                            index={index}
+                            studentId={aluno.id}
+                            name={aluno.name}
+                            avatar={aluno.avatar}
+                            currentClasses={aluno.current}
+                            totalClasses={aluno.total}
+                            isPromoted={aluno.isPromoted}
+                            onTogglePromoted={handleTogglePromoted}
+                        />
+                    ))}
+                    </div>
 
-
+                    {/* Pagination fixa */}
+                    <div className='absolute bottom-10 left-1/2 transform -translate-x-1/2 w-full max-w-[650px]'>
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    </div>
+                </div>
+            </PageLayout>
+        </Box>
+    );
 }
