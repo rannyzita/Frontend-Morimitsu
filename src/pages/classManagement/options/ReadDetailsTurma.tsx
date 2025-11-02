@@ -40,22 +40,24 @@ interface StudentListItemProps {
 
 const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, currentClasses, totalClasses, studentId, isPromoted, onTogglePromoted }) => {
     return (
-        <div className='flex flex-col lg:flex-row lg:items-center gap-3 bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
+        <div className='flex flex-col lg:flex-row lg:items-center bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
 
-            <div className='flex items-center gap-3 w-full lg:w-auto'>
+            <div className='flex items-center gap-1 md:gap-3 w-full lg:w-auto'>
                 <img src={avatar} alt={name} className='w-8 h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0' />
                 <Award size={20} className='text-white flex-shrink-0 lg:w-6 lg:h-6' />
                 <div className='h-8 lg:h-10 border-l border-white opacity-50 mx-1 flex-shrink-0' />
-                <span className='flex-1 text-white font-semibold truncate text-left text-[10px] lg:text-base'>{name}</span>
+                <span className='flex-1 text-white truncate text-left text-[10px] lg:text-base'>{name}</span>
+                <OctagonAlert color='#3C0000' strokeWidth={3}></OctagonAlert>
             </div>
 
             <div className='flex items-center justify-between w-full lg:w-auto lg:gap-3 lg:ml-auto'>
 
                 <div className='h-10 border-l border-white opacity-50 mx-1 flex-shrink-0 hidden lg:block' />
+                {/* So mostra no desktop aq */}
+                <span className='hidden lg:flex text-white text-xs lg:text-sm flex-shrink-0 pl-2 md:pl-0'>Aulas: {currentClasses}/{totalClasses}</span>
 
-                <span className='text-white text-xs lg:text-sm flex-shrink-0 pl-2 md:pl-0'>Aulas: {currentClasses}/{totalClasses}</span>
-
-                <div className='relative flex flex-col items-center justify-center bg-[#3E0404] py-1 px-1 rounded w-36 flex-shrink-0 h-10'>
+                {/* So mostra no desktop aq */}
+                <div className='hidden relative lg:flex flex-col items-center justify-center bg-[#3E0404] py-1 px-1 rounded w-36 flex-shrink-0 h-10'>
                     <div className='pr-5'>  
                         <span className='block text-white text-[9px] lg:text-[10px] leading-tight text-center'>PROMOVER P/</span>
                         <span className='block text-white text-[9px] lg:text-[10px] leading-tight text-center'>PROFESSOR(A)</span>
