@@ -45,9 +45,11 @@ const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, currentClasse
             <div className='flex items-center gap-1 md:gap-3 w-full lg:w-auto'>
                 <img src={avatar} alt={name} className='w-8 h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0' />
                 <Award size={20} className='text-white flex-shrink-0 lg:w-6 lg:h-6' />
+
                 <div className='h-8 lg:h-10 border-l border-white opacity-50 mx-1 flex-shrink-0' />
-                <span className='flex-1 text-white truncate text-left text-[10px] lg:text-base'>{name}</span>
-                <OctagonAlert color='#3C0000' strokeWidth={3}></OctagonAlert>
+
+                <span className='flex-1 text-white truncate text-left text-[10px] md:text-[14px] lg:text-base'>{name}</span>
+                <OctagonAlert color='#3C0000' className='lg:hidden' strokeWidth={3}></OctagonAlert>
             </div>
 
             <div className='flex items-center justify-between w-full lg:w-auto lg:gap-3 lg:ml-auto'>
@@ -125,13 +127,13 @@ export const VerDetalhesTurma: FC = () => {
     return (
         <Box
             component='div'
-            className='flex flex-col items-center justify-center h-full p-4'
+            className='flex flex-col items-center justify-center h-full p-4 pt-4'
         >
             <PageLayout
                 title={turma.nome.toUpperCase()}
                 icon={<img src={turma.icone} alt={turma.nome} className='w-8 h-8 lg:w-10 lg:h-10' />}
             >
-                <div className='flex flex-col h-full gap-4 pt-8 lg:gap-6 lg:pt-8'>
+                <div className='flex flex-col h-full gap-4 pt-8 lg:gap-2 lg:pt-8'>
                     <SearchInput
                         value={searchQuery}
                         onChange={setSearchQuery}
