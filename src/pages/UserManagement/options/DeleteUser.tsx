@@ -140,7 +140,7 @@ export const DeletarUsuario: FC = () => {
     return (
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4 pt-4 relative'>
             <PageLayout
-                title='DELETAR USUÁRIOS'
+                title='EXCLUIR USUÁRIO'
                 icon={<UserMinus size={36} className='lg:w-[50px] lg:h-[50px]' />}
                 className='flex flex-col h-full relative'
             >
