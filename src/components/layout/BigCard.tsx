@@ -52,7 +52,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
                     </button>
 
                     {title && (
-                        <div className='flex items-center gap-2 md:gap-3 mt-6 md:mt-0'>
+                        <div className='flex items-center gap-2 md:gap-3 ml-2 md:ml-0 mt-4 md:mt-0'>
                             <div className='flex items-center gap-1 md:gap-2 rounded-lg px-3 py-1 
                                             md:bg-transparent md:border-none md:px-0 md:py-0 transition-all'>
                                 {/* ícone adaptando no mobile */}
@@ -61,7 +61,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
                                 </span>
 
                                 {/* texto menor só no mobile */}
-                                <h1 className='text-[14px] md:text-2xl font-bold tracking-wide'>
+                                <h1 className='text-[12px] md:text-2xl font-bold tracking-wide'>
                                     {title}
                                 </h1>
                             </div>

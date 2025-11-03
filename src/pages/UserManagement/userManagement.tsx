@@ -15,8 +15,8 @@ export const GerenciamentoUsuarios: FC = () => {
             className='flex flex-col items-center justify-center h-full p-4'
         >
             <PageLayout
-                title='GERENCIAMENTO DE USUÁRIOS'
-                icon={<Users size={36} className='lg:w-[30px] lg:h-[30px]' />}
+                title={'GERENCIAMENTO\nDE\nUSUÁRIOS'}
+                icon={<Users size={36} className='lg:w-[36px] lg:h-[36px]' />}
             >
                 <div className='flex flex-col pb-18 lg:pb-0 gap-6 mt-10 lg:mt-32 lg:h-[60hv] lg:justify-center items-center'>
 
