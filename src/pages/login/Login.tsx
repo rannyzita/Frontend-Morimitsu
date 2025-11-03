@@ -44,7 +44,7 @@ export const Login: FC = () => {
                         <Box component='form' onSubmit={onSubmit} className='flex-grow flex flex-col'>
                             <div className='space-y-6 mt-4'>
                                 <div>
-                                    <label htmlFor='email' className='text-[#757575] text-lg mb-2 block'>Usuário:</label>
+                                    <label htmlFor='email' className='text-[#757575] text-[14px] md:text-lg mb-2 block'>Usuário:</label>
                                     <TextField
                                         required
                                         fullWidth
@@ -54,8 +54,25 @@ export const Login: FC = () => {
                                         placeholder='Digite seu e-mail, CPF ou Matrícula'
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className='[&_input]:!text-[#9E9E9E] [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
+                                        InputProps={{ sx: {
+                                            height: { xs: 42, md: 56 }, // altura: mobile menor
+                                            fontSize: { xs: '0.80rem', md: '1rem' }, // texto menor no mobile
+                                            '& input': {
+                                                padding: { xs: '8px 10px', md: '14px 16px' },
+                                            },
+                                        }}}
+                                        inputProps={{
+                                            style: {
+                                                fontSize: 'inherit',
+                                            },
+                                        }}
                                         sx={{
+                                            '& .MuiInputBase-input::placeholder': {
+                                                fontSize: '0.78rem', // placeholder mobile
+                                                '@media (min-width:768px)': {
+                                                    fontSize: '1rem',
+                                                },
+                                            },
                                             '& .MuiOutlinedInput-root': {
                                                 '& input:-webkit-autofill': {
                                                     transition: 'background-color 5000s ease-in-out 0s',
@@ -64,30 +81,46 @@ export const Login: FC = () => {
                                                 },
                                             },
                                         }}
-                                        // InputProps={{
-                                        //     endAdornment: (
-                                        //         <InputAdornment position='end'>
-                                        //             <Mail className='text-[#757575]' size={22} />
-                                        //         </InputAdornment>
-                                        //     ),
-                                        // }}
+                                        className='[&_input]:!text-[#9E9E9E] [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
                                     />
                                 </div>
 
                                 {/* Campo Senha */}
                                 <div>
-                                    <label htmlFor='password' className='text-[#757575] text-lg mb-2 block'>Senha:</label>
+                                    <label htmlFor='password' className='text-[#757575] text-[14px] md:text-lg mb-2 block'>Senha:</label>
                                     <TextField
                                         required
                                         fullWidth
                                         id='password'
                                         variant='outlined'
-                                        placeholder='Digite sua senha'
                                         type={showPassword ? 'text' : 'password'}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        className='[&_input]:!text-[#9E9E9E] [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
+                                        InputProps={{
+                                            sx: {
+                                                height: { xs: 42, md: 56 },
+                                                fontSize: { xs: '0.80rem', md: '1rem' },
+                                                '& input': {
+                                                    padding: { xs: '8px 10px', md: '14px 16px' },
+                                                },
+                                            },
+                                            endAdornment: (
+                                                <InputAdornment position='end'>
+                                                    <IconButton onClick={togglePassword} edge='end'>
+                                                        {showPassword
+                                                            ? <Eye size={18} className='text-[#757575] md:!w-[22px] md:!h-[22px]' />
+                                                            : <EyeOff size={18} className='text-[#757575] md:!w-[22px] md:!h-[22px]' />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                        }}
                                         sx={{
+                                            '& .MuiInputBase-input::placeholder': {
+                                                fontSize: '0.78rem',
+                                                '@media (min-width:768px)': {
+                                                    fontSize: '1rem',
+                                                },
+                                            },
                                             '& .MuiOutlinedInput-root': {
                                                 '& input:-webkit-autofill': {
                                                     transition: 'background-color 5000s ease-in-out 0s',
@@ -96,18 +129,11 @@ export const Login: FC = () => {
                                                 },
                                             },
                                         }}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position='end'>
-                                                    <IconButton onClick={togglePassword} edge='end' className='!text-[#75757S75]'>
-                                                        {showPassword ? <Eye size={22} className='text-[#757575]' /> : <EyeOff size={22} className='text-[#757575]' />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        placeholder='Digite sua senha'
+                                        className='[&_input]:!text-[#9E9E9E] [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
                                     />
                                 </div>
-                                <Link component={RouterLink} to='/recuperar-senha' className='!text-[#757575] !font-normal hover:!underline'>
+                                <Link component={RouterLink} to='/recuperar-senha' style={{ fontSize: '15px', color: '#757575' }}>
                                     Esqueceu a senha?
                                 </Link>
                             </div>
