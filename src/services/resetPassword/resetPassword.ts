@@ -8,7 +8,7 @@ export async function requestPasswordReset(email: string, token?: string) {
 
 export async function resendResetCode(email: string, token?: string) {
   const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-  const response = await api.post('/auth/request/reset', { identifier: email }, config);
+  const response = await api.post('/auth/request-reset', { identifier: email }, config);
   return response.data;
 }
 

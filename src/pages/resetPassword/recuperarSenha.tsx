@@ -213,8 +213,6 @@ export default function PasswordResetPage() {
                                     </div>
                                 </div>
 
-                                {/* <div className='flex-grow'></div> */}
-
                                 <div className='flex items-center justify-between mt-32'>
                                     <Button 
                                         component={RouterLink}  
@@ -305,15 +303,15 @@ export default function PasswordResetPage() {
                                     <Button
                                         type='submit'
                                         variant='contained'
-                                        className='!px-12 !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !normal-case'
+                                        className='!px-12 !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !normal-case relative flex justify-center items-center'
                                         disabled={loading || code.join('').length !== 5}
                                     >
-                                        {loading ? <CircularProgress size={24} color='inherit' /> : 'Continuar'}
+                                        <span className={loading ? 'invisible' : ''}>Continuar</span>
+                                        {loading && <CircularProgress size={24} color='inherit' className='absolute' />}
                                     </Button>
                                 </div>
                             </Box>
                         )}
-
 
                         {/* ETAPA 3: NOVA SENHA */}
                         {step === 'reset' && (
@@ -334,7 +332,7 @@ export default function PasswordResetPage() {
                                 </p>
 
                                 <div>
-                                    <label htmlFor='password' className='text-[#9E9E9E] text-base md:text-lg mb-2 block'>Insira a nova senha:</label>
+                                    <label htmlFor='password' className='text-[#9E9E9E] text-base text-[14px] md:text-lg mb-2 block'>Insira a nova senha:</label>
                                     <TextField
                                         required
                                         fullWidth
@@ -344,19 +342,52 @@ export default function PasswordResetPage() {
                                         type={showPassword ? 'text' : 'password'}
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
-                                        className='[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
                                         InputProps={{
-                                            endAdornment: <InputAdornment position='end'>
-                                                <IconButton onClick={togglePassword} edge='end' className='!text-[#9E9E9E]'>
-                                                    {showPassword ? <Eye size={22} /> : <EyeOff size={22} />}
-                                                </IconButton>
-                                            </InputAdornment>
+                                            sx: {
+                                                height: { xs: 42, md: 56 }, // altura responsiva
+                                                fontSize: { xs: '0.80rem', md: '1rem' }, // texto responsivo
+                                                '& input': {
+                                                    padding: { xs: '8px 10px', md: '14px 16px' },
+                                                },
+                                            },
+                                            endAdornment: (
+                                                <InputAdornment position='end'>
+                                                    <IconButton onClick={togglePassword} edge='end' className='!text-[#9E9E9E]'>
+                                                        {showPassword ? (
+                                                            <Eye className='w-5 h-5 sm:w-6 sm:h-6' /> // 20px mobile, 24px desktop
+                                                        ) : (
+                                                            <EyeOff className='w-5 h-5 sm:w-6 sm:h-6' />
+                                                        )}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
                                         }}
+                                        inputProps={{
+                                            style: {
+                                                fontSize: 'inherit',
+                                            },
+                                        }}
+                                        sx={{
+                                            '& .MuiInputBase-input::placeholder': {
+                                                fontSize: '0.78rem', // placeholder mobile
+                                                '@media (min-width:768px)': {
+                                                    fontSize: '1rem',
+                                                },
+                                            },
+                                            '& .MuiOutlinedInput-root': {
+                                                '& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active': {
+                                                    transition: 'background-color 5000s ease-in-out 0s',
+                                                    boxShadow: '0 0 0 30px #000000 inset !important',
+                                                    WebkitTextFillColor: '#FFFFFF !important', // texto branco
+                                                },
+                                            },
+                                        }}
+                                        className='[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
                                     />
                                 </div>
 
                                     <div>
-                                        <label htmlFor='passwordConfirmer' className='text-[#9E9E9E] text-base md:text-lg mb-2 block'>Confirme a senha:</label>
+                                        <label htmlFor='passwordConfirmer' className='text-[#9E9E9E] text-base  text-[14px] md:text-lg mb-2 block'>Confirme a senha:</label>
                                         <TextField
                                             required
                                             fullWidth
@@ -366,19 +397,50 @@ export default function PasswordResetPage() {
                                             type={showPasswordConfirmer ? 'text' : 'password'}
                                             value={confirmPassword}
                                             onChange={(e) => setConfirmPassword(e.target.value)}
-                                            className='[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
                                             InputProps={{
-                                                endAdornment: <InputAdornment position='end'>
-                                                <IconButton onClick={togglePasswordConfirmer} edge='end' className='!text-[#9E9E9E]'>
-                                                    {showPasswordConfirmer ? <Eye size={22} /> : <EyeOff size={22} />}
-                                                </IconButton>
-                                                </InputAdornment>
+                                                sx: {
+                                                    height: { xs: 42, md: 56 }, // altura responsiva
+                                                    fontSize: { xs: '0.80rem', md: '1rem' }, // texto responsivo
+                                                    '& input': {
+                                                        padding: { xs: '8px 10px', md: '14px 16px' },
+                                                    },
+                                                },
+                                                endAdornment: (
+                                                    <InputAdornment position='end'>
+                                                        <IconButton onClick={togglePasswordConfirmer} edge='end' className='!text-[#9E9E9E]'>
+                                                            {showPassword ? (
+                                                                <Eye className='w-5 h-5 sm:w-6 sm:h-6' /> // 20px mobile, 24px desktop
+                                                            ) : (
+                                                                <EyeOff className='w-5 h-5 sm:w-6 sm:h-6' />
+                                                            )}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
                                             }}
+                                            inputProps={{
+                                                style: {
+                                                    fontSize: 'inherit',
+                                                },
+                                            }}
+                                            sx={{
+                                                '& .MuiInputBase-input::placeholder': {
+                                                    fontSize: '0.78rem', // placeholder mobile
+                                                    '@media (min-width:768px)': {
+                                                        fontSize: '1rem',
+                                                    },
+                                                },
+                                                '& .MuiOutlinedInput-root': {
+                                                    '& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active': {
+                                                        transition: 'background-color 5000s ease-in-out 0s',
+                                                        boxShadow: '0 0 0 30px #000000 inset !important',
+                                                        WebkitTextFillColor: '#FFFFFF !important', // texto branco
+                                                    },
+                                                },
+                                            }}
+                                            className='[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
                                         />
                                     </div>
                                 </div>
-
-                                {/* <div className='flex-grow'></div> */}
 
                                 <div className='flex items-center justify-between mt-32'>
                                     <Button onClick={() => setStep('code')} className='!text-white !font-normal hover:!underline !pl-4 !bg-transparent !normal-case'>Voltar</Button>
@@ -386,10 +448,12 @@ export default function PasswordResetPage() {
                                     <Button
                                         type='submit'
                                         variant='contained'
-                                        className='!px-12 !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !normal-case'
+                                        className='!px-12 !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !normal-case relative flex justify-center items-center'
                                         disabled={loading || !newPassword || newPassword !== confirmPassword}
                                     >
-                                        {loading ? <CircularProgress size={24} color='inherit' /> : 'Confirmar'}
+                                        <span className={loading ? 'invisible' : ''}>Confirmar</span>
+
+                                        {loading && <CircularProgress size={24} color='inherit' className='absolute' />}
                                     </Button>
                                 </div>
                             </Box>
