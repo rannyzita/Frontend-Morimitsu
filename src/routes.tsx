@@ -16,14 +16,19 @@ import { EditTurma } from './pages/classManagement/options/EditTurma'
 import { VerDetalhesTurma } from './pages/classManagement/options/ReadDetailsTurma'
 import { VerTurmas } from './pages/classManagement/options/ReadTurmas'
 
+// Pagina de Perfil
+import { Profile } from './pages/Profile/Profile'
+
+// Pagina Not Found
+import { NotFound } from './pages/NotFound/notFound'
+
 // Pagina de Usuário
 import { GerenciamentoUsuarios } from './pages/UserManagement/userManagement'
 import { VerUsuarios } from './pages/UserManagement/options/ReadUser'
 import { CreateUsuario } from './pages/UserManagement/options/CreateUser'
+import { EditUsuario } from './pages/UserManagement/options/EditUser'
+import { DeletarUsuario } from './pages/UserManagement/options/DeleteUser'
 
-import { Profile } from './pages/Profile/Profile'
-
-import { NotFound } from './pages/NotFound/notFound'
 
 export const AppRoutes = () => {
     return (
@@ -46,10 +51,12 @@ export const AppRoutes = () => {
                         <Route path="/gerenciamento-turmas/ver/:id" element={<VerDetalhesTurma />} /> 
                         <Route path='/gerenciamento-turmas/ver-turmas' element={<VerTurmas />} />
 
-                        {/* Rotas de Usuário */}
+                        {/* Rotas de Gerenciamento de Usuário */}
                         <Route path='/gerenciamento-usuarios' element={<GerenciamentoUsuarios />} />
                         <Route path='/gerenciamento-usuarios/ver-usuarios' element={<VerUsuarios />} />
                         <Route path='/gerenciamento-usuarios/criar-usuario' element={<CreateUsuario />} />
+                        <Route path='/gerenciamento-usuarios/editar-usuario' element={<EditUsuario />} />
+                        <Route path='/gerenciamento-usuarios/deletar-usuario' element={<DeletarUsuario />} />
 
                         {/* Rota de Usuário */}
                         <Route path='/meu-perfil' element={<Profile></Profile>} />
