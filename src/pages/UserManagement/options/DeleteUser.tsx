@@ -90,7 +90,7 @@ export const DeletarUsuario: FC = () => {
 
     useEffect(() => {
         const updateStudentsPerPage = () => {
-            const newStudentsPerPage = window.innerWidth < 768 ? 4 : 5;
+            const newStudentsPerPage = window.innerWidth < 768 ? 4 : 4;
             setStudentsPerPage(newStudentsPerPage);
             if (newStudentsPerPage !== studentsPerPage) setCurrentPage(1);
         };
@@ -169,10 +169,10 @@ export const DeletarUsuario: FC = () => {
                     </div>
 
                     {/* Botão Excluir */}
-                    <div className='flex justify-end w-full lg:w-[950px] mx-auto mb-24'>
+                    <div className='absolute bottom-24 right-6 lg:right-[128px]'>
                         <button
                             onClick={handleDelete}
-                            className='bg-[#690808] hover:bg-red-900 text-white font-semibold py-2 px-6 rounded-lg transition-colors shadow-md'
+                            className='bg-[#690808] hover:bg-red-900 text-white font-semibold py-4 px-8 rounded-lg transition-colors shadow-md'
                         >
                             Excluir Selecionados
                         </button>
@@ -194,9 +194,9 @@ export const DeletarUsuario: FC = () => {
                 isOpen={showAlert}
                 onClose={() => setShowAlert(false)}
                 onConfirm={confirmDelete}
-                title='Confirmar exclusão'
+                title='Tem certeza de que deseja excluir o(s) usuário(os) selecionado(s)?'
             >
-                Tem certeza de que deseja excluir os usuários selecionados?
+                Todas as informações serão removidas permanentemente do sistema e não será mais possível recuperá-las.
             </AlertModal>
 
             {/* Toast de feedback */}
