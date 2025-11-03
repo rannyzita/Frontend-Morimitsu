@@ -11,12 +11,15 @@
     "tailwind:init": "tailwindcss init -p"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
+    "@date-io/date-fns": "^3.2.1",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^5.15.20",
-    "@mui/material": "^5.15.20",
+    "@mui/material": "^5.18.0",
+    "@mui/x-date-pickers": "^8.16.0",
     "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.12.2",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.542.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

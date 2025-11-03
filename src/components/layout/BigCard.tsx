@@ -21,11 +21,8 @@ export const PageLayout: FC<PageLayoutProps> = ({
     const navigate = useNavigate();
 
     const handleGoBack = () => {
-        if (backPath) {
-            navigate(backPath);
-        } else {
-            navigate(-1); 
-        }
+        if (backPath) navigate(backPath);
+        else navigate(-1); 
     };
 
     return (
@@ -35,28 +32,38 @@ export const PageLayout: FC<PageLayoutProps> = ({
                         shadow-none lg:shadow-xl
                         flex flex-col overflow-hidden 
                         w-full h-auto 
-                        
                         md:w-5/6 md:h-auto 
-
                         lg:w-[1200px] lg:h-[84vh] 
-            ${className}`}
+                        ${className}`}
         >
             <header className='flex flex-col gap-4 px-6 pt-6 lg:px-8 lg:pt-8'>
                 <div className='relative flex justify-center items-center h-12'>
                 
                     <button 
                         onClick={handleGoBack}
-                        className='absolute left-0 top-[98px] -translate-y-1/2 text-white 
-                                hover:text-white transition-colors cursor-pointer lg:top-1/2 lg:-translate-y-1/2'
+                        className='absolute left-0 
+                                top-8 /* mobile: sobe acima da linha */
+                                -translate-y-1/2 
+                                text-white hover:text-white transition-colors cursor-pointer
+                                lg:top-1/2 lg:-translate-y-1/2'
                     >
-                        <ArrowLeft size={32}/>
+                        {/* Mobile menor, desktop igual */}
+                        <ArrowLeft className='w-6 h-6 md:w-8 md:h-8 lg:w-8 lg:h-8' />
                     </button>
 
                     {title && (
-                        <div className='flex items-center gap-3'>
-                            <div className='flex items-center gap-2 rounded-lg px-3 py-1 md:bg-transparent md:border-none md:px-0 md:py-0 transition-all'>
-                                {icon}
-                                <h1 className='text-[18px] md:text-2xl font-bold tracking-wide'>{title}</h1>
+                        <div className='flex items-center gap-2 md:gap-3 ml-2 md:ml-0 mt-4 md:mt-0'>
+                            <div className='flex items-center gap-1 md:gap-2 rounded-lg px-3 py-1 
+                                            md:bg-transparent md:border-none md:px-0 md:py-0 transition-all'>
+                                {/* ícone adaptando no mobile */}
+                                <span className='w-6 h-6 md:w-10 md:h-10 flex items-center justify-center'>
+                                    {icon}
+                                </span>
+
+                                {/* texto menor só no mobile */}
+                                <h1 className='text-[12px] md:text-2xl font-bold tracking-wide'>
+                                    {title}
+                                </h1>
                             </div>
                         </div>
                     )}
@@ -68,11 +75,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
             </header>
 
             <main 
-                className={`
-                    px-6 py-8
-                    md:px-8 md:py-7
-                    lg:flex-1 lg:overflow-y-auto
-                `}
+                className='px-6 md:px-8 md:py-7 lg:flex-1 lg:overflow-y-auto'
             >
                 <div className='max-w-5xl mx-auto'>
                     {children}

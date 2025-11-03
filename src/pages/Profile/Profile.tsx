@@ -71,10 +71,6 @@ const GenderRadio: FC<GenderRadioProps> = ({ label, value, isChecked, onChange }
                                 bg-transparent 
                                 transition-colors duration-150
                                 pointer-events-none
-                                
-                                // 3. Quando selecionado (peer-checked):
-                                //    - O fundo muda para cinza (a cor que o pontinho tinha)
-                                //    - A borda também muda para a mesma cor, para dar um look sólido.
                                 peer-checked:bg-neutral-700
                                 peer-checked:border-neutral-600
                                 cursor-pointer'>
