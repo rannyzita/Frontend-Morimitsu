@@ -1,8 +1,9 @@
 import { useState, type FC } from 'react';
 import { SquarePen, ChevronDown } from 'lucide-react';
+import { type ReactNode } from 'react';
 
 interface FormFieldProps {
-    label: string;
+    label: ReactNode;
     value: string;
     onChange: (value: string) => void;
     type?: string;

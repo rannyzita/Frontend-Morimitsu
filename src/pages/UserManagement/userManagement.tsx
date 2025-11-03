@@ -21,7 +21,7 @@ export const GerenciamentoUsuarios: FC = () => {
                 <div className='flex flex-col pb-18 lg:pb-0 gap-6 mt-10 lg:mt-32 lg:h-[60hv] lg:justify-center items-center'>
 
                     <Link
-                        to={'/gerenciamento-usuarios/ver-usuario'}
+                        to={'/gerenciamento-usuarios/ver-usuarios'}
                         className='w-full max-w-sm lg:max-w-none lg:w-auto'
                     >
                         <ActionButton
@@ -40,7 +40,6 @@ export const GerenciamentoUsuarios: FC = () => {
                         />
                     </Link>
 
-                    {/* Botão 3: VER TURMAS */}
                     <Link
                         to={'/gerenciamento-usuarios/editar-usuario'}
                         className='w-full max-w-sm lg:max-w-none lg:w-auto'
@@ -51,7 +50,6 @@ export const GerenciamentoUsuarios: FC = () => {
                         />
                     </Link>
 
-                    {/* Botão 4: CRIAR TURMA */}
                     <Link
                         to={'/gerenciamento-usuarios/deletar-usuario'}
                         className='w-full max-w-sm lg:max-w-none lg:w-auto'

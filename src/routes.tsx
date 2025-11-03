@@ -19,6 +19,7 @@ import { VerTurmas } from './pages/classManagement/options/ReadTurmas'
 // Pagina de Usuário
 import { GerenciamentoUsuarios } from './pages/UserManagement/userManagement'
 import { VerUsuarios } from './pages/UserManagement/options/ReadUser'
+import { CreateUsuario } from './pages/UserManagement/options/CreateUser'
 
 import { Profile } from './pages/Profile/Profile'
 
@@ -48,6 +49,7 @@ export const AppRoutes = () => {
                         {/* Rotas de Usuário */}
                         <Route path='/gerenciamento-usuarios' element={<GerenciamentoUsuarios />} />
                         <Route path='/gerenciamento-usuarios/ver-usuarios' element={<VerUsuarios />} />
+                        <Route path='/gerenciamento-usuarios/criar-usuario' element={<CreateUsuario />} />
 
                         {/* Rota de Usuário */}
                         <Route path='/meu-perfil' element={<Profile></Profile>} />
