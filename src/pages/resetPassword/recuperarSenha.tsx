@@ -129,7 +129,7 @@ export default function PasswordResetPage() {
                         {step === 'email' && (
                             <Box component='form' onSubmit={(e) => e.preventDefault()} className='flex-grow flex flex-col justify-between relative pb-4'>
                                 <div className='mb-6 self-center'>
-                                    <h1 className='text-white text-[22px] sm:text-5xl font-normal tracking-wide sm:whitespace-nowrap border-b-2 border-[#690808] pb-2'>
+                                    <h1 className='text-white text-[22px] md:text-3xl lg:text-5xl font-normal tracking-wide sm:whitespace-nowrap border-b-2 border-[#690808] pb-2'>
                                         RECUPERAR SENHA
                                     </h1>
                                 </div>
@@ -245,7 +245,7 @@ export default function PasswordResetPage() {
                                 className='flex-grow flex flex-col justify-between relative pb-4'
                             >
                                 <div className='mb-6 self-center'>
-                                    <h1 className='text-white text-[20px] sm:text-5xl font-normal tracking-wide sm:whitespace-nowrap border-b-2 border-[#690808] pb-2'>
+                                    <h1 className='text-white text-[20px] md:text-3xl lg:text-5xl font-normal tracking-wide sm:whitespace-nowrap border-b-2 border-[#690808] pb-2'>
                                         CÓDIGO DE RECUPERAÇÃO
                                     </h1>
                                 </div>
