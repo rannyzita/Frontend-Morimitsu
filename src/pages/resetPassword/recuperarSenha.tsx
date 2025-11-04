@@ -421,7 +421,7 @@ export default function PasswordResetPage() {
                                                 endAdornment: (
                                                     <InputAdornment position='end'>
                                                         <IconButton onClick={togglePasswordConfirmer} edge='end' className='!text-[#9E9E9E]'>
-                                                            {showPassword ? (
+                                                            {showPasswordConfirmer ? (
                                                                 <Eye className='w-5 h-5 sm:w-6 sm:h-6' /> // 20px mobile, 24px desktop
                                                             ) : (
                                                                 <EyeOff className='w-5 h-5 sm:w-6 sm:h-6' />
