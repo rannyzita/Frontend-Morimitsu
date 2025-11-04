@@ -189,11 +189,24 @@ export default function PasswordResetPage() {
                                             onClick={handleSubmitEmail}
                                             type='button'
                                             variant='contained'
-                                            className='!w-full !py-[12px] md:!py-[12px] !bg-[#690808] !text-white !rounded-[16px] hover:!bg-red-800 !text-[14px] !md:text-base md:!text-lg !normal-case'
-                                            disabled={loading} 
+                                            className='!w-full !py-[12px] md:!py-[12px] !bg-[#690808] !text-white 
+                                                    !rounded-[16px] hover:!bg-red-800 !text-[14px]
+                                                    md:!text-lg !normal-case relative flex justify-center items-center'
+                                            disabled={loading}
                                             sx={{ minHeight: '40px' }}
                                         >
-                                            {loading ? <CircularProgress size={22} color='inherit' /> : 'Enviar Código'}
+                                            <span className={loading ? 'invisible' : ''}>
+                                                Enviar Código
+                                            </span>
+
+                                            {/* Spinner sobreposto sem alterar tamanho */}
+                                            {loading && (
+                                                <CircularProgress 
+                                                    size={22} 
+                                                    color='inherit' 
+                                                    className='absolute'
+                                                />
+                                            )}
                                         </Button>
 
                                         {(error || successMessage || emailError || showFirstStepMessage) && (
@@ -408,7 +421,7 @@ export default function PasswordResetPage() {
                                                 endAdornment: (
                                                     <InputAdornment position='end'>
                                                         <IconButton onClick={togglePasswordConfirmer} edge='end' className='!text-[#9E9E9E]'>
-                                                            {showPassword ? (
+                                                            {showPasswordConfirmer ? (
                                                                 <Eye className='w-5 h-5 sm:w-6 sm:h-6' /> // 20px mobile, 24px desktop
                                                             ) : (
                                                                 <EyeOff className='w-5 h-5 sm:w-6 sm:h-6' />
