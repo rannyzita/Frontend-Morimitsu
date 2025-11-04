@@ -17,10 +17,10 @@ const CodeInput = forwardRef<HTMLInputElement, CodeInputProps>(({ index, value, 
     return (
         <input
             ref={ref}
-            type="text"
-            inputMode="numeric"
+            type='text'
+            inputMode='numeric'
             maxLength={1}
-            className="w-12 h-12 md:w-14 md:h-14 text-center text-black text-xl md:text-2xl rounded-lg bg-white border border-[#757575] focus:outline-none"
+            className='w-12 h-12 md:w-14 md:h-14 text-center text-black text-xl md:text-2xl rounded-lg bg-white border border-[#757575] focus:outline-none'
             value={value}
             onChange={(e) => onChange(index, e.target.value)}
             onKeyDown={(e) => onKeyDown(e, index)}
@@ -283,7 +283,7 @@ export default function PasswordResetPage() {
                                         onClick={handleResendCode}
                                         disabled={loadingResend}
                                         variant='contained'
-                                        className='!w-full !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !text-base md:!text-lg !normal-case disabled:!bg-red-900/50'
+                                        className='!w-full !py-2 md:!py-[12px] !bg-[#690808] !text-white !rounded-[16px] hover:!bg-red-800 !text-base md:!text-lg !normal-case disabled:!bg-red-900/50'
                                     >
                                         {loadingResend ? <CircularProgress size={24} color='inherit' /> : 'Reenviar Código'}
                                     </Button>

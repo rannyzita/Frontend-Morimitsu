@@ -17,6 +17,7 @@ export const GerenciamentoUsuarios: FC = () => {
             <PageLayout
                 title={'GERENCIAMENTO\nDE\nUSUÁRIOS'}
                 icon={<Users size={36} className='lg:w-[36px] lg:h-[36px]' />}
+                backPath='/home'
             >
                 <div className='flex flex-col pb-18 lg:pb-0 gap-6 mt-10 lg:mt-32 lg:h-[60hv] lg:justify-center items-center'>
 
