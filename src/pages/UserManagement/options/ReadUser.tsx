@@ -95,7 +95,7 @@ export const VerUsuarios: FC = () => {
 
     useEffect(() => {
         const updateStudentsPerPage = () => {
-            const newStudentsPerPage = window.innerWidth < 768 ? 4 : 5; // 4 mobile, 5 iPad/Desktop
+            const newStudentsPerPage = window.innerWidth < 768 ? 5 : 5; // 4 mobile, 5 iPad/Desktop
             setStudentsPerPage(newStudentsPerPage);
             if (newStudentsPerPage !== studentsPerPage) setCurrentPage(1);
         };
@@ -143,7 +143,7 @@ export const VerUsuarios: FC = () => {
 
                     {/* Lista de alunos */}
                     <div
-                        className={`flex-1 ${mobileHeightClass} flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-4 mb-20`}
+                        className={`flex-1 ${mobileHeightClass} flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-4 mb-20 md:min-h-[450px] lg:min-h-[500px]`}
                     >
                         {currentAlunos.map((aluno) => (
                             <StudentListItem
