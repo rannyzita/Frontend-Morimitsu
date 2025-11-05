@@ -15,8 +15,8 @@ interface GenderRadioProps {
 const GenderRadio: FC<GenderRadioProps> = ({ label, value, isChecked, onChange }) => {
     const radioId = `gender-radio-${value}`;
     return (
-        <label htmlFor={radioId} className='flex items-center gap-3 text-white cursor-pointer'>
-            <div className='relative w-5 h-5'>
+        <label htmlFor={radioId} className='flex items-center gap-2 text-white cursor-pointer'>
+            <div className='relative w-5 h-5 md:w-4 md:h-4 lg:w-5 lg:h-5'>
                 <input
                     type='radio'
                     id={radioId}
@@ -26,14 +26,15 @@ const GenderRadio: FC<GenderRadioProps> = ({ label, value, isChecked, onChange }
                     onChange={() => onChange(value)}
                     className='peer absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer'
                 />
-                <div className='w-5 h-5 rounded-full border-2 border-neutral-700 bg-transparent transition-colors duration-150
+                <div className='w-5 h-5 md:w-4 md:h-4 lg:w-5 lg:h-5 rounded-full border-2 border-neutral-700 bg-transparent transition-colors duration-150
                                 peer-checked:bg-neutral-700 peer-checked:border-neutral-600 cursor-pointer'>
                 </div>
             </div>
-            <span>{label}</span>
+            <span className='text-sm md:text-xs lg:text-sm'>{label}</span>
         </label>
     );
 };
+
 
 export const CreateUsuario: FC = () => {
     const [nomeCompleto, setNomeCompleto] = useState('');
@@ -68,13 +69,13 @@ export const CreateUsuario: FC = () => {
     const RequiredLabel: FC<{ label: string }> = ({ label }) => (
         <div className='flex items-center gap-2 h-7'>
             <CircleAlert size={22} className='text-gray-400' />
-            <span>{label}</span>
+            <span className='text-sm md:text-xs lg:text-[16px]'>{label}</span>
         </div>
     );
 
     const StandardLabel: FC<{ label: string }> = ({ label }) => (
         <div className='h-7 flex items-center'>
-            <span>{label}</span>
+            <span className='text-sm md:text-xs lg:text-[16px]'>{label}</span>
         </div>
     );
 
@@ -82,12 +83,20 @@ export const CreateUsuario: FC = () => {
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
             <PageLayout
                 title='CRIAR USUÁRIO'
-                icon={<UserPlus className='w-8 h-8 lg:w-12 lg:h-10 text-white' />}
+                icon={<UserPlus size={36} className='lg:w-[50px] lg:h-[50px]' />}
             >
                 <div className='flex flex-col justify-center min-h-[65vh] gap-8 px-4 md:gap-12 md:px-16'>
 
                     {/* GRID DE CAMPOS */}
-                    <div className='grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-4 md:gap-y-6 items-end mt-4'>
+                    <div className='
+                        grid grid-cols-1
+                        md:grid-cols-2   /* iPad */
+                        lg:grid-cols-3   /* Desktop */
+                        gap-x-10 gap-y-6  
+                        md:gap-y-8 md:gap-x-6
+                        lg:gap-y-6 lg:gap-x-10
+                        items-end mt-10 md:mt-12 lg:mt-4
+                    '>
 
                         {/* Campos obrigatórios */}
                         <FormField label={<RequiredLabel label='Nome completo:' />} value={nomeCompleto} onChange={setNomeCompleto} />
@@ -102,7 +111,7 @@ export const CreateUsuario: FC = () => {
                                 <CircleAlert size={22} className='text-gray-400' />
                                 <span>Gênero:</span>
                             </label>
-                            <div className='flex gap-4 pt-3'>
+                            <div className='flex gap-4 pt-3 md:gap-2 md:pt-2 lg:gap-4 lg:pt-3'>
                                 <GenderRadio label='Feminino' value='F' isChecked={genero === 'F'} onChange={setGenero} />
                                 <GenderRadio label='Masculino' value='M' isChecked={genero === 'M'} onChange={setGenero} />
                                 <GenderRadio label='Outro' value='O' isChecked={genero === 'O'} onChange={setGenero} />
