@@ -93,7 +93,7 @@ export const DeletarUsuario: FC = () => {
                 icon={<UserMinus size={36} className='lg:w-[50px] lg:h-[50px]' />}
                 className='flex flex-col h-full relative'
             >
-                <div className='flex flex-col h-full gap-4 pt-8 lg:gap-2 lg:pt-4'>
+                <div className='flex flex-col md:h-[600px] h-full gap-4 pt-8 lg:gap-2 lg:pt-4'>
                     
                     <SearchInput
                         value={searchQuery}
@@ -115,7 +115,7 @@ export const DeletarUsuario: FC = () => {
                     </div>
 
                     {/* posição do botão: mobile ↑ — iPad ↓ — desktop estável */}
-                    <div className='absolute right-6 lg:right-[123px] bottom-[17%] md:bottom-[5%] lg:bottom-[5%]'>
+                    <div className='absolute md:right-18 right-6 lg:right-[123px] bottom-[17%] md:bottom-[13%] lg:bottom-[5%]'>
                         <button
                             onClick={() => selectedIds.length ? setShowAlert(true) : setToast({ message: 'Selecione pelo menos um usuário.', type: 'error' })}
                             className='bg-[#690808] hover:bg-red-900 text-white font-semibold
