@@ -1,4 +1,4 @@
-import { useState, type FC, useEffect } from 'react';
+import { useState, type FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCard';
@@ -38,14 +38,14 @@ interface StudentListItemProps {
 
 const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, studentId, isSelected, onToggleSelect }) => {
     return (
-        <div className='relative flex items-center gap-2 md:gap-3 bg-[#690808] p-2 lg:p-3 rounded-lg
-                        w-full max-w-lg lg:w-[950px] shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
+        <div className='relative flex items-center bg-[#690808] p-2 lg:p-3 rounded-lg
+                        w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
 
             <img src={avatar} alt={name} className='w-8 h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0' />
 
-            <Award size={18} className='text-white lg:w-6 lg:h-6' />
+            <Award size={18} className='text-white lg:w-6 lg:h-6 ml-1' />
 
-            <div className='h-8 lg:h-10 border-l border-white opacity-50 mx-1' />
+            <div className='h-8 lg:h-10 border-l border-white opacity-50 mx-2 flex-shrink-0' />
 
             <span className='flex-1 text-white truncate text-[11px] md:text-[14px] lg:text-base'>
                 {name}
@@ -69,25 +69,15 @@ export const DeletarUsuario: FC = () => {
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [showAlert, setShowAlert] = useState(false);
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
-
     const [currentPage, setCurrentPage] = useState(1);
-    const [studentsPerPage] = useState(5); // igual ao VerUsuarios
+    const studentsPerPage = 5; // mesmo do VerUsuarios
 
     const filtered = alunos.filter(a => a.name.toLowerCase().includes(searchQuery.toLowerCase()));
     const totalPages = Math.ceil(filtered.length / studentsPerPage);
-    const startIndex = (currentPage - 1) * studentsPerPage;
-    const currentAlunos = filtered.slice(startIndex, startIndex + studentsPerPage);
+    const current = filtered.slice((currentPage - 1) * studentsPerPage, currentPage * studentsPerPage);
 
     const toggle = (id: number) =>
         setSelectedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
-
-    const handleDelete = () => {
-        if (selectedIds.length === 0) {
-            setToast({ message: 'Selecione pelo menos um usuário para excluir.', type: 'error' });
-            return;
-        }
-        setShowAlert(true);
-    };
 
     const confirmDelete = () => {
         setAlunos(alunos.filter(a => !selectedIds.includes(a.id)));
@@ -103,52 +93,52 @@ export const DeletarUsuario: FC = () => {
                 icon={<UserMinus size={36} className='lg:w-[50px] lg:h-[50px]' />}
                 className='flex flex-col h-full relative'
             >
-                <div className='flex flex-col h-full gap-4 pt-8'>
-
-                    {/* Search Input igual original */}
+                <div className='flex flex-col h-full gap-4 pt-8 lg:gap-2 lg:pt-4'>
+                    
                     <SearchInput
                         value={searchQuery}
                         onChange={setSearchQuery}
                         placeholder='Digite o nome do usuário'
-                        className='w-full max-w-sm mx-auto lg:w-[650px]'
+                        className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto'
                     />
 
-                    {/* Lista */}
-                    <div className='flex-1 flex flex-col gap-6 items-center overflow-y-auto mt-2 mb-20 lg:min-h-[500px]'>
-                        {currentAlunos.map(a => (
-                            <StudentListItem key={a.id} {...a} studentId={a.id}
+                    <div className='flex-1 lg:min-h-[400px] flex flex-col gap-6 items-center overflow-y-auto mt-2 md:mt-4 mb-20'>
+                        {current.map(a => (
+                            <StudentListItem
+                                key={a.id}
+                                {...a}
+                                studentId={a.id}
                                 isSelected={selectedIds.includes(a.id)}
                                 onToggleSelect={toggle}
                             />
                         ))}
                     </div>
 
-                    {/* Botão responsivo igual estilo do VerUsuarios */}
-                    <div className='absolute right-4 lg:right-[128px] bottom-[25%] sm:bottom-[22%] md:bottom-[18%]'>
+                    {/* posição do botão: mobile ↑ — iPad ↓ — desktop estável */}
+                    <div className='absolute right-6 lg:right-[123px] bottom-[17%] md:bottom-[5%] lg:bottom-[5%]'>
                         <button
-                            onClick={handleDelete}
+                            onClick={() => selectedIds.length ? setShowAlert(true) : setToast({ message: 'Selecione pelo menos um usuário.', type: 'error' })}
                             className='bg-[#690808] hover:bg-red-900 text-white font-semibold
-                                    py-2 px-4 text-sm lg:py-4 lg:px-8 lg:text-base rounded-lg shadow-md transition-colors'
+                            py-3 px-4 text-sm md:py-4 md:px-8 lg:py-4 lg:px-8 lg:text-base
+                            rounded-lg shadow-md transition-colors'
                         >
                             Excluir Selecionados
                         </button>
                     </div>
 
-                    {/* Paginação */}
                     <div className='absolute bottom-10 left-1/2 -translate-x-1/2 w-full max-w-[650px]'>
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                     </div>
                 </div>
             </PageLayout>
 
-            {/* Modal */}
             <AlertModal
                 isOpen={showAlert}
                 onClose={() => setShowAlert(false)}
                 onConfirm={confirmDelete}
                 title='Tem certeza de que deseja excluir o(s) usuário(os) selecionado(s)?'
             >
-                Todas as informações serão removidas permanentemente do sistema.
+                Todas as informações serão removidas permanentemente do sistema e não poderão ser recuperadas.
             </AlertModal>
 
             {toast && (

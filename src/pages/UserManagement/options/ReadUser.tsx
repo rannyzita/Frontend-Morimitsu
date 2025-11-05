@@ -133,7 +133,7 @@ export const VerUsuarios: FC = () => {
                 icon={<User size={36} className='lg:w-[50px] lg:h-[50px]' />}
                 className='flex flex-col h-full relative'
             >
-                <div className='flex flex-col h-full gap-4 pt-8 lg:gap-2 lg:pt-8'>
+                <div className='flex flex-col h-full gap-4 pt-8 lg:gap-2 lg:pt-4'>
                     <SearchInput
                         value={searchQuery}
                         onChange={setSearchQuery}
@@ -143,7 +143,7 @@ export const VerUsuarios: FC = () => {
 
                     {/* Lista de alunos */}
                     <div
-                        className={`flex-1 ${mobileHeightClass} flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-4 mb-20 md:min-h-[450px] lg:min-h-[500px]`}
+                        className={`flex-1 ${mobileHeightClass} flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-4 mb-20 md:min-h-[450px] lg:min-h-[400px]`}
                     >
                         {currentAlunos.map((aluno) => (
                             <StudentListItem
