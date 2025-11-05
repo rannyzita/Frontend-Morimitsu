@@ -55,7 +55,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
                     {title && (
                         <div className='flex items-center gap-3'>
                         {icon}
-                            <h1 className='text-[13px] lg:text-2xl font-bold tracking-wide'>{title}</h1>
+                            <h1 className='text-[13px] md:text-2xl lg:text-2xl font-bold tracking-wide'>{title}</h1>
                         </div>
                     )}
                 </div>
