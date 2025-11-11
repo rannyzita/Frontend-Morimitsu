@@ -153,10 +153,11 @@ export default function PasswordResetPage() {
                                             onChange={(e) => setEmail(e.target.value)}
                                             InputProps={{
                                                 sx: {
-                                                        height: { xs: 42, md: 56 }, // altura responsiva
-                                                        fontSize: { xs: '0.80rem', md: '1rem' }, // texto responsivo
+                                                    height: { xs: 42, md: 56 },
+                                                    fontSize: { xs: '0.80rem', md: '1rem' },
                                                     '& input': {
                                                         padding: { xs: '8px 10px', md: '14px 16px' },
+                                                        color: '#FFFFFF', 
                                                     },
                                                 },
                                             }}
@@ -167,7 +168,8 @@ export default function PasswordResetPage() {
                                             }}
                                             sx={{
                                                 '& .MuiInputBase-input::placeholder': {
-                                                    fontSize: '0.78rem', // placeholder mobile
+                                                    color: '#757575', 
+                                                    fontSize: '0.78rem',
                                                     '@media (min-width:768px)': {
                                                         fontSize: '1rem',
                                                     },
@@ -176,11 +178,11 @@ export default function PasswordResetPage() {
                                                     '& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active': {
                                                         transition: 'background-color 5000s ease-in-out 0s',
                                                         boxShadow: '0 0 0 30px #000000 inset !important',
-                                                        WebkitTextFillColor: '#FFFFFF !important', // texto branco
+                                                        WebkitTextFillColor: '#FFFFFF !important', 
                                                     },
                                                 },
                                             }}
-                                            className='[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
+                                            className='[&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
                                         />
                                     </div>
 
@@ -199,7 +201,6 @@ export default function PasswordResetPage() {
                                                 Enviar Código
                                             </span>
 
-                                            {/* Spinner sobreposto sem alterar tamanho */}
                                             {loading && (
                                                 <CircularProgress 
                                                     size={22} 
