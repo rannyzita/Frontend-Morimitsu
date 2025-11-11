@@ -29,6 +29,14 @@ import { CreateUsuario } from './pages/UserManagement/options/CreateUser'
 import { EditUsuario } from './pages/UserManagement/options/EditUser'
 import { DeletarUsuario } from './pages/UserManagement/options/DeleteUser'
 
+// Pagina de Relatorio
+import { Report } from './pages/report/report'
+
+// Pagina de Aniversariantes 
+import { Birthday } from './pages/birthday/birthday'
+
+// Pagina de Graduacao
+import { Graduation } from './pages/graduation/graduation'
 
 export const AppRoutes = () => {
     return (
@@ -38,10 +46,10 @@ export const AppRoutes = () => {
                     <Route path='/login' element={<Login />} />
                     <Route path='/' element={<Navigate to='/login' replace />} />
                     <Route path='/recuperar-senha' element={<RecuperarSenha/>} />
+                    <Route path='*' element={<NotFound />} />
                     
                     <Route element={<MainLayout />}>
                         <Route path='/home' element={<Home />} />
-                        <Route path='*' element={<NotFound />} />
 
                         {/* Rotas de turma */}
                         <Route path='/gerenciamento-turmas' element={<GerenciamentoTurmas />} />
@@ -59,7 +67,16 @@ export const AppRoutes = () => {
                         <Route path='/gerenciamento-usuarios/deletar-usuario' element={<DeletarUsuario />} />
 
                         {/* Rota de Usuário */}
-                        <Route path='/meu-perfil' element={<Profile></Profile>} />
+                        <Route path='/meu-perfil' element={<Profile />} />
+
+                        {/* Rota de Relatorio */}
+                        <Route path='/relatorio' element={<Report />} />
+
+                        {/* Rota de Aniversariantes */}
+                        <Route path='/aniversarios' element={<Birthday/>} />
+
+                        {/* Rota de Graduacao */}
+                        <Route path='/graduacao' element={<Graduation/>} />
                     </Route>
                 </Routes>
             </BrowserRouter>  
