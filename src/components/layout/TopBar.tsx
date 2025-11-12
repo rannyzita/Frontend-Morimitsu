@@ -21,7 +21,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
             <div className='flex items-center space-x-4'>
                     <Link to={'/home'}>
                         {/* MUDANÇA AQUI: text-sm para celular, sm:text-lg para telas maiores */}
-                        <span className='text-[12px] tracking-wide sm:block lg:text-lg'>
+                        <span className='text-[12px] tracking-wide sm:block md:text-lg lg:text-lg'>
                             Morimitsu Tradição Jiu-Jitsu
                         </span>
                     </Link>
