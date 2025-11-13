@@ -3,16 +3,14 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import type { FC, ReactNode } from 'react';
 import { Box, Typography } from '@mui/material';
-
+import { BirthdayCarousel } from '../../components/ScrollBirthday/scrollBirthday';
 import { useAuth } from '../../contexts/AuthContext';
 
 import { 
     Users, 
     GraduationCap, 
-    Cake, 
     ChevronRight, 
     ChevronLeft, 
-    User,
     Bell,
     ListChecks,
     ClipboardList
@@ -79,30 +77,6 @@ const BigButton: FC<BigButtonProps> = ({ icon, label }) => (
         <span className='flex-1 text-center'>{label}</span> 
     </button>
 );
-interface BirthdayCardProps {
-    date: string;
-    name: string;
-    team: string;
-}
-
-const BirthdayCard: FC<BirthdayCardProps> = ({ date, name, team }) => (
-    <div 
-        className='bg-[#880000] rounded-lg p-2 flex flex-col items-center gap-3 min-w-[200px] lg:min-w-[250px] border-[10px] border-[#3E0404]'
-    >
-        <div className='text-center text-white'>
-            <Typography variant='h4' className='!font-bold'>{date}</Typography>
-            <Typography variant='body1'>{name}</Typography>
-        </div>
-        
-        <div className='bg-white/20 rounded-full p-4 sm:p-5 text-white'>
-            <User size={64} /> 
-        </div>
-
-        <span className='text-white bg-black/30 px-3 py-1 rounded-full text-sm font-semibold'>
-            {team}
-        </span>
-    </div>
-);
 
 export const Home: FC = () => {
 
@@ -131,50 +105,6 @@ export const Home: FC = () => {
             setCurrentPage(currentPage - 1);
         }
     };
-    
-    // --- LÓGICA DO CARROSSEL DE ANIVERSARIANTES ---
-
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-    const [showLeftArrow, setShowLeftArrow] = useState(false);
-    const [showRightArrow, setShowRightArrow] = useState(true);
-
-    const handleScrollRight = () => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-        }
-    };
-
-    const handleScrollLeft = () => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-        }
-    };
-
-    const checkScroll = () => {
-        const container = scrollContainerRef.current;
-        
-        const isDesktop = window.innerWidth >= 1024; 
-    
-        if (container) {
-            const { scrollLeft, scrollWidth, clientWidth } = container;
-    
-            setShowLeftArrow(scrollLeft > 0 && isDesktop);
-    
-            setShowRightArrow(Math.ceil(scrollLeft) + clientWidth < scrollWidth && isDesktop);
-        } else {
-            setShowLeftArrow(false);
-            setShowRightArrow(false);
-        }
-    };
-
-    useEffect(() => {
-        checkScroll(); 
-        
-        window.addEventListener('resize', checkScroll);
-
-        return () => window.removeEventListener('resize', checkScroll);
-    }, [birthdayMembers]); 
 
     return (
         <Box component='div' className='max-w-7xl mx-auto lg:max-w-full lg:mx-0 flex flex-col gap-10 py-6 px-8 lg:py-26 lg:px-30'> 
@@ -285,57 +215,7 @@ export const Home: FC = () => {
             </section>
 
             {/* SEÇÃO 2: Aniversariantes do Mês */}
-            <section className='pb-4'> 
-                <header className='flex items-center gap-3 lg:gap-4 mb-6'>
-                <Cake className='text-white flex-shrink-0 w-12 h-12 lg:w-[68px] lg:h-[68px]' />
-                    <Typography variant='h6' className='text-white !font-bold !text-[18px] lg:!text-4xl'>
-                        ANIVERSÁRIANTES DO MÊS:
-                    </Typography>
-                </header>
-
-                <div className='relative flex items-center pl-8 lg:pr-2 ml-[-74px]'>
-
-                    <div 
-                        className={`lg:pr-8 ${showLeftArrow ? 'visible' : 'invisible'}`}
-                    >
-                        <ChevronLeft 
-                            size={42} 
-                            className='text-white cursor-pointer' 
-                            onClick={handleScrollLeft} 
-                        />
-                    </div>
-
-                    <div 
-                        ref={scrollContainerRef}
-                        onScroll={checkScroll} 
-                        className='flex overflow-x-auto gap-4 lg:gap-30 pb-4 flex-1
-                                    [&::-webkit-scrollbar]:h-2
-                                    [&::-webkit-scrollbar-thumb]:bg-[#880000]
-                                    [&::-webkit-scrollbar-track]:bg-[#3E0404] 
-                                    [&::-webkit-scrollbar-thumb]:rounded-full'
-                    >
-                        
-                        {birthdayMembers.map((member) => (
-                            <BirthdayCard 
-                                key={member.name}
-                                date={member.date}
-                                name={member.name}
-                                team={member.team}
-                            />
-                        ))}
-                    </div>
-
-                    <div 
-                        className={`lg:pl-8 ${showRightArrow ? 'visible' : 'invisible'}`}
-                    >
-                        <ChevronRight 
-                            size={42} 
-                            className='text-white cursor-pointer' 
-                            onClick={handleScrollRight}
-                        />
-                    </div>
-                </div>
-            </section>
+            <BirthdayCarousel members={birthdayMembers}></BirthdayCarousel>
         </Box>
     );
 }
