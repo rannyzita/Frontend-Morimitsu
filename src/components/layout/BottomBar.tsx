@@ -46,7 +46,7 @@ export const Bottombar: React.FC = () => {
                         sx={{
                         fontSize: {
                                 xs: '2.50rem',
-                                md: '2.0rem',
+                                md: '3.50rem', 
                             },
                         }}
                     >
@@ -64,6 +64,7 @@ export const Bottombar: React.FC = () => {
                         sx={{
                             '@media (min-width: 768px) and (max-width: 1024px)': {
                                 textAlign: 'center',
+                                fontSize: '1.1rem', 
                             },
                         }}
                     >
@@ -85,13 +86,14 @@ export const Bottombar: React.FC = () => {
                     },
                 }}
             >
+            {/* TÍTULO - AUMENTO NO MD (TABLET/IPAD) */}
             <Typography
                 variant='h5'
                 className='!font-bold !mb-4 tracking-wide'
                 sx={{
                     fontSize: {
                         xs: '2.50rem',
-                        md: '2.0rem',
+                        md: '3.50rem', 
                     },
                 }}
             >
@@ -103,11 +105,14 @@ export const Bottombar: React.FC = () => {
                 </Box>
             </Typography>
 
+            {/* LISTA DE LOCALIDADES - AUMENTO NO MD (TABLET/IPAD) */}
             <ul
                 className='space-y-2 list-disc pl-5 text-gray-300'
                 style={{
                     listStyle: 'none',
                     padding: 0,
+                    // Estilo inline para aumentar o texto da lista no iPad
+                    fontSize: window.innerWidth >= 768 && window.innerWidth <= 1024 ? '1.1rem' : undefined,
                 }}
             >
                 <li>- Juazeiro do Norte, Ceará</li>
@@ -130,13 +135,14 @@ export const Bottombar: React.FC = () => {
                     },
                 }}
             >
+            
             <Typography
                 variant='h5'
                 className='!font-bold !mb-4 tracking-wide'
                 sx={{
                 fontSize: {
                     xs: '2.50rem',
-                    md: '2.0rem',
+                    md: '3.50rem', 
                 },
                 textAlign: {
                     lg: 'center'
@@ -155,6 +161,7 @@ export const Bottombar: React.FC = () => {
                     container
                     spacing={{ xs: 2, md: 4 }}
                 >
+                    
                     <Grid item xs={12} md={6}>
                         <div className='flex flex-col gap-4 md:items-center '>
                             <Link
@@ -162,6 +169,10 @@ export const Bottombar: React.FC = () => {
                                 target='_blank'
                                 rel='noopener'
                                 className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'
+                                sx={{
+                                    // Aumento do tamanho do texto no iPad/Tablet
+                                    fontSize: { md: '2.1rem' },
+                                }}
                             >
                                 <Instagram fontSize='medium' sx={{ color: 'white' }} />
                                 <span>@morimitsu_kmrbjj_cedro</span>
@@ -172,6 +183,10 @@ export const Bottombar: React.FC = () => {
                                 target='_blank'
                                 rel='noopener'
                                 className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'
+                                sx={{
+                                    // Aumento do tamanho do texto no iPad/Tablet
+                                    fontSize: { md: '2.1rem' },
+                                }}
                             >
                                 <Instagram fontSize='medium' sx={{ color: 'white' }} />
                                 <span>@saulobezerrabjj</span>
@@ -184,17 +199,25 @@ export const Bottombar: React.FC = () => {
                             <Link
                             href='mailto:saulo@ifce.edu.br'
                             className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'
+                            sx={{
+                                // Aumento do tamanho do texto no iPad/Tablet
+                                fontSize: { md: '2.1rem' },
+                            }}
                             >
                             <Mail size={20} color='white' />
-                            <span>saulo@ifce.edu.br</span>
+                                <span>saulo@ifce.edu.br</span>
                             </Link>
 
                             <Link
                             href='tel:88999650480'
                             className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'
+                            sx={{
+                                // Aumento do tamanho do texto no iPad/Tablet
+                                fontSize: { md: '2.1rem' },
+                            }}
                             >
                             <Phone size={20} color='white' />
-                            <span>88 9965-0480</span>
+                                <span>88 9965-0480</span>
                             </Link>
                         </div>
                     </Grid>

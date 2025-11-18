@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, type FC } from 'react';
+import { useRef, type FC } from 'react';
 import { Box, Typography } from '@mui/material';
 import { Cake, ChevronLeft, ChevronRight, User } from 'lucide-react';
 import { useScrollArrows } from '../../hooks/useScrollsArrow';
@@ -63,7 +63,7 @@ export const BirthdayCarousel: FC<BirthdayCarouselProps> = ({
 
             <div className='relative flex items-center pl-8 lg:pr-2 ml-[-74px]'>
                 {/* Setinha esquerda */}
-                <div className={`lg:pr-8 ${showLeftArrow ? 'visible' : 'invisible'}`}>
+                <div className={`pr-2 md:pr-6 md:lg:pr-8 ${showLeftArrow ? 'visible' : 'invisible'}`}>
                     <ChevronLeft
                         size={42}
                         className='text-white cursor-pointer'
@@ -75,7 +75,7 @@ export const BirthdayCarousel: FC<BirthdayCarouselProps> = ({
                 <div
                     ref={scrollContainerRef}
                     onScroll={checkScroll}
-                    className='flex overflow-x-auto gap-4 lg:gap-30 pb-4 flex-1
+                    className='flex overflow-x-auto gap-4 md:gap-20 lg:gap-30 pb-6 flex-1
                                 [&::-webkit-scrollbar]:h-2
                                 [&::-webkit-scrollbar-thumb]:bg-[#880000]
                                 [&::-webkit-scrollbar-track]:bg-[#3E0404]
