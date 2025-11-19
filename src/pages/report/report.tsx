@@ -12,41 +12,42 @@ interface StatisticProps {
 
 // Cartão de Estatística (Ex: Turmas, Alunos)
 const StatisticCard: FC<StatisticProps> = ({ title, total}) => (
-    <Card className='bg-[#3E0404] text-white p-4 flex flex-col items-center gap-1 rounded-xl shadow-lg h-32 lg:h-40 mt-4'>
-        <div className='flex items-center justify-start gap-2'>
+    <Card className='!bg-[#690808] text-white p-4 flex flex-col items-center gap-1 rounded-xl  h-32 lg:h-35 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
+        <div className='flex items-center justify-start'>
             <Typography variant='body1' className='!font-bold tracking-wide lg:text-xl'>
                 {title}
             </Typography>
         </div>
-        <Divider className='w-full !my-1 bg-white/50' />
-        <Typography variant='h4' className='!font-extrabold lg:text-5xl'>
-            {total}
-        </Typography>
-        <Typography variant='caption' className='text-gray-300 lg:text-sm'>
-            TOTAIS
-        </Typography>
+
+        <Card className='!bg-[#500000] text-white p-4 flex flex-col items-center gap-1 rounded-xl  h-32 lg:h-35'>
+            <Typography variant='h4' className='!font-extrabold lg:text-5xl'>
+                {total}
+            </Typography>
+            <Typography variant='caption' className='text-white lg:text-sm'>
+                TOTAIS
+            </Typography>
+        </Card>
     </Card>
 );
 
-// Cartão de Ranking (Para simular a estrutura do cartão maior)
 const RankingCard: FC = () => (
     <Card 
-        className='bg-[#3E0404] text-white p-6 rounded-xl shadow-lg'
+        className='!bg-[#690808] text-white p-6 rounded-2xl shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
         sx={{
             height: { xs: 'auto', lg: '500px' }, 
         }}
     >
-        <Typography variant='h5' className='!font-bold !text-xl tracking-wide text-center'>
+        <Typography variant='h5' className='!font-bold !text-2xl tracking-wide text-center'>
             MAIOR PRESENÇA
         </Typography>
-        <Divider className='w-full !my-3 bg-white/50' />
+        <Divider className='!border-[#3E0404] !border-[2px] !my-3' />
         
         {/* Simulação do Layout de Ranking e Gráfico */}
         <Box className='flex flex-col lg:flex-row gap-6 mt-4 h-full'>
             
             {/* RANKING (Lado Esquerdo) */}
-            <Box className='lg:w-1/2 flex flex-col items-center gap-4'>
-                <Typography variant='h6' className='!font-semibold text-white/80'>RANKING</Typography>
+            <Box className='lg:w-1/2 flex flex-col items-center gap-4 bg-[#500000] border-3 border-[#3E0404]'>
+                <Typography variant='h6' className='!font-semibold text-white'>RANKING</Typography>
                 <Trophy size={48} className='text-yellow-400' />
                 <Typography className='text-xl'>JOÃO LUCAS</Typography>
                 
@@ -63,63 +64,56 @@ const RankingCard: FC = () => (
             </Box>
 
             {/* GRÁFICO (Lado Direito) */}
-            <Box className='lg:w-1/2 flex flex-col items-center mt-6 lg:mt-0'>
-                <Typography variant='h6' className='!font-semibold text-white/80'>GRÁFICO</Typography>
-                <Box className='h-64 w-full bg-red-900 mt-2 flex justify-around items-end p-2'>
+            <Box className='lg:w-1/2 flex flex-col items-center mt-6 lg:mt-0 bg-[#500000] border-3 border-[#3E0404]'>
+                <Typography variant='h6' className='!font-semibold text-white'>GRÁFICO</Typography>
+                <Box className='h-64 w-full mt-2 flex justify-around items-end p-2'>
                     {/* Barras de Exemplo */}
-                    <div className='w-4 bg-red-700 h-1/2 text-xs text-center' style={{ height: '70%' }}></div>
-                    <div className='w-4 bg-red-700 h-1/2 text-xs text-center' style={{ height: '90%' }}></div>
-                    <div className='w-4 bg-red-700 h-1/2 text-xs text-center' style={{ height: '50%' }}></div>
+                    <div className='w-4 !bg-red-700 h-1/2 text-xs text-center' style={{ height: '70%' }}></div>
+                    <div className='w-4 !bg-red-700 h-1/2 text-xs text-center' style={{ height: '90%' }}></div>
+                    <div className='w-4 !bg-red-700 h-1/2 text-xs text-center' style={{ height: '50%' }}></div>
                 </Box>
             </Box>
         </Box>
     </Card>
 );
 
-
-// --- Componente Principal ---
-
 export const Report: FC = () => {
-    // Note: Mantive o nome Birthday, mas o conteúdo é o dashboard de Relatório
     return (
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
             <PageLayout backPath='/home' icon={<Cake size={36} className='lg:w-[50px] lg:h-[50px]' />} title='RELATÓRIO'>
                 
                 <Grid 
                     container 
-                    spacing={4} 
-                    className='mt-4 lg:mt-10'
+                    spacing={6}     
+                    className='mt-8 lg:mt-24'
                 >
-                    {/* COLUNA DE ESTATÍSTICAS (Ocupa 8 de 12 no Desktop, 12 de 12 no Mobile) */}
-                    <Grid item xs={12} lg={8}>
-                        <Grid container spacing={3}>
-                            {/* LINHA 1 DE ESTATÍSTICAS */}
-                            <Grid item xs={6} sm={4}> 
+                    
+                    <Grid item xs={12} lg={5}>
+                        <Grid container spacing={12} rowSpacing={5}>
+                            
+                            <Grid item xs={6} sm={4} lg={6}> 
                                 <StatisticCard title='TURMAS' total={4} />
                             </Grid>
-                            <Grid item xs={6} sm={4}>
+                            <Grid item xs={6} sm={4} lg={6}>
                                 <StatisticCard title='ALUNOS' total={220} />
                             </Grid>
-                            <Grid item xs={6} sm={4}> 
-                                {/* Ocupa a terceira coluna no SM/LG, mas quebra para baixo no XS */}
+                            <Grid item xs={6} sm={4} lg={6}> 
                                 <StatisticCard title='PROFESSOR' total={2} />
                             </Grid>
 
-                            {/* LINHA 2 DE ESTATÍSTICAS */}
-                            <Grid item xs={6} sm={4}>
+                            <Grid item xs={6} sm={4} lg={6}>
                                 <StatisticCard title='COORDENADOR' total={1} />
                             </Grid>
-                            <Grid item xs={6} sm={4}>
+                            <Grid item xs={6} sm={4} lg={6}>
                                 <StatisticCard title='USUÁRIOS' total={50} />
                             </Grid>
-                            <Grid item xs={6} sm={4}>
+                            <Grid item xs={6} sm={4} lg={6}>
                                 <StatisticCard title='AULAS' total={1200} />
                             </Grid>
                         </Grid>
                     </Grid>
 
-                    {/* COLUNA DE RANKING/GRÁFICO (Ocupa 4 de 12 no Desktop, 12 de 12 no Mobile) */}
-                    <Grid item xs={12} lg={4}>
+                    <Grid item xs={12} lg={7}>
                         <RankingCard />
                     </Grid>
                 </Grid>
