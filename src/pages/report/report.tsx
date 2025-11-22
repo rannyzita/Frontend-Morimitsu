@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { Box, Grid, Typography, Card, Divider } from '@mui/material';
 import { PageLayout } from '../../components/layout/BigCard'; 
-import { Cake } from 'lucide-react';
+import { ClipboardList } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Trophy } from 'lucide-react'; 
 
@@ -44,34 +44,34 @@ const RankingCard: FC = () => (
         
         <Box className='flex flex-col lg:flex-row gap-6 mt-4 h-113'>
             <Box className='lg:w-1/2 flex flex-col items-center gap-4 bg-[#500000] border-3 border-[#3E0404] !rounded-[5px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                <Typography variant='h5' className='!font-semibold text-white pt-4'>RANKING</Typography>
-                <Trophy size={62} className='text-white' strokeWidth={1.5} />
+                <Typography variant='h6' className='!font-semibold text-white pt-4'>RANKING</Typography>
+                <Trophy size={64} className='text-white' strokeWidth={1.5} />
                 
                 {/* PÓDIO */}
                 <div className='w-full flex justify-center mt-6'>
-                <div className='flex items-end text-white font-bold select-none'>
+                    <div className='flex items-end text-white font-bold select-none'>
 
-                    {/* 2º Lugar */}
-                    <div className='bg-[#500000] w-24 h-20 flex flex-col items-center justify-center relative border-t-4 border-[#3E0404]'>
-                    <span className='absolute top-1 text-[10px] tracking-wide'>JOÃO LUCAS</span>
-                    <span className='text-xl mt-4'>2º</span>
+                        {/* 2º Lugar */}
+                        <div className='bg-[#690808] w-18 h-16 flex flex-col items-center justify-center relative border-t-6 border-[#3E0404]'>
+                            <span className='absolute -top-8 text-[9px] tracking-wide'>JOÃO LUCAS</span>
+                            <span className='text-xl'>2º</span>
+                        </div>
+
+                        {/* 1º Lugar (MAIOR) */}
+                        <div className='bg-[#690808] w-18 h-20 flex flex-col items-center justify-center relative border-t-6 border-[#3E0404]'>
+                            <span className='absolute -top-8 text-[10px] tracking-wide'>ANA LAURA</span>
+                            <span className='text-3xl'>1º</span>
+                        </div>
+
+                        {/* 3º Lugar */}
+                        <div className='bg-[#690808] w-18 h-14 flex flex-col items-center justify-center relative border-t-6 border-[#3E0404]'>
+                            <span className='absolute -top-8 text-[8px] tracking-wide text-center'>NICHOLAS ALVES</span>
+                            <span className='text-xl'>3º</span>
+                        </div>
+
                     </div>
-
-                    {/* 1º Lugar */}
-                    <div className='bg-[#500000] w-28 h-28 mx-2 flex flex-col items-center justify-center relative border-t-4 border-[#3E0404]'>
-                    <span className='absolute top-1 text-[12px] tracking-wide'>ANA LAURA</span>
-                    <span className='text-3xl mt-3'>1º</span>
-                    </div>
-
-                    {/* 3º Lugar */}
-                    <div className='bg-[#500000] w-24 h-16 flex flex-col items-center justify-center relative border-t-4 border-[#3E0404]'>
-                    <span className='absolute top-1 text-[10px] tracking-wide'>NICHOLAS ALVES</span>
-                    <span className='text-xl mt-4'>3º</span>
-                    </div>
-
                 </div>
-                </div>
-                
+            
                 <Box className='flex flex-col gap-3 w-full mt-auto mb-4 px-3'>
                 
                     <Divider className='!border-[#3E0404] !border-[2px]' />
@@ -124,7 +124,7 @@ const RankingCard: FC = () => (
 export const Report: FC = () => {
     return (
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
-            <PageLayout backPath='/home' icon={<Cake size={36} className='lg:w-[50px] lg:h-[50px]' />} title='RELATÓRIO'>
+            <PageLayout backPath='/home' icon={<ClipboardList size={36} className='lg:w-[50px] lg:h-[50px]' />} title='RELATÓRIO'>
                 
                 <Grid 
                     container 
