@@ -12,12 +12,13 @@ interface BirthdayMember {
 interface BirthdayCarouselProps {
     title?: string;
     members: BirthdayMember[];
+    icon?: boolean;
 }
 
 const BirthdayCard: FC<BirthdayMember> = ({ date, name, team }) => (
     <div
         className='bg-[#880000] rounded-lg p-2 flex flex-col items-center gap-3 
-                min-w-[200px] lg:min-w-[250px] border-[10px] border-[#3E0404]'
+                min-w-[150px] lg:min-w-[220px] border-[10px] border-[#3E0404]'
     >
         <div className='text-center text-white'>
             <Typography variant='h4' className='!font-bold'>
@@ -37,7 +38,7 @@ const BirthdayCard: FC<BirthdayMember> = ({ date, name, team }) => (
 );
 
 export const BirthdayCarousel: FC<BirthdayCarouselProps> = ({
-        members, title
+        members, title, icon
     }) => {
 
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -54,7 +55,9 @@ export const BirthdayCarousel: FC<BirthdayCarouselProps> = ({
     return (
         <Box component='section' className='pb-4'>
             <header className='flex items-center gap-3 lg:gap-4 mb-6'>
-                <Cake className='text-white flex-shrink-0 w-12 h-12 lg:w-[68px] lg:h-[68px]' />
+                {icon  && (
+                    <Cake className='text-white flex-shrink-0 w-12 h-12 lg:w-[68px] lg:h-[68px]' />
+                )}
                 <Typography variant='h6' className='text-white !font-bold !text-[18px] lg:!text-4xl'>
                     {title}
                 </Typography>
