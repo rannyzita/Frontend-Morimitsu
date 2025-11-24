@@ -37,8 +37,7 @@ const BirthdayCard: FC<BirthdayMember> = ({ date, name, team }) => (
 );
 
 export const BirthdayCarousel: FC<BirthdayCarouselProps> = ({
-        title = 'ANIVERSARIANTES DO MÊS:',
-        members,
+        members, title
     }) => {
 
     const scrollContainerRef = useRef<HTMLDivElement>(null);
