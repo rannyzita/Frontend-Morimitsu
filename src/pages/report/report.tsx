@@ -4,6 +4,7 @@ import { PageLayout } from '../../components/layout/BigCard';
 import { ClipboardList } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Trophy } from 'lucide-react'; 
+import { RankingCard, type RankedStudent } from '../../components/Dashboard/Podio/rankingCard';
 
 interface StatisticProps {
     title: string;
@@ -29,99 +30,20 @@ const StatisticCard: FC<StatisticProps> = ({ title, total}) => (
     </Card>
 );
 
-const RankingCard: FC = () => (
-    <Card 
-        className='!bg-[#690808] text-white p-6 !rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
-        sx={{
-            height: { xs: 'auto', lg: '560px' }, 
-        }}
-    >
-        <Typography variant='h4' className='!font-bold !text-[30px] tracking-wide text-center'>
-            MAIOR PRESENÇA
-        </Typography>
-
-        <Divider className='!border-[#3E0404] !border-[2px] !my-3' />
-        
-        <Box className='flex flex-col lg:flex-row gap-6 mt-4 h-113'>
-            <Box className='lg:w-1/2 flex flex-col items-center gap-4 bg-[#500000] border-3 border-[#3E0404] !rounded-[5px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                <Typography variant='h6' className='!font-semibold text-white pt-4'>RANKING</Typography>
-                <Trophy size={64} className='text-white' strokeWidth={1.5} />
-                
-                {/* PÓDIO */}
-                <div className='w-full flex justify-center mt-6'>
-                    <div className='flex items-end text-white font-bold select-none'>
-
-                        {/* 2º Lugar */}
-                        <div className='bg-[#690808] w-18 h-16 flex flex-col items-center justify-center relative border-t-6 border-[#3E0404]'>
-                            <span className='absolute -top-8 text-[9px] tracking-wide'>JOÃO LUCAS</span>
-                            <span className='text-xl'>2º</span>
-                        </div>
-
-                        {/* 1º Lugar (MAIOR) */}
-                        <div className='bg-[#690808] w-18 h-20 flex flex-col items-center justify-center relative border-t-6 border-[#3E0404]'>
-                            <span className='absolute -top-8 text-[10px] tracking-wide'>ANA LAURA</span>
-                            <span className='text-3xl'>1º</span>
-                        </div>
-
-                        {/* 3º Lugar */}
-                        <div className='bg-[#690808] w-18 h-14 flex flex-col items-center justify-center relative border-t-6 border-[#3E0404]'>
-                            <span className='absolute -top-8 text-[8px] tracking-wide text-center'>NICHOLAS ALVES</span>
-                            <span className='text-xl'>3º</span>
-                        </div>
-
-                    </div>
-                </div>
-            
-                <Box className='flex flex-col gap-3 w-full mt-auto mb-4 px-3'>
-                
-                    <Divider className='!border-[#3E0404] !border-[2px]' />
-
-                    <Typography className='!font-bold text-center'>ALUNOS</Typography>
-
-                    {/* ITEM 1 */}
-                    <div className='bg-[#690808] p-1 rounded-xl flex justify-between items-center  shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                        <div className='flex items-center gap-1'>
-                            <img src='/avatar1.png' className='w-4 h-4 rounded-full' />
-                            <span className='font-bold text-[10px]'>ANA LAURA</span>
-                        </div>
-                        <button className='bg-[#3E0404] px-3 py-1 rounded-md text-[10px]'>Ver mais</button>
-                    </div>
-
-                    {/* ITEM 2 */}
-                    <div className='bg-[#690808] p-1 rounded-xl flex justify-between items-center shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                        <div className='flex items-center gap-1'>
-                            <img src='/avatar2.png' className='w-4 h-4 rounded-full' />
-                            <span className='font-bold text-[10px]'>JOÃO LUCAS</span>
-                        </div>
-                        <button className='bg-[#3E0404] px-3 py-1 rounded-md text-[10px]'>Ver mais</button>
-                    </div>
-
-                    {/* ITEM 3 */}
-                    <div className='bg-[#690808] p-1 rounded-xl flex justify-between items-center shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                        <div className='flex items-center gap-1'>
-                            <img src='/avatar3.png' className='w-4 h-4 rounded-full' />
-                            <span className='font-bold text-[10px]'>NICHOLAS ALVES</span>
-                        </div>
-                        <button className='bg-[#3E0404] px-3 py-1 rounded-md text-[10px]'>Ver mais</button>
-                    </div>
-                </Box>
-            </Box>
-
-            {/* GRÁFICO (Lado Direito) */}
-            <Box className='lg:w-1/2 flex flex-col items-center mt-6 lg:mt-0 bg-[#500000] border-3 border-[#3E0404] !rounded-[5px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                <Typography variant='h5' className='!font-semibold text-white pt-4'>GRÁFICO</Typography>
-                <Box className='h-64 w-full mt-2 flex justify-around items-end p-2'>
-                    {/* Barras de Exemplo */}
-                    <div className='w-4 !bg-red-700 h-1/2 text-xs text-center' style={{ height: '70%' }}></div>
-                    <div className='w-4 !bg-red-700 h-1/2 text-xs text-center' style={{ height: '90%' }}></div>
-                    <div className='w-4 !bg-red-700 h-1/2 text-xs text-center' style={{ height: '50%' }}></div>
-                </Box>
-            </Box>
-        </Box>
-    </Card>
-);
-
 export const Report: FC = () => {
+
+    const podiumData = {
+        first: 'ANA LAURA',
+        second: 'JOÃO LUCAS',
+        third: 'NICHOLAS ALVES',
+    };
+
+    const studentListData: RankedStudent[] = [
+        { id: 1, name: 'ANA LAURA', avatarUrl: '/avatar1.png' },
+        { id: 2, name: 'JOÃO LUCAS', avatarUrl: '/avatar2.png' },
+        { id: 3, name: 'NICHOLAS ALVES', avatarUrl: '/avatar3.png' },
+    ];
+
     return (
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
             <PageLayout backPath='/home' icon={<ClipboardList size={36} className='lg:w-[50px] lg:h-[50px]' />} title='RELATÓRIO'>
@@ -158,7 +80,12 @@ export const Report: FC = () => {
                     </Grid>
 
                     <Grid item xs={12} lg={7}>
-                        <RankingCard />
+                        <RankingCard
+                            title='MAIOR PRESENÇA'
+                            rankingPodium={podiumData}
+                            rankedStudents={studentListData}
+                            graphTitle='GRÁFICO'
+                        />
                     </Grid>
                 </Grid>
             </PageLayout>
