@@ -215,7 +215,7 @@ export const Home: FC = () => {
             </section>
 
             {/* SEÇÃO 2: Aniversariantes do Mês */}
-            <BirthdayCarousel members={birthdayMembers}></BirthdayCarousel>
+            <BirthdayCarousel members={birthdayMembers} title='ANIVERSARIANTES DO MÊS'></BirthdayCarousel>
         </Box>
     );
 }
