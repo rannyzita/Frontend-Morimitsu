@@ -16,25 +16,6 @@ export const Birthday: FC = () => {
         <Box 
             component='div' 
             className='flex flex-col items-center justify-center h-full p-4 w-full scroll'
-            
-            sx={{
-                overflowY: 'auto',
-                
-                // --- AJUSTE NA ESTILIZAÇÃO DO SCROLLBAR ---
-                '&::-webkit-scrollbar': { 
-                    width: '12px',
-                    backgroundColor: '#3E0404', // Fundo externo da barra
-                }, 
-                '&::-webkit-scrollbar-thumb': { 
-                    // O THUMB (a barra que você arrasta) deve ser o vermelho mais claro
-                    backgroundColor: '#880000', 
-                    borderRadius: '10px', 
-                },
-                '&::-webkit-scrollbar-track': { 
-                    // O TRACK (fundo interno da barra) deve ser o vermelho escuro
-                    backgroundColor: '#3E0404' 
-                },
-            }}
         >
             <PageLayout 
                 backPath='/home' 
