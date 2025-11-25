@@ -19,7 +19,6 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
                     <AlignJustify size={40} className='cursor-pointer' />
                 </button>
 
-                {/* Ícone de interrogação agora fica ao lado do botão de menu */}
                 <CircleQuestionMark className='w-11 h-11 sm:w-12 sm:h-12 lg:w-12 lg:h-12 cursor-pointer p-2 rounded-md hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors' />
             </div>
 
