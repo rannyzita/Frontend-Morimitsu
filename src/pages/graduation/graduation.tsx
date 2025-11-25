@@ -53,7 +53,7 @@ const StudentListItem: FC<StudentListItemProps> = ({
                 onClick={() => onIgnoreAssessment(studentId)} // 🚨 Chama a função que abre o modal
                 aria-label='Ignorar avaliação'
             >
-                <X size={20} color='white' />
+                <X size={20} color='white' className='cursor-pointer'/>
             </button>
 
             <div className='flex items-center gap-1 md:gap-3 w-full lg:w-auto'>
@@ -77,7 +77,7 @@ const StudentListItem: FC<StudentListItemProps> = ({
             </div>
 
             {/* Container do cargo e botão "Ver Mais" fixo */}
-            <div className='flex-shrink-0 flex items-center gap-3 mr-8 lg:ml-auto'>
+            <div className='flex-shrink-0 flex items-center gap-3 mr-8 lg:ml-auto cursor-pointer'>
                 {/* Linha vertical do cargo */}
                 <div className='h-10 border-l border-white opacity-50 mx-1 hidden lg:block' />
 
