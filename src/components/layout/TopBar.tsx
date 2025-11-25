@@ -10,15 +10,18 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
     return (
         <header className='bg-[#690808] text-white flex items-center justify-between p-2 shadow-lg'>
 
-            <button 
-                onClick={onMenuClick}
-                className='p-2 rounded-md hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors'
-                aria-label='Abrir Menu'
-            >
-                <AlignJustify size={40} className='cursor-pointer' />
-            </button>
+            <div className='flex items-center space-x-2'>
+                <button 
+                    onClick={onMenuClick}
+                    className='p-2 rounded-md hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors'
+                    aria-label='Abrir Menu'
+                >
+                    <AlignJustify size={40} className='cursor-pointer' />
+                </button>
 
-            <CircleQuestionMark size={40} className='cursor-pointer' />
+                {/* Ícone de interrogação agora fica ao lado do botão de menu */}
+                <CircleQuestionMark className='w-11 h-11 sm:w-12 sm:h-12 lg:w-12 lg:h-12 cursor-pointer p-2 rounded-md hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors' />
+            </div>
 
             <div className='flex items-center space-x-4'>
                     <Link to={'/home'}>
