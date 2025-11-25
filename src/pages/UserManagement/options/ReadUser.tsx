@@ -7,6 +7,8 @@ import { Award, User } from 'lucide-react';
 
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 
+import { UserModal } from '../../../components/Modal/User';
+
 import studentAvatar1 from '../options/assetsTest/IconBaby.png';
 import studentAvatar2 from '../options/assetsTest/TurmaInfantil.png';
 import studentAvatar3 from '../options/assetsTest/iconMista.png';
@@ -33,6 +35,7 @@ interface StudentListItemProps {
     studentId: number;
     isPromoted: boolean;
     onTogglePromoted: (studentId: number, isPromoted: boolean) => void;
+    onOpenModal: () => void;
 }
 
 const StudentListItem: FC<StudentListItemProps> = ({
@@ -42,9 +45,10 @@ const StudentListItem: FC<StudentListItemProps> = ({
     studentId,
     isPromoted,
     onTogglePromoted,
+    onOpenModal
 }) => {
     return (
-        <div className='relative flex flex-col lg:flex-row items-center bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
+        <div className='relative flex flex-col lg:flex-row items-center bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)] cursor-pointer' onClick={onOpenModal}>
             <div className='flex items-center gap-1 md:gap-3 w-full lg:w-auto'>
                 <img
                     src={avatar}
@@ -75,7 +79,8 @@ const StudentListItem: FC<StudentListItemProps> = ({
                     Cargo: {role}
                 </span>
 
-                <div className='hidden relative lg:flex flex-col items-center justify-center bg-[#3E0404] py-1 px-1 rounded-[10px] w-28 h-10'>
+                <div className='hidden relative lg:flex flex-col items-center justify-center bg-[#3E0404] py-1 px-1 rounded-[10px] w-28 h-10 cursor-pointer'
+                onClick={onOpenModal}>
                     <span className='block text-white text-[10px] lg:text-[14px] leading-tight text-center'>
                         Ver Mais
                     </span>
@@ -92,6 +97,19 @@ export const VerUsuarios: FC = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [studentsPerPage, setStudentsPerPage] = useState(5);
+
+    const [selectedStudent, setSelectedStudent] = useState<any>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleOpenModal = (student: any) => {
+        setSelectedStudent(student);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedStudent(null);
+    };
 
     useEffect(() => {
         const updateStudentsPerPage = () => {
@@ -154,6 +172,7 @@ export const VerUsuarios: FC = () => {
                                 role={aluno.role}
                                 isPromoted={aluno.isPromoted}
                                 onTogglePromoted={handleTogglePromoted}
+                                onOpenModal={() => handleOpenModal(aluno)}
                             />
                         ))}
                     </div>
@@ -166,6 +185,12 @@ export const VerUsuarios: FC = () => {
                             onPageChange={handlePageChange}
                         />
                     </div>
+
+                    <UserModal
+                        isOpen={isModalOpen}
+                        onClose={handleCloseModal}
+                        student={selectedStudent}
+                    />
                 </div>
             </PageLayout>
         </Box>
