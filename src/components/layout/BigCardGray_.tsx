@@ -64,7 +64,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
                             </span>
 
                             {/* Texto responsivo */}
-                            <h1 className='text-[12px] md:text-2xl font-bold tracking-wide'>
+                            <h1 className='text-[12px] md:text-2xl lg:text-3xl font-bold tracking-wide'>
                                 {title}
                             </h1>
                         </div>

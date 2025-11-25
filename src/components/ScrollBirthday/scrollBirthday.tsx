@@ -77,7 +77,7 @@ export const BirthdayCarousel: FC<BirthdayCarouselProps> = ({
                 <div
                     ref={scrollContainerRef}
                     onScroll={checkScroll}
-                    className='flex overflow-x-auto gap-4 md:gap-20 lg:gap-30 pb-6 flex-1
+                    className='flex overflow-x-auto gap-10 md:gap-20 lg:gap-30 pb-6 flex-1
                                 [&::-webkit-scrollbar]:h-2
                                 [&::-webkit-scrollbar-thumb]:bg-[#880000]
                                 [&::-webkit-scrollbar-track]:bg-[#3E0404]

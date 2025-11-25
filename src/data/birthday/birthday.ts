@@ -12,7 +12,7 @@ export interface MonthlyBirthdays {
 
 export const BIRTHDAYS_BY_MONTH: Record<string, MonthlyBirthdays> = {
     JANEIRO: {
-        title: 'JANEIRO',
+        title: 'JANEIRO:',
         members: [
             { date: '05/01', name: 'Lucas Silva', team: 'TURMA MISTA' },
             { date: '18/01', name: 'Pedro Santos', team: 'TURMA ADULTA' },
@@ -20,7 +20,7 @@ export const BIRTHDAYS_BY_MONTH: Record<string, MonthlyBirthdays> = {
         ],
     },
     FEVEREIRO: {
-        title: 'FEVEREIRO',
+        title: 'FEVEREIRO:',
         members: [
             { date: '10/02', name: 'Felipe Costa', team: 'TURMA MISTA' },
             { date: '20/02', name: 'Isabela Alves', team: 'TURMA ADULTA' },
@@ -28,56 +28,56 @@ export const BIRTHDAYS_BY_MONTH: Record<string, MonthlyBirthdays> = {
         ],
     },
     MARCO: {
-        title: 'MARÇO',
+        title: 'MARÇO:',
         members: [
             { date: '10/03', name: 'Felipe Costa', team: 'TURMA MISTA' },
         ],
     },
 
     ABRIL: {
-        title: 'ABRIL',
+        title: 'ABRIL:',
         members: [
             { date: '10/04', name: 'Felipe Costa', team: 'TURMA MISTA' },
         ],
     },
 
     MAIO: {
-        title: 'MAIO',
+        title: 'MAIO:',
         members: [
             { date: '10/05', name: 'Felipe Costa', team: 'TURMA MISTA' },
         ],
     },  
 
     JUNHO: {
-        title: 'JUNHO',
+        title: 'JUNHO:',
         members: [
             { date: '10/06', name: 'Felipe Costa', team: 'TURMA MISTA' },
         ],
     },
 
     JULHO: {
-        title: 'JULHO',
+        title: 'JULHO:',
         members: [
             { date: '10/07', name: 'Felipe Costa', team: 'TURMA MISTA' },
         ],
     },
 
     AGOSTO: {
-        title: 'AGOSTO',
+        title: 'AGOSTO:',
         members: [
             { date: '10/08', name: 'Felipe Costa', team: 'TURMA MISTA' },
         ],
     },
 
     SETEMBRO: {
-        title: 'SETEMBRO',
+        title: 'SETEMBRO:',
         members: [
             { date: '10/09', name: 'Felipe Costa', team: 'TURMA MISTA' },
         ],
     },
 
     OUTUBRO: {
-        title: 'OUTUBRO',
+        title: 'OUTUBRO:',
         members: [
             { date: '10/10', name: 'Antônio Henrique', team: 'TURMA MISTA' },
             { date: '22/10', name: 'Anna Cristina', team: 'TURMA ADULTA' },
@@ -86,7 +86,7 @@ export const BIRTHDAYS_BY_MONTH: Record<string, MonthlyBirthdays> = {
         ],
     },
     NOVEMBRO: {
-        title: 'NOVEMBRO',
+        title: 'NOVEMBRO:',
         members: [
             { date: '10/11', name: 'Antônio Henrique', team: 'TURMA MISTA' },
             { date: '22/11', name: 'Anna Cristina', team: 'TURMA ADULTA' },
@@ -95,7 +95,7 @@ export const BIRTHDAYS_BY_MONTH: Record<string, MonthlyBirthdays> = {
         ],
     },
     DEZEMBRO: {
-        title: 'DEZEMBRO',
+        title: 'DEZEMBRO:',
         members: [
             { date: '10/12', name: 'Antônio Henrique', team: 'TURMA MISTA' },
             { date: '22/12', name: 'Anna Cristina', team: 'TURMA ADULTA' },
