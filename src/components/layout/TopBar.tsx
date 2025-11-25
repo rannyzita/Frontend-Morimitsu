@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlignJustify } from 'lucide-react';
+import { AlignJustify, CircleQuestionMark } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 type TopBarProps = {
@@ -17,6 +17,8 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
             >
                 <AlignJustify size={40} className='cursor-pointer' />
             </button>
+
+            <CircleQuestionMark size={40} className='cursor-pointer' />
 
             <div className='flex items-center space-x-4'>
                     <Link to={'/home'}>
