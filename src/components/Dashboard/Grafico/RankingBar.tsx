@@ -1,5 +1,3 @@
-// src/components/dashboard/RankingBarChart.tsx
-
 import { type FC } from 'react';
 import { Box, Typography } from '@mui/material';
 
