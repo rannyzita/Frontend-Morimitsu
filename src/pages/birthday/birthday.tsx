@@ -15,7 +15,7 @@ export const Birthday: FC = () => {
     return (
         <Box 
             component='div' 
-            className='flex flex-col items-center justify-center h-full p-4 w-full'
+            className='flex flex-col items-center justify-center h-full p-4 w-full scroll'
             
             sx={{
                 overflowY: 'auto',
@@ -34,7 +34,6 @@ export const Birthday: FC = () => {
                     // O TRACK (fundo interno da barra) deve ser o vermelho escuro
                     backgroundColor: '#3E0404' 
                 },
-                // --- FIM DOS AJUSTES ---
             }}
         >
             <PageLayout 
