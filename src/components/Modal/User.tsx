@@ -1,4 +1,4 @@
-import { X, User, SquarePen, GraduationCap } from 'lucide-react'
+import { X, User, SquarePen, GraduationCap, Info } from 'lucide-react'
 import { type FC } from 'react'
 
 import IconTeacher from './assets/Professor.svg';
@@ -27,23 +27,23 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
             />
 
             {/* Modal */}
-            <div className='relative w-[96%] max-w-[1000px] bg-white rounded-xl shadow-2xl px-8 py-6'>
+            <div className='relative w-[96%] max-w-[1000px] bg-white rounded-xl shadow-2xl px-4 py-4 sm:px-8 sm:py-6'>
 
                 {/* Cabeçalho */}
                 <div className='relative flex justify-center items-center mb-2'>
-                    <h2 className='text-[#690808] font-extrabold text-2xl md:text-3xl lg:text-4xl'>
+                    <h2 className='text-[#690808] font-extrabold text-xl md:text-3xl lg:text-4xl'>
                         DADOS DO ALUNO
                     </h2>
 
                     <button onClick={onClose} className='absolute right-0 cursor-pointer'>
-                        <X size={32} strokeWidth={3} className='text-[#690808]'/>
+                        <X size={20} strokeWidth={3} className='text-[#690808] sm:size-10'/>
                     </button>
                 </div>
 
                 <div className='border-b-5 border-[#690808] mb-6' />
 
                 {/* TOPO: Ações + Avatar + Histórico */}
-                <div className='grid grid-cols-1 lg:grid-cols-3 gap-10 mb-8'>
+                <div className='flex flex-col gap-6 lg:grid lg:grid-cols-3 lg:gap-10 mb-8'>
 
                     {/* AÇÕES */}
                     <div className='flex flex-col gap-4'>
@@ -140,12 +140,13 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                         {/* 2. CORPO DA LISTA DE GRADUAÇÕES (Com Rolagem e Altura Ajustadas) */}
                         <div 
                             // 🛠️ 2. AUMENTAR VISIBILIDADE: Aumentado de max-h-28 para max-h-48 (Exemplo)
-                            className='p-2 text-xs max-h-48 
+                            className='p-2 text-xs max-h-40 
                                     overflow-y-auto 
                                     rounded-b-[10px]
                                     
                                     // 🛠️ 1. ROLAGEM NATURAL (OVERLAY) E 🛠️ 3. AFASTAR DA BORDA
-                                    pr-4                                      /* Adiciona padding/espaço à direita */
+                                    pl-4
+                                    pr-2                                      /* Adiciona padding/espaço à direita */
                                     scrollbar-thin scrollbar-thumb-gray-700   /* Classes (se você usar o plugin) */
                                     
                                     /* Estilo da barra de rolagem (Se o plugin não estiver instalado, mantenha este bloco): */
@@ -183,67 +184,92 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                 {/* FORMULÁRIO */}
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4 text-sm text-black mb-8'>
 
-                    <div className=''>
+                    {/* Nome completo */}
+                    <div>
+                        <Info size={20} className='inline-block mr-2 mb-1 text-[#690808]' strokeWidth={3}/>
                         <label className='font-semibold text-[#690808]'>Nome completo:</label>
                         <input
                             value={student.name}
                             readOnly
+                            disabled // 🚨 Desativado para garantir não interatividade
                             className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
                         />
                     </div>
 
+                    {/* CPF */}
                     <div>
+                        <Info size={20} className='inline-block mr-2 mb-1 text-[#690808]' strokeWidth={3}/>
                         <label className='font-semibold text-[#690808]'>CPF:</label>
                         <input
                             value='XXX.XXX.XXX-XX'
                             readOnly
+                            disabled // 🚨 Desativado
                             className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)] '
                         />
                     </div>
 
+                    {/* Data de nascimento */}
                     <div>
                         <label className='font-semibold text-[#690808]'>Data de nascimento:</label>
                         <input
                             value='18/01/1980'
                             readOnly
+                            disabled // 🚨 Desativado
                             className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
                         />
                     </div>
 
+                    {/* Endereço */}
+                    <div>
+                        <label className='font-semibold text-[#690808]'>Endereço:</label>
+                        <input
+                            value='Rua Obi Jucá Diniz, 153, Prado'
+                            readOnly
+                            disabled // 🚨 Desativado
+                            className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
+                        />
+                    </div>
+
+                    {/* Telefone */}
                     <div>
                         <label className='font-semibold text-[#690808]'>Telefone:</label>
                         <input
                             value='(XX) XXXXX-XXXX'
                             readOnly
+                            disabled // 🚨 Desativado
                             className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
                         />
                     </div>
 
-                    <div className='md:col-span-2'>
-                        <label className='font-semibold text-[#690808]'>Endereço:</label>
-                        <input
-                            value='Rua Obi Jucá Diniz, 153, Prado'
-                            readOnly
-                            className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
-                        />
+                    {/* Cargo */}
+                    <div>
+                        <Info size={20} className='inline-block mr-2 mb-1 text-[#690808]' strokeWidth={3}/>
+                        <label className='font-semibold text-[#690808]'>Cargo:</label>
+                        <select disabled className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)] appearance-none'>
+                            {/* 🚨 Removido o <option> selecionado para evitar confusão. */}
+                            {/* Você deve garantir que o valor visualmente desejado seja o primeiro ou o único. */}
+                            <option selected disabled>Coordenador</option>
+                        </select>
                     </div>
 
                     {/* Gênero */}
                     <div>
+                        <Info size={20} className='inline-block mr-2 mb-1 text-[#690808]' strokeWidth={3}/>
                         <label className='font-semibold text-[#690808]'>Gênero:</label>
                         <div className='flex gap-4 mt-2'>
+                            {/* 🚨 Radio buttons desativados e um marcado como exemplo */}
                             <label className='flex items-center gap-1'>
-                                <input type='radio' name='genero'/>
+                                <input type='radio' name='genero' disabled checked={true} readOnly/>
                                 Feminino
                             </label>
 
-                            <label className='flex items-center gap-1'>
-                                <input type='radio' name='genero'/>
+                            <label className='flex items-center gap-1 opacity-50'>
+                                <input type='radio' name='genero' disabled/>
                                 Masculino
                             </label>
 
-                            <label className='flex items-center gap-1'>
-                                <input type='radio' name='genero'/>
+                            <label className='flex items-center gap-1 opacity-50'>
+                                <input type='radio' name='genero' disabled/>
                                 Outro
                             </label>
                         </div>
@@ -252,42 +278,45 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                     {/* Faixa */}
                     <div>
                         <label className='font-semibold text-[#690808]'>Faixa Atual:</label>
-                        <select className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                            <option>Branca</option>
-                            <option>Azul</option>
-                            <option>Roxa</option>
-                            <option>Marrom</option>
-                            <option>Preta</option>
+                        <select disabled className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)] appearance-none'>
+                            <option selected disabled>Roxa</option>
+                            <option disabled>Branca</option>
+                            <option disabled>Azul</option>
+                            <option disabled>Marrom</option>
+                            <option disabled>Preta</option>
                         </select>
                     </div>
 
-                    {/* Turma e Grau */}
-                    <div>
-                        <label className='font-semibold text-[#690808]'>Turma:</label>
-                        <select className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                            <option>Mista</option>
-                            <option>Infantil</option>
-                            <option>Avançada</option>
-                        </select>
-                    </div>
-
+                    {/* Grau */}
                     <div>
                         <label className='font-semibold text-[#690808]'>Grau Atual:</label>
-                        <select className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                            <option>0º</option>
-                            <option>1º</option>
-                            <option>2º</option>
-                            <option>3º</option>
-                            <option>4º</option>
+                        <select disabled className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)] appearance-none'>
+                            <option selected disabled>3º</option>
+                            <option disabled>0º</option>
+                            <option disabled>1º</option>
+                            <option disabled>2º</option>
+                            <option disabled>4º</option>
                         </select>
                     </div>
 
-                    {/* Matrícula e responsável */}
+                    {/* Turma */}
+                    <div>
+                        <label className='font-semibold text-[#690808]'>Turma:</label>
+                        <select disabled className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)] appearance-none'>
+                            <option selected disabled>Mista</option>
+                            <option disabled>Infantil</option>
+                            <option disabled>Avançada</option>
+                        </select>
+                    </div>
+
+
+                    {/* Matrícula e telefone responsável */}
                     <div>
                         <label className='font-semibold text-[#690808]'>Matrícula:</label>
                         <input
                             value='20231031020200'
                             readOnly
+                            disabled // 🚨 Desativado
                             className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
                         />
                     </div>
@@ -295,7 +324,9 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                     <div>
                         <label className='font-semibold text-[#690808]'>Telefone responsável:</label>
                         <input
-                            placeholder='Insira um número'
+                            value='(XX) XXXXX-XXXX' // Colocando um valor para visualização
+                            readOnly
+                            disabled // 🚨 Desativado
                             className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
                         />
                     </div>
