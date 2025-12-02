@@ -6,6 +6,8 @@ import { Box, Typography } from '@mui/material';
 import { BirthdayCarousel } from '../../components/ScrollBirthday/scrollBirthday';
 import { useAuth } from '../../contexts/AuthContext';
 
+import { homePopUp } from '../../data/text/popUps/home/home';
+
 import { 
     Users, 
     GraduationCap, 

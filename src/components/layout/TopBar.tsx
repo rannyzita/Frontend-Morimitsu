@@ -1,15 +1,25 @@
-// src/components/TopBar.tsx
 import React, { useState } from 'react';
 import { AlignJustify, CircleQuestionMark } from 'lucide-react';
 import { Link } from 'react-router-dom';
-// Importe o novo componente
+
 import { PopUp } from './PopUp';
+
+export type PopUpData = {
+    title: string;
+    description: string;
+    items: {
+        id: string;
+        title: string;
+        content: React.ReactNode;
+    }[];
+};
 
 type TopBarProps = {
     onMenuClick: () => void;
+    data: PopUpData;
 };
 
-export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
+export const TopBar: React.FC<TopBarProps> = ({ onMenuClick, data }) => {
     // 1. Adicione o estado para controlar a visibilidade do modal
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -55,6 +65,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
 
             {/* 3. Renderize o Modal com o estado e a função de fechar */}
             <PopUp 
+                data={data}    
                 isOpen={isModalOpen} 
                 onClose={toggleModal} // O botão de fechar dentro do modal usará esta função
             />

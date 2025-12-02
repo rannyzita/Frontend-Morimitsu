@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './SideBar';
 import { TopBar } from './TopBar';
 import { Bottombar } from './BottomBar';
+import { popUpByRoute } from '../../data';
 
 export const MainLayout: React.FC = () => {
     const location = useLocation();
@@ -13,6 +14,8 @@ export const MainLayout: React.FC = () => {
         setSidebarOpen(!isSidebarOpen);
     };
 
+    const currentPopUp = popUpByRoute[location.pathname] || null;
+
     return (
         <div className='relative flex h-screen overflow-hidden bg-black'>
             <Sidebar isOpen={isSidebarOpen} toggleSideBar={toggleSidebar}/>
@@ -22,7 +25,7 @@ export const MainLayout: React.FC = () => {
             )}
 
             <div className='flex-1 flex flex-col transition-all duration-300 ease-in-out overflow-y-auto'>
-                <TopBar onMenuClick={toggleSidebar} />
+                <TopBar onMenuClick={toggleSidebar} data={currentPopUp}/>
                 <main className='flex-1'>
                     <Outlet />
                 </main>
