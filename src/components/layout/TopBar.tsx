@@ -1,12 +1,21 @@
-import React from 'react';
+// src/components/TopBar.tsx
+import React, { useState } from 'react';
 import { AlignJustify, CircleQuestionMark } from 'lucide-react';
 import { Link } from 'react-router-dom';
+// Importe o novo componente
+import { PopUp } from './PopUp';
 
 type TopBarProps = {
     onMenuClick: () => void;
 };
 
 export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
+    // 1. Adicione o estado para controlar a visibilidade do modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Função para abrir/fechar o modal
+    const toggleModal = () => setIsModalOpen(prev => !prev);
+    
     return (
         <header className='bg-[#690808] text-white flex items-center justify-between p-2 shadow-lg'>
 
@@ -19,7 +28,12 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
                     <AlignJustify size={40} className='cursor-pointer' />
                 </button>
 
-                <CircleQuestionMark className='w-11 h-11 sm:w-12 sm:h-12 lg:w-12 lg:h-12 cursor-pointer p-2 rounded-md hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors' />
+                {/* 2. Adicione o onClick para abrir/fechar o modal */}
+                <CircleQuestionMark 
+                    className='w-11 h-11 sm:w-12 sm:h-12 lg:w-12 lg:h-12 cursor-pointer p-2 rounded-md hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors'
+                    onClick={toggleModal} // Chama a função aqui
+                    aria-label='Ajuda sobre Gerenciamento de Usuários'
+                />
             </div>
 
             <div className='flex items-center space-x-4'>
@@ -38,6 +52,12 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
                         />
                     </Link>
                 </div>
+
+            {/* 3. Renderize o Modal com o estado e a função de fechar */}
+            <PopUp 
+                isOpen={isModalOpen} 
+                onClose={toggleModal} // O botão de fechar dentro do modal usará esta função
+            />
         </header>
     );
 }
