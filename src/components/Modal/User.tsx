@@ -2,6 +2,7 @@ import { X, User, SquarePen, GraduationCap, Info } from 'lucide-react'
 import { type FC } from 'react'
 
 import IconTeacher from './assets/Professor.svg';
+import { InputField } from './components/input';
 
 interface StudentModalProps {
     isOpen: boolean
@@ -184,90 +185,57 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                 {/* FORMULÁRIO */}
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4 text-sm text-black mb-8'>
 
-                    {/* Nome completo */}
-                    <div>
-                        <Info size={20} className='inline-block mr-2 mb-1 text-[#690808]' strokeWidth={3}/>
-                        <label className='font-semibold text-[#690808]'>Nome completo:</label>
-                        <input
-                            value={student.name}
-                            readOnly
-                            disabled // 🚨 Desativado para garantir não interatividade
-                            className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
-                        />
-                    </div>
+                    <InputField 
+                        label='Nome completo:' 
+                        value={student.name} 
+                        hasInfoIcon
+                    />
+                    
+                    {/* 2. CPF */}
+                    <InputField 
+                        label='CPF:' 
+                        value='XXX.XXX.XXX-XX' 
+                        hasInfoIcon
+                    />
+                    
+                    {/* 3. Data de nascimento */}
+                    <InputField 
+                        label='Data de nascimento:' 
+                        value='18/01/1980' 
+                    />
+                    
+                    {/* 4. Endereço */}
+                    <InputField 
+                        label='Endereço:' 
+                        value='Rua Obi Jucá Diniz, 153, Prado' 
+                    />
+                    
+                    {/* 5. Telefone */}
+                    <InputField 
+                        label='Telefone:' 
+                        value='(XX) XXXXX-XXXX' 
+                    />
+                    
+                    {/* 6. Cargo */}
+                    <InputField 
+                        label='Cargo:' 
+                        value='Coordenador(a)' 
+                        hasInfoIcon
+                    />
 
-                    {/* CPF */}
-                    <div>
-                        <Info size={20} className='inline-block mr-2 mb-1 text-[#690808]' strokeWidth={3}/>
-                        <label className='font-semibold text-[#690808]'>CPF:</label>
-                        <input
-                            value='XXX.XXX.XXX-XX'
-                            readOnly
-                            disabled // 🚨 Desativado
-                            className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)] '
-                        />
-                    </div>
-
-                    {/* Data de nascimento */}
-                    <div>
-                        <label className='font-semibold text-[#690808]'>Data de nascimento:</label>
-                        <input
-                            value='18/01/1980'
-                            readOnly
-                            disabled // 🚨 Desativado
-                            className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
-                        />
-                    </div>
-
-                    {/* Endereço */}
-                    <div>
-                        <label className='font-semibold text-[#690808]'>Endereço:</label>
-                        <input
-                            value='Rua Obi Jucá Diniz, 153, Prado'
-                            readOnly
-                            disabled // 🚨 Desativado
-                            className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
-                        />
-                    </div>
-
-                    {/* Telefone */}
-                    <div>
-                        <label className='font-semibold text-[#690808]'>Telefone:</label>
-                        <input
-                            value='(XX) XXXXX-XXXX'
-                            readOnly
-                            disabled // 🚨 Desativado
-                            className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
-                        />
-                    </div>
-
-                    {/* Cargo */}
-                    <div>
-                        <Info size={20} className='inline-block mr-2 mb-1 text-[#690808]' strokeWidth={3}/>
-                        <label className='font-semibold text-[#690808]'>Cargo:</label>
-                        <select disabled className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)] appearance-none'>
-                            {/* 🚨 Removido o <option> selecionado para evitar confusão. */}
-                            {/* Você deve garantir que o valor visualmente desejado seja o primeiro ou o único. */}
-                            <option selected disabled>Coordenador</option>
-                        </select>
-                    </div>
-
-                    {/* Gênero */}
+                    {/* 7. Gênero (Mantido manualmente por ser Radio) */}
                     <div>
                         <Info size={20} className='inline-block mr-2 mb-1 text-[#690808]' strokeWidth={3}/>
                         <label className='font-semibold text-[#690808]'>Gênero:</label>
                         <div className='flex gap-4 mt-2'>
-                            {/* 🚨 Radio buttons desativados e um marcado como exemplo */}
                             <label className='flex items-center gap-1'>
                                 <input type='radio' name='genero' disabled checked={true} readOnly/>
                                 Feminino
                             </label>
-
                             <label className='flex items-center gap-1 opacity-50'>
                                 <input type='radio' name='genero' disabled/>
                                 Masculino
                             </label>
-
                             <label className='flex items-center gap-1 opacity-50'>
                                 <input type='radio' name='genero' disabled/>
                                 Outro
@@ -275,8 +243,8 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                         </div>
                     </div>
 
-                    {/* Faixa */}
-                    <div>
+                    {/* 8. Faixa */}
+                    {/* <div>
                         <label className='font-semibold text-[#690808]'>Faixa Atual:</label>
                         <select disabled className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)] appearance-none'>
                             <option selected disabled>Roxa</option>
@@ -285,53 +253,40 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                             <option disabled>Marrom</option>
                             <option disabled>Preta</option>
                         </select>
-                    </div>
+                    </div> */}
 
-                    {/* Grau */}
-                    <div>
-                        <label className='font-semibold text-[#690808]'>Grau Atual:</label>
-                        <select disabled className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)] appearance-none'>
-                            <option selected disabled>3º</option>
-                            <option disabled>0º</option>
-                            <option disabled>1º</option>
-                            <option disabled>2º</option>
-                            <option disabled>4º</option>
-                        </select>
-                    </div>
+                    <InputField 
+                        label='Faixa Atual:' 
+                        value='Roxa' 
+                    />
 
-                    {/* Turma */}
-                    <div>
-                        <label className='font-semibold text-[#690808]'>Turma:</label>
-                        <select disabled className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)] appearance-none'>
-                            <option selected disabled>Mista</option>
-                            <option disabled>Infantil</option>
-                            <option disabled>Avançada</option>
-                        </select>
-                    </div>
+                    {/* 9. Grau */}
+
+                    <InputField 
+                        label='Grau atual:' 
+                        value='2º' 
+                    />
+
+                    {/* 10. Turma */}
+                    <InputField 
+                        label='Turma:' 
+                        value='Mista' 
+                    />
 
 
-                    {/* Matrícula e telefone responsável */}
-                    <div>
-                        <label className='font-semibold text-[#690808]'>Matrícula:</label>
-                        <input
-                            value='20231031020200'
-                            readOnly
-                            disabled // 🚨 Desativado
-                            className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
-                        />
-                    </div>
+                    {/* 11. Matrícula */}
+                    <InputField 
+                        label='Matrícula:' 
+                        value='20231031020200' 
+                    />
 
-                    <div>
-                        <label className='font-semibold text-[#690808]'>Telefone responsável:</label>
-                        <input
-                            value='(XX) XXXXX-XXXX' // Colocando um valor para visualização
-                            readOnly
-                            disabled // 🚨 Desativado
-                            className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
-                        />
-                    </div>
+                    {/* 12. Telefone responsável */}
+                    <InputField 
+                        label='Telefone responsável:' 
+                        value='(XX) XXXXX-XXXX' 
+                    />
                 </div>
-            </div>
+                </div>
         </div>
     )
 }
