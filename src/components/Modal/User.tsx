@@ -27,7 +27,7 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                 className='absolute inset-0 bg-black/40 backdrop-blur-[4px] '
             />
 
-            {/* Modal */}
+            {/* Modal */}0
             <div className='relative w-[96%] max-w-[1000px] bg-white rounded-xl shadow-2xl px-4 py-4 sm:px-8 sm:py-6'>
 
                 {/* Cabeçalho */}
@@ -82,12 +82,6 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                                     
                                     transition-colors     
                                 '
-                                style={{
-                                    // Adiciona o ícone de checkmark como background quando marcado.
-                                    // Você precisaria de uma classe utilitária Tailwind 'bg-check-mark'
-                                    // Se não tiver essa utilidade, use uma cor pura por enquanto:
-                                    // checked:bg-white
-                                }}
                             />
                         </button>
                         
