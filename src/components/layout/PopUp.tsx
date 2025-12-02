@@ -114,7 +114,7 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
                                 
                                 {/* Cabeçalho do Item (Clicável) */}
                                 <div 
-                                    className={`!bg-[#880000] p-3 flex items-center justify-between cursor-pointer hover:bg-[#a02020] transition-colors shadow-[0_5px_15px_rgba(0,0,0,0.4)]`}
+                                    className={`!bg-[#880000] p-3 flex items-center justify-between cursor-pointer hover:bg-[#a02020] transition-colors shadow-[0_5px_15px_rgba(0,0,0,0.4)] select-none`}
                                     onClick={() => handleToggle(item.id as MenuItemId)}
                                 >
                                     <span className='font-semibold text-lg'>{item.title}</span>
@@ -126,11 +126,14 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
                                 </div>
 
                                 {/* Corpo do Item (Expansível) */}
-                                {isOpen && item.content && (
-                                    <div className='bg-[#880000] border-t border-white/20'> 
-                                        {item.content}
-                                    </div>
-                                )}
+                                <div
+                                    className={`
+                                        bg-[#880000] border-t border-white/20 overflow-hidden transition-all duration-400
+                                        ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}
+                                    `}
+                                >
+                                    {item.content}
+                                </div>
                             </div>
                         );
                     })}
