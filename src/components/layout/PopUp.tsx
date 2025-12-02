@@ -39,7 +39,7 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
     }
     
     // 1. Estado para controlar qual item está aberto. 'ver' começa aberto como no anexo.
-    const [openItem, setOpenItem] = useState<MenuItemId | null>('ver');
+    const [openItem, setOpenItem] = useState<MenuItemId | null>(null);
 
     // Função para alternar o estado do item clicado
     const handleToggle = (id: MenuItemId) => {
@@ -127,7 +127,6 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose }) => {
 
                                 {/* Corpo do Item (Expansível) */}
                                 {isOpen && item.content && (
-                                    // Usando a cor de fundo do balão (#3E0404) para o corpo expandido
                                     <div className='bg-[#880000] border-t border-white/20'> 
                                         {item.content}
                                     </div>
