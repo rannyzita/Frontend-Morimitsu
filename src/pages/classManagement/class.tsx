@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../components/layout/BigCard';
 
-import { Users, ListChecks, UserPlus } from 'lucide-react';
+import { Users, ListChecks, UserPlus, UserMinus } from 'lucide-react';
 
 import { Link } from 'react-router-dom';
 
@@ -42,6 +42,16 @@ export const GerenciamentoTurmas: FC = () => {
                         <ActionButton
                             icon={<UserPlus size={24} strokeWidth={3} className='lg:w-8 lg:h-8' />}
                             label='ENTURMAR ALUNO'
+                        />
+                    </Link>
+
+                    <Link
+                        to={'/gerenciamento-turmas/desenturmar-aluno'}
+                        className='w-full max-w-sm lg:max-w-none lg:w-auto'
+                    >
+                        <ActionButton
+                            icon={<UserMinus size={24} strokeWidth={3} className='lg:w-8 lg:h-8' />}
+                            label='DESENTURMAR ALUNO'
                         />
                     </Link>
 

@@ -96,7 +96,6 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, data }) => {
                                             />
                                         )}
                                     </div>
-
                                 </div>
 
                                 {/* Corpo do acordeão */}
