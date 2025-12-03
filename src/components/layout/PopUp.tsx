@@ -28,28 +28,26 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, data }) => {
                     top-14 left-1/2 -translate-x-1/2
                     sm:top-20 sm:left-20 sm:translate-x-0
                     md:left-24 md:top-20
-                    w-[85%] max-w-sm sm:max-w-md 
+                    w-[90%] max-w-md sm:max-w-lg md:max-w-xl
                     bg-[#3E0404] text-white 
                     p-6 shadow-2xl relative rounded-xl
+
+                    /* Triângulo */
+                    before:hidden sm:before:block
+                    before:absolute 
+                    before:md:top-[-40px] before:top-[-25px]
+                    before:md:right-[373px] before:right-[115px]
+                    before:w-0 before:h-0
+                    before:md:border-l-[-10px] before:border-l-[-20px]
+                    before:border-l-transparent
+                    before:md:border-r-[202px] before:border-r-[202px]
+                    before:border-r-transparent
+                    before:md:border-b-[80px] before:border-b-[50px]
+                    before:border-b-[#3E0404]
+                    before:content-[""]
                 '
                 onClick={(e) => e.stopPropagation()}
             >
-
-                {/* Triângulo (escondido no mobile) */}
-                <div
-                    className='
-                        hidden sm:block
-                        absolute md:top-[-40px] top-[-25px] 
-                        md:right-[245px] right-[115px]
-                        w-0 h-0 
-                        md:border-l-[-10px] border-l-[-20px]
-                        md:border-l-transparent border-l-transparent
-                        md:border-r-[202px] border-r-[202px]
-                        md:border-r-transparent border-r-transparent
-                        md:border-b-[80px] border-b-[50px]
-                        border-b-[#3E0404]
-                    '
-                ></div>
 
                 {/* Botão Fechar */}
                 <button
