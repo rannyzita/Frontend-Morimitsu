@@ -17,13 +17,13 @@ export function useLogin() {
     try {
         const { token, user } = await loginService(email, password);
 
-        if (token && user?.id && user.tipo_usuario) {
+        if (token && user?.id && user.tipo) {
             const userObject = {
                 id: user.id,
-                name: user.nome || 'Usuário',
+                nome: user.nome || 'Usuário',
                 email: user.email,
                 cpf: user.cpf || '',
-                role: user.tipo_usuario,
+                tipo: user.tipo,
             };
 
             login(token, userObject);

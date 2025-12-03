@@ -113,7 +113,7 @@ export const Home: FC = () => {
 
             <section className='grid grid-cols-1 lg:grid-cols-10 gap-8 lg:gap-20 items-start flex-1 justify-center'>
                 
-                { user.role === 'COORDENADOR' && (
+                { user.tipo === 'COORDENADOR' && (
                     <>
                         <div className='lg:col-span-4 xl:col-span-3 
                                     order-1 lg:order-3 
@@ -197,7 +197,7 @@ export const Home: FC = () => {
                     </>
                 )}
 
-                { user.role === 'PROFESSOR' && (
+                { user.tipo === 'PROFESSOR' && (
                     <>
                         <div className='lg:col-span-3 flex self-center pt-10 lg:pb-0'> 
                             <BigButton 

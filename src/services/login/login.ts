@@ -7,7 +7,7 @@ interface LoginResponse {
         nome: string;
         email: string;
         cpf?: string;
-        tipo_usuario: 'COORDENADOR' | 'PROFESSOR';
+        tipo: 'COORDENADOR' | 'PROFESSOR';
     };
 }
 

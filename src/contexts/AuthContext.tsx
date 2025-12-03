@@ -10,9 +10,9 @@ import api from '../../API/api';
 
 interface UserData {
     id: number;
-    name: string;
+    nome: string;
     email: string;
-    role: 'COORDENADOR' | 'PROFESSOR' | 'ALUNO'; 
+    tipo: 'COORDENADOR' | 'PROFESSOR' | 'ALUNO'; 
 }
 
 interface AuthContextType {
