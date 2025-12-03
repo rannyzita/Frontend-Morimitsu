@@ -27,7 +27,7 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, data }) => {
                     absolute 
                     top-14 left-1/2 -translate-x-1/2
                     sm:top-20 sm:left-20 sm:translate-x-0
-                    md:left-22 md:top-20
+                    md:left-24 md:top-20
                     w-[85%] max-w-sm sm:max-w-md 
                     bg-[#3E0404] text-white 
                     p-6 shadow-2xl relative rounded-xl
@@ -60,12 +60,12 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, data }) => {
                 </button>
 
                 {/* Título */}
-                <h2 className='text-xl sm:text-2xl font-bold mb-4 mt-5 border-b-2 border-white/30 pb-2'>
+                <h2 className='text-xl sm:text-3xl font-bold mb-4 mt-5 text-center' >
                     {data.title}
                 </h2>
 
                 {/* Descrição */}
-                <p className='text-sm sm:text-base mb-6'>
+                <p className='text-[12px] sm:text-[14px] mb-6 text-justify'>
                     {data.description}
                 </p>
 
@@ -83,12 +83,16 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, data }) => {
                                     className='bg-[#880000] p-3 flex items-center justify-between cursor-pointer hover:bg-[#a02020] transition-colors shadow-[0_5px_15px_rgba(0,0,0,0.4)] select-none'
                                     onClick={() => handleToggle(item.id)}
                                 >
-                                    <span className='font-semibold text-lg'>{item.title}</span>
+                                    <span className='font-semibold text-[10px] md:text-[16px]'>{item.title}</span>
 
                                     {isOpen ? (
-                                        <ChevronUp size={24} className='text-white' />
+                                        <ChevronUp 
+                                            className='text-white w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7' 
+                                        />
                                     ) : (
-                                        <ChevronDown size={24} className='text-white' />
+                                        <ChevronDown 
+                                            className='text-white w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7' 
+                                        />
                                     )}
                                 </div>
 
