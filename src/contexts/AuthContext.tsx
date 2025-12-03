@@ -8,7 +8,6 @@ import React, {
 } from 'react';
 import api from '../../API/api'; 
 
-// --- Interfaces (sem mudança) ---
 interface UserData {
     id: number;
     name: string;
