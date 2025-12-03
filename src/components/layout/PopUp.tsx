@@ -60,7 +60,7 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, data }) => {
                 </button>
 
                 {/* Título */}
-                <h2 className='text-xl sm:text-3xl font-bold mb-4 mt-5 text-center' >
+                <h2 className='text-xl sm:text-2xl font-bold mb-4 mt-5 text-center' >
                     {data.title}
                 </h2>
 

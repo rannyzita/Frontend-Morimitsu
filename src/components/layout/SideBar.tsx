@@ -64,7 +64,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
                 </Link>
                 <Link to='/meu-perfil' className='cursor-pointer'>
                     <h2 className='text-xl font-semibold'>
-                        {user.role === 'COORDENADOR' ? user.name : 'PROFESSOR'}
+                        {user.tipo === 'COORDENADOR' ? user.nome : 'PROFESSOR'}
                     </h2>
                 </Link>
             </div>
@@ -73,7 +73,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
                 <div className='flex items-center'>
                     <nav className='flex-grow'>
                         <ul className='space-y-3'>
-                            {user.role === 'COORDENADOR' && (
+                            {user.tipo === 'COORDENADOR' && (
                                 <>
                                     <NavItem to='/home' icon={HomeIcon}>Tela Inicial</NavItem>
                                     <NavItem to='/meu-perfil' icon={CircleUserRound}>Meu Perfil</NavItem>
@@ -84,7 +84,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
                                     <NavItem to='/relatorio' icon={ClipboardList}>Relatório</NavItem>
                                 </>
                             )}
-                            {user.role === 'PROFESSOR' && (
+                            {user.tipo === 'PROFESSOR' && (
                                 <>
                                     <NavItem to='/home' icon={HomeIcon}>Tela Inicial</NavItem>
                                     <NavItem to='/meu-perfil' icon={CircleUserRound}>Meu Perfil</NavItem>
