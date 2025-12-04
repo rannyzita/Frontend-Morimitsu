@@ -10,6 +10,7 @@ interface StudentModalProps {
     student: {
         id: number
         name: string
+        nameSocial: string
         avatar: string
         role: string
     } | null
@@ -107,7 +108,7 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                         />
 
                         <h3 className='pt-2 text-lg text-black underline'>
-                            {student.name}
+                            {student.nameSocial}
                         </h3>
 
                         <p className='text-sm text-[#690808]'>

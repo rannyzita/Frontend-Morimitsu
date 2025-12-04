@@ -15,22 +15,23 @@ import studentAvatar3 from '../options/assetsTest/iconMista.png';
 import studentAvatar4 from '../options/assetsTest/IconBaby.png';
 
 const initialAlunos = [
-    { id: 1, name: 'Antônio Henrique Pereira da Silva', avatar: studentAvatar1, role: 'Coordenador(a)', isPromoted: false },
-    { id: 2, name: 'Anna Cristina Laurencio de Oliveira', avatar: studentAvatar2, role: 'Aluno(a)', isPromoted: false },
-    { id: 3, name: 'Juliana Souza da Paz', avatar: studentAvatar3, role: 'Professor(a)', isPromoted: false },
-    { id: 4, name: 'Enzo Alves da Costa', avatar: studentAvatar4, role: 'Professor(a)', isPromoted: false },
-    { id: 5, name: 'Beatriz Martins', avatar: studentAvatar1, role: 'Aluno(a)', isPromoted: false },
-    { id: 6, name: 'Carlos Eduardo Lima', avatar: studentAvatar2, role: 'Professor(a)', isPromoted: false },
-    { id: 7, name: 'Daniela Ferreira', avatar: studentAvatar3, role: 'Professor(a)', isPromoted: false },
-    { id: 8, name: 'Gabriel Ribeiro', avatar: studentAvatar4, role: 'Professor(a)', isPromoted: false },
-    { id: 9, name: 'Helena Santos', avatar: studentAvatar1, role: 'Aluno(a)', isPromoted: false },
-    { id: 10, name: 'Isabela Rocha', avatar: studentAvatar2, role: 'Professor(a)', isPromoted: false },
-    { id: 11, name: 'João Victor Almeida', avatar: studentAvatar3, role: 'Professor(a)', isPromoted: false },
+    { id: 1, name: 'Antônio Henrique Pereira da Silva', nameSocial: 'Antônio', avatar: studentAvatar1, role: 'Coordenador(a)', isPromoted: false },
+    { id: 2, name: 'Anna Cristina Laurencio de Oliveira', nameSocial: 'Anna', avatar: studentAvatar2, role: 'Aluno(a)', isPromoted: false },
+    { id: 3, name: 'Juliana Souza da Paz', nameSocial: 'Juliana',avatar: studentAvatar3, role: 'Professor(a)', isPromoted: false },
+    { id: 4, name: 'Enzo Alves da Costa', nameSocial: 'Enzo', avatar: studentAvatar4, role: 'Professor(a)', isPromoted: false },
+    { id: 5, name: 'Beatriz Martins', nameSocial: 'Beatriz', avatar: studentAvatar1, role: 'Aluno(a)', isPromoted: false },
+    { id: 6, name: 'Carlos Eduardo Lima',nameSocial: 'Carlos', avatar: studentAvatar2, role: 'Professor(a)', isPromoted: false },
+    { id: 7, name: 'Daniela Ferreira', nameSocial: 'Daniela', avatar: studentAvatar3, role: 'Professor(a)', isPromoted: false },
+    { id: 8, name: 'Gabriel Ribeiro', nameSocial: 'Gabriel', avatar: studentAvatar4, role: 'Professor(a)', isPromoted: false },
+    { id: 9, name: 'Helena Santos', nameSocial: 'Helena', avatar: studentAvatar1, role: 'Aluno(a)', isPromoted: false },
+    { id: 10, name: 'Isabela Rocha', nameSocial: 'Isabela', avatar: studentAvatar2, role: 'Professor(a)', isPromoted: false },
+    { id: 11, name: 'João Victor Almeida', nameSocial: 'João', avatar: studentAvatar3, role: 'Professor(a)', isPromoted: false },
 ];
 
 interface StudentListItemProps {
     avatar: string;
     name: string;
+    nameSocial: string;
     role: string;
     studentId: number;
     isPromoted: boolean;
@@ -41,6 +42,7 @@ interface StudentListItemProps {
 const StudentListItem: FC<StudentListItemProps> = ({
     avatar,
     name,
+    nameSocial,
     role,
     studentId,
     isPromoted,
@@ -52,7 +54,7 @@ const StudentListItem: FC<StudentListItemProps> = ({
             <div className='flex items-center gap-1 md:gap-3 w-full lg:w-auto'>
                 <img
                     src={avatar}
-                    alt={name}
+                    alt={nameSocial}
                     className='w-8 h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0'
                 />
                 <Award
@@ -168,6 +170,7 @@ export const VerUsuarios: FC = () => {
                                 key={aluno.id}
                                 studentId={aluno.id}
                                 name={aluno.name}
+                                nameSocial={aluno.nameSocial}
                                 avatar={aluno.avatar}
                                 role={aluno.role}
                                 isPromoted={aluno.isPromoted}
