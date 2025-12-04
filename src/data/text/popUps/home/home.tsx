@@ -46,7 +46,7 @@ export const homePopUp: PopUpData = {
             content: (
                 <div className='p-3text-white/90 text-justify text-[10px] md:text-[12px] m-4'>
                     <ul className='list-disc list-inside space-y-2 mb-4'>
-                        <p>A tela inicial do Professor é simplificada e focada nas tarefas essenciais de sala de aula, acessíveis via sidebar (no modelo apresentado, esses botões estão no menu lateral, mas funcionam como atalhos principais).</p>
+                        <p>A tela inicial do Professor é simplificada e focada nas tarefas essenciais de sala de aula, acessíveis via sidebar (os três tracinhos localizados no canto superior dá página).</p>
                     </ul>
                 </div>
             )

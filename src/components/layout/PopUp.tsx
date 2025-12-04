@@ -12,7 +12,6 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, data }) => {
 
     if (!isOpen || !data) return null;
 
-    // Estado do acordeão — agora é dinâmico, aceita QUALQUER id
     const [openItem, setOpenItem] = useState<string | null>(null);
 
     const handleToggle = (id: string) => {
@@ -45,6 +44,9 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, data }) => {
                     before:md:border-b-[80px] before:border-b-[50px]
                     before:border-b-[#3E0404]
                     before:content-[""]
+
+                    transition-all duration-300
+                    animate-[popupFade_0.3s_ease-out]
                 '
                 onClick={(e) => e.stopPropagation()}
             >

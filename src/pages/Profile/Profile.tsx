@@ -92,18 +92,28 @@ export const Profile: FC = () => {
                     
                     <div className='flex justify-between items-center bg-[#690808] p-4 rounded-lg'>
                         <div className='flex items-center gap-4'>
-                            <img 
-                                src={FaixaTeste} 
-                                alt='Ícone de faixa' 
-                                className='w-28 h-20' 
-                            />
-                            <div>
+
+                            <div className='flex flex-row'>
+                                <img 
+                                    src={FaixaTeste} 
+                                    alt='Ícone de faixa' 
+                                    className='w-28 h-20' 
+                                />
+                                <SquarePen size={26} className='text-white cursor-pointer hover:text-white' />
+                            </div>
+                            
+                            <div className='ml-4'>
                 
                                 <div className='flex items-center gap-2'>
                                     <h1 className='text-xl md:text-2xl font-bold'>SAULO BEZERRA</h1>
                                     <SquarePen size={26} className='text-white cursor-pointer hover:text-white' />
                                 </div>
-                                <p className='text-sm text-gray-300'>Coordenador</p>
+                                <div className='flex gap-2 mt-2'>
+                                    <p className='text-sm text-white'>Coordenador(a)</p>
+                                    <SquarePen size={18} className='text-white cursor-pointer hover:text-white' />
+                                    <p className='text-sm'>Grau: 2</p>
+                                    <SquarePen size={18} className='text-white cursor-pointer hover:text-white' />
+                                </div> 
                             </div>
                         </div>
                         
