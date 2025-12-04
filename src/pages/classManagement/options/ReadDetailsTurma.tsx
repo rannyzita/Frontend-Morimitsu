@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCard';
 import { Pagination } from '../../../components/Pagination/Pagination';
-import { Award, OctagonAlert} from 'lucide-react';
+import { Award, Info} from 'lucide-react';
 
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 
@@ -167,14 +167,17 @@ export const VerDetalhesTurma: FC = () => {
                 title={turma.nome.toUpperCase()}
                 icon={<img src={turma.icone} alt={turma.nome} className='w-8 h-8 lg:w-10 lg:h-10' />}
                 className='flex flex-col h-full relative'
+                info={true}
             >
                 <div className='flex flex-col h-full gap-4 pt-8 lg:gap-2 lg:pt-8'>
-                    <SearchInput
-                        value={searchQuery}
-                        onChange={setSearchQuery}
-                        placeholder='Digite o nome do aluno'
-                        className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto'
-                    />
+                    <div className='flex'>
+                        <SearchInput
+                            value={searchQuery}
+                            onChange={setSearchQuery}
+                            placeholder='Digite o nome do aluno'
+                            className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto'
+                        />
+                    </div>
 
                     {/* Lista de alunos */}
                     <div

@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Info } from 'lucide-react';
 import { Box } from '@mui/material';
 
 interface PageLayoutProps {
@@ -9,6 +9,7 @@ interface PageLayoutProps {
     icon?: ReactNode;
     className?: string;
     backPath?: string;
+    info?: boolean;
 }
 
 export const PageLayout: FC<PageLayoutProps> = ({ 
@@ -16,7 +17,8 @@ export const PageLayout: FC<PageLayoutProps> = ({
     title, 
     icon, 
     className, 
-    backPath  
+    backPath ,
+    info
 }) => {
     const navigate = useNavigate();
 
@@ -67,6 +69,12 @@ export const PageLayout: FC<PageLayoutProps> = ({
                             </div>
                         </div>
                     )}
+
+                    { info && 
+                        (
+                            <Info className='absolute right-0 top-1/2 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 text-white' />
+                        )
+                    }
                 </div>
 
                 {title && (
