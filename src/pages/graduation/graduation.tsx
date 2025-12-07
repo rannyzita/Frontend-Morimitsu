@@ -6,7 +6,7 @@ import { Pagination } from '../../components/Pagination/Pagination';
 import { GraduationCap } from 'lucide-react';
 
 import { SearchInput } from '../../components/SearchInput/SearchInput';
-import { AlertModal } from '../../components/Alert/alert'; // 🚨 Importe o AlertModal
+import { AlertModal } from '../../components/Alert/alert';
 import { StudentListItem } from './components/StudentList';
 import { EvaluationModal } from '../../components/Modal/Evaluation';
 

@@ -38,7 +38,6 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick, data }) => {
                     <AlignJustify size={40} className='cursor-pointer' />
                 </button>
 
-                {/* 2. Adicione o onClick para abrir/fechar o modal */}
                 <CircleQuestionMark 
                     className='w-11 h-11 sm:w-12 sm:h-12 lg:w-12 lg:h-12 cursor-pointer p-2 rounded-md hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors'
                     onClick={toggleModal} // Chama a função aqui

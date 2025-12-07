@@ -34,10 +34,6 @@ export const EvaluationModal: FC<EvaluationModalProps> = ({
 }) => {
     if (!isOpen || !student) return null
 
-    // Dados Fictícios de Avaliação (para preencher o layout)
-    const currentBeltName = 'ROXA';
-    const nextBeltName = 'ROXA'; 
-
     const [promoverProfessor, setPromoverProfessor] = useState(false);
 
     return (

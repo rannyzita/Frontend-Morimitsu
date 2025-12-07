@@ -10,6 +10,7 @@ interface PageLayoutProps {
     className?: string;
     backPath?: string;
     info?: boolean;
+    onClick?: () => void;
 }
 
 export const PageLayout: FC<PageLayoutProps> = ({ 
@@ -18,7 +19,8 @@ export const PageLayout: FC<PageLayoutProps> = ({
     icon, 
     className, 
     backPath ,
-    info
+    info,
+    onClick
 }) => {
     const navigate = useNavigate();
 
@@ -54,15 +56,21 @@ export const PageLayout: FC<PageLayoutProps> = ({
                     </button>
 
                     {title && (
-                        <div className='flex items-center gap-2 md:gap-3 ml-2 md:ml-0 mt-4 md:mt-0'>
+                        <div
+                            className={`flex items-center gap-2 md:gap-3 ml-2 md:ml-0 mt-4 md:mt-0 ${
+                                info ? 'cursor-pointer' : 'cursor-default'
+                            }`}
+                            onClick={info ? onClick : undefined}
+                        >
                             <div className='flex items-center gap-1 md:gap-2 rounded-lg px-3 py-1 
                                             md:bg-transparent md:border-none md:px-0 md:py-0 transition-all'>
+
                                 {/* ícone adaptando no mobile */}
-                                <span className='w-6 h-6 md:w-10 md:h-10 flex items-center justify-center'>
+                                <span className='w-10 h-6 md:w-10 md:h-10 flex items-center justify-center'>
                                     {icon}
                                 </span>
 
-                                {/* texto menor só no mobile */}
+                                {/* título */}
                                 <h1 className='text-[12px] md:text-2xl lg:text-3xl font-bold tracking-wide'>
                                     {title}
                                 </h1>
@@ -72,7 +80,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
 
                     { info && 
                         (
-                            <Info className='absolute right-0 top-1/2 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 text-white' />
+                            <Info className='absolute right-0 top-8 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 text-white cursor-pointer' onClick={onClick}  />
                         )
                     }
                 </div>

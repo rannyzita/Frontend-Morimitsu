@@ -13,6 +13,8 @@ import studentAvatar2 from './assetsTest/TurmaInfantil.png';
 import studentAvatar3 from './assetsTest/iconMista.png';
 import studentAvatar4 from './assetsTest/IconBaby.png';
 
+import { ClassModal } from '../../../components/Modal/Turma';
+
 const mockTurma = {
     id: '1',
     nome: 'TURMA BABY',
@@ -114,6 +116,9 @@ export const VerDetalhesTurma: FC = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [classToIgnoreId, setClassToIgnoreId] = useState<number | null>(null);
+
     const [studentsPerPage, setStudentsPerPage] = useState(5);
 
     useEffect(() => {
@@ -131,6 +136,21 @@ export const VerDetalhesTurma: FC = () => {
 
         return () => window.removeEventListener('resize', updateStudentsPerPage);
     }, []); 
+
+    const handleIgnoreAssessmentClick = (id: number) => {
+        setClassToIgnoreId(id);
+        setIsModalOpen(true);
+    };
+
+    const handleConfirmIgnore = () => {
+        setIsModalOpen(false);
+        setClassToIgnoreId(null);
+    };
+
+    const handleCancelIgnore = () => {
+        setIsModalOpen(false);
+        setClassToIgnoreId(null);
+    };
 
     const handleTogglePromoted = (studentId: number, isChecked: boolean) => {
         const updatedAlunos = alunos.map(aluno => ({
@@ -168,6 +188,7 @@ export const VerDetalhesTurma: FC = () => {
                 icon={<img src={turma.icone} alt={turma.nome} className='w-8 h-8 lg:w-10 lg:h-10' />}
                 className='flex flex-col h-full relative'
                 info={true}
+                onClick={() => setIsModalOpen(true)}
             >
                 <div className='flex flex-col h-full gap-4 pt-8 lg:gap-2 lg:pt-8'>
                     <div className='flex'>
@@ -207,6 +228,20 @@ export const VerDetalhesTurma: FC = () => {
                         />
                     </div>
                 </div>
+
+                <ClassModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    classInfo={{ 
+                        id: 1,
+                        name: "TURMA BABY",
+                        responsavel: "Fulano",
+                        avatar: turmaBabyIcon,
+                        ageMax: 6,
+                        ageMin: 4,
+                        quantityStudents: alunos.length
+                    }}
+                />
             </PageLayout>
         </Box>
     );

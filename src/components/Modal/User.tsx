@@ -1,4 +1,4 @@
-import { X, User, SquarePen, GraduationCap, Info } from 'lucide-react'
+import { X, User, SquarePen, Info } from 'lucide-react'
 import { type FC, useState } from 'react'
 
 import IconTeacher from './assets/Professor.svg';
@@ -31,7 +31,8 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
             />
 
             {/* Modal */}0
-            <div className='relative w-[96%] max-w-[1000px] bg-white rounded-xl shadow-2xl px-4 py-4 sm:px-8 sm:py-6'>
+            <div className='relative w-[96%] max-w-[1000px] bg-white rounded-xl shadow-2xl px-4 py-4 sm:px-8 sm:py-6 transform transition-all duration-300 ease-out
+            opacity-0 scale-95 animate-modal'>
 
                 {/* Cabeçalho */}
                 <div className='relative flex justify-center items-center mb-2'>
@@ -108,9 +109,7 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                             </h4>
                         </div>
 
-                        {/* 2. CORPO DA LISTA DE GRADUAÇÕES (Com Rolagem e Altura Ajustadas) */}
                         <div 
-                            // 🛠️ 2. AUMENTAR VISIBILIDADE: Aumentado de max-h-28 para max-h-48 (Exemplo)
                             className='p-2 text-xs max-h-40 
                                     overflow-y-auto 
                                     rounded-b-[10px]
