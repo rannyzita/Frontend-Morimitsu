@@ -53,7 +53,7 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                     <div className='flex flex-col gap-4'>
                         <ActionButton
                             leftIcon={
-                                <img src={IconTeacher} alt="Professor" style={{ width: 50, height: 50 }} />
+                                <img src={IconTeacher} alt='Professor' style={{ width: 50, height: 50 }} />
                             }
                             title={
                                 <>
@@ -68,9 +68,9 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                         
                         <ActionButton
                             leftIcon={<User size={30} />}
-                            title="EDITAR ALUNO(A)"
+                            title='EDITAR ALUNO(A)'
                             rightIcon={<SquarePen size={30} />}
-                            onClick={() => console.log("EDITAR clicado")}
+                            onClick={() => console.log('EDITAR clicado')}
                         />
                     </div>
 

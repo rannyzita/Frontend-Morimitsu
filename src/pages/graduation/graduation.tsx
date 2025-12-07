@@ -16,17 +16,17 @@ import studentAvatar3 from '../../pages/UserManagement/options/assetsTest/iconMi
 import studentAvatar4 from '../../pages/UserManagement/options/assetsTest/IconBaby.png';
 
 const initialAlunos = [
-    { id: 1, name: 'Antônio Henrique Pereira da Silva', avatar: studentAvatar1, classname:'Mista', isPromoted: false },
-    { id: 2, name: 'Anna Cristina Laurencio de Oliveira', avatar: studentAvatar2, classname:'Mista', isPromoted: false },
-    { id: 3, name: 'Juliana Souza da Paz', avatar: studentAvatar3,classname:'Mista', isPromoted: false },
-    { id: 4, name: 'Enzo Alves da Costa', avatar: studentAvatar4, classname:'Mista', isPromoted: false },
-    { id: 5, name: 'Beatriz Martins', avatar: studentAvatar1, classname:'Mista', isPromoted: false },
-    { id: 6, name: 'Carlos Eduardo Lima', avatar: studentAvatar2, classname:'Mista', isPromoted: false },
-    { id: 7, name: 'Daniela Ferreira', avatar: studentAvatar3, classname:'Mista', isPromoted: false },
-    { id: 8, name: 'Gabriel Ribeiro', avatar: studentAvatar4, classname:'Mista', isPromoted: false },
-    { id: 9, name: 'Helena Santos', avatar: studentAvatar1, classname:'Mista', isPromoted: false },
-    { id: 10, name: 'Isabela Rocha', avatar: studentAvatar2, classname:'Mista', isPromoted: false },
-    { id: 11, name: 'João Victor Almeida', avatar: studentAvatar3, classname:'Mista', isPromoted: false },
+    { id: 1, name: 'Antônio Henrique Pereira da Silva', nameSocial:'Antônio', avatar: studentAvatar1, classname:'Mista', isPromoted: false, age: 10 },
+    { id: 2, name: 'Anna Cristina Laurencio de Oliveira', nameSocial:'Anna', avatar: studentAvatar2, classname:'Mista', isPromoted: false, age: 10 },
+    { id: 3, name: 'Juliana Souza da Paz', nameSocial:'Juliana', avatar: studentAvatar3,classname:'Mista', isPromoted: false, age: 10 },
+    { id: 4, name: 'Enzo Alves da Costa', avatar: studentAvatar4, nameSocial:'Enzo', classname:'Mista', isPromoted: false, age: 10 },
+    { id: 5, name: 'Beatriz Martins', avatar: studentAvatar1, nameSocial:'Beatriz',classname:'Mista', isPromoted: false, age: 10 },
+    { id: 6, name: 'Carlos Eduardo Lima', nameSocial:'Carlos', avatar: studentAvatar2, classname:'Mista', isPromoted: false, age: 10 },
+    { id: 7, name: 'Daniela Ferreira', nameSocial:'Daniela', avatar: studentAvatar3, classname:'Mista', isPromoted: false, age: 10 },
+    { id: 8, name: 'Gabriel Ribeiro', nameSocial:'Gabriel', avatar: studentAvatar4, classname:'Mista', isPromoted: false, age: 10 },
+    { id: 9, name: 'Helena Santos', nameSocial:'Helena', avatar: studentAvatar1, classname:'Mista', isPromoted: false, age: 10 },
+    { id: 10, name: 'Isabela Rocha', nameSocial:'Isabela', avatar: studentAvatar2, classname:'Mista', isPromoted: false, age: 10 },
+    { id: 11, name: 'João Victor Almeida', nameSocial:'João', avatar: studentAvatar3, classname:'Mista', isPromoted: false, age: 10 },
 ];
 
 export const Graduation: FC = () => {
@@ -168,9 +168,9 @@ export const Graduation: FC = () => {
                 isOpen={isEvaluationOpen}
                 onClose={handleCloseEvaluation}
                 student={selectedStudent}
-                currentGrade="1º Grau"
-                nextGrade="2º Grau"
-                nextGraduationDate="10/01/2026"
+                currentGrade='1º'
+                nextGrade='2º'
+                nextGraduationDate='10/01/2026'
             />
         </Box>
     );

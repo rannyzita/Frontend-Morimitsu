@@ -27,7 +27,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
             onClick={onClick}
             className={`
                 bg-[#690808] hover:opacity-90 text-white rounded-lg 
-                p-3 flex items-center gap-2 justify-between text-[12px] 
+                pl-4 pr-4 flex pt-2 pb-2 items-center gap-2 justify-between text-[12px] 
                 font-extrabold cursor-pointer shadow-[0_5px_15px_rgba(0,0,0,0.4)]
                 w-full
                 ${className}
@@ -35,19 +35,19 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
         >
             {/* Ícone da esquerda */}
             {leftIcon && (
-                <div className="flex-shrink-0">
+                <div className='flex-shrink-0'>
                     {leftIcon}
                 </div>
             )}
 
             {/* Título */}
-            <div className="flex-1 text-center leading-tight">
+            <div className='flex-1 text-center leading-tight'>
                 {title}
             </div>
 
             {/* Ícone da direita */}
             {!showCheckbox && rightIcon && (
-                <div className="flex-shrink-0">
+                <div className='flex-shrink-0'>
                     {rightIcon}
                 </div>
             )}
@@ -55,14 +55,14 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
             {/* Checkbox estilizado */}
             {showCheckbox && (
                 <input
-                    type="checkbox"
+                    type='checkbox'
                     checked={checkboxChecked}
                     onChange={onCheckboxChange}
-                    className="
+                    className='
                         appearance-none w-7 h-7 border-2 border-white rounded-md 
                         bg-transparent cursor-pointer flex-shrink-0
                         checked:bg-white checked:bg-check-mark transition-colors
-                    "
+                    '
                 />
             )}
         </button>

@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { Award, ClipboardClock, X } from 'lucide-react';
 
 interface StudentListItemProps {
@@ -22,8 +22,28 @@ export const StudentListItem: FC<StudentListItemProps> = ({
     onIgnoreAssessment,
     onOpenModal
 }) => {
+
+
+    const [isMobile, setIsMobile] = useState(false);
+
+
+    useEffect(() => {
+        const media = window.matchMedia('(max-width: 767px)');
+
+        // Define no carregamento
+        setIsMobile(media.matches);
+
+        // Atualiza quando a tela muda
+        const listener = () => setIsMobile(media.matches);
+        media.addEventListener('change', listener);
+
+        return () => media.removeEventListener('change', listener);
+    }, []);
+
     return (
-        <div className='relative flex flex-col lg:flex-row items-center bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
+        <div className='relative flex flex-col lg:flex-row items-center bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]' onClick={() => {
+            if (isMobile) onOpenModal();
+        }}>
             {/* Botão 'X' para disparar o modal */}
             <button 
                 className='absolute top-2 right-2 text-white/70 hover:text-white transition-colors'
