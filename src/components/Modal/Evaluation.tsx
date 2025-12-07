@@ -52,7 +52,7 @@ export const EvaluationModal: FC<EvaluationModalProps> = ({
             {/* Modal - Ajustado para mobile first e centralizado no desktop */}
             <div className='relative w-[96%] max-w-[800px] bg-white rounded-xl shadow-2xl px-4 py-4 sm:px-8 sm:py-6 overflow-y-auto max-h-[90vh]
             transform transition-all duration-300 ease-out
-               opacity-0 scale-95 animate-modal
+            opacity-0 scale-95 animate-modal
             '>
 
                 {/* Cabeçalho de Avaliação */}

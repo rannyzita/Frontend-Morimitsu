@@ -58,6 +58,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
                     type='checkbox'
                     checked={checkboxChecked}
                     onChange={onCheckboxChange}
+                    onClick={onClick}
                     className='
                         appearance-none w-7 h-7 border-2 border-white rounded-md 
                         bg-transparent cursor-pointer flex-shrink-0
