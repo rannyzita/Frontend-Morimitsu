@@ -1,9 +1,9 @@
 import { X, User, SquarePen, GraduationCap, Info } from 'lucide-react'
-import { type FC } from 'react'
+import { type FC, useState } from 'react'
 
 import IconTeacher from './assets/Professor.svg';
 import { InputField } from './components/input';
-
+import { ActionButton } from './components/actionButton';
 interface StudentModalProps {
     isOpen: boolean
     onClose: () => void
@@ -18,6 +18,8 @@ interface StudentModalProps {
 
 export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) => {
     if (!isOpen || !student) return null
+
+    const [promoverProfessor, setPromoverProfessor] = useState(false);
 
     return (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
@@ -49,54 +51,27 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
 
                     {/* AÇÕES */}
                     <div className='flex flex-col gap-4'>
-                        <button className='bg-[#690808] hover:opacity-90 text-white rounded-lg px-3 flex items-center gap-2 text-[12px] font-extrabold justify-between cursor-pointer w-full shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-        
-                            <img 
-                                src={IconTeacher} 
-                                alt='Ícone Professor' 
-                                style={{ width: '50px', height: '50px' }} 
-                            />
+                        <ActionButton
+                            leftIcon={
+                                <img src={IconTeacher} alt="Professor" style={{ width: 50, height: 50 }} />
+                            }
+                            title={
+                                <>
+                                    PROMOVER P/ <br /> PROFESSOR(A)
+                                </>
+                            }
+                            showCheckbox={true}
+                            checkboxChecked={promoverProfessor}
+                            onCheckboxChange={() => setPromoverProfessor(!promoverProfessor)}
+                        />
 
-                            <div className='flex items-center gap-2'>
-                                <span className='leading-tight'>
-                                    PROMOVER P/ <br />PROFESSOR(A)
-                                </span>
-                            </div>
-
-                            {/* 🚨 CHECKBOX SIMPLIFICADO E ESTÁVEL */}
-                            <input 
-                                type='checkbox' 
-                                className='
-                                    appearance-none        /* Remove o estilo padrão */
-                                    w-7 h-7               /* Tamanho */
-                                    border-2              /* Borda de 3px */
-                                    border-white          /* Cor da borda branca */
-                                    rounded-md            
-                                    bg-transparent        /* Fundo transparente (mostra o bg do botão) */
-                                    flex-shrink-0         
-                                    cursor-pointer        
-                                    
-                                    /* ESTILO QUANDO MARCADO: Fundo se torna branco/claro */
-                                    checked:bg-white      
-                                    /* Adiciona um SVG de check mark como background image (solução mais estável) */
-                                    checked:bg-check-mark 
-                                    
-                                    transition-colors     
-                                '
-                            />
-                        </button>
                         
-                        <button className='bg-[#690808] hover:opacity-90 text-white rounded-lg p-3 flex items-center gap-2 justify-between text-[12px] font-extrabold cursor-pointer shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                            <User size={30}/>
-                                EDITAR ALUNO(A)
-                            <SquarePen size={30}/>
-                        </button>
-
-                        <button className='bg-[#690808] hover:opacity-90 text-white rounded-lg p-3 flex items-center gap-2 justify-between text-[12px] font-extrabold cursor-pointer shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                            <User size={30}/>
-                                PROMOVER ALUNO(A)
-                            <GraduationCap size={30}/>
-                        </button>
+                        <ActionButton
+                            leftIcon={<User size={30} />}
+                            title="EDITAR ALUNO(A)"
+                            rightIcon={<SquarePen size={30} />}
+                            onClick={() => console.log("EDITAR clicado")}
+                        />
                     </div>
 
                     {/* PERFIL */}
