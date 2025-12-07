@@ -3,10 +3,13 @@ import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../components/layout/BigCard';
 import { Pagination } from '../../components/Pagination/Pagination';
-import { Award, GraduationCap, ClipboardClock, X } from 'lucide-react';
+import { GraduationCap } from 'lucide-react';
 
 import { SearchInput } from '../../components/SearchInput/SearchInput';
 import { AlertModal } from '../../components/Alert/alert'; // 🚨 Importe o AlertModal
+import { StudentListItem } from './components/StudentList';
+import { EvaluationModal } from '../../components/Modal/Evaluation';
+
 import studentAvatar1 from '../../pages/UserManagement/options/assetsTest/IconBaby.png';
 import studentAvatar2 from '../../pages/UserManagement/options/assetsTest/TurmaInfantil.png';
 import studentAvatar3 from '../../pages/UserManagement/options/assetsTest/iconMista.png';
@@ -26,77 +29,6 @@ const initialAlunos = [
     { id: 11, name: 'João Victor Almeida', avatar: studentAvatar3, classname:'Mista', isPromoted: false },
 ];
 
-interface StudentListItemProps {
-    avatar: string;
-    name: string;
-    classname?: string;
-    studentId: number;
-    isPromoted: boolean;
-    onTogglePromoted: (studentId: number, isPromoted: boolean) => void;
-    onIgnoreAssessment: (studentId: number) => void; // 🚨 Prop para o botão 'X'
-}
-
-const StudentListItem: FC<StudentListItemProps> = ({
-    avatar,
-    name,
-    classname,
-    studentId,
-    isPromoted,
-    onTogglePromoted,
-    onIgnoreAssessment // 🚨 Recebe a prop
-}) => {
-    return (
-        <div className='relative flex flex-col lg:flex-row items-center bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
-            {/* Botão 'X' para disparar o modal */}
-            <button 
-                className='absolute top-2 right-2 text-white/70 hover:text-white transition-colors'
-                onClick={() => onIgnoreAssessment(studentId)} // 🚨 Chama a função que abre o modal
-                aria-label='Ignorar avaliação'
-            >
-                <X size={20} color='white' className='cursor-pointer'/>
-            </button>
-
-            <div className='flex items-center gap-1 md:gap-3 w-full lg:w-auto'>
-                <img
-                    src={avatar}
-                    alt={name}
-                    className='w-8 h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0'
-                />
-                <Award
-                    size={20}
-                    className='text-white flex-shrink-0 lg:w-6 lg:h-6'
-                />
-
-                {/* Linha vertical sempre na mesma posição */}
-                <div className= 'h-8 lg:h-10 border-l border-white opacity-50 mx-1 flex-shrink-0' />
-
-                {/* Nome do aluno ocupa o restante */}
-                <span className='flex-1 text-white truncate text-left text-[10px] md:text-[14px] lg:text-base'>
-                    {name}
-                </span>
-            </div>
-
-            {/* Container do cargo e botão "Ver Mais" fixo */}
-            <div className='flex-shrink-0 flex items-center gap-3 mr-8 lg:ml-auto cursor-pointer'>
-                {/* Linha vertical do cargo */}
-                <div className='h-10 border-l border-white opacity-50 mx-1 hidden lg:block' />
-
-                {/* Cargo sempre na mesma posição */}
-                <span className='hidden lg:flex text-white text-xs lg:text-sm pl-2 pr-6'>
-                    Turma: {classname}
-                </span>
-
-                <div className='hidden relative lg:flex flex-row items-center justify-center bg-[#3E0404] py-1 px-1 rounded-[10px] w-28 h-10'>
-                    <ClipboardClock size={20} className='text-white mr-3 lg:w-6 lg:h-6' />
-                    <span className='block text-white text-[10px] lg:text-[14px] leading-tight text-center'>
-                        Avaliar
-                    </span>
-                </div>
-            </div>
-        </div>
-    );
-};
-
 export const Graduation: FC = () => {
     const { id } = useParams<{ id: string }>();
     const [searchQuery, setSearchQuery] = useState('');
@@ -108,6 +40,9 @@ export const Graduation: FC = () => {
     // 🚨 ESTADOS PARA O MODAL
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [studentToIgnoreId, setStudentToIgnoreId] = useState<number | null>(null);
+
+    const [isEvaluationOpen, setIsEvaluationOpen] = useState(false);
+    const [selectedStudent, setSelectedStudent] = useState<any | null>(null);
 
     useEffect(() => {
         const updateStudentsPerPage = () => {
@@ -129,28 +64,33 @@ export const Graduation: FC = () => {
         setAlunos(updatedAlunos);
     };
 
-    // 🚨 FUNÇÃO PARA ABRIR O MODAL
     const handleIgnoreAssessmentClick = (studentId: number) => {
         setStudentToIgnoreId(studentId);
         setIsModalOpen(true);
     };
 
-    // 🚨 FUNÇÃO PARA CONFIRMAR E IGNORAR (REMOVER O ALUNO)
     const handleConfirmIgnore = () => {
         if (studentToIgnoreId !== null) {
-            // Remove o aluno da lista
             setAlunos(alunos.filter(aluno => aluno.id !== studentToIgnoreId));
         }
         setIsModalOpen(false);
         setStudentToIgnoreId(null);
     };
 
-    // 🚨 FUNÇÃO PARA FECHAR O MODAL SEM FAZER NADA
     const handleCancelIgnore = () => {
         setIsModalOpen(false);
         setStudentToIgnoreId(null);
     };
 
+    const handleOpenEvaluation = (aluno: any) => {
+        setSelectedStudent(aluno);
+        setIsEvaluationOpen(true);
+    };
+
+    const handleCloseEvaluation = () => {
+        setIsEvaluationOpen(false);
+        setSelectedStudent(null);
+    };
 
     const filteredAlunos = alunos.filter(aluno =>
         aluno.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -167,7 +107,6 @@ export const Graduation: FC = () => {
     
     // Encontra o nome do aluno para exibir no modal (opcional, mas útil)
     const studentToIgnore = alunos.find(a => a.id === studentToIgnoreId);
-
 
     return (
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4 pt-4 relative'>
@@ -197,7 +136,8 @@ export const Graduation: FC = () => {
                                 classname={aluno.classname}
                                 isPromoted={aluno.isPromoted}
                                 onTogglePromoted={handleTogglePromoted}
-                                onIgnoreAssessment={handleIgnoreAssessmentClick} // 🚨 Passando a função para o clique do 'X'
+                                onIgnoreAssessment={handleIgnoreAssessmentClick}
+                                onOpenModal={() => handleOpenEvaluation(aluno)}
                             />
                         ))}
                     </div>
@@ -213,7 +153,6 @@ export const Graduation: FC = () => {
                 </div>
             </PageLayout>
 
-            {/* 🚨 RENDERIZAÇÃO DO ALERTMODAL */}
             <AlertModal
                 isOpen={isModalOpen}
                 onClose={handleCancelIgnore}
@@ -224,6 +163,15 @@ export const Graduation: FC = () => {
                 *{studentToIgnore ? studentToIgnore.name : 'selecionado'}*? 
                 Esta ação removerá esta notificação da lista e só aparecerá novamente no próximo requisito atendido.
             </AlertModal>
+
+            <EvaluationModal 
+                isOpen={isEvaluationOpen}
+                onClose={handleCloseEvaluation}
+                student={selectedStudent}
+                currentGrade="1º Grau"
+                nextGrade="2º Grau"
+                nextGraduationDate="10/01/2026"
+            />
         </Box>
     );
 };

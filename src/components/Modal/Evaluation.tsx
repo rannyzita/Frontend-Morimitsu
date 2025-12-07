@@ -1,8 +1,6 @@
 import { X, User, SquarePen, GraduationCap } from 'lucide-react'
 import { type FC } from 'react'
 
-import IconPromotePTeacher from './assets/IconePromoteTeacher.svg'; 
-import FaixaRoxaSVG from './assets/faixa-roxa.svg'; 
 
 interface StudentData {
     id: number
@@ -29,7 +27,6 @@ const BeltDisplay: FC<{ beltName: string, svgSrc: string }> = ({ beltName, svgSr
         <img src={svgSrc} alt={`${beltName} Belt`} className='w-20 h-auto' />
     </div>
 );
-
 
 export const EvaluationModal: FC<EvaluationModalProps> = ({ 
     isOpen, 
@@ -76,7 +73,7 @@ export const EvaluationModal: FC<EvaluationModalProps> = ({
                     <div className='flex flex-col gap-3 w-full sm:w-1/3'>
                         {/* PROMOVER P/ PROFESSOR(A) */}
                         <button className='bg-[#690808] hover:opacity-90 text-white rounded-lg p-3 flex items-center gap-2 text-[12px] font-extrabold justify-center cursor-pointer shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                            <img src={IconPromotePTeacher} alt='Promover Professor' className='w-8 h-8' />
+                            {/* <img src={IconPromotePTeacher} alt='Promover Professor' className='w-8 h-8' /> */}
                             PROMOVER P/ PROFESSOR(A)
                             <input type='checkbox' className='appearance-none w-5 h-5 border-2 border-white rounded-md bg-transparent checked:bg-white checked:border-white' />
                         </button>
@@ -144,7 +141,7 @@ export const EvaluationModal: FC<EvaluationModalProps> = ({
                         <div className='grid grid-cols-3 items-center justify-center p-4 bg-gray-200 text-black'>
                             {/* Faixa Atual */}
                             <div className='col-span-1 flex flex-col items-center'>
-                                <BeltDisplay beltName={currentBeltName} svgSrc={FaixaRoxaSVG} />
+                                {/* <BeltDisplay beltName={currentBeltName} svgSrc={FaixaRoxaSVG} /> */}
                                 <span className='font-semibold text-center mt-2'>GRAU ATUAL: {currentGrade}</span>
                             </div>
 
@@ -155,7 +152,7 @@ export const EvaluationModal: FC<EvaluationModalProps> = ({
 
                             {/* Próxima Faixa */}
                             <div className='col-span-1 flex flex-col items-center'>
-                                <BeltDisplay beltName={nextBeltName} svgSrc={FaixaRoxaSVG} />
+                                {/* <BeltDisplay beltName={nextBeltName} svgSrc={FaixaRoxaSVG} /> */}
                                 <span className='font-semibold text-center mt-2'>PRÓXIMO GRAU: {nextGrade}</span>
                             </div>
                         </div>
