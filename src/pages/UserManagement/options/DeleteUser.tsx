@@ -70,7 +70,7 @@ export const DeletarUsuario: FC = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const studentsPerPage = 5; // mesmo do VerUsuarios
+    const studentsPerPage = 4; // mesmo do VerUsuarios
 
     const filtered = alunos.filter(a => a.name.toLowerCase().includes(searchQuery.toLowerCase()));
     const totalPages = Math.ceil(filtered.length / studentsPerPage);
@@ -102,7 +102,7 @@ export const DeletarUsuario: FC = () => {
                         className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto'
                     />
 
-                    <div className='flex-1 lg:min-h-[400px] flex flex-col gap-6 items-center overflow-y-auto mt-2 md:mt-4 mb-20'>
+                    <div className='flex-1 lg:min-h-[400px] flex flex-col gap-6 items-center overflow-y-auto mt-2 md:mt-8 mb-20'>
                         {current.map(a => (
                             <StudentListItem
                                 key={a.id}
@@ -115,7 +115,7 @@ export const DeletarUsuario: FC = () => {
                     </div>
 
                     {/* posição do botão: mobile ↑ — iPad ↓ — desktop estável */}
-                    <div className='absolute md:right-18 right-6 lg:right-[123px] bottom-[17%] md:bottom-[13%] lg:bottom-[5%]'>
+                    <div className='absolute md:right-18 right-6 lg:right-[123px] bottom-[17%] md:bottom-[13%] lg:bottom-[15%]'>
                         <button
                             onClick={() => selectedIds.length ? setShowAlert(true) : setToast({ message: 'Selecione pelo menos um usuário.', type: 'error' })}
                             className='bg-[#690808] hover:bg-red-900 text-white font-semibold

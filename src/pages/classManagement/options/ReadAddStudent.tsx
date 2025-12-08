@@ -14,6 +14,6 @@ export const ReadAddStudent = () => (
             { id: 2, label: 'TURMA INFANTIL', icon: turmaInfantil },
             { id: 3, label: 'TURMA MISTA', icon: turmaMista },
         ]}
-        basePath='/gerenciamento-turmas/enturmar-aluno-lista'
+        basePath='/gerenciamento-turmas/enturmar-aluno'
     />
 );
