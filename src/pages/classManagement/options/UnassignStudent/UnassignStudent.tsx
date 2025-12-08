@@ -81,12 +81,6 @@ export const DesenturmarAluno: FC = () => {
     const toggle = (id: number) =>
         setSelectedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
 
-    const confirmDesenturmar = () => {
-        setAlunos(alunos.filter(a => !selectedIds.includes(a.id)));
-        setSelectedIds([]);
-        setToast({ message: 'Usuário(s) desenturmado com sucesso!', type: 'success' });
-    };
-
     const handleCloseConfirmModal = () => {
         setTurmaToUnassign(null);
     };

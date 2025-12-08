@@ -15,6 +15,6 @@ export const ReadAddStudent = () => (
             { id: 3, label: 'TURMA MISTA', icon: turmaMista },
         ]}
         basePath='/gerenciamento-turmas/enturmar-aluno'
-        message='Selecione a turma que deseja enturmar o aluno(as):'
+        message='SELECIONE A TURMA QUE DESEJA ENTURMAR O(S) ALUNO(AS):'
     />
 );

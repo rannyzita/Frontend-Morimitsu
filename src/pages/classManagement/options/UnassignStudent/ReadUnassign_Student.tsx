@@ -15,6 +15,6 @@ export const ReadUnassignStudent = () => (
             { id: 3, label: 'TURMA MISTA', icon: turmaMista },
         ]}
         basePath='/gerenciamento-turmas/desenturmar-aluno'
-        message='Selecione a turma que deseja desenturmar o aluno(as):'
+        message='SELECIONE A TURMA QUE DESEJA DESENTURMAR O(S) ALUNO(AS):'
     />
 );
