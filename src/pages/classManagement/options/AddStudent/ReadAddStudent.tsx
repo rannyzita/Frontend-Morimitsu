@@ -1,9 +1,9 @@
 import { ClassListPage } from '../../components/classList';
 import { UserPlus } from 'lucide-react'
 
-import turmaBaby from './assetsTest/IconBaby.png';
-import turmaInfantil from './assetsTest/TurmaInfantil.png';
-import turmaMista from './assetsTest/iconMista.png';
+import turmaBaby from '../assetsTest/IconBaby.png';
+import turmaInfantil from '../assetsTest/TurmaInfantil.png';
+import turmaMista from '../assetsTest/iconMista.png';
 
 export const ReadAddStudent = () => (
     <ClassListPage

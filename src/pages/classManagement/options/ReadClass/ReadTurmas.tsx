@@ -1,9 +1,9 @@
 import { ClassListPage } from '../../components/classList';
-import seeClassIcon from '../assets/See-Class.png';
+import seeClassIcon from '../../assets/See-Class.png';
 
-import turmaBaby from './assetsTest/IconBaby.png';
-import turmaInfantil from './assetsTest/TurmaInfantil.png';
-import turmaMista from './assetsTest/iconMista.png';
+import turmaBaby from '../assetsTest/IconBaby.png';
+import turmaInfantil from '../assetsTest/TurmaInfantil.png';
+import turmaMista from '../assetsTest/iconMista.png';
 
 const turmasDaPagina = [
     { id: 1, label: 'TURMA BABY', icon: turmaBaby },

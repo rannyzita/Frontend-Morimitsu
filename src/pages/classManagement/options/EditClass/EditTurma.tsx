@@ -1,12 +1,12 @@
 import { useState, type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCardGray_';
-import { FeedbackToast } from '../../../components/Feedback/Feedback';
-import { FormField } from '../../../components/formField/formField';
-import { ActionSelectionScreen } from './ActionSelectScreen';
+import { PageLayout } from '../../../../components/layout/BigCardGray_';
+import { FeedbackToast } from '../../../../components/Feedback/Feedback';
+import { FormField } from '../../../../components/formField/formField';
+import { ActionSelectionScreen } from '../ActionSelectScreen';
 import { User, SquarePen } from 'lucide-react';
 
-import editClassIcon from '../assets/Edit-Class.png'
+import editClassIcon from '../../assets/Edit-Class.png'
 
 const turmasMock = [
     { id: 1, label: 'Turma Baby', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=👶', minAge: '4', maxAge: '6', responsible: 'Saulo Bezerra' },

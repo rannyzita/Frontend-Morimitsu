@@ -16,8 +16,10 @@ import { EditTurma } from './pages/classManagement/options/EditClass/EditTurma'
 import { VerDetalhesTurma } from './pages/classManagement/options/ReadClass/ReadDetailsTurma'
 import { VerTurmas } from './pages/classManagement/options/ReadClass/ReadTurmas'
 import { ReadAddStudent } from './pages/classManagement/options/AddStudent/ReadAddStudent'
+import { ReadUnassignStudent } from './pages/classManagement/options/UnassignStudent/ReadUnassign_Student'
 import { EnturmarAluno } from './pages/classManagement/options/AddStudent/AddStudent'
-import { ReadUnassignStudent } from './pages/classManagement/options/Unassign_Student'
+import { DesenturmarAluno } from './pages/classManagement/options/UnassignStudent/UnassignStudent'
+
 // Pagina de Perfil
 import { Profile } from './pages/Profile/Profile'
 
@@ -62,8 +64,8 @@ export const AppRoutes = () => {
                         <Route path='/gerenciamento-turmas/ver-turmas' element={<VerTurmas />} />
                         <Route path='/gerenciamento-turmas/enturmar-aluno' element={<ReadAddStudent />} />
                         <Route path='/gerenciamento-turmas/desenturmar-aluno' element={<ReadUnassignStudent/>} />
-
                         <Route path='/gerenciamento-turmas/enturmar-aluno/:id' element={<EnturmarAluno />} />
+                        <Route path='/gerenciamento-turmas/desenturmar-aluno/:id' element={<DesenturmarAluno/>} />
 
                         {/* Rotas de Gerenciamento de Usuário */}
                         <Route path='/gerenciamento-usuarios' element={<GerenciamentoUsuarios />} />

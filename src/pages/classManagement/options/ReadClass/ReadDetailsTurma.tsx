@@ -1,19 +1,19 @@
 import { useState, type FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCard';
-import { Pagination } from '../../../components/Pagination/Pagination';
+import { PageLayout } from '../../../../components/layout/BigCard';
+import { Pagination } from '../../../../components/Pagination/Pagination';
 import { Award, Info} from 'lucide-react';
 
-import { SearchInput } from '../../../components/SearchInput/SearchInput';
+import { SearchInput } from '../../../../components/SearchInput/SearchInput';
 
-import turmaBabyIcon from './assetsTest/IconBaby.png';
-import studentAvatar1 from './assetsTest/IconBaby.png';
-import studentAvatar2 from './assetsTest/TurmaInfantil.png';
-import studentAvatar3 from './assetsTest/iconMista.png';
-import studentAvatar4 from './assetsTest/IconBaby.png';
+import turmaBabyIcon from '../assetsTest/IconBaby.png';
+import studentAvatar1 from '../assetsTest/IconBaby.png';
+import studentAvatar2 from '../assetsTest/TurmaInfantil.png';
+import studentAvatar3 from '../assetsTest/iconMista.png';
+import studentAvatar4 from '../assetsTest/IconBaby.png';
 
-import { ClassModal } from '../../../components/Modal/Turma';
+import { ClassModal } from '../../../../components/Modal/Turma';
 
 const mockTurma = {
     id: '1',

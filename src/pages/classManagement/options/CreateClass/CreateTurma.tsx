@@ -1,12 +1,12 @@
-import { useState, type FC, type ReactNode } from 'react';
+import { useState, type FC } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCardGray_'; 
-import { FeedbackToast } from '../../../components/Feedback/Feedback'
-import { FormField } from '../../../components/formField/formField';
+import { PageLayout } from '../../../../components/layout/BigCardGray_'; 
+import { FeedbackToast } from '../../../../components/Feedback/Feedback'
+import { FormField } from '../../../../components/formField/formField';
 
-import { User, SquarePen, ChevronDown } from 'lucide-react';
+import { User, SquarePen} from 'lucide-react';
 
-import createClassIcon from '../assets/Create-Class.png'; 
+import createClassIcon from '../../assets/Create-Class.png'; 
 
 const AvatarUpload: FC<{ imageSrc: string | null; onEdit: () => void }> = ({ imageSrc, onEdit }) => (
     <div className='relative mx-auto w-24 h-24 md:w-32 md:h-32'>
@@ -26,7 +26,6 @@ const AvatarUpload: FC<{ imageSrc: string | null; onEdit: () => void }> = ({ ima
         </button>
     </div>
 );
-
 
 export const CreateTurma: FC = () => {
     

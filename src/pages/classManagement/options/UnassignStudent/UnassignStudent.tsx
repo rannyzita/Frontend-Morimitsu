@@ -3,10 +3,11 @@ import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../../components/layout/BigCard';
 import { Pagination } from '../../../../components/Pagination/Pagination';
-import { Award, UserPlus, X } from 'lucide-react';
+import { Award, UserMinus, X } from 'lucide-react';
 
 import { SearchInput } from '../../../../components/SearchInput/SearchInput';
 import { FeedbackToast } from '../../../../components/Feedback/Feedback';
+import { AlertModal } from '../../../../components/Alert/alert';
 
 import studentAvatar1 from '../../options/assetsTest/IconBaby.png';
 import studentAvatar2 from '../../options/assetsTest/TurmaInfantil.png';
@@ -61,7 +62,7 @@ const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, studentId, is
     );
 };
 
-export const EnturmarAluno: FC = () => {
+export const DesenturmarAluno: FC = () => {
     const { id } = useParams<{ id: string }>();
     const [searchQuery, setSearchQuery] = useState('');
     const [alunos, setAlunos] = useState(initialAlunos);
@@ -70,6 +71,9 @@ export const EnturmarAluno: FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const studentsPerPage = 4; 
 
+    const [turmaToUnassign, setTurmaToUnassign] = useState<number | null>(null);
+    const [feedback, setFeedback] = useState({ visible: false, message: '', type: 'success' as 'success' | 'error' });
+
     const filtered = alunos.filter(a => a.name.toLowerCase().includes(searchQuery.toLowerCase()));
     const totalPages = Math.ceil(filtered.length / studentsPerPage);
     const current = filtered.slice((currentPage - 1) * studentsPerPage, currentPage * studentsPerPage);
@@ -77,16 +81,32 @@ export const EnturmarAluno: FC = () => {
     const toggle = (id: number) =>
         setSelectedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
 
-    const confirmEnturmar = () => {
-        setToast({ message: 'Usuário(s) enturmado com sucesso!', type: 'success' });
+    const confirmDesenturmar = () => {
+        setAlunos(alunos.filter(a => !selectedIds.includes(a.id)));
+        setSelectedIds([]);
+        setToast({ message: 'Usuário(s) desenturmado com sucesso!', type: 'success' });
+    };
+
+    const handleCloseConfirmModal = () => {
+        setTurmaToUnassign(null);
+    };
+
+    const handleConfirmDelete = () => {
+        handleCloseConfirmModal();
+
+        setToast({
+            message: 'Usuário(s) desenturmado com sucesso!',
+            type: 'success'
+        });
+
         setSelectedIds([]);
     };
 
     return (
         <Box className='flex flex-col items-center justify-center h-full p-4 pt-4 relative'>
             <PageLayout
-                title='ENTURMAR ALUNO'
-                icon={<UserPlus size={36} className='lg:w-[50px] lg:h-[50px]' />}
+                title='DESENTURMAR ALUNO'
+                icon={<UserMinus size={36} className='lg:w-[50px] lg:h-[50px]' />}
                 className='flex flex-col h-full relative'
             >
                 <div className='flex flex-col md:h-[600px] h-full gap-4 pt-8 lg:gap-2 lg:pt-4'>
@@ -112,12 +132,13 @@ export const EnturmarAluno: FC = () => {
 
                     <div className='absolute md:right-18 right-6 lg:right-[125px] bottom-[20%] md:bottom-[13%] lg:bottom-[15%]'>
                         <button
-                            onClick={() => selectedIds.length > 0 ? confirmEnturmar() : setToast({ message: 'Selecione pelo menos um usuário.', type: 'error' })}
+                            onClick={() => selectedIds.length > 0 ? setTurmaToUnassign(selectedIds.length)
+ : setToast({ message: 'Selecione pelo menos um usuário.', type: 'error' })}
                             className='bg-[#690808] hover:bg-red-900 text-white font-semibold
                             py-3 px-4 text-sm md:py-4 md:px-8 lg:py-4 lg:px-8 lg:text-base
                             rounded-lg shadow-md transition-colors'
                         >
-                            Enturmar selecionado(as)
+                            Desenturmar selecionado(as)
                         </button>
                     </div>
 
@@ -126,6 +147,16 @@ export const EnturmarAluno: FC = () => {
                     </div>
                 </div>
             </PageLayout>
+            
+            <AlertModal
+                isOpen={turmaToUnassign !== null}
+                onClose={handleCloseConfirmModal}
+                onConfirm={handleConfirmDelete}
+                title='Tem certeza que deseja desenturmar esses aluno(as)?'
+            >
+                <p>Ao confirmar, o estudante não terá mais nenhum vinculo a essa turma.</p>
+                <p className='mt-2 font-bold'>Esta ação não pode ser desfeita.</p>
+            </AlertModal>
 
             {toast && (
                 <FeedbackToast

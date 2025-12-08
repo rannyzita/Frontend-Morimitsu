@@ -4,7 +4,7 @@ import { PageLayout } from '../../../../components/layout/BigCard';
 import { ActionSelectionScreen } from '../ActionSelectScreen';
 import { FeedbackToast } from '../../../../components/Feedback/Feedback';
 import { AlertModal } from '../../../../components/Alert/alert';
-import deleteClassIcon from '../assets/Delete-Class.png';
+import deleteClassIcon from '../../assets/Delete-Class.png';
 
 // --- Dados Mock ---
 const turmasMock = [
