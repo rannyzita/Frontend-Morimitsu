@@ -73,8 +73,6 @@ const StudentListItem: FC<StudentListItemProps> = ({
 
             {/* Container do cargo e botão "Ver Mais" fixo */}
             <div className='flex-shrink-0 flex items-center gap-3 lg:ml-auto'>
-                {/* Linha vertical do cargo */}
-                <div className='h-10 border-l border-white opacity-50 mx-1 hidden lg:block' />
 
                 {/* Cargo sempre na mesma posição */}
                 <span className='hidden lg:flex text-white text-xs lg:text-sm pl-2 pr-6'>

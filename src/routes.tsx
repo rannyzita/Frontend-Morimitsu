@@ -26,6 +26,7 @@ import { NotFound } from './pages/NotFound/notFound'
 import { GerenciamentoUsuarios } from './pages/UserManagement/userManagement'
 import { VerUsuarios } from './pages/UserManagement/options/ReadUser'
 import { CreateUsuario } from './pages/UserManagement/options/CreateUser'
+import { EditVerUsuarios } from './pages/UserManagement/options/EditReadUser'
 import { EditUsuario } from './pages/UserManagement/options/EditUser'
 import { DeletarUsuario } from './pages/UserManagement/options/DeleteUser'
 
@@ -63,7 +64,8 @@ export const AppRoutes = () => {
                         <Route path='/gerenciamento-usuarios' element={<GerenciamentoUsuarios />} />
                         <Route path='/gerenciamento-usuarios/ver-usuarios' element={<VerUsuarios />} />
                         <Route path='/gerenciamento-usuarios/criar-usuario' element={<CreateUsuario />} />
-                        <Route path='/gerenciamento-usuarios/editar-usuario' element={<EditUsuario />} />
+                        <Route path='/gerenciamento-usuarios/editar-usuario' element={<EditVerUsuarios />} />
+                        <Route path='/gerenciamento-usuarios/editar-usuario/:id' element={<EditUsuario />} />
                         <Route path='/gerenciamento-usuarios/deletar-usuario' element={<DeletarUsuario />} />
 
                         {/* Rota de Usuário */}

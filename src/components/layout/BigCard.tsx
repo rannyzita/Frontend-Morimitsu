@@ -57,24 +57,20 @@ export const PageLayout: FC<PageLayoutProps> = ({
 
                     {title && (
                         <div
-                            className={`flex items-center gap-2 md:gap-3 ml-2 md:ml-0 mt-4 md:mt-0 ${
-                                info ? 'cursor-pointer' : 'cursor-default'
-                            }`}
+                            className={`flex items-center gap-2 md:gap-3 
+                                        ml-2 md:ml-0 mt-4 md:mt-0 
+                                        ${info ? 'cursor-pointer' : 'cursor-default'}`}
                             onClick={info ? onClick : undefined}
                         >
-                            <div className='flex items-center gap-1 md:gap-2 rounded-lg px-3 py-1 
-                                            md:bg-transparent md:border-none md:px-0 md:py-0 transition-all'>
+                            {/* Ícone exatamente igual nos dois layouts */}
+                            <span className='w-10 h-10 flex items-center justify-center'>
+                                {icon}
+                            </span>
 
-                                {/* ícone adaptando no mobile */}
-                                <span className='w-10 h-6 md:w-10 md:h-10 flex items-center justify-center'>
-                                    {icon}
-                                </span>
-
-                                {/* título */}
-                                <h1 className='text-[12px] md:text-2xl lg:text-3xl font-bold tracking-wide'>
-                                    {title}
-                                </h1>
-                            </div>
+                            {/* Título padronizado */}
+                            <h1 className='text-[14px] md:text-2xl lg:text-3xl font-bold tracking-wide'>
+                                {title}
+                            </h1>
                         </div>
                     )}
 

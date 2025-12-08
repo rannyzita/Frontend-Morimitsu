@@ -79,7 +79,7 @@ export const EditUsuario: FC = () => {
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
             <PageLayout
                 title='EDITAR USUÁRIO'
-                icon={<UserPen size={36} className='lg:w-[50px] lg:h-[50px]' />}
+                icon={<UserPen className='lg:w-[50px] lg:h-[50px]' />}
             >
                 <div className='flex flex-col justify-center min-h-[65vh] gap-8 px-4 md:gap-12 md:px-16'>
 
@@ -98,7 +98,7 @@ export const EditUsuario: FC = () => {
                         <FormField label={<StandardLabel label='Nome Social:' />} value={campoSocial} onChange={setCampoSocial} />
                         <FormField label={<RequiredLabel label='Data de nascimento:' />} type='date' value={dataNascimento} onChange={setDataNascimento} />
                         <FormField label={<RequiredLabel label='Cargo:' />} value={cargo} onChange={setCargo} isSelect />
-                        <FormField label={<RequiredLabel label='Endereço:' />} value={endereco} onChange={setEndereco} />
+                        <FormField label={<StandardLabel label='Endereço:' />} value={endereco} onChange={setEndereco} />
 
                         <div className='flex flex-col gap-2'>
                             <label className='flex items-center gap-2 h-7 text-gray-400'>

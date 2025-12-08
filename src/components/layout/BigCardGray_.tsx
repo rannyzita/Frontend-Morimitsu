@@ -10,6 +10,7 @@ interface PageLayoutProps {
     className?: string;
     backPath?: string;
     info?: boolean;
+    onClick?: () => void;
 }
 
 export const PageLayout: FC<PageLayoutProps> = ({ 
@@ -18,7 +19,8 @@ export const PageLayout: FC<PageLayoutProps> = ({
     icon, 
     className, 
     backPath,
-    info
+    info,
+    onClick
 }) => {
     const navigate = useNavigate();
 
@@ -59,14 +61,19 @@ export const PageLayout: FC<PageLayoutProps> = ({
                     </button>
 
                     {title && (
-                        <div className='flex items-center gap-2 md:gap-3 ml-2 md:ml-0 mt-4 md:mt-0'>
-                            {/* Ícone responsivo */}
-                            <span className='w-6 h-6 md:w-10 md:h-10 flex items-center justify-center'>
+                        <div
+                            className={`flex items-center gap-2 md:gap-3 
+                                        ml-2 md:ml-0 mt-4 md:mt-0 
+                                        ${info ? 'cursor-pointer' : 'cursor-default'}`}
+                            onClick={info ? onClick : undefined}
+                        >
+                            {/* Ícone exatamente igual nos dois layouts */}
+                            <span className='w-10 h-10 flex items-center justify-center'>
                                 {icon}
                             </span>
 
-                            {/* Texto responsivo */}
-                            <h1 className='text-[12px] md:text-2xl lg:text-3xl font-bold tracking-wide'>
+                            {/* Título padronizado */}
+                            <h1 className='text-[14px] md:text-2xl lg:text-3xl font-bold tracking-wide'>
                                 {title}
                             </h1>
                         </div>
@@ -74,7 +81,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
 
                     { info && 
                         (
-                            <Info className='absolute right-0 top-1/2 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 text-white cursor-pointer' />
+                            <Info className='absolute right-0 top-8 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 text-white cursor-pointer' />
                         )
                     }
                 </div>
