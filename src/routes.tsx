@@ -15,6 +15,7 @@ import { DeleteTurma } from './pages/classManagement/options/DeleteTurma'
 import { EditTurma } from './pages/classManagement/options/EditTurma'
 import { VerDetalhesTurma } from './pages/classManagement/options/ReadDetailsTurma'
 import { VerTurmas } from './pages/classManagement/options/ReadTurmas'
+import { ReadAddStudent } from './pages/classManagement/options/ReadAddStudent'
 
 // Pagina de Perfil
 import { Profile } from './pages/Profile/Profile'
@@ -29,7 +30,6 @@ import { CreateUsuario } from './pages/UserManagement/options/CreateUser'
 import { EditVerUsuarios } from './pages/UserManagement/options/EditReadUser'
 import { EditUsuario } from './pages/UserManagement/options/EditUser'
 import { DeletarUsuario } from './pages/UserManagement/options/DeleteUser'
-
 // Pagina de Relatorio
 import { Report } from './pages/report/report'
 
@@ -59,6 +59,7 @@ export const AppRoutes = () => {
                         <Route path='/gerenciamento-turmas/editar-turma' element={<EditTurma />} />
                         <Route path="/gerenciamento-turmas/ver/:id" element={<VerDetalhesTurma />} /> 
                         <Route path='/gerenciamento-turmas/ver-turmas' element={<VerTurmas />} />
+                        <Route path='/gerenciamento-turmas/enturmar-aluno-lista' element={<ReadAddStudent />} />
 
                         {/* Rotas de Gerenciamento de Usuário */}
                         <Route path='/gerenciamento-usuarios' element={<GerenciamentoUsuarios />} />

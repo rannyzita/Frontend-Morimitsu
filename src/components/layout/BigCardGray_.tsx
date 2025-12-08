@@ -68,12 +68,12 @@ export const PageLayout: FC<PageLayoutProps> = ({
                             onClick={info ? onClick : undefined}
                         >
                             {/* Ícone exatamente igual nos dois layouts */}
-                            <span className='w-10 h-10 flex items-center justify-center'>
+                            <span className='w-10 h-10 md:w-15 md:h-15 flex items-center justify-center'>
                                 {icon}
                             </span>
 
                             {/* Título padronizado */}
-                            <h1 className='text-[14px] md:text-2xl lg:text-3xl font-bold tracking-wide'>
+                            <h1 className='text-[12px] md:text-2xl lg:text-3xl font-bold tracking-wide'>
                                 {title}
                             </h1>
                         </div>

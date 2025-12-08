@@ -122,7 +122,7 @@ export const DeletarUsuario: FC = () => {
                             py-3 px-4 text-sm md:py-4 md:px-8 lg:py-4 lg:px-8 lg:text-base
                             rounded-lg shadow-md transition-colors'
                         >
-                            Excluir Selecionados
+                            Excluir Selecionado(as)
                         </button>
                     </div>
 

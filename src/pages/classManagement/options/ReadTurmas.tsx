@@ -1,32 +1,9 @@
-import { type FC, type ReactNode } from 'react';
-import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCard'; 
-import { Link } from 'react-router-dom';
+import { ClassListPage } from '../components/classList';
+import seeClassIcon from '../assets/See-Class.png';
 
 import turmaBaby from './assetsTest/IconBaby.png';
 import turmaInfantil from './assetsTest/TurmaInfantil.png';
 import turmaMista from './assetsTest/iconMista.png';
-
-import seeClassIcon from '../assets/See-Class.png'; 
-
-const ClassButton: FC<{ icon: ReactNode, label: string, to: string }> = ({ icon, label, to }) => (
-    <Link 
-        to={to}
-        className='flex items-center justify-between bg-[#690808] p-4 rounded-lg 
-                    font-semibold text-lg hover:bg-[rgb(170,0,0)] transition-colors
-                    w-full lg:w-150 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
-    >
-        <div className="flex items-center justify-center w-8 h-8">
-            {icon}
-        </div>
-        
-        <span className="text-center">
-            {label}
-        </span>
-        
-        <div className="w-8 h-8" /> 
-    </Link>
-);
 
 const turmasDaPagina = [
     { id: 1, label: 'TURMA BABY', icon: turmaBaby },
@@ -34,35 +11,11 @@ const turmasDaPagina = [
     { id: 3, label: 'TURMA MISTA', icon: turmaMista },
 ];
 
-export const VerTurmas: FC = () => {
-
-    return (
-        <Box 
-            component='div' 
-            className='flex flex-col items-center justify-center h-full p-4'
-        >
-            <PageLayout 
-                title='VER TURMAS' 
-                icon={<img src={seeClassIcon} alt='' className='w-8 h-8' />} 
-            >
-                <div className='max-w-5xl mx-auto pb-24'>
-                    <div className='flex flex-col gap-6'>
-                    
-                        <div className='flex flex-col gap-6 items-center w-full pt-20 lg:pt-24'>
-                            
-                            {turmasDaPagina.map(turma => (
-                                <ClassButton
-                                    key={turma.id}
-                                    to={`/gerenciamento-turmas/ver/${turma.id}`}
-                                    label={turma.label}
-                                    icon={<img src={turma.icon} alt={turma.label} className='w-8 h-8'/>}
-                                />
-                            ))}
-                        </div>
-                        
-                    </div>
-                </div>
-            </PageLayout>
-        </Box>
-    );
-}
+export const VerTurmas = () => (
+    <ClassListPage
+        title="VER TURMAS"
+        icon={<img src={seeClassIcon} className="w-8 h-8" />}
+        items={turmasDaPagina}
+        basePath="/gerenciamento-turmas/ver"
+    />
+);
