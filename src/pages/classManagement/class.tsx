@@ -36,7 +36,7 @@ export const GerenciamentoTurmas: FC = () => {
                     </Link>
 
                     <Link
-                        to={'/gerenciamento-turmas/enturmar-aluno-lista'}
+                        to={'/gerenciamento-turmas/enturmar-aluno'}
                         className='w-full max-w-sm lg:max-w-none lg:w-auto'
                     >
                         <ActionButton

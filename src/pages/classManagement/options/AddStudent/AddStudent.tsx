@@ -1,12 +1,12 @@
 import { useState, type FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCard';
-import { Pagination } from '../../../components/Pagination/Pagination';
+import { PageLayout } from '../../../../components/layout/BigCard';
+import { Pagination } from '../../../../components/Pagination/Pagination';
 import { Award, UserPlus, X } from 'lucide-react';
 
-import { SearchInput } from '../../../components/SearchInput/SearchInput';
-import { FeedbackToast } from '../../../components/Feedback/Feedback';
+import { SearchInput } from '../../../../components/SearchInput/SearchInput';
+import { FeedbackToast } from '../../../../components/Feedback/Feedback';
 
 import studentAvatar1 from '../options/assetsTest/IconBaby.png';
 import studentAvatar2 from '../options/assetsTest/TurmaInfantil.png';
@@ -66,7 +66,6 @@ export const EnturmarAluno: FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [alunos, setAlunos] = useState(initialAlunos);
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
-    const [showAlert, setShowAlert] = useState(false);
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const studentsPerPage = 4; 

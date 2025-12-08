@@ -14,6 +14,7 @@ interface ClassListPageProps {
     icon: ReactNode;
     items: ClassItem[];
     basePath: string; 
+    message?: string;
 }
 
 const ClassButton: FC<{ icon: ReactNode, label: string, to: string }> = ({ icon, label, to }) => (
@@ -39,7 +40,8 @@ export const ClassListPage: FC<ClassListPageProps> = ({
     title, 
     icon, 
     items, 
-    basePath 
+    basePath,
+    message
 }) => {
 
     return (
@@ -48,7 +50,7 @@ export const ClassListPage: FC<ClassListPageProps> = ({
                 <div className='max-w-5xl mx-auto pb-24'>
                     <div className='flex flex-col gap-6'>
                         <div className='flex flex-col gap-6 items-center w-full pt-20 lg:pt-24'>
-                            <p className='text-[12px] md:text-2xl'>Selecione uma turma para adicionar o(s) aluno(as):</p>
+                            <p className='text-[12px] md:text-2xl'>{message}</p>
                             {items.map(item => (
                                 <ClassButton
                                     key={item.id}

@@ -1,4 +1,4 @@
-import { ClassListPage } from '../components/classList';
+import { ClassListPage } from '../../components/classList';
 import seeClassIcon from '../assets/See-Class.png';
 
 import turmaBaby from './assetsTest/IconBaby.png';
@@ -13,9 +13,10 @@ const turmasDaPagina = [
 
 export const VerTurmas = () => (
     <ClassListPage
-        title="VER TURMAS"
-        icon={<img src={seeClassIcon} className="w-8 h-8" />}
+        title='VER TURMAS'
+        icon={<img src={seeClassIcon} className='w-8 h-8' />}
         items={turmasDaPagina}
-        basePath="/gerenciamento-turmas/ver"
+        basePath='/gerenciamento-turmas/ver'
     />
 );
+

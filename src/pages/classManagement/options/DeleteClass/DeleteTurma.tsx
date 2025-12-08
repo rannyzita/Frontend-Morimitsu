@@ -1,9 +1,9 @@
 import { useState, type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { PageLayout } from '../../../components/layout/BigCard';
-import { ActionSelectionScreen } from './ActionSelectScreen';
-import { FeedbackToast } from '../../../components/Feedback/Feedback';
-import { AlertModal } from '../../../components/Alert/alert';
+import { PageLayout } from '../../../../components/layout/BigCard';
+import { ActionSelectionScreen } from '../ActionSelectScreen';
+import { FeedbackToast } from '../../../../components/Feedback/Feedback';
+import { AlertModal } from '../../../../components/Alert/alert';
 import deleteClassIcon from '../assets/Delete-Class.png';
 
 // --- Dados Mock ---
@@ -12,13 +12,6 @@ const turmasMock = [
     { id: 2, label: 'Turma Infantil', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=👧' },
     { id: 3, label: 'Turma Mista', icon: 'https://placehold.co/32x32/1E1E1E/FFF?text=🧑‍🤝‍🧑' },
 ];
-interface AlertModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onConfirm: () => void;
-    title: string;
-    children: ReactNode;
-}
 
 export const DeleteTurma: FC = () => {
     const [turmaToDelete, setTurmaToDelete] = useState<number | null>(null);
