@@ -24,8 +24,6 @@ interface classModalProps {
 export const ClassModal: FC<classModalProps> = ({ isOpen, onClose, classInfo }) => {
     if (!isOpen || !classInfo) return null
 
-    const [promoverProfessor, setPromoverProfessor] = useState(false);
-
     return (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
 
@@ -81,11 +79,12 @@ export const ClassModal: FC<classModalProps> = ({ isOpen, onClose, classInfo }) 
                     <div></div>
                 </div>
                 
+                <h4 className='text-center text-[#690808] font-extrabold mb-2 text-2xl'>
+                        INFORMAÇÕES DA TURMA:
+                </h4>
+
                 <div className='border-b-5 border-[#690808] mb-6' />
 
-                <h4 className='text-center text-[#690808] font-extrabold mb-2 text-2xl'>
-                        INFORMAÇÕES DA TURMA
-                </h4>
 
                 {/* FORMULÁRIO */}
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-sm text-black mb-8 p-6 px-30'>

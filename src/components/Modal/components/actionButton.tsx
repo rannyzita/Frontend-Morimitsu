@@ -1,14 +1,15 @@
 import React from 'react';
+import { CustomCheckbox } from '../../CheckBox/checkBox';
 
 interface ActionButtonProps {
-    leftIcon?: React.ReactNode;          // Ícone ou imagem esquerda
-    title: React.ReactNode;              // Texto (pode conter <br/>)
-    rightIcon?: React.ReactNode;         // Ícone direita (quando não for checkbox)
-    showCheckbox?: boolean;              // Ativar checkbox
-    checkboxChecked?: boolean;           // Estado do checkbox
-    onCheckboxChange?: () => void;       // Evento do checkbox
-    onClick?: () => void;                // Quando clicar no botão
-    className?: string;                  // Estilos extras se quiser
+    leftIcon?: React.ReactNode;          
+    title: React.ReactNode;              
+    rightIcon?: React.ReactNode;         
+    showCheckbox?: boolean;              
+    checkboxChecked?: boolean;           
+    onCheckboxChange?: () => void;       
+    onClick?: () => void;                
+    className?: string;                  
 }
 
 export const ActionButton: React.FC<ActionButtonProps> = ({
@@ -54,17 +55,10 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
 
             {/* Checkbox estilizado */}
             {showCheckbox && (
-                <input
-                    type='checkbox'
-                    checked={checkboxChecked}
-                    onChange={onCheckboxChange}
-                    onClick={onClick}
-                    className='
-                        appearance-none w-7 h-7 border-2 border-white rounded-md 
-                        bg-transparent cursor-pointer flex-shrink-0
-                        checked:bg-white checked:bg-check-mark transition-colors
-                    '
-                />
+            <CustomCheckbox
+                checked={checkboxChecked}
+                onChange={onCheckboxChange}
+            />
             )}
         </button>
     );

@@ -8,6 +8,7 @@ import { Award, UserMinus, X } from 'lucide-react';
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 import { AlertModal } from '../../../components/Alert/alert';
 import { FeedbackToast } from '../../../components/Feedback/Feedback';
+import { CustomCheckbox } from '../../../components/CheckBox/checkBox';
 
 import studentAvatar1 from '../options/assetsTest/IconBaby.png';
 import studentAvatar2 from '../options/assetsTest/TurmaInfantil.png';
@@ -51,13 +52,10 @@ const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, studentId, is
                 {name}
             </span>
 
-            <button
-                onClick={() => onToggleSelect(studentId)}
-                className={`flex items-center justify-center border-2 rounded-md w-5 h-5 md:w-6 md:h-6
-                            transition-colors ${isSelected ? 'bg-white border-white' : 'border-white'}`}
-            >
-                {isSelected && <X size={14} className='text-[#690808]' />}
-            </button>
+            <CustomCheckbox
+                checked={isSelected}
+                onChange={() => onToggleSelect(studentId)}
+            />
         </div>
     );
 };

@@ -4,6 +4,8 @@ import { type FC, useState } from 'react'
 import IconTeacher from './assets/Professor.svg';
 import { InputField } from './components/input';
 import { ActionButton } from './components/actionButton';
+import { PromoveStudent } from '../PromoveStudent/PromoveStudent';
+
 interface StudentModalProps {
     isOpen: boolean
     onClose: () => void
@@ -20,6 +22,12 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
     if (!isOpen || !student) return null
 
     const [promoverProfessor, setPromoverProfessor] = useState(false);
+
+    const [isPromoteOpen, setPromoteOpen] = useState(false);
+
+    const handlePromote = (user: string, pass: string) => {
+        console.log('Promovendo com:', user, pass);
+    };
 
     return (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
@@ -63,7 +71,7 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                             }
                             showCheckbox={true}
                             checkboxChecked={promoverProfessor}
-                            onCheckboxChange={() => setPromoverProfessor(!promoverProfessor)}
+                            onCheckboxChange={() => setPromoteOpen(true)}
                         />
 
                         
@@ -255,6 +263,13 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                         value='(XX) XXXXX-XXXX' 
                     />
                 </div>
+                    {isPromoteOpen && (
+                        <PromoveStudent
+                            isOpen={isPromoteOpen}
+                            onClose={() => setPromoteOpen(false)}
+                            onConfirm={handlePromote}
+                        />
+                    )}
                 </div>
         </div>
     )
