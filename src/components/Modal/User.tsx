@@ -5,6 +5,7 @@ import IconTeacher from './assets/Professor.svg';
 import { InputField } from './components/input';
 import { ActionButton } from './components/actionButton';
 import { PromoveStudent } from '../PromoveStudent/PromoveStudent';
+import { FeedbackToast } from '../Feedback/Feedback';
 
 interface StudentModalProps {
     isOpen: boolean
@@ -25,12 +26,22 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
 
     const [isPromoteOpen, setPromoteOpen] = useState(false);
 
+    const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
     const handlePromote = (user: string, pass: string) => {
         console.log('Promovendo com:', user, pass);
     };
 
     return (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
+
+            {toast && (
+                <FeedbackToast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
 
             {/* Fundo escuro */}
             <div
@@ -265,6 +276,7 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                             isOpen={isPromoteOpen}
                             onClose={() => setPromoteOpen(false)}
                             onConfirm={handlePromote}
+                            setToast={setToast}
                         />
                     )}
                 </div>

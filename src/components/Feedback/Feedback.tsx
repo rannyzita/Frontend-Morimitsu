@@ -16,68 +16,68 @@ export const FeedbackToast: FC<FeedbackToastProps> = ({
     bottom = 'bottom-8',
     right = 'right-8'
 }) => {
-    const feedbackStyles = {
-        success: {
-            bgColor: 'bg-green-500',
-            icon: <CheckCircle2 size={50} className='text-white' />,
-        },
-        error: {
-            bgColor: 'bg-red-500',
-            icon: <XCircle size={50} className='text-white' />,
-        },
-    };
+        const feedbackStyles = {
+            success: {
+                bgColor: 'bg-green-500',
+                icon: <CheckCircle2 size={50} className='text-white' />,
+            },
+            error: {
+                bgColor: 'bg-red-500',
+                icon: <XCircle size={50} className='text-white' />,
+            },
+        };
 
-    const { bgColor, icon } = feedbackStyles[type];
+        const { bgColor, icon } = feedbackStyles[type];
 
-    useEffect(() => {
-        const timer = setTimeout(() => onClose(), 3000);
-        return () => clearTimeout(timer);
-    }, [onClose]);
+        useEffect(() => {
+            const timer = setTimeout(() => onClose(), 3000);
+            return () => clearTimeout(timer);
+        }, [onClose]);
 
-    return (
-    <>
-        <style>{`
-            @keyframes slide-up-fade-in {
-                from {
-                    transform: translateY(20px);
-                    opacity: 0;
+        return (
+        <>
+            <style>{`
+                @keyframes slide-up-fade-in {
+                    from {
+                        transform: translateY(20px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateY(0);
+                        opacity: 1;
+                    }
                 }
-                to {
-                    transform: translateY(0);
-                    opacity: 1;
+                .animate-slide-up-fade-in {
+                    animation: slide-up-fade-in 0.3s ease-out forwards;
                 }
-            }
-            .animate-slide-up-fade-in {
-                animation: slide-up-fade-in 0.3s ease-out forwards;
-            }
-        `}</style>
+            `}</style>
 
-        <div 
-            className={`fixed ${bottom} sm:${right} right-4 ${bgColor} text-white 
-                p-4 sm:p-6 rounded-xl shadow-lg 
-                flex items-center gap-4 sm:gap-14 z-80
-                animate-slide-up-fade-in`}
-        >
-            {/* Ícone responsivo */}
-            <div className='w-8 h-8 sm:w-12 sm:h-12 flex-shrink-0'>
-                {type === 'success' ? 
-                    <CheckCircle2 className='text-white w-full h-full' /> : 
-                    <XCircle className='text-white w-full h-full' />}
-            </div>
-
-            {/* Texto responsivo */}
-            <span className='font-semibold text-sm sm:text-base truncate'>
-                {message}
-            </span>
-
-            <button 
-                onClick={onClose} 
-                className='ml-auto text-white hover:bg-white/20 rounded-full p-1'
+            <div 
+                className={`fixed ${bottom} sm:${right} right-4 ${bgColor} text-white 
+                    p-4 sm:p-6 rounded-xl shadow-lg 
+                    flex items-center gap-4 sm:gap-14 z-80
+                    animate-slide-up-fade-in`}
             >
-                <X size={24} className='sm:w-8 sm:h-8' />
-            </button>
-        </div>
-    </>
-);
+                {/* Ícone responsivo */}
+                <div className='w-8 h-8 sm:w-12 sm:h-12 flex-shrink-0'>
+                    {type === 'success' ? 
+                        <CheckCircle2 className='text-white w-full h-full' /> : 
+                        <XCircle className='text-white w-full h-full' />}
+                </div>
+
+                {/* Texto responsivo */}
+                <span className='font-semibold text-sm sm:text-base truncate'>
+                    {message}
+                </span>
+
+                <button 
+                    onClick={onClose} 
+                    className='ml-auto text-white hover:bg-white/20 rounded-full p-1'
+                >
+                    <X size={24} className='sm:w-8 sm:h-8' />
+                </button>
+            </div>
+        </>
+    );
 
 };
