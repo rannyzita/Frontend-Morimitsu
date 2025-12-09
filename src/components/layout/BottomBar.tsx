@@ -47,6 +47,7 @@ export const Bottombar: React.FC = () => {
                         fontSize: {
                                 xs: '2.50rem',
                                 md: '3.50rem', 
+                                lg: '3.00rem'
                             },
                         }}
                     >
@@ -94,6 +95,7 @@ export const Bottombar: React.FC = () => {
                     fontSize: {
                         xs: '2.50rem',
                         md: '3.50rem', 
+                        lg: '3.00rem'
                     },
                 }}
             >
@@ -143,6 +145,7 @@ export const Bottombar: React.FC = () => {
                 fontSize: {
                     xs: '2.50rem',
                     md: '3.50rem', 
+                    lg: '3.00rem'
                 },
                 textAlign: {
                     lg: 'center'
@@ -171,7 +174,11 @@ export const Bottombar: React.FC = () => {
                                 className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'
                                 sx={{
                                     // Aumento do tamanho do texto no iPad/Tablet
-                                    fontSize: { md: '2.1rem' },
+                                    fontSize: { 
+                                        md: '2.1rem',
+                                        lg: '1.00rem' 
+                                    },
+
                                 }}
                             >
                                 <Instagram fontSize='medium' sx={{ color: 'white' }} />
@@ -184,8 +191,10 @@ export const Bottombar: React.FC = () => {
                                 rel='noopener'
                                 className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'
                                 sx={{
-                                    // Aumento do tamanho do texto no iPad/Tablet
-                                    fontSize: { md: '2.1rem' },
+                                    fontSize: { 
+                                        md: '2.1rem',
+                                        lg: '1.00rem' 
+                                    },
                                 }}
                             >
                                 <Instagram fontSize='medium' sx={{ color: 'white' }} />
@@ -200,8 +209,10 @@ export const Bottombar: React.FC = () => {
                             href='mailto:saulo@ifce.edu.br'
                             className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'
                             sx={{
-                                // Aumento do tamanho do texto no iPad/Tablet
-                                fontSize: { md: '2.1rem' },
+                                fontSize: { 
+                                    md: '2.1rem',
+                                    lg: '1.00rem' 
+                                },
                             }}
                             >
                             <Mail size={20} color='white' />
@@ -212,8 +223,10 @@ export const Bottombar: React.FC = () => {
                             href='tel:88999650480'
                             className='!flex !items-center !space-x-3 !text-gray-300 hover:!text-white !transition-colors'
                             sx={{
-                                // Aumento do tamanho do texto no iPad/Tablet
-                                fontSize: { md: '2.1rem' },
+                                fontSize: { 
+                                    md: '2.1rem',
+                                    lg: '1.00rem' 
+                                },
                             }}
                             >
                             <Phone size={20} color='white' />

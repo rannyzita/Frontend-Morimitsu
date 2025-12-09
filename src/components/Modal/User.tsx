@@ -65,15 +65,12 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                                 <img src={IconTeacher} alt='Professor' style={{ width: 50, height: 50 }} />
                             }
                             title={
-                                <>
-                                    PROMOVER P/ <br /> PROFESSOR(A)
-                                </>
+                                <p className=''>
+                                    PROMOVER P/ PROFESSOR(A)
+                                </p>
                             }
-                            showCheckbox={true}
-                            checkboxChecked={promoverProfessor}
-                            onCheckboxChange={() => setPromoteOpen(true)}
+                            onClick={() => setPromoteOpen(true)}
                         />
-
                         
                         <ActionButton
                             leftIcon={<User size={30} />}

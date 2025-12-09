@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 import { FeedbackToast } from '../Feedback/Feedback'; 
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, User } from 'lucide-react';
 
 interface PromoveStudentAlertProps {
     isOpen: boolean;
@@ -59,13 +59,21 @@ export const PromoveStudent: FC<PromoveStudentAlertProps> = ({
 
                     {/* INPUTS */}
                     <div className='flex flex-col gap-4 mb-8'>
-                        <input
-                            type='text'
-                            value={username}
-                            onChange={e => setUsername(e.target.value)}
-                            placeholder='Usuário'
-                            className='w-full border border-gray-300 rounded-lg py-2 px-3 text-sm focus:outline-none focus:border-[#690808]'
-                        />
+                        <div className='relative w-full'>
+                            <input
+                                type='text'
+                                value={username}
+                                onChange={e => setUsername(e.target.value)}
+                                placeholder='Usuário'
+                                className='w-full border border-gray-300 rounded-lg py-2 pl-3 text-sm focus:outline-none focus:border-[#690808]'
+                            />
+
+                            {/* Ícone dentro do input */}
+                            <User
+                                size={20}
+                                className='text-[#757575] absolute right-3 top-1/2 -translate-y-1/2'
+                            />
+                        </div>
 
                         {/* INPUT SENHA COM OLHINHO */}
                         <div className='relative'>
