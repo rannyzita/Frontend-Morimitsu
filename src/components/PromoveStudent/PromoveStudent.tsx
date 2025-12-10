@@ -1,5 +1,4 @@
 import { type FC, useState } from 'react';
-import { FeedbackToast } from '../Feedback/Feedback'; 
 import { Eye, EyeOff, User } from 'lucide-react';
 
 interface PromoveStudentAlertProps {

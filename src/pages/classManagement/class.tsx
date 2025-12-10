@@ -26,7 +26,7 @@ export const GerenciamentoTurmas: FC = () => {
                 <div className='flex flex-col pb-18 lg:pb-0 gap-6 mt-10 lg:mt-14 items-center'>
 
                     <Link
-                        to={'/gerenciamento-turmas/realizar-frequencia'}
+                        to={'/gerenciamento-turmas/frequencia'}
                         className='w-full max-w-sm lg:max-w-none lg:w-auto'
                     >
                         <ActionButton
@@ -55,7 +55,6 @@ export const GerenciamentoTurmas: FC = () => {
                         />
                     </Link>
 
-                    {/* Botão 3: VER TURMAS */}
                     <Link
                         to={'/gerenciamento-turmas/ver-turmas'}
                         className='w-full max-w-sm lg:max-w-none lg:w-auto'
@@ -66,7 +65,6 @@ export const GerenciamentoTurmas: FC = () => {
                         />
                     </Link>
 
-                    {/* Botão 4: CRIAR TURMA */}
                     <Link
                         to={'/gerenciamento-turmas/criar-turma'}
                         className='w-full max-w-sm lg:max-w-none lg:w-auto'
@@ -77,7 +75,6 @@ export const GerenciamentoTurmas: FC = () => {
                         />
                     </Link>
 
-                    {/* Botão 5: EDITAR TURMA */}
                     <Link
                         to={'/gerenciamento-turmas/editar-turma'}
                         className='w-full max-w-sm lg:max-w-none lg:w-auto'
@@ -88,7 +85,6 @@ export const GerenciamentoTurmas: FC = () => {
                         />
                     </Link>
 
-                    {/* Botão 6: EXCLUIR TURMA */}
                     <Link
                         to={'/gerenciamento-turmas/deletar-turma'}
                         className='w-full max-w-sm lg:max-w-none lg:w-auto'

@@ -7,7 +7,6 @@ import { Login } from './pages/login/Login'
 import  RecuperarSenha from './pages/resetPassword/recuperarSenha'
 import { Home } from './pages/home/Home'
 
-// Pagina de turma
 import { GerenciamentoTurmas } from './pages/classManagement/class'
 
 import { CreateTurma } from './pages/classManagement/options/CreateClass/CreateTurma'
@@ -20,7 +19,6 @@ import { ReadUnassignStudent } from './pages/classManagement/options/UnassignStu
 import { EnturmarAluno } from './pages/classManagement/options/AddStudent/AddStudent'
 import { DesenturmarAluno } from './pages/classManagement/options/UnassignStudent/UnassignStudent'
 
-// Pagina de Perfil
 import { Profile } from './pages/Profile/Profile'
 
 // Pagina Not Found
@@ -41,6 +39,8 @@ import { Birthday } from './pages/birthday/birthday'
 
 // Pagina de Graduacao
 import { Graduation } from './pages/graduation/graduation'
+import { Frequency } from './pages/Frequency/Frequency'
+import { ReadClassFrequency } from './pages/Frequency/ReadClassFrequenct'
 
 export const AppRoutes = () => {
     return (
@@ -66,6 +66,8 @@ export const AppRoutes = () => {
                         <Route path='/gerenciamento-turmas/desenturmar-aluno' element={<ReadUnassignStudent/>} />
                         <Route path='/gerenciamento-turmas/enturmar-aluno/:id' element={<EnturmarAluno />} />
                         <Route path='/gerenciamento-turmas/desenturmar-aluno/:id' element={<DesenturmarAluno/>} />
+                        <Route path='/gerenciamento-turmas/frequencia' element={<ReadClassFrequency/>} />
+                        <Route path='/gerenciamento-turmas/frequencia/:id' element={<Frequency/>} />
 
                         {/* Rotas de Gerenciamento de Usuário */}
                         <Route path='/gerenciamento-usuarios' element={<GerenciamentoUsuarios />} />

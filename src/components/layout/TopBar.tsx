@@ -62,11 +62,10 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick, data }) => {
                     </Link>
                 </div>
 
-            {/* 3. Renderize o Modal com o estado e a função de fechar */}
             <PopUp 
                 data={data}    
                 isOpen={isModalOpen} 
-                onClose={toggleModal} // O botão de fechar dentro do modal usará esta função
+                onClose={toggleModal}
             />
         </header>
     );
