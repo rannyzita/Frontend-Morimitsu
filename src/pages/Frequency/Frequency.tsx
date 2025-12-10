@@ -2,7 +2,7 @@ import { type FC, useState, useEffect } from 'react';
 import { Box, Grid, Typography, Card, Divider, TextField, Avatar, Checkbox, IconButton, Button } from '@mui/material';
 import { PageLayout } from '../../components/layout/BigCard';
 import { ListChecks, ChevronLeft, ChevronRight, Trophy } from 'lucide-react';
-
+import { useNavigate } from 'react-router-dom';
 interface RankedStudent {
     id: number;
     name: string;
@@ -31,6 +31,12 @@ export const Frequency: FC = () => {
     const [perPage, setPerPage] = useState(5);
 
     const totalPages = Math.ceil(STUDENTS.length / perPage);
+
+    const navigate = useNavigate();
+
+    const handleNavigateToFrequency = () => {
+        navigate('/gerenciamento-turmas/aulas-alunos')
+    }
 
     useEffect(() => {
         const update = () => {
@@ -75,7 +81,7 @@ export const Frequency: FC = () => {
                     <Grid item xs={12} lg={8}>
                         <div className='bg-[#7a0a0a] rounded-lg px-4 py-2 flex items-center text-center justify-center gap-3 mb-2'>
                             <Avatar src='/turmaIcon.png' />
-                            <Typography className='font-extrabold text-white text-lg'>
+                            <Typography className='!font-bold text-white text-lg'>
                                 TURMA INFANTIL
                             </Typography>
                         </div>
@@ -88,7 +94,7 @@ export const Frequency: FC = () => {
                             {/* Data + Horário */}
                             <Grid container spacing={3} className='mb-2 pl-4'>
                                 <Grid item xs={12} sm={4}>
-                                    <Typography className='text-xs font-bold mb-1'>
+                                    <Typography className='text-xs !font-bold mb-1'>
                                         DATA DA AULA:
                                     </Typography>
                                     <TextField
@@ -102,7 +108,7 @@ export const Frequency: FC = () => {
                                 </Grid>
 
                                 <Grid item xs={12} sm={4}>
-                                    <Typography className='text-xs font-bold mb-1'>
+                                    <Typography className='text-xs !font-bold mb-1'>
                                         HORÁRIO DA AULA:
                                     </Typography>
                                     <TextField
@@ -124,7 +130,7 @@ export const Frequency: FC = () => {
                                         key={student.id}
                                         className='flex items-center justify-between bg-[#f5eaea] p-3 rounded-lg'
                                     >
-                                        <div className='flex items-center gap-3'>
+                                        <div className='flex items-center gap-4'>
                                             <Avatar src={student.avatar} />
                                             <span className='text-[#2b0505] font-medium'>
                                                 {student.name}
@@ -237,8 +243,9 @@ export const Frequency: FC = () => {
                                 variant='contained'
                                 fullWidth
                                 className='bg-[#690808] text-white mt-10 py-5 rounded-lg'
+                                onClick={handleNavigateToFrequency}
                             >
-                                VISUALIZAR FREQUÊNCIAS DOS ALUNOS ›
+                                VISUALIZAR AULAS DOS ALUNOS ›
                             </Button>
                         </div>
                     </Grid>

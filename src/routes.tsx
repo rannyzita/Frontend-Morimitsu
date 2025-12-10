@@ -18,6 +18,9 @@ import { ReadAddStudent } from './pages/classManagement/options/AddStudent/ReadA
 import { ReadUnassignStudent } from './pages/classManagement/options/UnassignStudent/ReadUnassign_Student'
 import { EnturmarAluno } from './pages/classManagement/options/AddStudent/AddStudent'
 import { DesenturmarAluno } from './pages/classManagement/options/UnassignStudent/UnassignStudent'
+import { Frequency } from './pages/Frequency/Frequency'
+import { ReadClassFrequency } from './pages/Frequency/ReadClassFrequenct'
+import { AulasDosAlunos} from './pages/Frequency/GeralFrequencyClass'
 
 import { Profile } from './pages/Profile/Profile'
 
@@ -39,8 +42,6 @@ import { Birthday } from './pages/birthday/birthday'
 
 // Pagina de Graduacao
 import { Graduation } from './pages/graduation/graduation'
-import { Frequency } from './pages/Frequency/Frequency'
-import { ReadClassFrequency } from './pages/Frequency/ReadClassFrequenct'
 
 export const AppRoutes = () => {
     return (
@@ -68,6 +69,7 @@ export const AppRoutes = () => {
                         <Route path='/gerenciamento-turmas/desenturmar-aluno/:id' element={<DesenturmarAluno/>} />
                         <Route path='/gerenciamento-turmas/frequencia' element={<ReadClassFrequency/>} />
                         <Route path='/gerenciamento-turmas/frequencia/:id' element={<Frequency/>} />
+                        <Route path='/gerenciamento-turmas/aulas-alunos' element={<AulasDosAlunos />} />
 
                         {/* Rotas de Gerenciamento de Usuário */}
                         <Route path='/gerenciamento-usuarios' element={<GerenciamentoUsuarios />} />
@@ -76,6 +78,7 @@ export const AppRoutes = () => {
                         <Route path='/gerenciamento-usuarios/editar-usuario' element={<EditVerUsuarios />} />
                         <Route path='/gerenciamento-usuarios/editar-usuario/:id' element={<EditUsuario />} />
                         <Route path='/gerenciamento-usuarios/deletar-usuario' element={<DeletarUsuario />} />
+                        
 
                         {/* Rota de Usuário */}
                         <Route path='/meu-perfil' element={<Profile />} />
