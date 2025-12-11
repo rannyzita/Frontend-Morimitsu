@@ -1,12 +1,14 @@
 import React from 'react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import type { FC, ReactNode } from 'react';
 import { Box, Typography } from '@mui/material';
 import { BirthdayCarousel } from '../../components/ScrollBirthday/scrollBirthday';
 import { useAuth } from '../../contexts/AuthContext';
 
-import { homePopUp } from '../../data/text/popUps/home/home';
+import { fetchMonthAniversariantes, type AniversarianteApi } from '../../services/aniversariantes/aniversariantes';
+
+// import { homePopUp } from '../../data/text/popUps/home/home';
 
 import { 
     Users, 
@@ -82,9 +84,11 @@ const BigButton: FC<BigButtonProps> = ({ icon, label }) => (
 
 export const Home: FC = () => {
 
-    const { user, logout } = useAuth();
+    const { user, token } = useAuth();
 
     if (!user) return null;
+
+    const [birthdays, setBirthdays] = useState<AniversarianteApi[]>([]);
 
     const [currentPage, setCurrentPage] = useState(0); 
     const STUDENTS_PER_PAGE = 3; 
@@ -108,6 +112,21 @@ export const Home: FC = () => {
         }
     };
 
+    useEffect(() => {
+    if (!token) return;
+
+    async function loadBirthdays() {
+        try {
+        const data = await fetchMonthAniversariantes(token as string);
+        setBirthdays(data.aniversariantes); // agora compatível
+        } catch (err) {
+        console.error("Erro ao carregar aniversariantes:", err);
+        }
+    }
+
+    loadBirthdays();
+    }, [token]);
+    
     return (
         <Box component='div' className='max-w-7xl mx-auto lg:max-w-full lg:mx-0 flex flex-col gap-10 py-6 px-8 lg:py-26 lg:px-30'> 
 
@@ -217,7 +236,15 @@ export const Home: FC = () => {
             </section>
 
             {/* SEÇÃO 2: Aniversariantes do Mês */}
-            <BirthdayCarousel members={birthdayMembers} title='ANIVERSARIANTES DO MÊS' icon={true}></BirthdayCarousel>
+            <BirthdayCarousel 
+                members={birthdays.map(b => ({
+                    date: `${b.dia}/${b.mes}`,
+                    name: b.nome,
+                    team: '' // se precisar, coloca equipe aqui depois
+                }))} 
+                title='ANIVERSARIANTES DO MÊS' 
+                icon={true}
+            />
         </Box>
     );
 }

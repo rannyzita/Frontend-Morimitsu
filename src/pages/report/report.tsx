@@ -1,17 +1,16 @@
-import { type FC } from 'react';
-import { Box, Grid, Typography, Card, Divider } from '@mui/material';
-import { PageLayout } from '../../components/layout/BigCard'; 
+import { type FC, useEffect, useState } from 'react';
+import { Box, Grid, Typography, Card } from '@mui/material';
+import { PageLayout } from '../../components/layout/BigCard';
 import { ClipboardList } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { Trophy } from 'lucide-react'; 
 import { RankingCard, type RankedStudent } from '../../components/Dashboard/Podio/rankingCard';
+import { fetchRelatorioMetricas } from '../../services/report/report';
 
 interface StatisticProps {
     title: string;
     total: number;
 }
 
-const StatisticCard: FC<StatisticProps> = ({ title, total}) => (
+const StatisticCard: FC<StatisticProps> = ({ title, total }) => (
     <Card className='!bg-[#690808] text-white p-4 flex flex-col items-center gap-1 !rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
         <div className='flex items-center justify-start'>
             <Typography variant='body1' className='!font-bold tracking-wide lg:text-xl'>
@@ -19,7 +18,7 @@ const StatisticCard: FC<StatisticProps> = ({ title, total}) => (
             </Typography>
         </div>
 
-        <Card className='!bg-[#500000] text-white p-4 flex flex-col items-center rounded-xl  h-32 lg:h-25 w-full justify-between'>
+        <Card className='!bg-[#500000] text-white p-4 flex flex-col items-center rounded-xl h-32 lg:h-25 w-full justify-between'>
             <Typography variant='h4' className='!font-extrabold lg:text-5xl'>
                 {total}
             </Typography>
@@ -32,9 +31,35 @@ const StatisticCard: FC<StatisticProps> = ({ title, total}) => (
 
 export const Report: FC = () => {
 
+    const [metricas, setMetricas] = useState({
+        totalAlunos: '',
+        totalProfessores: '',
+        totalCoordenadores: 0,
+        totalTurmas: 0,
+        totalUsuarios: 0,
+        totalAulas: 0
+    });
+
+    useEffect(() => {
+        const rawToken = localStorage.getItem('token');
+        const token = rawToken ?? undefined;
+
+        async function loadMetricas() {
+            try {
+                const data = await fetchRelatorioMetricas(token);
+                console.log('RETORNO REAL DA API ===>', data); // 👈 AQUI
+                setMetricas(data);
+            } catch (err) {
+                console.error('Erro ao carregar métricas:', err);
+            }
+        }
+
+        loadMetricas();
+    }, []);
+
     const podiumData = {
         first: 'ANA LAURA',
-        second: 'JOÃO LUCAS',
+        second: 'JOÃO LUCAS',   
         third: 'NICHOLAS ALVES',
     };
 
@@ -46,36 +71,36 @@ export const Report: FC = () => {
 
     return (
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
-            <PageLayout backPath='/home' icon={<ClipboardList size={36} className='lg:w-[50px] lg:h-[50px]' />} title='RELATÓRIO'>
-                
-                <Grid 
-                    container 
-                    spacing={6}     
-                    className='mt-8 lg:pt-8'
-                >
+            <PageLayout backPath='/home' icon={<ClipboardList size={36} />} title='RELATÓRIO'>
+                <Grid container spacing={6} className='mt-8 lg:pt-8'>
                     
                     <Grid item xs={12} lg={5}>
                         <Grid container spacing={12} rowSpacing={5}>
-                            
-                            <Grid item xs={6} sm={4} lg={6}> 
-                                <StatisticCard title='TURMAS' total={4} />
-                            </Grid>
+
                             <Grid item xs={6} sm={4} lg={6}>
-                                <StatisticCard title='ALUNOS' total={220} />
-                            </Grid>
-                            <Grid item xs={6} sm={4} lg={6}> 
-                                <StatisticCard title='PROFESSOR' total={2} />
+                                <StatisticCard title='TURMAS' total={metricas.totalTurmas} />
                             </Grid>
 
                             <Grid item xs={6} sm={4} lg={6}>
-                                <StatisticCard title='COORDENADOR' total={1} />
+                                <StatisticCard title='ALUNOS' total={metricas.totalAlunos} />
                             </Grid>
+
                             <Grid item xs={6} sm={4} lg={6}>
-                                <StatisticCard title='USUÁRIOS' total={50} />
+                                <StatisticCard title='PROFESSOR' total={metricas.totalProfessores} />
                             </Grid>
+
                             <Grid item xs={6} sm={4} lg={6}>
-                                <StatisticCard title='AULAS' total={1200} />
+                                <StatisticCard title='COORDENADOR' total={metricas.totalCoordenadores} />
                             </Grid>
+
+                            <Grid item xs={6} sm={4} lg={6}>
+                                <StatisticCard title='USUÁRIOS' total={metricas.totalUsuarios} />
+                            </Grid>
+
+                            <Grid item xs={6} sm={4} lg={6}>
+                                <StatisticCard title='AULAS' total={metricas.totalAulas} />
+                            </Grid>
+
                         </Grid>
                     </Grid>
 
@@ -87,8 +112,9 @@ export const Report: FC = () => {
                             graphTitle='GRÁFICO'
                         />
                     </Grid>
+
                 </Grid>
             </PageLayout>
         </Box>
-    )
-}
+    );
+};
