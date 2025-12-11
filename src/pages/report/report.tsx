@@ -34,10 +34,10 @@ export const Report: FC = () => {
     const [metricas, setMetricas] = useState({
         totalAlunos: '',
         totalProfessores: '',
-        totalCoordenadores: 0,
-        totalTurmas: 0,
-        totalUsuarios: 0,
-        totalAulas: 0
+        totalCoordenadores: '',
+        totalTurmas: '',
+        totalUsuarios: '',
+        totalAulas: ''
     });
 
     useEffect(() => {

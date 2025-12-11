@@ -123,20 +123,6 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, data }) => {
 
                     <div className='flex flex-row sm:flex-row items-center justify-center gap-3'>
 
-                        {/* Google Docs */}
-                        <a 
-                            href='https://docs.google.com/document/d/1zdUZBIj6JHla6IEEm4uFYhb1pBNAaEMhv_e7tnE1iDo/edit?usp=sharing'
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            className='
-                                px-4 py-2 rounded-lg text-[10px] font-medium 
-                                bg-white/10 hover:bg-white/20 transition 
-                                text-white w-full sm:w-auto
-                            '
-                        >
-                            Google Docs
-                        </a>
-
                         {/* Arquivo PDF */}
                         <a 
                             href='/arquivo-guia.pdf'
