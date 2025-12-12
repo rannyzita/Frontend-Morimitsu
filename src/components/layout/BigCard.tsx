@@ -36,7 +36,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
                         shadow-none lg:shadow-xl
                         flex flex-col overflow-hidden 
                         w-full h-auto 
-                        md:w-5/6 md:h-auto 
+                        md:w-5/6 md:h-[72vh] 
                         lg:w-[1200px] lg:h-[84vh] 
                         ${className}`}
         >
