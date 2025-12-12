@@ -55,8 +55,8 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
 
                 {/* Cabeçalho */}
                 <div className='relative flex justify-center items-center mb-2'>
-                    <h2 className='text-[#690808] font-extrabold text-xl md:text-3xl lg:text-4xl'>
-                        DADOS DO ALUNO
+                    <h2 className='text-[#690808] font-extrabold text-xl md:text-3xl lg:text-4xl uppercase'>
+                        DADOS DO {student.role}
                     </h2>
 
                     <button onClick={onClose} className='absolute right-0 cursor-pointer'>
@@ -162,8 +162,8 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
 
                 {/* Título das informações */}
                 <div className='border-b-5 border-[#690808] mb-6'>
-                    <h4 className='text-center text-[#690808] font-extrabold mb-2 text-2xl'>
-                        INFORMAÇÕES DO ALUNO(A)
+                    <h4 className='text-center text-[#690808] font-extrabold mb-2 text-2xl uppercase'>
+                        INFORMAÇÕES DO {student.role}
                     </h4>
                 </div>
 
