@@ -32,12 +32,12 @@ const StatisticCard: FC<StatisticProps> = ({ title, total }) => (
 export const Report: FC = () => {
 
     const [metricas, setMetricas] = useState({
-        totalAlunos: '',
-        totalProfessores: '',
-        totalCoordenadores: '',
-        totalTurmas: '',
-        totalUsuarios: '',
-        totalAulas: ''
+        totalAlunos: 0,
+        totalProfessores: 0,
+        totalCoordenadores: 0,
+        totalTurmas: 0,
+        totalUsuarios: 0,
+        totalAulas: 0
     });
 
     useEffect(() => {
@@ -47,10 +47,9 @@ export const Report: FC = () => {
         async function loadMetricas() {
             try {
                 const data = await fetchRelatorioMetricas(token);
-                console.log('RETORNO REAL DA API ===>', data); // 👈 AQUI
                 setMetricas(data);
             } catch (err) {
-                console.error('Erro ao carregar métricas:', err);
+                console.error('Erro ao carregar métricasss:', err);
             }
         }
 
