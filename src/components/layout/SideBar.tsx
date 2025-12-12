@@ -11,17 +11,25 @@ type NavItemProps = {
     to: string;
     icon: React.ElementType;
     children: React.ReactNode;
+    toggleSideBar: () => void; // Adicionado para fechar ao navegar
 };
 
-const NavItem: React.FC<NavItemProps> = ({ to, icon: Icon, children }) => {
-    const linkClasses = `flex items-center space-x-4 p-3 rounded-lg text-white hover:bg-[#690808] transition-colors`;
+const NavItem: React.FC<NavItemProps> = ({ to, icon: Icon, children, toggleSideBar }) => {
+    const linkClasses = `flex items-center space-x-4 p-3 rounded-lg text-white hover:bg-[#690808] transition-colors text-[12px] md:text-base`;
     const activeLinkClasses = `bg-[#690808]`;
+
+    const handleClick = () => {
+        if (window.innerWidth < 768) {
+            toggleSideBar();
+        }
+    };
 
     return (
         <li>
             <NavLink
                 to={to}
                 className={({ isActive }) => `${linkClasses} ${isActive ? activeLinkClasses : ''}`}
+                onClick={handleClick} 
             >
                 <Icon size={22} />
                 <span className='font-medium'>{children}</span>
@@ -46,6 +54,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
         navigate('/login'); 
     };
 
+    const handleLinkClick = () => {
+        if (window.innerWidth < 768) {
+            toggleSideBar();
+        }
+    };
+
     return (
         <aside className={`
             bg-black text-white w-72 p-6 pt-12 flex flex-col h-screen
@@ -55,15 +69,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
         `}>
             
             <div className='flex flex-col items-center text-center mb-10'>
-                <Link to='/meu-perfil' className='cursor-pointer'>
+                <Link to='/meu-perfil' className='cursor-pointer' onClick={handleLinkClick}>
                     <img
                         src='/IconProfile.png' 
                         alt='Foto do perfil'
-                        className='w-36 h-36 rounded-full object-cover mb-4'
+                        className='w-24 h-24 md:w-36 md:h-36 rounded-full object-cover mb-4'
                     />
                 </Link>
-                <Link to='/meu-perfil' className='cursor-pointer'>
-                    <h2 className='text-xl font-semibold'>
+                <Link to='/meu-perfil' className='cursor-pointer' onClick={handleLinkClick}>
+                    <h2 className='text-base md:text-xl font-semibold'>
                         {user.tipo === 'COORDENADOR' ? user.nome : 'PROFESSOR'}
                     </h2>
                 </Link>
@@ -71,26 +85,27 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
 
             <div className='flex-grow flex flex-col'>
                 <div className='flex items-center'>
+                    
                     <nav className='flex-grow'>
                         <ul className='space-y-3'>
                             {user.tipo === 'COORDENADOR' && (
                                 <>
-                                    <NavItem to='/home' icon={HomeIcon}>Tela Inicial</NavItem>
-                                    <NavItem to='/meu-perfil' icon={CircleUserRound}>Meu Perfil</NavItem>
-                                    <NavItem to='/gerenciamento-turmas' icon={Users}>Turmas</NavItem>
-                                    <NavItem to='/gerenciamento-usuarios' icon={User}>Usuários</NavItem>
-                                    <NavItem to='/aniversarios' icon={Cake}>Aniversários</NavItem>
-                                    <NavItem to='/graduacao' icon={GraduationCap}>Graduação</NavItem>
-                                    <NavItem to='/relatorio' icon={ClipboardList}>Relatório</NavItem>
+                                    <NavItem to='/home' icon={HomeIcon} toggleSideBar={toggleSideBar}>Tela Inicial</NavItem>
+                                    <NavItem to='/meu-perfil' icon={CircleUserRound} toggleSideBar={toggleSideBar}>Meu Perfil</NavItem>
+                                    <NavItem to='/gerenciamento-turmas' icon={Users} toggleSideBar={toggleSideBar}>Turmas</NavItem>
+                                    <NavItem to='/gerenciamento-usuarios' icon={User} toggleSideBar={toggleSideBar}>Usuários</NavItem>
+                                    <NavItem to='/aniversarios' icon={Cake} toggleSideBar={toggleSideBar}>Aniversários</NavItem>
+                                    <NavItem to='/graduacao' icon={GraduationCap} toggleSideBar={toggleSideBar}>Graduação</NavItem>
+                                    <NavItem to='/relatorio' icon={ClipboardList} toggleSideBar={toggleSideBar}>Relatório</NavItem>
                                 </>
                             )}
                             {user.tipo === 'PROFESSOR' && (
                                 <>
-                                    <NavItem to='/home' icon={HomeIcon}>Tela Inicial</NavItem>
-                                    <NavItem to='/meu-perfil' icon={CircleUserRound}>Meu Perfil</NavItem>
-                                    <NavItem to='/frequencia' icon={ListChecks}>Frequências</NavItem>
-                                    <NavItem to='/aniversarios' icon={Cake}>Aniversários</NavItem>
-                                    <NavItem to='/relatorio' icon={ClipboardList}>Relatório</NavItem>
+                                    <NavItem to='/home' icon={HomeIcon} toggleSideBar={toggleSideBar}>Tela Inicial</NavItem>
+                                    <NavItem to='/meu-perfil' icon={CircleUserRound} toggleSideBar={toggleSideBar}>Meu Perfil</NavItem>
+                                    <NavItem to='/frequencia' icon={ListChecks} toggleSideBar={toggleSideBar}>Frequências</NavItem>
+                                    <NavItem to='/aniversarios' icon={Cake} toggleSideBar={toggleSideBar}>Aniversários</NavItem>
+                                    <NavItem to='/relatorio' icon={ClipboardList} toggleSideBar={toggleSideBar}>Relatório</NavItem>
                                 </>
                             )}
                         </ul>
@@ -98,17 +113,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
                     
                     <button 
                         onClick={toggleSideBar} 
-                        className='p-2 rounded-full text-white-400 hover:bg-[#690808] hover:text-white transition-colors'
+                        className='p-1 md:p-2 rounded-full text-white hover:bg-[#690808] transition-colors'
                     >
-                        <ChevronLeft size={32} className='cursor-pointer'/>
+                        <ChevronLeft className='cursor-pointer w-6 h-6 md:w-8 md:h-8'/>
                     </button>
                 </div>
             </div>
 
             <div className='pb-6'>
                 <button
-                    onClick={handleLogout}
-                    className='flex items-center space-x-4 p-3 w-full rounded-lg hover:bg-[#690808] hover:text-white transition-colors cursor-pointer'
+                    onClick={() => { handleLogout(); if (window.innerWidth < 768) toggleSideBar(); }} 
+                    className='flex items-center space-x-4 p-3 w-full rounded-lg hover:bg-[#690808] hover:text-white transition-colors cursor-pointer text-sm md:text-base'
                 >
                     <LogOut size={22} />
                     <span className='font-medium'>Logout</span>
