@@ -34,14 +34,12 @@ export function StepReset({
             onSubmit={(e) => { e.preventDefault(); handleResetPassword(); }}
             className='flex-grow flex flex-col justify-between relative pb-4'
         >
-            {/* Título: Padronizado com 'my-6' e tamanho de fonte dos Steps 1 e 2 */}
             <div className='my-6 self-center'>
                 <h1 className='text-white text-[22px] md:text-3xl lg:text-5xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2 text-center'>
                     ATUALIZAR SENHA
                 </h1>
             </div>
 
-            {/* Conteúdo: Adicionando 'flex-grow min-h-[400px]' para garantir altura mínima e empurrar o rodapé */}
             <div className='space-y-6 flex-grow min-h-[390px] md:min-h-[420px]'>
                 <p className='text-white leading-relaxed text-[13px] md:text-base'>
                     Sua nova senha precisa ter:<br />
@@ -50,7 +48,6 @@ export function StepReset({
                     • Pelo menos um número (0-9)
                 </p>
 
-                {/* Campo Nova Senha */}
                 <div>
                     <label htmlFor='password' className='text-[#9E9E9E] text-base text-[14px] md:text-lg mb-2 block'>Insira a nova senha:</label>
                     <TextField
@@ -106,7 +103,6 @@ export function StepReset({
                     />
                 </div>
 
-                {/* Campo Confirme a Senha */}
                 <div>
                     <label htmlFor='passwordConfirmer' className='text-[#9E9E9E] text-base  text-[14px] md:text-lg mb-2 block'>
                         Confirme a senha:
@@ -166,7 +162,6 @@ export function StepReset({
                 </div>
             </div>
 
-            {/* Rodapé: Removendo 'mt-32' para fixar na parte inferior pelo 'justify-between' */}
             <div className='flex items-center justify-between'>
                 <Button
                     onClick={() => setStep('code')}

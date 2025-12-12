@@ -29,7 +29,7 @@ export const Login: FC = () => {
                     <img
                         src='/MorimitsuLogo.jpeg'
                         alt='Logo Morimitsu Jiu Jitsu'
-                        className='w-[120px] h-[120px] md:w-[550px] md:h-[550px] object-contain'
+                        className='w-[120px] h-[120px] md:w-[300px] md:h-[300px] lg:w-[550px] lg:h-[550px] object-contain'
                     />
                 </div>
 

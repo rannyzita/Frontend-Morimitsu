@@ -74,21 +74,18 @@ export function StepCode({
             }}
             className='flex-grow flex flex-col justify-between relative pb-4'
         >
-            {/* Título: Usa 'my-6', 'text-[22px]' e 'whitespace-nowrap' */}
             <div className='my-6 self-center'>
                 <h1 className='text-white text-[22px] md:text-3xl lg:text-5xl font-normal tracking-wide whitespace-nowrap border-b-2 border-[#690808] pb-2 text-center'>
                     CÓDIGO DE RECUPERAÇÃO
                 </h1>
             </div>
 
-            {/* Conteúdo: Adicionada altura mínima fixa (min-h-[400px]) para empurrar o rodapé */}
             <div className='space-y-6 flex-grow min-h-[390px] md:min-h-[420px]'>
 
                 <p className='text-center text-white leading-relaxed text-[13px] md:text-base'>
                     Agora, insira o código que enviamos para o seu e-mail {maskEmail(email)}. Caso não tenha chegado, você pode reenviar o código abaixo.
                 </p>
 
-                {/* Inputs dos 5 dígitos */}
                 <div className='flex justify-between space-x-2 my-8'>
                     {code.map((digit, index) => (
                         <CodeInput
@@ -124,7 +121,6 @@ export function StepCode({
                     )}
                 </Button>
 
-                {/* Bloco de mensagens de alerta */}
                 <div className='flex !justify-end min-h-[63px]'> 
                     <div className='max-w-[500px] w-fit'> 
                         {(error || successMessage || emailError || showFirstStepMessage) && ( 
@@ -137,7 +133,6 @@ export function StepCode({
                 </div>
             </div>
 
-            {/* Rodapé: Sem margem superior fixa, é posicionado pelo justify-between */}
             <div className='flex items-center justify-between'>
                 <Button
                     onClick={() => setStep('email')}

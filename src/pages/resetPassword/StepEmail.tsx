@@ -35,14 +35,12 @@ export const StepEmail: FC<StepEmailProps> = ({
             onSubmit={(e) => e.preventDefault()}
             className='flex-grow flex flex-col justify-between relative pb-4'
         >
-            {/* Título: Usa 'my-6' e sem 'mb-6' para espaçamento consistente */}
             <div className='my-6 self-center'>
                 <h1 className='text-white text-[22px] md:text-3xl lg:text-5xl font-normal tracking-wide sm:whitespace-nowrap border-b-2 border-[#690808] pb-2 text-center'>
                     RECUPERAR SENHA
                 </h1>
             </div>
 
-            {/* Conteúdo: Adicionada altura mínima fixa (min-h-[400px]) para empurrar o rodapé */}
             <div className='space-y-6 flex-grow min-h-[390px] md:min-h-[420px]'>
                 <p className='text-center text-white leading-relaxed text-[13px] md:text-base'>
                     Para iniciar a recuperação, digite seu e-mail de cadastro para que possamos enviar o código de 5

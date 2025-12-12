@@ -28,24 +28,6 @@ const CodeInput = forwardRef<HTMLInputElement, CodeInputProps>(({ index, value, 
 });
 CodeInput.displayName = 'CodeInput';
 
-const maskEmail = (email: string): string => {
-    if (!email) return ''; 
-    
-    const parts = email.split('@');
-    if (parts.length !== 2) return email; 
-
-    const [username, domain] = parts;
-
-    let maskedUsername;
-    if (username.length <= 3) {
-        maskedUsername = username.charAt(0) + '***';
-    } else {
-        maskedUsername = username.substring(0, 3) + '***';
-    }
-    
-    return `${maskedUsername}@${domain}`;
-};
-
 export default function PasswordResetPage() {
     const {
         step,
@@ -85,10 +67,6 @@ export default function PasswordResetPage() {
         }
     }, [email]);
 
-    useEffect(() => {
-        setStep('reset');
-    }, []);
-    
     const togglePassword = () => setShowPassword(!showPassword);
     const togglePasswordConfirmer = () => setShowPasswordConfirmer(!showPasswordConfirmer);
 
@@ -118,15 +96,13 @@ export default function PasswordResetPage() {
 
     return (
         <div className='flex justify-center items-start md:items-center min-h-screen text-gray-400 pt-16 md:pt-0'>
-            <div className='flex flex-col md:flex-row w-full max-w-7xl h-auto md:h-[600px] items-center justify-center'>
+            <div className='flex flex-col md:flex-row w-full max-w-7xl h-auto justify-center'>
 
-                {/* Imagem */}
-                <div className='flex-1 flex justify-center items-center h-full md:mb-0'>
-                    <img src='/MorimitsuLogo.jpeg' alt='Logo Morimitsu Jiu Jitsu' className='w-[120px] h-[120px] md:w-[550px] md:h-[550px] object-contain' />
+                <div className='flex-1 flex justify-center items-center md:w-1/2 md:mb-0'>
+                    <img src='/MorimitsuLogo.jpeg' alt='Logo Morimitsu Jiu Jitsu' className='w-[120px] h-[120px] md:w-[300px] md:h-[300px] lg:w-[550px] lg:h-[550px] object-contain' />
                 </div>
 
-                {/* Formulário */}
-                <div className='flex-1 flex justify-center items-center w-full min-h-[600px] p-8 md:p-12'>
+                <div className='flex-1 flex justify-center items-center w-full md:w-1/2 p-8 md:p-12'>
                     <div className='w-full max-w-sm h-full flex flex-col'>
                         {/* ETAPA 1: PEDIR O E-MAIL */}
                         {step === 'email' && (
