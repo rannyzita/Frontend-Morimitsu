@@ -11,6 +11,7 @@ import api from '../../API/api';
 interface UserData {
     id: number;
     nome: string;
+    nome_social: string;
     email: string;
     tipo: 'COORDENADOR' | 'PROFESSOR' | 'ALUNO'; 
 }
@@ -36,12 +37,10 @@ export const useAuth = () => {
     return context;
 };
 
-// --- PROVIDER (COM AS MUDANÇAS) ---
-
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useState<UserData | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true); // Começa true
+    const [isLoading, setIsLoading] = useState(true); 
 
     const isAuthenticated = useMemo(() => !!token && !!user, [token, user]);
     
@@ -73,7 +72,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         
         // Limpa AMBOS do localStorage
         localStorage.removeItem('token');
-        localStorage.removeItem('user'); // Remove o usuário
+        localStorage.removeItem('user'); 
         
         // Limpa o header da API
         delete api.defaults.headers.common['Authorization'];

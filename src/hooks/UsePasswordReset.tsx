@@ -6,8 +6,7 @@ import {
     resendResetCode,
     verifyResetCode,
     resetPassword
-} from '../services/resetPassword/resetPassword';
-
+} from '../services/resetPassword/resetPassword'; 
 type Step = 'email' | 'code' | 'reset';
 
 export function usePasswordReset() {
@@ -51,7 +50,7 @@ export function usePasswordReset() {
         setSuccessMessage(null);
 
         try {
-            await requestPasswordReset(email, token as any);
+            await requestPasswordReset(email); 
             setSuccessMessage('Código enviado! Verifique seu e-mail!');
             setCodeSent(true); 
         } catch (err: any) {
@@ -68,7 +67,7 @@ export function usePasswordReset() {
         setSuccessMessage(null);
 
         try {
-            await resendResetCode(email, token as any);
+            await resendResetCode(email);
             setSuccessMessage('Novo código enviado com sucesso!');
         } catch (err: any) {
             console.error('Erro ao reenviar código:', err);
@@ -96,10 +95,14 @@ export function usePasswordReset() {
         }
 
         setLoading(true);
+        
+        const data = await verifyResetCode(fullCode as any); 
+        
+        console.log(data)
+        if (data?.message === 'Código válido') setStep('reset');
+        else setError('Código inválido ou expirado.');
+        
         try {
-            const data = await verifyResetCode(fullCode);
-            if (data?.message === 'Código válido') setStep('reset');
-            else setError('Código inválido ou expirado.');
         } catch (err: any) {
             console.error('Erro ao verificar código:', err);
             setError(err.response?.data?.message || 'Código inválido ou erro de conexão.');

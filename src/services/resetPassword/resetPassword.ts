@@ -1,18 +1,16 @@
 import api from '../../../API/api';
 
-export async function requestPasswordReset(email: string, token?: string) {
-  // const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+export async function requestPasswordReset(email: string) {
   const response = await api.post('/auth/request-reset', { identifier: email });
   return response.data;
 }
 
-export async function resendResetCode(email: string, token?: string) {
-  // const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+export async function resendResetCode(email: string) {
   const response = await api.post('/auth/request-reset', { identifier: email });
   return response.data;
 }
 
-export async function verifyResetCode(codigoRecuperacao: string) {
+export async function verifyResetCode(codigoRecuperacao: number) {
   const response = await api.post('/auth/verify-reset-code', { codigoRecuperacao });
   return response.data;
 }
