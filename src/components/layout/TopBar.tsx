@@ -20,10 +20,9 @@ type TopBarProps = {
 };
 
 export const TopBar: React.FC<TopBarProps> = ({ onMenuClick, data }) => {
-    // 1. Adicione o estado para controlar a visibilidade do modal
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Função para abrir/fechar o modal
     const toggleModal = () => setIsModalOpen(prev => !prev);
     
     return (
@@ -35,11 +34,12 @@ export const TopBar: React.FC<TopBarProps> = ({ onMenuClick, data }) => {
                     className='p-2 rounded-md hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors'
                     aria-label='Abrir Menu'
                 >
-                    <AlignJustify size={40} className='cursor-pointer' />
+                    <AlignJustify className='cursor-pointer w-7 h-7 md:w-12 md:h-12' 
+                    strokeWidth={2} />
                 </button>
 
                 <CircleQuestionMark 
-                    className='w-11 h-11 sm:w-12 sm:h-12 lg:w-12 lg:h-12 cursor-pointer p-2 rounded-md hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors'
+                    className='w-10 h-10 sm:w-12 sm:h-12 lg:w-12 lg:h-12 cursor-pointer p-2 rounded-md hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors'
                     onClick={toggleModal} // Chama a função aqui
                     aria-label='Ajuda sobre Gerenciamento de Usuários'
                 />

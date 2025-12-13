@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../../components/layout/BigCard';
 import { Pagination } from '../../../../components/Pagination/Pagination';
-import { Award, Info} from 'lucide-react';
+import { Award} from 'lucide-react';
 
 import { SearchInput } from '../../../../components/SearchInput/SearchInput';
 
@@ -81,7 +81,6 @@ const StudentListItem: FC<StudentListItemProps> = ({
                         Aulas: {currentClasses}/{totalClasses}
                     </span>
 
-                    {/* Só o primeiro aluno mostra o promover */}
                     {index === 0 && (
                     <div className='hidden relative lg:flex flex-col items-center justify-center bg-[#3E0404] py-1 px-1 rounded w-36 flex-shrink-0 h-10'>
                         <div className='pr-5'>
@@ -123,7 +122,7 @@ export const VerDetalhesTurma: FC = () => {
 
     useEffect(() => {
         const updateStudentsPerPage = () => {
-            const newStudentsPerPage = window.innerWidth < 768 ? 4 : 5;
+            const newStudentsPerPage = window.innerWidth < 768 ? 5 : 6;
             setStudentsPerPage(newStudentsPerPage);
 
             if (newStudentsPerPage !== studentsPerPage) {

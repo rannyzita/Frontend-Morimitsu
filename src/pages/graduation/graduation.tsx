@@ -46,7 +46,7 @@ export const Graduation: FC = () => {
 
     useEffect(() => {
         const updateStudentsPerPage = () => {
-            const newStudentsPerPage = window.innerWidth < 768 ? 5 : 5;
+            const newStudentsPerPage = window.innerWidth < 768 ? 5 : 6;
             setStudentsPerPage(newStudentsPerPage);
             if (newStudentsPerPage !== studentsPerPage) setCurrentPage(1);
         };

@@ -1,4 +1,4 @@
-import { useState, type FC, useEffect } from 'react';
+import { useState, type FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCard';
@@ -104,7 +104,7 @@ export const EditVerUsuarios: FC = () => {
         <Box className='flex flex-col items-center justify-center h-full p-4 pt-4 relative'>
             <PageLayout
                 title='EDITAR USUÁRIO'
-                icon={<UserPen className='lg:w-[50px] lg:h-[50px]' />}
+                icon={<UserPen className='w-10 h-10 md:w-12 md:h-12'/>}
                 className='flex flex-col h-full relative'
             >
                 <div className='flex flex-col h-full gap-8 pt-8'>

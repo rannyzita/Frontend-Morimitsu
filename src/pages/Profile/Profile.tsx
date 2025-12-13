@@ -161,7 +161,7 @@ export const Profile: FC = () => {
                         <ProfileField label='Telefone:' value='(XX) XXXXX-XXXX' />
                     </div>
                     
-                    <div className='flex justify-end mt-4'>
+                    <div className='flex justify-end mt-10'>
                         <button className='flex items-center gap-2 text-white hover:text-white 
                                             transition-colors cursor-pointer'>
                             <span>Logout</span>

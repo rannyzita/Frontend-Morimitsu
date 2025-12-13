@@ -42,7 +42,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
             )}
 
             {/* Título */}
-            <div className='flex-1 text-center leading-tight'>
+            <div className='flex-1 text-center leading-tight text-[8px] md:text-[12px]'>
                 {title}
             </div>
 
@@ -55,10 +55,10 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
 
             {/* Checkbox estilizado */}
             {showCheckbox && (
-            <CustomCheckbox
-                checked={checkboxChecked}
-                onChange={onCheckboxChange}
-            />
+                <CustomCheckbox
+                    checked={checkboxChecked}
+                    onChange={onCheckboxChange}
+                />
             )}
         </button>
     );

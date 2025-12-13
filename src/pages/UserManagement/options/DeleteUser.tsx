@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react';
+import { useState, type FC, useEffect } from 'react'; // Importar useEffect
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCard';
@@ -14,6 +14,9 @@ import studentAvatar1 from '../options/assetsTest/IconBaby.png';
 import studentAvatar2 from '../options/assetsTest/TurmaInfantil.png';
 import studentAvatar3 from '../options/assetsTest/iconMista.png';
 import studentAvatar4 from '../options/assetsTest/IconBaby.png';
+
+// Define o breakpoint de altura desejado
+const HEIGHT_BREAKPOINT = 800;
 
 const initialAlunos = [
     { id: 1, name: 'Antônio Henrique Pereira da Silva', avatar: studentAvatar1 },
@@ -68,9 +71,46 @@ export const DeletarUsuario: FC = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const studentsPerPage = 4; // mesmo do VerUsuarios
+    
+    // 1. Estado para o número de estudantes por página, com valor inicial padrão
+    const [studentsPerPage, setStudentsPerPage] = useState(5); 
+
+    // 2. Lógica para calcular studentsPerPage com base na altura da tela
+    const calculateStudentsPerPage = () => {
+        const screenHeight = window.innerHeight;
+        
+        // Define 5 para altura >= 800px, e 4 para altura < 800px
+        const newStudentsPerPage = screenHeight >= HEIGHT_BREAKPOINT ? 5 : 4;
+        
+        setStudentsPerPage(newStudentsPerPage);
+    };
+
+    useEffect(() => {
+        calculateStudentsPerPage(); 
+
+        // Adiciona o event listener para redimensionamento
+        window.addEventListener('resize', calculateStudentsPerPage);
+
+        // Limpeza do event listener
+        return () => {
+            window.removeEventListener('resize', calculateStudentsPerPage);
+        };
+    }, []); // Executa apenas na montagem/desmontagem
+
+    // Garante que a página atual não exceda o novo total de páginas após redimensionamento
+    useEffect(() => {
+        if (studentsPerPage > 0) {
+            const maxPages = Math.ceil(filtered.length / studentsPerPage);
+            if (currentPage > maxPages) {
+                setCurrentPage(maxPages > 0 ? maxPages : 1);
+            }
+        }
+    }, [studentsPerPage, alunos.length, searchQuery]);
+
 
     const filtered = alunos.filter(a => a.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    
+    // Usa a variável de estado
     const totalPages = Math.ceil(filtered.length / studentsPerPage);
     const current = filtered.slice((currentPage - 1) * studentsPerPage, currentPage * studentsPerPage);
 
@@ -100,7 +140,7 @@ export const DeletarUsuario: FC = () => {
                         className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto'
                     />
 
-                    <div className='flex-1 lg:min-h-[400px] flex flex-col gap-6 items-center overflow-y-auto mt-2 md:mt-8 mb-20'>
+                    <div className='flex-1 lg:min-h-[420px] flex flex-col gap-6 items-center overflow-y-auto mt-2 md:mt-8 mb-20'>
                         {current.map(a => (
                             <StudentListItem
                                 key={a.id}
@@ -113,7 +153,7 @@ export const DeletarUsuario: FC = () => {
                     </div>
 
                     {/* posição do botão: mobile ↑ — iPad ↓ — desktop estável */}
-                    <div className='absolute md:right-18 right-6 lg:right-[123px] bottom-[17%] md:bottom-[13%] lg:bottom-[15%]'>
+                    <div className='absolute md:right-18 right-6 lg:right-[123px] bottom-[17%] md:bottom-[13%] lg:bottom-[12%]'>
                         <button
                             onClick={() => selectedIds.length ? setShowAlert(true) : setToast({ message: 'Selecione pelo menos um usuário.', type: 'error' })}
                             className='bg-[#690808] hover:bg-red-900 text-white font-semibold

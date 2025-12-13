@@ -62,7 +62,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
 
     return (
         <aside className={`
-            bg-black text-white w-72 p-6 pt-12 flex flex-col h-screen
+            bg-black text-white w-55 md:w-72 p-6 pt-12 flex flex-col h-screen
             absolute z-50 border-r border-white-800 
             transform transition-transform duration-300 ease-in-out
             ${isOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -73,7 +73,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
                     <img
                         src='/IconProfile.png' 
                         alt='Foto do perfil'
-                        className='w-24 h-24 md:w-36 md:h-36 rounded-full object-cover mb-4'
+                        className='w-22 h-22 md:w-36 md:h-36 rounded-full object-cover mb-4'
                     />
                 </Link>
                 <Link to='/meu-perfil' className='cursor-pointer' onClick={handleLinkClick}>

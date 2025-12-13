@@ -22,8 +22,6 @@ interface StudentModalProps {
 export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) => {
     if (!isOpen || !student) return null
 
-    const [promoverProfessor, setPromoverProfessor] = useState(false);
-
     const [isPromoteOpen, setPromoteOpen] = useState(false);
 
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -43,19 +41,18 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                 />
             )}
 
-            {/* Fundo escuro */}
             <div
                 onClick={onClose}
                 className='absolute inset-0 bg-black/40 backdrop-blur-[4px] '
             />
 
-            {/* Modal */}0
+            {/* Modal */}
             <div className='relative w-[96%] max-w-[1000px] bg-white rounded-xl shadow-2xl px-4 py-4 sm:px-8 sm:py-6 transform transition-all duration-300 ease-out
             opacity-0 scale-95 animate-modal'>
 
                 {/* Cabeçalho */}
                 <div className='relative flex justify-center items-center mb-2'>
-                    <h2 className='text-[#690808] font-extrabold text-xl md:text-3xl lg:text-4xl uppercase'>
+                    <h2 className='text-[#690808] font-extrabold text-[16px] md:text-3xl lg:text-4xl uppercase'>
                         DADOS DO {student.role}
                     </h2>
 
@@ -64,12 +61,13 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                     </button>
                 </div>
 
-                <div className='border-b-5 border-[#690808] mb-6' />
+                <div className='border-b-5 border-[#690808] mb-2 md:mb-12' />
 
-                {/* TOPO: Ações + Avatar + Histórico */}
-                <div className='flex flex-col gap-6 lg:grid lg:grid-cols-3 lg:gap-10 mb-8'>
+                {/* 1. LAYOUT DESKTOP/TABLET (3 COLUNAS) - VISÍVEL APENAS EM MD: */}
+                {/* --------------------------------------------------------------------------------------------------------------------------------------- */}
+                <div className='hidden md:grid md:grid-cols-3 md:gap-10 mb-8'>
 
-                    {/* AÇÕES */}
+                    {/* COLUNA 1: AÇÕES (DESKTOP) */}
                     <div className='flex flex-col gap-4'>
                         <ActionButton
                             leftIcon={
@@ -91,18 +89,15 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                         />
                     </div>
 
-                    {/* PERFIL */}
+                    {/* COLUNA 2: PERFIL (DESKTOP) */}
                     <div className='flex flex-col items-center text-center gap-2'>
-
                         <img
                             src={student.avatar}
                             className='w-[150px] h-[150px] rounded-full'
                         />
-
                         <h3 className='pt-2 text-lg text-black underline'>
                             {student.nameSocial}
                         </h3>
-
                         <p className='text-sm text-[#690808]'>
                             <span className='text-[#690808] font-extrabold'>
                                 Aulas Totais:
@@ -111,10 +106,8 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                         </p>
                     </div>
 
-                    {/* HISTÓRICO */}
+                    {/* COLUNA 3: HISTÓRICO (DESKTOP) */}
                     <div className='bg-[#D5D5D5] text-black rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-    
-                        {/* 1. CABEÇALHO VERMELHO ESCURO */}
                         <div 
                             className='bg-[#690808] text-white p-3 
                                     rounded-t-[10px]            
@@ -124,18 +117,13 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                                 HISTÓRICO DE GRADUAÇÕES
                             </h4>
                         </div>
-
                         <div 
                             className='p-2 text-xs max-h-40 
                                     overflow-y-auto 
                                     rounded-b-[10px]
-                                    
-                                    // 🛠️ 1. ROLAGEM NATURAL (OVERLAY) E 🛠️ 3. AFASTAR DA BORDA
                                     pl-4
-                                    pr-2                                      /* Adiciona padding/espaço à direita */
-                                    scrollbar-thin scrollbar-thumb-gray-700   /* Classes (se você usar o plugin) */
-                                    
-                                    /* Estilo da barra de rolagem (Se o plugin não estiver instalado, mantenha este bloco): */
+                                    pr-2                                      
+                                    scrollbar-thin scrollbar-thumb-gray-700   
                                     [&::-webkit-scrollbar]:w-2 
                                     [&::-webkit-scrollbar-thumb]:bg-gray-700 
                                     [&::-webkit-scrollbar-thumb]:rounded-full'
@@ -159,16 +147,111 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                         </div>
                     </div>
                 </div>
+                {/* --------------------------------------------------------------------------------------------------------------------------------------- */}
+
+
+                {/* 2. LAYOUT MOBILE (EMPILHADO) - VISÍVEL APENAS EM TELAS PEQUENAS */}
+                {/* --------------------------------------------------------------------------------------------------------------------------------------- */}
+                <div className='flex flex-col gap-2 md:hidden mb-3'>
+                    
+                    {/* PERFIL (Mobile Top) */}
+                    <div className='flex flex-col items-center text-center order-1'>
+                        <img
+                            // Foto menor para mobile
+                            src={student.avatar}
+                            className='w-[80px] h-[80px] rounded-full'  
+                        />
+                        {/* Texto menor para mobile */}
+                        <h3 className='pt-2 text-base text-black underline'>
+                            {student.nameSocial}    
+                        </h3>
+                        {/* Texto menor para mobile */}
+                        <p className='text-xs text-[#690808]'>
+                            <span className='text-[#690808] font-extrabold'>
+                                Aulas Totais:
+                            </span>{' '}
+                                30/50
+                        </p>
+                    </div>
+
+                    {/* AÇÕES E HISTÓRICO (Mobile Lado a Lado) */}
+                    <div className='flex gap-2 order-2 items-start'>
+                        
+                        {/* AÇÕES (Mobile Esquerda) */}
+                        <div className='flex flex-col gap-2 flex-1'>
+                            <ActionButton
+                                leftIcon={
+                                    <img src={IconTeacher} alt='Professor' style={{ width: 40, height: 25 }} />
+                                }
+                                title={
+                                    <p className='text-[8px]'>
+                                        PROMOVER P/ PROFESSOR(A)
+                                    </p>
+                                }
+                                onClick={() => setPromoteOpen(true)}
+                            />
+                            
+                            <ActionButton
+                                leftIcon={<User size={20} />} 
+                                title='EDITAR ALUNO(A)'
+                                rightIcon={<SquarePen size={20} />}
+                            
+                                onClick={() => console.log('EDITAR clicado')}
+                            />
+                        </div>
+
+                        {/* HISTÓRICO (Mobile Direita) */}
+                        <div className='bg-[#D5D5D5] text-black rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)] flex-1'>
+                            <div 
+                                className='bg-[#690808] text-white p-2 
+                                        rounded-t-[10px]            
+                                        border-b-2 border-[#3E0404]' 
+                            >
+                                <h4 className='font-semibold text-center !text-[8px]'>
+                                    HISTÓRICO DE GRADUAÇÕES
+                                </h4>
+                            </div>
+                            <div 
+                                className='p-1 text-[10px] max-h-24 
+                                        overflow-y-auto 
+                                        rounded-b-[10px]
+                                        pl-3 pr-1
+                                        scrollbar-thin scrollbar-thumb-gray-700
+                                        [&::-webkit-scrollbar]:w-2 
+                                        [&::-webkit-scrollbar-thumb]:bg-gray-700 
+                                        [&::-webkit-scrollbar-thumb]:rounded-full'
+                            >
+                                <p className='text-orange-600'>01/01/2026: Faixa Roxa → Faixa Marrom</p>
+                                <p className='text-purple-700'>01/07/2025: Faixa Roxa → 4º Grau</p>
+                                <p className='text-purple-700'>01/01/2025: Faixa Roxa → 3º Grau</p>
+                                <p className='text-black'>01/07/2024: Faixa Azul → Roxa</p>
+                                <p className='text-black'>01/01/2024: Faixa Verde → Azul</p>
+                                <p className='text-black'>01/07/2023: Faixa Branca → Verde</p> 
+                                <p className='text-black'>01/01/2023: Faixa Branca → 1º Grau</p> 
+                                <p className='text-black'>01/07/2022: Novo Aluno</p> 
+                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
+                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
+                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
+                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
+                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
+                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
+                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
+                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* --------------------------------------------------------------------------------------------------------------------------------------- */}
 
                 {/* Título das informações */}
-                <div className='border-b-5 border-[#690808] mb-6'>
-                    <h4 className='text-center text-[#690808] font-extrabold mb-2 text-2xl uppercase'>
+                <div className='border-b-5 border-[#690808] mb-2'>
+                    <h4 className='text-center text-[#690808] font-extrabold mb-2 text-[12px] md:text-2xl uppercase'>
                         INFORMAÇÕES DO {student.role}
-                    </h4>
+                    </h4>   
                 </div>
 
-                {/* FORMULÁRIO */}
-                <div className='grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4 text-sm text-black mb-8'>
+                {/* FORMULÁRIO. EM CELULAR: grid grid-cols-2. Tablet/Desktop: md:grid-cols-3. */}
+                <div className='grid grid-cols-2 md:grid-cols-3 gap-x-4 md:gap-x-8 gap-y-2 md:gap-y-8 text-[10px] md:text-sm text-black mb-1 md:mb-8'> 
 
                     <InputField 
                         label='Nome completo:' 
@@ -208,11 +291,11 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                         hasInfoIcon
                     />
 
-                    {/* 7. Gênero (Mantido manualmente por ser Radio) */}
-                    <div>
-                        <Info size={20} className='inline-block mr-2 mb-1 text-[#690808]' strokeWidth={3}/>
-                        <label className='font-semibold text-[#690808]'>Gênero:</label>
-                        <div className='flex gap-4 mt-2'>
+                    {/* 7. Gênero (AJUSTE APLICADO: col-span-1 para md: e col-span-2 para mobile) */}
+                    <div className='col-span-2 md:col-span-1'>
+                        <Info size={20} className='inline-block mr-2 mb-1 text-[#690808] w-4 h-4 md:w-6 md:h-6'strokeWidth={3}/>
+                        <label className='font-semibold text-[#690808] !text-[8px]md:text-sm'>Gênero:</label>
+                        <div className='flex gap-2 mt-2'>
                             <label className='flex items-center gap-1'>
                                 <input type='radio' name='genero' disabled checked={true} readOnly/>
                                 Feminino
@@ -228,25 +311,13 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                         </div>
                     </div>
 
-                    {/* 8. Faixa */}
-                    {/* <div>
-                        <label className='font-semibold text-[#690808]'>Faixa Atual:</label>
-                        <select disabled className='w-full bg-[#D5D5D5] rounded-full px-4 py-2 mt-1 shadow-[0_5px_15px_rgba(0,0,0,0.4)] appearance-none'>
-                            <option selected disabled>Roxa</option>
-                            <option disabled>Branca</option>
-                            <option disabled>Azul</option>
-                            <option disabled>Marrom</option>
-                            <option disabled>Preta</option>
-                        </select>
-                    </div> */}
-
+                    {/* 8. Faixa (Deve seguir imediatamente após o Gênero no desktop) */}
                     <InputField 
                         label='Faixa Atual:' 
                         value='Roxa' 
                     />
 
                     {/* 9. Grau */}
-
                     <InputField 
                         label='Grau atual:' 
                         value='2º' 
@@ -257,7 +328,6 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                         label='Turma:' 
                         value='Mista' 
                     />
-
 
                     {/* 11. Matrícula */}
                     <InputField 

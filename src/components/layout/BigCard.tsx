@@ -37,7 +37,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
                         flex flex-col overflow-hidden 
                         w-full h-auto 
                         md:w-5/6 md:h-[72vh] 
-                        lg:w-[1200px] lg:h-[84vh] 
+                        lg:w-[1200px] lg:h-[82vh] 
                         ${className}`}
         >
             <header className='flex flex-col gap-4 px-6 pt-6 lg:px-8 lg:pt-8'>
@@ -63,7 +63,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
                             onClick={info ? onClick : undefined}
                         >
                             {/* Ícone exatamente igual nos dois layouts */}
-                            <span className='w-10 h-10  flex items-center justify-center'>
+                            <span className='w-6 h-6 md:w-15 md:h-15 flex items-center justify-center'>
                                 {icon}
                             </span>
 
