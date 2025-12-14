@@ -52,7 +52,7 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
 
                 {/* Cabeçalho */}
                 <div className='relative flex justify-center items-center mb-2'>
-                    <h2 className='text-[#690808] font-extrabold text-[16px] md:text-3xl lg:text-4xl uppercase'>
+                    <h2 className='text-[#690808] font-extrabold text-[20px] md:text-3xl lg:text-4xl uppercase'>
                         DADOS DO {student.role}
                     </h2>
 
