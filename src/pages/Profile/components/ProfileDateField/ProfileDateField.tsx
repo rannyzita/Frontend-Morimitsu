@@ -93,6 +93,7 @@ export const ProfileDateField: FC<ProfileDateFieldProps> = ({
             setIsEditing(false);
         } catch (error) {
             console.error(`Erro ao salvar ${label}:`, error);
+            setDateValue(originalDate);
             throw error; 
         } finally {
             setIsSaving(false);
@@ -108,7 +109,7 @@ export const ProfileDateField: FC<ProfileDateFieldProps> = ({
 
     return (
         <div className='flex flex-col gap-1'>
-            <Typography className='text-sm text-gray-400'>{label}</Typography>
+            <Typography className='!text-[12px] lg:text-[14px] text-gray-400'>{label}</Typography>
             <div className='flex items-center gap-3'>
                 <div className='flex-1 relative'>
                     
@@ -130,7 +131,7 @@ export const ProfileDateField: FC<ProfileDateFieldProps> = ({
                             type='text' 
                             value={displayValue} 
                             readOnly
-                            className='bg-neutral-700 p-3 rounded-lg w-full focus:outline-none text-white pl-10'
+                            className='bg-neutral-700 p-3 rounded-lg w-full focus:outline-none text-white pl-10 text-[12px] lg:text-[14px]'
                         />
                     )}
                 </div>
@@ -152,7 +153,6 @@ export const ProfileDateField: FC<ProfileDateFieldProps> = ({
                     )}
                 </div>
             </div>
-            {isSaving && <p className='text-xs text-yellow-500'>Salvando...</p>}
         </div>
     );
 };

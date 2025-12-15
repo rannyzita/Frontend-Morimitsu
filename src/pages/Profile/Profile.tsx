@@ -1,15 +1,16 @@
 import { useState, type FC, type ReactNode, useEffect, useCallback } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { PageLayout } from '../../components/layout/BigCardGray_';
-import { SquarePen, LogOut, Calendar, Save, X } from 'lucide-react';
+import { SquarePen, LogOut, Save, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { updateUserProfile, type UserProfileUpdate } from '../../services/profile/profile';  
 import FaixaTeste  from './assetsTest/FaixaPretaTeste.png'
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ptBR } from 'date-fns/locale';
 import { ProfileDateField } from './components/ProfileDateField/ProfileDateField';
+import { FeedbackToast } from '../../components/Feedback/Feedback';
 
 interface ProfileFieldProps {
     label: string;
@@ -51,6 +52,7 @@ const ProfileField: FC<ProfileFieldProps> = ({
             setIsEditing(false);
         } catch (error) {
             console.error(`Erro ao salvar ${label}:`, error);
+            setValue(originalValue);
             throw error; 
         } finally {
             setIsSaving(false);
@@ -64,7 +66,7 @@ const ProfileField: FC<ProfileFieldProps> = ({
 
     return (
         <div className={`flex flex-col gap-1 ${className}`}>
-            <label className='text-sm text-gray-400'>{label}</label>
+            <label className='text-[12px] lg:text-[14px] text-gray-400'>{label}</label>
             <div className='flex items-center gap-3'>
                 <div className='flex-1 relative'>
                     {startIcon && (
@@ -78,7 +80,7 @@ const ProfileField: FC<ProfileFieldProps> = ({
                         readOnly={!isEditing || isSaving}
                         onChange={(e) => setValue(e.target.value)}
                         className={`bg-neutral-700 p-3 rounded-lg w-full 
-                                    focus:outline-none text-white
+                                    focus:outline-none text-white text-[12px] lg:text-[14px]
                                     ${startIcon ? 'pl-10' : ''} 
                                     ${isEditing ? 'border-2 border-yellow-500' : ''}
                                 `}
@@ -143,7 +145,8 @@ const ProfileHeaderField: FC<ProfileHeaderFieldProps> = ({
             setIsEditing(false);
         } catch (error) {
             console.error('Erro ao salvar no cabeçalho:', error);
-            throw error; // Re-throw
+            setValue(originalValue);
+            throw error; 
         } finally {
             setIsSaving(false);
         }
@@ -179,16 +182,15 @@ const ProfileHeaderField: FC<ProfileHeaderFieldProps> = ({
             ) : (
                 <>
                     <h1 className={textClasses}>{value || 'Adicionar Nome Social'}</h1>
-                    <button onClick={() => setIsEditing(true)} title='Editar Nome Social' className='text-white cursor-pointer hover:text-gray-300 transition-colors'>
-                        <SquarePen size={26} />
+                    <button onClick={() => setIsEditing(true)} title='Editar Nome Social' className='text-white cursor-pointer hover:text-gray-300 transition-colors w-5 h-5'>
+                        <SquarePen size={26} className='w-5 h-5'/>
                     </button>
                 </>
             )}
         </div>
     );
 };
-// ------------------------------
-// --- GenderRadio (Mantido) ---
+
 interface GenderRadioProps {
     label: string;
     value: 'F' | 'M' | 'O';
@@ -200,7 +202,7 @@ interface GenderRadioProps {
 const GenderRadio: FC<GenderRadioProps> = ({ label, value, isChecked, onChange, disabled }) => {
     const radioId = `gender-radio-${value}`;
     return (
-        <label htmlFor={radioId} className={`flex items-center gap-3 text-white cursor-pointer ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}>
+        <label htmlFor={radioId} className={`flex items-center gap-3 text-white text-[12px] cursor-pointer ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}>
             <div className='relative w-5 h-5'>
                 
                 <input 
@@ -229,16 +231,13 @@ const GenderRadio: FC<GenderRadioProps> = ({ label, value, isChecked, onChange, 
     );
 };
 
-
 export const Profile: FC = () => {
     const { user, token, logout, login } = useAuth(); 
     
     const [statusMessage, setStatusMessage] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
 
-    // Estado para a data de nascimento
     const [birthDate, setBirthDate] = useState<Date | null>(null);
 
-    // Inicialização completa de todos os campos editáveis
     const [profileData, setProfileData] = useState<UserProfileUpdate>({
         nome: user?.nome || 'Nome Completo do Usuário',
         nome_social: (user as any)?.nome_social || '', 
@@ -251,16 +250,12 @@ export const Profile: FC = () => {
         imagem_perfil_url: '/IconProfile.png',
     });
 
-    // Função para exibir a mensagem e limpá-la após 3 segundos
+    const handleCloseFeedback = () => setStatusMessage(null);
+
     const displayStatusMessage = useCallback((message: string, type: 'success' | 'error') => {
         setStatusMessage({ message, type });
-        const timer = setTimeout(() => {
-            setStatusMessage(null);
-        }, 3000); 
-        return () => clearTimeout(timer);
     }, []);
     
-    // Handler para a edição de um campo específico (centralizado)
     const handleFieldUpdate = useCallback(async (fieldName: keyof UserProfileUpdate, newValue: string | 'F' | 'M' | 'O' | Date | null) => {
         if (!user || !token) {
             console.error('Usuário não autenticado.');
@@ -272,20 +267,16 @@ export const Profile: FC = () => {
         try {
             const updatedProfile = await updateUserProfile(String(user.id), dataToUpdate, token);
 
-            // 1. Atualiza o estado local do componente com o novo valor
             setProfileData(prev => ({ ...prev, [fieldName]: newValue }));
             
-            // 2. Feedback de sucesso
             displayStatusMessage('Atualizado com sucesso!', 'success');
 
-            // 3. ATUALIZAÇÃO DO CONTEXTO: Somente se o campo estiver no UserData original
             if (fieldName === 'nome' || fieldName === 'email') {
                 const updatedUser = {
                     ...user,
                     nome: fieldName === 'nome' ? (newValue as string) : user.nome,
                     email: fieldName === 'email' ? (newValue as string) : user.email,
                 };
-                // Chama login para atualizar o user no contexto e no localStorage
                 login(token, updatedUser); 
             }
             
@@ -293,16 +284,13 @@ export const Profile: FC = () => {
 
         } catch (error) {
             console.error('Falha ao atualizar o perfil:', error);
-            // 4. Feedback de erro
             displayStatusMessage('Erro ao atualizar o perfil. Tente novamente.', 'error');
-            throw error; // Re-lança para o ProfileField impedir a saída do modo de edição
+            throw error; 
         }
     }, [user, token, login, displayStatusMessage]); 
 
-    // Efeito de Carregamento/Recarga dos dados (REAL: Usar GET /perfil)
     useEffect(() => {
         if (user) {
-            // Simulação de obtenção dos dados completos do perfil
             const fetchProfileData = async () => {
                 const simulatedApiData: UserProfileUpdate = {
                     nome: user.nome,
@@ -320,16 +308,11 @@ export const Profile: FC = () => {
 
             fetchProfileData();
         }
-    }, [user]); // Roda quando o usuário autenticado for carregado
+    }, [user]); 
 
     if (!user) {
         return <Box component='div' className='flex justify-center items-center h-full'>Carregando ou usuário não autenticado.</Box>;
     }
-
-    // Estilo da mensagem de status
-    const messageStyle = statusMessage?.type === 'success' 
-        ? 'bg-green-600 text-white' 
-        : 'bg-red-600 text-white';
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
@@ -338,14 +321,6 @@ export const Profile: FC = () => {
                 <PageLayout backPath='/home'>
                     <div className='flex flex-col gap-6'>
                         
-                        {/* Mensagem de Status (Feedback) */}
-                        {statusMessage && (
-                            <div className={`p-3 rounded-lg text-center font-bold ${messageStyle}`}>
-                                {statusMessage.message}
-                            </div>
-                        )}
-                        
-                        {/* CABEÇALHO VERMELHO COM NOME SOCIAL EDITÁVEL */}
                         <div className='flex justify-between items-center bg-[#690808] p-4 rounded-lg'>
                             <div className='flex items-center gap-4'>
 
@@ -353,25 +328,24 @@ export const Profile: FC = () => {
                                     <img 
                                         src={FaixaTeste} 
                                         alt='Ícone de faixa' 
-                                        className='w-28 h-20' 
+                                        className='w-17 h-9 md:w-25 md:h-17' 
                                     />
-                                    <SquarePen size={26} className='text-white cursor-pointer hover:text-white' />
+                                    <SquarePen size={26} className='text-white cursor-pointer hover:text-white w-5 h-5' />
                                 </div>
                                 
-                                <div className='ml-4'>
-                                    {/* NOME SOCIAL EDITÁVEL */}
+                                <div className='md:ml-4'>
                                     <ProfileHeaderField
                                         initialValue={profileData.nome_social || profileData.nome} 
                                         onSave={(newValue) => handleFieldUpdate('nome_social', newValue)}
-                                        textClasses='text-xl md:text-2xl font-bold'
+                                        textClasses='text-[10px] md:text-xl lg:text-2xl font-bold'
                                         inputClasses='w-56 md:w-80'
                                     />
                                     
                                     <div className='flex gap-2 mt-2'>
-                                        <p className='text-sm text-white'>{user.tipo}</p>
-                                        <SquarePen size={18} className='text-white cursor-pointer hover:text-white' />
-                                        <p className='text-sm'>Grau: 2</p>
-                                        <SquarePen size={18} className='text-white cursor-pointer hover:text-white' />
+                                        <p className='text-[10px] md:text-sm text-white'>{user.tipo}</p>
+                                        <SquarePen size={18} className='text-white cursor-pointer hover:text-white w-5 h-5' />
+                                        <p className='text-[10px] md:text-sm'>Grau: 2</p>
+                                        <SquarePen size={18} className='text-white cursor-pointer hover:text-white w-5 h-5' />
                                     </div> 
                                 </div>
                             </div>
@@ -381,12 +355,12 @@ export const Profile: FC = () => {
                                 <img 
                                     src={profileData.imagem_perfil_url} 
                                     alt='Ícone de perfil' 
-                                    className='w-20 h-20 rounded-full' 
+                                    className='w-10 h-10 md:w-20 md:h-20 rounded-full' 
                                 />
                                 {/* Botão de edição sobre a imagem */}
-                                <button className='absolute bottom-0 left-17 border-[#690808] 
+                                <button className='absolute bottom-0 left-8 md:left-17 border-[#690808] 
                                                 text-white cursor-pointer hover:text-white'>
-                                    <SquarePen size={20} />
+                                    <SquarePen size={20} className='w-5 h-5'/>
                                 </button>
                             </div>
                         </div>
@@ -418,7 +392,7 @@ export const Profile: FC = () => {
                             />
                             {/* Gênero */}
                             <div className='flex flex-col gap-2'>
-                                <label className='text-sm text-gray-400'>Gênero:</label>
+                                <label className='text-[12px] text-gray-400'>Gênero:</label>
                                 <div className='flex gap-4 pt-3'>
                                     <GenderRadio 
                                         label='Feminino' 
@@ -459,7 +433,7 @@ export const Profile: FC = () => {
                                     label='Senha:' 
                                     initialValue='************' 
                                     type='password' 
-                                    onSave={async () => { /* Não faz nada aqui */ }}
+                                    onSave={async () => { }}
                                 />    
                             </Link>
                             {/* Telefone */}
@@ -481,6 +455,14 @@ export const Profile: FC = () => {
                         </div>
                     </div> 
                 </PageLayout>
+
+                {statusMessage && (
+                    <FeedbackToast 
+                        message={statusMessage.message}
+                        type={statusMessage.type}
+                        onClose={handleCloseFeedback}
+                    />
+                )}
             </Box>
         </LocalizationProvider>
     )
