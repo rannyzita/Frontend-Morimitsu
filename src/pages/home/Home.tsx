@@ -46,17 +46,6 @@ const graduationStudents = [
     },
 ];
 
-const birthdayMembers = [
-    { date: '22/10', name: 'Antônio Henrique', team: 'TURMA MISTA' },
-    { date: '10/10', name: 'Anna Cristina', team: 'TURMA ADULTA' },
-    { date: '10/10', name: 'Julianna Souza', team: 'TURMA KIDS' },
-    { date: '29/10', name: 'Enzo Alves', team: 'TURMA KIDS' },
-    { date: '05/11', name: 'Pedro Sampaio', team: 'TURMA ADULTA' },
-    { date: '05/11', name: 'Pedro Sampaio', team: 'TURMA ADULTA' },
-    { date: '05/11', name: 'Pedro Sampaio', team: 'TURMA ADULTA' },
-    { date: '05/11', name: 'Pedro Sampaio', team: 'TURMA ADULTA' },
-];
-
 interface BigButtonProps {
     icon: ReactNode;
     label: string;
@@ -65,7 +54,7 @@ interface BigButtonProps {
 const BigButton: FC<BigButtonProps> = ({ icon, label }) => (
     <button 
         className='bg-[#880000] text-white p-4 lg:p-6 rounded-lg border-[10px] border-[#3E0404] 
-                    flex items-center  gap-3 lg:gap-4 text-2xl lg:text-4xl font-bold tracking-wide
+                    flex items-center  gap-3 lg:gap-4 text-[16px] md:text-4xl font-bold tracking-wide
                     hover:bg-[#8e0303] transition-colors duration-200
                     w-full cursor-pointer' 
 
@@ -114,7 +103,7 @@ export const Home: FC = () => {
     async function loadBirthdays() {
         try {
         const data = await fetchMonthAniversariantes(token as string);
-        setBirthdays(data.aniversariantes); // agora compatível
+        setBirthdays(data.aniversariantes); 
         } catch (err) {
         console.error("Erro ao carregar aniversariantes:", err);
         }
@@ -137,22 +126,22 @@ export const Home: FC = () => {
                             
                             <div className='flex justify-center pt-4 px-4'> 
                                 <div className='inline-flex items-center gap-2 md:gap-3 bg-[#3E0404] rounded-lg px-3 py-3 md:px-4 md:py-4 shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                                    <span className='text-[13px] md:text-base font-bold tracking-wide text-center'> 
+                                    <span className='text-[10px] md:text-base font-bold tracking-wide text-center'> 
                                         ALUNOS APTOS À GRADUAÇÃO
                                     </span>
                                     <Bell className='w-6 h-6 md:w-8 md:h-8 text-white flex-shrink-0' />
                                 </div>
                             </div>
 
-                            <div className='space-y-2 px-4 md:px-5 pt-3 h-[230px] overflow-y-auto'>
+                            <div className='space-y-2 px-4 md:px-5 pt-3 h-[200px] md:h-[230px] overflow-y-auto'>
                                 {currentStudents.map((student) => (
                                     <div key={student.name} className='border-b border-white pb-2 last:border-b-0'>
-                                        <Typography variant='body2' className='!font-semibold'>{student.name}</Typography>
+                                        <Typography variant='body2' className='!font-semibold !text-[12px] md:!text-[16px]'>{student.name}</Typography>
                                         <div className='flex justify-between items-center mt-1'>
-                                            <Typography variant='body2' className='text-white !text-sm'>
+                                            <Typography variant='body2' className='text-white !text-[10px] md:!text-[14px]'>
                                                 {student.status}
                                             </Typography>
-                                            <span className='text-white text-xs'>
+                                            <span className='text-white !text-[10px] md:!text-[14px]'>
                                                 {student.progressLabel}
                                             </span>
                                         </div>
@@ -236,7 +225,7 @@ export const Home: FC = () => {
                 members={birthdays.map(b => ({
                     date: `${b.dia}/${b.mes}`,
                     name: b.nome,
-                    team: '' // se precisar, coloca equipe aqui depois
+                    team: ''
                 }))} 
                 title='ANIVERSARIANTES DO MÊS' 
                 icon={true}
