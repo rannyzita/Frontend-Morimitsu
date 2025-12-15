@@ -9,13 +9,12 @@ import {
     type MonthlyBirthdays 
 } from '../../data/birthday/birthday' 
 
-
 export const Birthday: FC = () => {
     
     return (
         <Box 
             component='div' 
-            className='flex flex-col items-center justify-center h-full p-4 w-full scroll'
+            className='flex flex-col items-center justify-center h-full p-4 w-full' 
         >
             <PageLayout 
                 backPath='/home' 
@@ -23,7 +22,7 @@ export const Birthday: FC = () => {
                 title='ANIVERSARIANTES'
             >
                 <div 
-                    className='flex flex-col pb-18 lg:pb-0 gap-10 mt-10 lg:mt-14 w-full'
+                    className='flex flex-col pb-6 lg:pb-0 gap-10 mt-10 lg:mt-14 w-full' 
                 >
                     {MONTHS_ORDER.map((monthKey) => {
                         const monthData: MonthlyBirthdays | undefined = BIRTHDAYS_BY_MONTH[monthKey];

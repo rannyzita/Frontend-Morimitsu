@@ -17,21 +17,21 @@ interface BirthdayCarouselProps {
 
 const BirthdayCard: FC<BirthdayMember> = ({ date, name, team }) => (
     <div
-        className='bg-[#880000] rounded-lg p-2 flex flex-col items-center gap-3 
-                min-w-[150px] lg:min-w-[220px] border-[10px] border-[#3E0404]'
+        className='bg-[#880000] rounded-lg p-2 flex flex-col items-center gap-2 
+                min-w-[130px] lg:min-w-[180px] border-[8px] border-[#3E0404]' 
     >
         <div className='text-center text-white'>
-            <Typography variant='h4' className='!font-bold'>
+            <Typography variant='h5' className='!font-bold'> 
                 {date}
             </Typography>
-            <Typography variant='body1'>{name}</Typography>
+            <Typography variant='body2'>{name}</Typography> 
         </div>
 
-        <div className='bg-white/20 rounded-full p-4 sm:p-5 text-white'>
-            <User size={64} />
+        <div className='bg-white/20 rounded-full p-2 sm:p-3 text-white'>
+            <User size={48} /> 
         </div>
 
-        <span className='text-white bg-black/30 px-3 py-1 rounded-full text-sm font-semibold'>
+        <span className='text-white bg-black/30 px-3 py-1 rounded-full text-xs font-semibold text-center'> 
             {team}
         </span>
     </div>
@@ -63,21 +63,28 @@ export const BirthdayCarousel: FC<BirthdayCarouselProps> = ({
                 </Typography>
             </header>
 
-            <div className='relative flex items-center pl-8 lg:pr-2 ml-[-74px]'>
-                {/* Setinha esquerda */}
-                <div className={`pr-2 md:pr-6 md:lg:pr-8 ${showLeftArrow ? 'visible' : 'invisible'}`}>
+            {/* CONTAINER PRINCIPAL DO CARROSSEL */}
+            <div className='relative flex items-center'> 
+                
+                {/* SETA ESQUERDA */}
+                <div 
+                    className={`absolute left-0 z-20 hidden md:flex items-center h-full 
+                                transition-opacity duration-300 ${showLeftArrow ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                >
                     <ChevronLeft
                         size={42}
-                        className='text-white cursor-pointer'
+                        className='text-white cursor-pointer bg-black/50 p-1 rounded-r-lg' 
                         onClick={handleScrollLeft}
                     />
                 </div>
 
-                {/* Cards */}
+                {/* Cards Container: Adiciona padding para o espaço das setas */}
                 <div
                     ref={scrollContainerRef}
                     onScroll={checkScroll}
-                    className='flex overflow-x-auto gap-10 md:gap-20 lg:gap-30 pb-6 flex-1
+                    className='flex overflow-x-auto gap-4 md:gap-6 lg:gap-8 pb-6 flex-1
+                                px-6 md:px-10 lg:px-12 // Espaço para as setas
+                                
                                 [&::-webkit-scrollbar]:h-2
                                 [&::-webkit-scrollbar-thumb]:bg-[#880000]
                                 [&::-webkit-scrollbar-track]:bg-[#3E0404]
@@ -93,11 +100,14 @@ export const BirthdayCarousel: FC<BirthdayCarouselProps> = ({
                     ))}
                 </div>
 
-                {/* Setinha direita */}
-                <div className={`lg:pl-8 ${showRightArrow ? 'visible' : 'invisible'}`}>
+                {/* SETA DIREITA */}
+                <div 
+                    className={`absolute right-0 z-20 hidden md:flex items-center h-full 
+                                transition-opacity duration-300 ${showRightArrow ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                >
                     <ChevronRight
                         size={42}
-                        className='text-white cursor-pointer'
+                        className='text-white cursor-pointer bg-black/50 p-1 rounded-l-lg' 
                         onClick={handleScrollRight}
                     />
                 </div>

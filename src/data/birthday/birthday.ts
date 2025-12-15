@@ -2,7 +2,6 @@ interface BirthdayMember {
     date: string;
     name: string;
     team: string;
-    // Adicionaria avatarUrl aqui se o BirthdayCard usasse imagens reais, n vou por agr
 }
 
 export interface MonthlyBirthdays {
@@ -16,6 +15,9 @@ export const BIRTHDAYS_BY_MONTH: Record<string, MonthlyBirthdays> = {
         members: [
             { date: '05/01', name: 'Lucas Silva', team: 'TURMA MISTA' },
             { date: '18/01', name: 'Pedro Santos', team: 'TURMA ADULTA' },
+            { date: '25/01', name: 'Mariana Lima', team: 'TURMA KIDS' },
+            { date: '25/01', name: 'Mariana Lima', team: 'TURMA KIDS' },
+            { date: '25/01', name: 'Mariana Lima', team: 'TURMA KIDS' },
             { date: '25/01', name: 'Mariana Lima', team: 'TURMA KIDS' },
         ],
     },
