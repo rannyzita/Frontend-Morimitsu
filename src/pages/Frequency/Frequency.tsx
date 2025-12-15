@@ -1,8 +1,14 @@
 import { type FC, useState, useEffect } from 'react';
-import { Box, Grid, Typography, Card, Divider, TextField, Avatar, Checkbox, IconButton, Button } from '@mui/material';
+import { Box, Grid, Typography, Card, Divider, Avatar, Checkbox, IconButton, Button } from '@mui/material';
 import { PageLayout } from '../../components/layout/BigCard';
 import { ListChecks, ChevronLeft, ChevronRight, Trophy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { ptBR }  from 'date-fns/locale/pt-BR';
 interface RankedStudent {
     id: number;
     name: string;
@@ -21,12 +27,55 @@ const STUDENTS = [
     { id: 9, name: 'Anna Julia de Félix Souza', avatar: '/avatar6.png' },
 ];
 
+const customDialogStyles = {
+    dialog: {
+        sx: {
+            // Estiliza o Paper (fundo) do diálogo para ser escuro, garantindo o contraste com o texto branco.
+            '& .MuiPaper-root': {
+                backgroundColor: '#500000', // Um vermelho escuro/preto para o fundo do pop-up
+            },
+            
+            // 1. Estiliza a cor dos botões de ação (OK/CANCEL)
+            '& .MuiDialogActions-root .MuiButton-textPrimary': {
+                color: 'white !important', // Usamos !important para sobrescrever o tema
+            },
+            
+            // 2. Garante que o relógio e o calendário interno tenham o tema vermelho/branco
+            '& .MuiPickersLayout-root': {
+                // Cor do cabeçalho do relógio/calendário
+                '& .MuiPickersToolbar-root': {
+                    backgroundColor: '#7a0a0a', 
+                    color: 'white',
+                },
+                // Cor do texto dos números não selecionados no relógio/calendário (Se for escuro, mude para branco)
+                '& .MuiPickersDay-root, & .MuiTypography-root, & .MuiIconButton-root': {
+                    color: 'white',
+                },
+                // Cor de Destaque da Seleção (A caixa vermelha em torno do número da hora)
+                '& .Mui-selected': {
+                    backgroundColor: '#7a0a0a', 
+                    color: 'white',
+                },
+                '& .Mui-selected:hover': {
+                    backgroundColor: '#690808', 
+                },
+                // Cor dos ponteiros do relógio
+                '& .MuiClock-pin, & .MuiClock-hand': {
+                    backgroundColor: '#7a0a0a', 
+                },
+                '& .MuiClockPointer-root': {
+                    borderColor: '#7a0a0a',
+                },
+            }
+        },
+    },
+};
+
 export const Frequency: FC = () => {
-    const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+    const [selectedTime, setSelectedTime] = useState<Date | null>(new Date());
 
     const [selected, setSelected] = useState<number[]>([]);
-
     const [page, setPage] = useState(0);
     const [perPage, setPerPage] = useState(5);
 
@@ -71,186 +120,238 @@ export const Frequency: FC = () => {
     ];
 
     return (
-        <Box className='flex flex-col items-center justify-center h-full p-4'>
-            <PageLayout
-                icon={<ListChecks size={36} className='lg:w-[50px] lg:h-[50px]' />}
-                title='REALIZAR A FREQUÊNCIA'
-            >
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+            <Box className='flex flex-col items-center justify-center h-full p-4'>
+                <PageLayout
+                    icon={<ListChecks size={36} className='lg:w-[50px] lg:h-[50px]' />}
+                    title='REALIZAR A FREQUÊNCIA'
+                >
 
-                <Grid container spacing={8} className='mt-4 md:pt-4 lg:pt-0'>
-                    <Grid item xs={12} lg={8}>
-                        <div className='bg-[#7a0a0a] rounded-lg px-4 py-2 flex items-center text-center justify-center gap-3 mb-2'>
-                            <Avatar src='/turmaIcon.png' />
-                            <Typography className='!font-bold text-white text-lg'>
-                                TURMA INFANTIL
-                            </Typography>
-                        </div>
+                    <Grid container spacing={8} className='mt-4 md:pt-4 lg:pt-0'>
+                        <Grid item xs={12} lg={8}>
+                            <div className='bg-[#7a0a0a] rounded-lg px-4 py-2 flex items-center text-center justify-center gap-3 mb-2'>
+                                <Avatar src='/turmaIcon.png' />
+                                <Typography className='!font-bold text-white text-lg'>
+                                    TURMA INFANTIL
+                                </Typography>
+                            </div>
 
-                        {/* ---------- COLUNA ESQUERDA ---------- */}
-                        <Card className='!bg-[#690808] text-white p-4 !rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)] h-[600px]'>
+                            {/* ---------- COLUNA ESQUERDA ---------- */}
+                            <Card className='!bg-[#690808] text-white p-4 !rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)] h-[600px]'>
 
-                            {/* Turma */}
-
-                            {/* Data + Horário */}
-                            <Grid container spacing={3} className='mb-2 pl-4'>
-                                <Grid item xs={12} sm={4}>
-                                    <Typography className='text-xs !font-bold mb-1'>
-                                        DATA DA AULA:
-                                    </Typography>
-                                    <TextField
-                                        fullWidth
-                                        type='date'
-                                        value={date}
-                                        onChange={(e) => setDate(e.target.value)}
-                                        className='bg-[#f5eaea] rounded-lg'
-                                        size='small'
-                                    />
-                                </Grid>
-
-                                <Grid item xs={12} sm={4}>
-                                    <Typography className='text-xs !font-bold mb-1'>
-                                        HORÁRIO DA AULA:
-                                    </Typography>
-                                    <TextField
-                                        fullWidth
-                                        type='time'
-                                        value={time}
-                                        onChange={(e) => setTime(e.target.value)}
-                                        className='bg-[#f5eaea] rounded-lg'
-                                        size='small'
-                                    />
-                                </Grid>
-                            </Grid>
-
-                            {/* Lista de alunos */}
-                            <div className='rounded-lg p-4 space-y-3'>
-
-                                {pageStudents.map(student => (
-                                    <div
-                                        key={student.id}
-                                        className='flex items-center justify-between bg-[#f5eaea] p-3 rounded-lg'
-                                    >
-                                        <div className='flex items-center gap-4'>
-                                            <Avatar src={student.avatar} />
-                                            <span className='text-[#2b0505] font-medium'>
-                                                {student.name}
-                                            </span>
-                                        </div>
-
-                                        <Checkbox
-                                            checked={selected.includes(student.id)}
-                                            onChange={() => toggle(student.id)}
-                                            sx={{
-                                                color: '#1f1f1f',
-                                                '&.Mui-checked': { color: '#1f1f1f' },
+                                <Grid container spacing={3} className='mb-2 pl-4'>
+                                    <Grid item xs={12} sm={4}>
+                                        <Typography className='text-xs !font-bold mb-1'>
+                                            DATA DA AULA:
+                                        </Typography>
+                                        <DatePicker
+                                            value={selectedDate}
+                                            onChange={(newValue) => setSelectedDate(newValue)}
+                                            format="dd/MM/yyyy"
+                                            slotProps={{
+                                                textField: {
+                                                    size: 'small',
+                                                    fullWidth: true,
+                                                    className: 'bg-black rounded-lg',
+                                                    InputProps: {
+                                                        style: { color: 'white' },
+                                                    },
+                                                },
+                                                actionBar: {
+                                                    sx: {
+                                                        '& .MuiButton-root': {
+                                                            color: 'white',
+                                                        },
+                                                    },
+                                                },
+                                                popper: {
+                                                    sx: {
+                                                        '& .Mui-selected': {
+                                                            backgroundColor: '#7a0a0a',
+                                                            color: 'white',
+                                                        },
+                                                    },
+                                                },
+                                                dialog: {
+                                                    sx: {
+                                                        '& .MuiButton-root': {
+                                                            color: 'white',
+                                                        },
+                                                    },
+                                                },
                                             }}
                                         />
-                                    </div>
-                                ))}
+                                    </Grid>
 
-                                {/* Paginação */}
-                                <div className='flex items-center justify-between text-white mt-2'>
-                                    <IconButton onClick={() => setPage(p => Math.max(0, p - 1))}>
-                                        <ChevronLeft color='white' />
-                                    </IconButton>
+                                    <Grid item xs={12} sm={4}>
+                                        <Typography className='text-xs !font-bold mb-1'>
+                                            HORÁRIO DA AULA:
+                                        </Typography>
+                                        <TimePicker
+                                            value={selectedTime}
+                                            onChange={(newValue) => setSelectedTime(newValue)}
+                                            ampm={false}
+                                            format="HH:mm"
+                                            openTo="hours"
+                                            slotProps={{
+                                                textField: {
+                                                    size: 'small',
+                                                    fullWidth: true,
+                                                    className: 'bg-black rounded-lg',
+                                                    InputProps: {
+                                                        style: { color: 'white' },
+                                                        readOnly: false,
+                                                    },
+                                                },
+                                                actionBar: {
+                                                    sx: {
+                                                        '& .MuiButton-root': {
+                                                            color: 'white',
+                                                        },
+                                                    },
+                                                },
+                                                popper: {
+                                                    sx: {
+                                                        '& .Mui-selected': {
+                                                            backgroundColor: '#7a0a0a',
+                                                            color: 'white',
+                                                        },
+                                                    },
+                                                },
+                                            }}
+                                        />
+                                    </Grid>
+                                </Grid>
 
-                                    <span className='font-bold'>{page + 1}/{totalPages}</span>
+                                {/* Lista de alunos (Restante do código mantido) */}
+                                <div className='rounded-lg p-4 space-y-3'>
 
-                                    <IconButton onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}>
-                                        <ChevronRight color='white' />
-                                    </IconButton>
-                                </div>
+                                    {pageStudents.map(student => (
+                                        <div
+                                            key={student.id}
+                                            className='flex items-center justify-between bg-[#f5eaea] p-3 rounded-lg'
+                                        >
+                                            <div className='flex items-center gap-4'>
+                                                <Avatar src={student.avatar} />
+                                                <span className='text-[#2b0505] font-medium'>
+                                                    {student.name}
+                                                </span>
+                                            </div>
 
-                                <div className='flex justify-end items-end mt-3 md:ml-55 lg:ml-70'>
-                                    <Button
-                                        variant='contained'
-                                        fullWidth
-                                        className='!bg-[#3E0404] text-white mt-3 py-3 rounded-lg'
-                                    >
-                                        REGISTRAR FREQUÊNCIA
-                                    </Button>
-                                </div>
-                            </div>
-
-                        </Card>
-                    </Grid>
-
-                    
-                    <Grid item xs={12} lg={4}>
-
-                        <Box className='lg:w-full flex flex-col items-center gap-4 bg-[#500000] border-3 border-[#3E0404] !rounded-[5px] shadow-[0_5px_15px_rgba(0,0,0,0.4)] p-4'>
-                            
-                            <Typography variant='h6' className='!font-semibold text-white'>RANKING</Typography>
-
-                            <Trophy size={64} className='text-white' strokeWidth={1.5} />
-
-                            {/* PÓDIO */}
-                            <div className='w-full flex justify-center mt-6'>
-                                <div className='flex items-end text-white font-bold select-none'>
-
-                                    {/* 2º Lugar */}
-                                    <div className='bg-[#690808] w-18 h-16 flex flex-col items-center justify-center relative border-t-6 border-[#3E0404]'>
-                                        <span className='absolute -top-8 text-[9px] tracking-wide'>
-                                            {podiumData.second}
-                                        </span>
-                                        <span className='text-xl'>2º</span>
-                                    </div>
-
-                                    {/* 1º Lugar */}
-                                    <div className='bg-[#690808] w-18 h-20 flex flex-col items-center justify-center relative border-t-6 border-[#3E0404]'>
-                                        <span className='absolute -top-8 text-[10px] tracking-wide'>
-                                            {podiumData.first}
-                                        </span>
-                                        <span className='text-3xl'>1º</span>
-                                    </div>
-
-                                    {/* 3º Lugar */}
-                                    <div className='bg-[#690808] w-18 h-14 flex flex-col items-center justify-center relative border-t-6 border-[#3E0404]'>
-                                        <span className='absolute -top-8 text-[8px] tracking-wide text-center'>
-                                            {podiumData.third}
-                                        </span>
-                                        <span className='text-xl'>3º</span>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <Box className='flex flex-col gap-3 w-full mt-auto mb-4 px-3'>
-
-                                <Divider className='!border-[#3E0404] !border-[2px]' />
-
-                                <Typography className='!font-bold text-center text-white'>ALUNOS</Typography>
-
-                                {rankedStudents.map((student) => (
-                                    <div
-                                        key={student.id}
-                                        className='bg-[#690808] p-2 rounded-xl flex justify-between items-center shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
-                                    >
-                                        <div className='flex items-center gap-2'>
-                                            <img src={student.avatarUrl} className='w-6 h-6 rounded-full' alt={student.name} />
-                                            <span className='font-bold text-[12px]'>{student.name}</span>
+                                            <Checkbox
+                                                checked={selected.includes(student.id)}
+                                                onChange={() => toggle(student.id)}
+                                                sx={{
+                                                    color: '#1f1f1f',
+                                                    '&.Mui-checked': { color: '#1f1f1f' },
+                                                }}
+                                            />
                                         </div>
-                                        <button className='bg-[#3E0404] px-3 py-1 rounded-md text-[10px] text-white'>
-                                            Ver mais
-                                        </button>
-                                    </div>
-                                ))}
-                            </Box>
-                        </Box>
+                                    ))}
 
-                        <div className='mt-5'>
-                            <Button
-                                variant='contained'
-                                fullWidth
-                                className='bg-[#690808] text-white mt-10 py-5 rounded-lg'
-                                onClick={handleNavigateToFrequency}
-                            >
-                                VISUALIZAR AULAS DOS ALUNOS ›
-                            </Button>
-                        </div>
+                                    {/* Paginação */}
+                                    <div className='flex items-center justify-between text-white mt-2'>
+                                        <IconButton onClick={() => setPage(p => Math.max(0, p - 1))}>
+                                            <ChevronLeft color='white' />
+                                        </IconButton>
+
+                                        <span className='font-bold'>{page + 1}/{totalPages}</span>
+
+                                        <IconButton onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}>
+                                            <ChevronRight color='white' />
+                                        </IconButton>
+                                    </div>
+
+                                    <div className='flex justify-end items-end mt-3 md:ml-55 lg:ml-70'>
+                                        <Button
+                                            variant='contained'
+                                            fullWidth
+                                            className='!bg-[#3E0404] text-white mt-3 py-3 rounded-lg'
+                                        >
+                                            REGISTRAR FREQUÊNCIA
+                                        </Button>
+                                    </div>
+                                </div>
+
+                            </Card>
+                        </Grid>
+
+                        {/* Coluna Direita (Ranking) - Mantida */}
+                        <Grid item xs={12} lg={4}>
+                            <Box className='lg:w-full flex flex-col items-center gap-4 bg-[#500000] border-3 border-[#3E0404] !rounded-[5px] shadow-[0_5px_15px_rgba(0,0,0,0.4)] p-4'>
+                                
+                                <Typography variant='h6' className='!font-semibold text-white'>RANKING</Typography>
+
+                                <Trophy size={64} className='text-white' strokeWidth={1.5} />
+
+                                {/* PÓDIO */}
+                                <div className='w-full flex justify-center mt-6'>
+                                    <div className='flex items-end text-white font-bold select-none'>
+
+                                        {/* 2º Lugar */}
+                                        <div className='bg-[#690808] w-18 h-16 flex flex-col items-center justify-center relative border-t-6 border-[#3E0404]'>
+                                            <span className='absolute -top-8 text-[9px] tracking-wide'>
+                                                {podiumData.second}
+                                            </span>
+                                            <span className='text-xl'>2º</span>
+                                        </div>
+
+                                        {/* 1º Lugar */}
+                                        <div className='bg-[#690808] w-18 h-20 flex flex-col items-center justify-center relative border-t-6 border-[#3E0404]'>
+                                            <span className='absolute -top-8 text-[10px] tracking-wide'>
+                                                {podiumData.first}
+                                            </span>
+                                            <span className='text-3xl'>1º</span>
+                                        </div>
+
+                                        {/* 3º Lugar */}
+                                        <div className='bg-[#690808] w-18 h-14 flex flex-col items-center justify-center relative border-t-6 border-[#3E0404]'>
+                                            <span className='absolute -top-8 text-[8px] tracking-wide text-center'>
+                                                {podiumData.third}
+                                            </span>
+                                            <span className='text-xl'>3º</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <Box className='flex flex-col gap-3 w-full mt-auto mb-4 px-3'>
+
+                                    <Divider className='!border-[#3E0404] !border-[2px]' />
+
+                                    <Typography className='!font-bold text-center text-white'>ALUNOS</Typography>
+
+                                    {rankedStudents.map((student) => (
+                                        <div
+                                            key={student.id}
+                                            className='bg-[#690808] p-2 rounded-xl flex justify-between items-center shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
+                                        >
+                                            <div className='flex items-center gap-2'>
+                                                <img src={student.avatarUrl} className='w-6 h-6 rounded-full' alt={student.name} />
+                                                <span className='font-bold text-[12px]'>{student.name}</span>
+                                            </div>
+                                            <button className='bg-[#3E0404] px-3 py-1 rounded-md text-[10px] text-white'>
+                                                Ver mais
+                                            </button>
+                                        </div>
+                                    ))}
+                                </Box>
+                            </Box>
+
+                            <div className='mt-5'>
+                                <Button
+                                    variant='contained'
+                                    fullWidth
+                                    className='bg-[#690808] text-white mt-10 py-5 rounded-lg'
+                                    onClick={handleNavigateToFrequency}
+                                >
+                                    VISUALIZAR AULAS DOS ALUNOS ›
+                                </Button>
+                            </div>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </PageLayout>
-        </Box>
+                </PageLayout>
+            </Box>
+        </LocalizationProvider>
     );
 };

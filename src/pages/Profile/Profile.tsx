@@ -1,13 +1,16 @@
 import { useState, type FC, type ReactNode, useEffect, useCallback } from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { PageLayout } from '../../components/layout/BigCardGray_';
 import { SquarePen, LogOut, Calendar, Save, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { updateUserProfile, type UserProfileUpdate } from '../../services/profile/profile';  
 import FaixaTeste  from './assetsTest/FaixaPretaTeste.png'
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { ptBR } from 'date-fns/locale';
+import { ProfileDateField } from './components/ProfileDateField/ProfileDateField';
 
-// --- ProfileField (Mantido) ---
 interface ProfileFieldProps {
     label: string;
     initialValue: string; 
@@ -31,7 +34,6 @@ const ProfileField: FC<ProfileFieldProps> = ({
     const [originalValue, setOriginalValue] = useState(initialValue); 
     
     useEffect(() => {
-        // Garante que o estado interno do campo reflita o valor externo, se mudar.
         setValue(initialValue);
         setOriginalValue(initialValue);
     }, [initialValue]);
@@ -44,12 +46,11 @@ const ProfileField: FC<ProfileFieldProps> = ({
 
         setIsSaving(true);
         try {
-            await onSave(value); // Chama a função de save (handleFieldUpdate)
+            await onSave(value); 
             setOriginalValue(value);
             setIsEditing(false);
         } catch (error) {
             console.error(`Erro ao salvar ${label}:`, error);
-            // Re-throw para ser capturado no componente principal se necessário
             throw error; 
         } finally {
             setIsSaving(false);
@@ -63,7 +64,7 @@ const ProfileField: FC<ProfileFieldProps> = ({
 
     return (
         <div className={`flex flex-col gap-1 ${className}`}>
-            <label className='text-sm text-gray-400 '>{label}</label>
+            <label className='text-sm text-gray-400'>{label}</label>
             <div className='flex items-center gap-3'>
                 <div className='flex-1 relative'>
                     {startIcon && (
@@ -106,7 +107,6 @@ const ProfileField: FC<ProfileFieldProps> = ({
     );
 };
 
-// --- ProfileHeaderField (Mantido) ---
 interface ProfileHeaderFieldProps {
     initialValue: string;
     onSave: (newValue: string) => Promise<void>;
@@ -142,7 +142,7 @@ const ProfileHeaderField: FC<ProfileHeaderFieldProps> = ({
             setOriginalValue(value);
             setIsEditing(false);
         } catch (error) {
-            console.error("Erro ao salvar no cabeçalho:", error);
+            console.error('Erro ao salvar no cabeçalho:', error);
             throw error; // Re-throw
         } finally {
             setIsSaving(false);
@@ -159,7 +159,7 @@ const ProfileHeaderField: FC<ProfileHeaderFieldProps> = ({
             {isEditing ? (
                 <>
                     <input
-                        type="text"
+                        type='text'
                         value={value}
                         onChange={(e) => setValue(e.target.value)}
                         onKeyDown={(e) => {
@@ -178,7 +178,7 @@ const ProfileHeaderField: FC<ProfileHeaderFieldProps> = ({
                 </>
             ) : (
                 <>
-                    <h1 className={textClasses}>{value || "Adicionar Nome Social"}</h1>
+                    <h1 className={textClasses}>{value || 'Adicionar Nome Social'}</h1>
                     <button onClick={() => setIsEditing(true)} title='Editar Nome Social' className='text-white cursor-pointer hover:text-gray-300 transition-colors'>
                         <SquarePen size={26} />
                     </button>
@@ -228,14 +228,15 @@ const GenderRadio: FC<GenderRadioProps> = ({ label, value, isChecked, onChange, 
         </label>
     );
 };
-// ------------------------------
 
-// --- COMPONENTE PRINCIPAL Profile ---
+
 export const Profile: FC = () => {
     const { user, token, logout, login } = useAuth(); 
     
-    // Estado para feedback de mensagem
     const [statusMessage, setStatusMessage] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
+
+    // Estado para a data de nascimento
+    const [birthDate, setBirthDate] = useState<Date | null>(null);
 
     // Inicialização completa de todos os campos editáveis
     const [profileData, setProfileData] = useState<UserProfileUpdate>({
@@ -260,10 +261,10 @@ export const Profile: FC = () => {
     }, []);
     
     // Handler para a edição de um campo específico (centralizado)
-    const handleFieldUpdate = useCallback(async (fieldName: keyof UserProfileUpdate, newValue: string | 'F' | 'M' | 'O') => {
+    const handleFieldUpdate = useCallback(async (fieldName: keyof UserProfileUpdate, newValue: string | 'F' | 'M' | 'O' | Date | null) => {
         if (!user || !token) {
-            console.error("Usuário não autenticado.");
-            throw new Error("Usuário não autenticado."); 
+            console.error('Usuário não autenticado.');
+            throw new Error('Usuário não autenticado.'); 
         }
 
         const dataToUpdate: Partial<UserProfileUpdate> = { [fieldName]: newValue };
@@ -275,7 +276,7 @@ export const Profile: FC = () => {
             setProfileData(prev => ({ ...prev, [fieldName]: newValue }));
             
             // 2. Feedback de sucesso
-            displayStatusMessage("Atualizado com sucesso!", 'success');
+            displayStatusMessage('Atualizado com sucesso!', 'success');
 
             // 3. ATUALIZAÇÃO DO CONTEXTO: Somente se o campo estiver no UserData original
             if (fieldName === 'nome' || fieldName === 'email') {
@@ -288,12 +289,12 @@ export const Profile: FC = () => {
                 login(token, updatedUser); 
             }
             
-            console.log("Perfil atualizado com sucesso:", updatedProfile);
+            console.log('Perfil atualizado com sucesso:', updatedProfile);
 
         } catch (error) {
-            console.error("Falha ao atualizar o perfil:", error);
+            console.error('Falha ao atualizar o perfil:', error);
             // 4. Feedback de erro
-            displayStatusMessage("Erro ao atualizar o perfil. Tente novamente.", 'error');
+            displayStatusMessage('Erro ao atualizar o perfil. Tente novamente.', 'error');
             throw error; // Re-lança para o ProfileField impedir a saída do modo de edição
         }
     }, [user, token, login, displayStatusMessage]); 
@@ -331,153 +332,156 @@ export const Profile: FC = () => {
         : 'bg-red-600 text-white';
 
     return (
-        <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
-            <PageLayout backPath='/home'>
-                <div className='flex flex-col gap-6'>
-                    
-                    {/* Mensagem de Status (Feedback) */}
-                    {statusMessage && (
-                        <div className={`p-3 rounded-lg text-center font-bold ${messageStyle}`}>
-                            {statusMessage.message}
-                        </div>
-                    )}
-                    
-                    {/* CABEÇALHO VERMELHO COM NOME SOCIAL EDITÁVEL */}
-                    <div className='flex justify-between items-center bg-[#690808] p-4 rounded-lg'>
-                        <div className='flex items-center gap-4'>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
 
-                            <div className='flex flex-row'>
-                                <img 
-                                    src={FaixaTeste} 
-                                    alt='Ícone de faixa' 
-                                    className='w-28 h-20' 
-                                />
-                                <SquarePen size={26} className='text-white cursor-pointer hover:text-white' />
+            <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
+                <PageLayout backPath='/home'>
+                    <div className='flex flex-col gap-6'>
+                        
+                        {/* Mensagem de Status (Feedback) */}
+                        {statusMessage && (
+                            <div className={`p-3 rounded-lg text-center font-bold ${messageStyle}`}>
+                                {statusMessage.message}
+                            </div>
+                        )}
+                        
+                        {/* CABEÇALHO VERMELHO COM NOME SOCIAL EDITÁVEL */}
+                        <div className='flex justify-between items-center bg-[#690808] p-4 rounded-lg'>
+                            <div className='flex items-center gap-4'>
+
+                                <div className='flex flex-row'>
+                                    <img 
+                                        src={FaixaTeste} 
+                                        alt='Ícone de faixa' 
+                                        className='w-28 h-20' 
+                                    />
+                                    <SquarePen size={26} className='text-white cursor-pointer hover:text-white' />
+                                </div>
+                                
+                                <div className='ml-4'>
+                                    {/* NOME SOCIAL EDITÁVEL */}
+                                    <ProfileHeaderField
+                                        initialValue={profileData.nome_social || profileData.nome} 
+                                        onSave={(newValue) => handleFieldUpdate('nome_social', newValue)}
+                                        textClasses='text-xl md:text-2xl font-bold'
+                                        inputClasses='w-56 md:w-80'
+                                    />
+                                    
+                                    <div className='flex gap-2 mt-2'>
+                                        <p className='text-sm text-white'>{user.tipo}</p>
+                                        <SquarePen size={18} className='text-white cursor-pointer hover:text-white' />
+                                        <p className='text-sm'>Grau: 2</p>
+                                        <SquarePen size={18} className='text-white cursor-pointer hover:text-white' />
+                                    </div> 
+                                </div>
                             </div>
                             
-                            <div className='ml-4'>
-                                {/* NOME SOCIAL EDITÁVEL */}
-                                <ProfileHeaderField
-                                    initialValue={profileData.nome_social || profileData.nome} 
-                                    onSave={(newValue) => handleFieldUpdate('nome_social', newValue)}
-                                    textClasses='text-xl md:text-2xl font-bold'
-                                    inputClasses='w-56 md:w-80'
+                            <div className='relative flex 
+                                            items-center justify-center flex-shrink-0 ml-2'>
+                                <img 
+                                    src={profileData.imagem_perfil_url} 
+                                    alt='Ícone de perfil' 
+                                    className='w-20 h-20 rounded-full' 
                                 />
-                                
-                                <div className='flex gap-2 mt-2'>
-                                    <p className='text-sm text-white'>{user.tipo}</p>
-                                    <SquarePen size={18} className='text-white cursor-pointer hover:text-white' />
-                                    <p className='text-sm'>Grau: 2</p>
-                                    <SquarePen size={18} className='text-white cursor-pointer hover:text-white' />
-                                </div> 
+                                {/* Botão de edição sobre a imagem */}
+                                <button className='absolute bottom-0 left-17 border-[#690808] 
+                                                text-white cursor-pointer hover:text-white'>
+                                    <SquarePen size={20} />
+                                </button>
                             </div>
+                        </div>
+
+                        <div>
+                            <h2 className='text-2xl font-semibold text-center tracking-wide text-white'>DADOS PESSOAIS</h2>
+                            <hr className='bg-white mt-3 h-0.5 border-0' />
+                        </div>
+
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6'>
+                            {/* Nome Completo (Mantido editável) */}
+                            <ProfileField 
+                                label='Nome Completo:' 
+                                initialValue={profileData.nome} 
+                                onSave={(newValue) => handleFieldUpdate('nome', newValue)}
+                            />
+                            {/* Data de Nascimento */}
+                            <ProfileDateField 
+                                label='Data de Nascimento:' 
+                                initialDate={birthDate}
+                                onSave={(newDate) => handleFieldUpdate('dataNascimento', newDate)}
+                            />
+
+                            {/* CPF */}
+                            <ProfileField 
+                                label='CPF:' 
+                                initialValue={profileData.cpf} 
+                                onSave={(newValue) => handleFieldUpdate('cpf', newValue)}
+                            />
+                            {/* Gênero */}
+                            <div className='flex flex-col gap-2'>
+                                <label className='text-sm text-gray-400'>Gênero:</label>
+                                <div className='flex gap-4 pt-3'>
+                                    <GenderRadio 
+                                        label='Feminino' 
+                                        value='F' 
+                                        isChecked={profileData.genero === 'F'} 
+                                        onChange={(val) => handleFieldUpdate('genero', val)}
+                                    />
+                                    <GenderRadio 
+                                        label='Masculino' 
+                                        value='M' 
+                                        isChecked={profileData.genero === 'M'} 
+                                        onChange={(val) => handleFieldUpdate('genero', val)}
+                                    />
+                                    <GenderRadio 
+                                        label='Outro' 
+                                        value='O' 
+                                        isChecked={profileData.genero === 'O'} 
+                                        onChange={(val) => handleFieldUpdate('genero', val)}
+                                    />
+                                </div>
+                            </div>
+                            {/* Email */}
+                            <ProfileField 
+                                label='E-mail:' 
+                                initialValue={profileData.email} 
+                                type='email' 
+                                onSave={(newValue) => handleFieldUpdate('email', newValue)}
+                            />
+                            {/* Endereço */}
+                            <ProfileField 
+                                label='Endereço:' 
+                                initialValue={profileData.endereco} 
+                                onSave={(newValue) => handleFieldUpdate('endereco', newValue)}
+                            />
+                            {/* Senha */}
+                            <Link to='/recuperar-senha' className='w-full'>
+                                <ProfileField 
+                                    label='Senha:' 
+                                    initialValue='************' 
+                                    type='password' 
+                                    onSave={async () => { /* Não faz nada aqui */ }}
+                                />    
+                            </Link>
+                            {/* Telefone */}
+                            <ProfileField 
+                                label='Telefone:' 
+                                initialValue={profileData.telefone} 
+                                onSave={(newValue) => handleFieldUpdate('telefone', newValue)}
+                            />
                         </div>
                         
-                        <div className='relative flex 
-                                        items-center justify-center flex-shrink-0 ml-2'>
-                            <img 
-                                src={profileData.imagem_perfil_url} 
-                                alt='Ícone de perfil' 
-                                className='w-20 h-20 rounded-full' 
-                            />
-                            {/* Botão de edição sobre a imagem */}
-                            <button className='absolute bottom-0 left-17 border-[#690808] 
-                                            text-white cursor-pointer hover:text-white'>
-                                <SquarePen size={20} />
+                        <div className='flex justify-end mt-10'>
+                            <button 
+                                onClick={logout} 
+                                className='flex items-center gap-2 text-white hover:text-red-400 
+                                                transition-colors cursor-pointer'>
+                                <span>Logout</span>
+                                <LogOut size={32} />
                             </button>
                         </div>
-                    </div>
-
-                    <div>
-                        <h2 className='text-2xl font-semibold text-center tracking-wide text-white'>DADOS PESSOAIS</h2>
-                        <hr className='bg-white mt-3 h-0.5 border-0' />
-                    </div>
-
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6'>
-                        {/* Nome Completo (Mantido editável) */}
-                        <ProfileField 
-                            label='Nome Completo:' 
-                            initialValue={profileData.nome} 
-                            onSave={(newValue) => handleFieldUpdate('nome', newValue)}
-                        />
-                        {/* Data de Nascimento */}
-                        <ProfileField 
-                            label='Data de Nascimento:' 
-                            initialValue={profileData.dataNascimento} 
-                            startIcon={<Calendar size={18} />} 
-                            onSave={(newValue) => handleFieldUpdate('dataNascimento', newValue)}
-                        />
-                        {/* CPF */}
-                        <ProfileField 
-                            label='CPF:' 
-                            initialValue={profileData.cpf} 
-                            onSave={(newValue) => handleFieldUpdate('cpf', newValue)}
-                        />
-                        {/* Gênero */}
-                        <div className='flex flex-col gap-2'>
-                            <label className='text-sm text-gray-400'>Gênero:</label>
-                            <div className='flex gap-4 pt-3'>
-                                <GenderRadio 
-                                    label='Feminino' 
-                                    value='F' 
-                                    isChecked={profileData.genero === 'F'} 
-                                    onChange={(val) => handleFieldUpdate('genero', val)}
-                                />
-                                <GenderRadio 
-                                    label='Masculino' 
-                                    value='M' 
-                                    isChecked={profileData.genero === 'M'} 
-                                    onChange={(val) => handleFieldUpdate('genero', val)}
-                                />
-                                <GenderRadio 
-                                    label='Outro' 
-                                    value='O' 
-                                    isChecked={profileData.genero === 'O'} 
-                                    onChange={(val) => handleFieldUpdate('genero', val)}
-                                />
-                            </div>
-                        </div>
-                        {/* Email */}
-                        <ProfileField 
-                            label='E-mail:' 
-                            initialValue={profileData.email} 
-                            type='email' 
-                            onSave={(newValue) => handleFieldUpdate('email', newValue)}
-                        />
-                        {/* Endereço */}
-                        <ProfileField 
-                            label='Endereço:' 
-                            initialValue={profileData.endereco} 
-                            onSave={(newValue) => handleFieldUpdate('endereco', newValue)}
-                        />
-                        {/* Senha */}
-                        <Link to='/recuperar-senha' className='w-full'>
-                            <ProfileField 
-                                label='Senha:' 
-                                initialValue='************' 
-                                type='password' 
-                                onSave={async () => { /* Não faz nada aqui */ }}
-                            />    
-                        </Link>
-                        {/* Telefone */}
-                        <ProfileField 
-                            label='Telefone:' 
-                            initialValue={profileData.telefone} 
-                            onSave={(newValue) => handleFieldUpdate('telefone', newValue)}
-                        />
-                    </div>
-                    
-                    <div className='flex justify-end mt-10'>
-                        <button 
-                            onClick={logout} 
-                            className='flex items-center gap-2 text-white hover:text-red-400 
-                                            transition-colors cursor-pointer'>
-                            <span>Logout</span>
-                            <LogOut size={32} />
-                        </button>
-                    </div>
-                </div> 
-            </PageLayout>
-        </Box>
+                    </div> 
+                </PageLayout>
+            </Box>
+        </LocalizationProvider>
     )
 }
