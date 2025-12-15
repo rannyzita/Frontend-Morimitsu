@@ -51,8 +51,8 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
             opacity-0 scale-95 animate-modal'>
 
                 {/* Cabeçalho */}
-                <div className='relative flex justify-center items-center mb-2'>
-                    <h2 className='text-[#690808] font-extrabold text-[20px] md:text-3xl lg:text-4xl uppercase'>
+                <div className='relative flex justify-center items-center mb-0 md:mb-2'>
+                    <h2 className='text-[#690808] font-extrabold text-[18px] md:text-3xl lg:text-4xl uppercase'>
                         DADOS DO {student.role}
                     </h2>
 
@@ -65,7 +65,7 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
 
                 {/* 1. LAYOUT DESKTOP/TABLET (3 COLUNAS) - VISÍVEL APENAS EM MD: */}
                 {/* --------------------------------------------------------------------------------------------------------------------------------------- */}
-                <div className='hidden md:grid md:grid-cols-3 md:gap-10 mb-8'>
+                <div className='hidden md:grid md:grid-cols-3 md:gap-8 mb-2'>
 
                     {/* COLUNA 1: AÇÕES (DESKTOP) */}
                     <div className='flex flex-col gap-4'>

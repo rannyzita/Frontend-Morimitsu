@@ -7,18 +7,22 @@ interface BirthdayMember {
     date: string;
     name: string;
     team: string;
+    // NOTA: Se os dados de `id`, `avatar` ou `role` vierem da fonte de dados
+    // BIRTHDAYS_BY_MONTH, adicione-os aqui. Caso contrário, serão mockados no Birthday.
 }
 
-interface BirthdayCarouselProps {
-    title?: string;
-    members: BirthdayMember[];
-    icon?: boolean;
+// 1. NOVO: Interface para o Card aceitar a função de clique
+interface BirthdayCardProps extends BirthdayMember {
+    onCardClick: (member: BirthdayMember) => void;
 }
 
-const BirthdayCard: FC<BirthdayMember> = ({ date, name, team }) => (
+// 2. NOVO: O BirthdayCard agora é clicável e chama onCardClick
+const BirthdayCard: FC<BirthdayCardProps> = ({ date, name, team, onCardClick }) => (
     <div
         className='bg-[#880000] rounded-lg p-2 flex flex-col items-center lg:gap-2 
-                min-w-[130px] md:min-w-[160px] lg:min-w-[180px] border-[8px] border-[#3E0404]' 
+                min-w-[130px] md:min-w-[160px] lg:min-w-[180px] border-[8px] border-[#3E0404]
+                cursor-pointer transition-transform hover:scale-[1.03] active:scale-[0.98]' // ADICIONADO ESTILO CLICÁVEL
+        onClick={() => onCardClick({ date, name, team })} // DISPARA O EVENTO COM OS DADOS
     >
         <div className='text-center text-white'>
             <Typography variant='h5' className='!font-bold'> 
@@ -37,8 +41,17 @@ const BirthdayCard: FC<BirthdayMember> = ({ date, name, team }) => (
     </div>
 );
 
+
+// 3. NOVO: Interface para o Carousel aceitar o handler do pai
+interface BirthdayCarouselProps {
+    title?: string;
+    members: BirthdayMember[];
+    icon?: boolean;
+    onMemberClick: (member: BirthdayMember) => void; // <-- NOVO PROP
+}
+
 export const BirthdayCarousel: FC<BirthdayCarouselProps> = ({
-        members, title, icon
+        members, title, icon, onMemberClick // <-- RECEBE O NOVO PROP
     }) => {
 
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -113,6 +126,7 @@ export const BirthdayCarousel: FC<BirthdayCarouselProps> = ({
                         <BirthdayCard
                             key={`${member.name}-${member.date}`}
                             {...member}
+                            onCardClick={onMemberClick} // <-- REPASSA O HANDLER PARA O CARTÃO
                         />
                     ))}
                 </div>

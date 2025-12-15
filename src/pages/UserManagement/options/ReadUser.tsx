@@ -44,9 +44,6 @@ const StudentListItem: FC<StudentListItemProps> = ({
     name,
     nameSocial,
     role,
-    studentId,
-    isPromoted,
-    onTogglePromoted,
     onOpenModal
 }) => {
     return (
@@ -62,19 +59,15 @@ const StudentListItem: FC<StudentListItemProps> = ({
                     className='text-white flex-shrink-0 lg:w-6 lg:h-6'
                 />
 
-                {/* Linha vertical sempre na mesma posição */}
                 <div className='h-8 lg:h-10 border-l border-white opacity-50 mx-1 flex-shrink-0' />
 
-                {/* Nome do aluno ocupa o restante */}
                 <span className='flex-1 text-white truncate text-left text-[10px] md:text-[14px] lg:text-base'>
                     {name}
                 </span>
             </div>
 
-            {/* Container do cargo e botão "Ver Mais" fixo */}
             <div className='flex-shrink-0 flex items-center gap-3 lg:ml-auto'>
 
-                {/* Cargo sempre na mesma posição */}
                 <span className='hidden lg:flex text-white text-xs lg:text-sm pl-2 pr-6'>
                     Cargo: {role}
                 </span>
@@ -113,7 +106,7 @@ export const VerUsuarios: FC = () => {
 
     useEffect(() => {
         const updateStudentsPerPage = () => {
-            const newStudentsPerPage = window.innerWidth < 768 ? 5 : 6; 
+            const newStudentsPerPage = window.innerWidth < 768 ? 5 : 5; 
             setStudentsPerPage(newStudentsPerPage);
             if (newStudentsPerPage !== studentsPerPage) setCurrentPage(1);
         };
