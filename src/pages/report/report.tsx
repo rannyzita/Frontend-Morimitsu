@@ -11,7 +11,7 @@ interface StatisticProps {
 }
 
 const StatisticCard: FC<StatisticProps> = ({ title, total }) => (
-    <Card className='!bg-[#690808] text-white p-3 flex flex-col items-center gap-1 !rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
+    <Card className='!bg-[#690808] text-white md:p-3 lg:p-4 flex flex-col items-center gap-1 !rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
         <div className='flex items-center justify-center'>
             <Typography variant='body1' className='!font-bold tracking-wide !text-[10px] lg:!text-[16px]'>
                 {title}

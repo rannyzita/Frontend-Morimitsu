@@ -14,7 +14,7 @@ export const Birthday: FC = () => {
     return (
         <Box 
             component='div' 
-            className='flex flex-col items-center justify-center h-full p-4 w-full' 
+            className='flex flex-col items-center p-4 w-full' 
         >
             <PageLayout 
                 backPath='/home' 

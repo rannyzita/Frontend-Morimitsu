@@ -36,7 +36,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
                         shadow-none lg:shadow-xl
                         flex flex-col overflow-hidden 
                         w-full h-auto 
-                        md:w-5/6 md:h-[88vh] 
+                        md:w-5/6 md:h-[85vh] 
                         lg:w-[1200px] lg:h-[82vh] 
                         ${className}`}
         >
@@ -85,7 +85,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
             </header>
 
             <main 
-                className='px-6 md:px-8 md:py-7 lg:flex-1 lg:overflow-y-auto'
+                className='px-6 md:px-8 md:py-7 md:flex-1 md:overflow-y-auto'
             >
                 <div className='max-w-5xl mx-auto'>
                     {children}
