@@ -6,7 +6,6 @@ import {
     VictoryBar, 
     VictoryAxis, 
     VictoryTheme, 
-    VictoryLabel 
 } from 'victory';
 
 interface ChartData {

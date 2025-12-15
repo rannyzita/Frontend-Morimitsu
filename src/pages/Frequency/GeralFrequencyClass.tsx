@@ -9,13 +9,6 @@ import student1 from '../classManagement/options/assetsTest/IconBaby.png';
 import student2 from '../classManagement/options/assetsTest/TurmaInfantil.png';
 import student3 from '../classManagement/options/assetsTest/iconMista.png';
 
-import {
-    VictoryBar,
-    VictoryChart,
-    VictoryAxis,
-    VictoryLabel,
-} from 'victory';
-
 interface PresenceItem {
     id: number;
     name: string;

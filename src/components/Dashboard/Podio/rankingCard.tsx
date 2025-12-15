@@ -88,7 +88,7 @@ export const RankingCard: FC<RankingCardProps> = ({
             
                 <Box className='flex flex-col gap-3 w-full mt-auto mb-4 px-3'>
                 
-                    <Divider className='!border-[#3E0404] !border-[2px]' />
+                    <Divider className='!border-[#3E0404] !border-[3px]' />
 
                     <Typography className='!font-bold text-center'>ALUNOS</Typography>
 

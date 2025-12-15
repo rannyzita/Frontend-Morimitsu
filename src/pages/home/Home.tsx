@@ -8,8 +8,6 @@ import { useAuth } from '../../contexts/AuthContext';
 
 import { fetchMonthAniversariantes, type AniversarianteApi } from '../../services/aniversariantes/aniversariantes';
 
-// import { homePopUp } from '../../data/text/popUps/home/home';
-
 import { 
     Users, 
     GraduationCap, 
@@ -19,8 +17,6 @@ import {
     ListChecks,
     ClipboardList
 } from 'lucide-react';
-
-// --- Dados Mock (Exemplo) ---
 
 const graduationStudents = [
     { 

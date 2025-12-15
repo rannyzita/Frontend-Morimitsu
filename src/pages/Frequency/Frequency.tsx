@@ -9,6 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { ptBR }  from 'date-fns/locale/pt-BR';
+import { FeedbackToast } from '../../components/Feedback/Feedback';
 interface RankedStudent {
     id: number;
     name: string;
@@ -26,50 +27,6 @@ const STUDENTS = [
     { id: 8, name: 'Anna Julia de Félix Souza', avatar: '/avatar6.png' },
     { id: 9, name: 'Anna Julia de Félix Souza', avatar: '/avatar6.png' },
 ];
-
-const customDialogStyles = {
-    dialog: {
-        sx: {
-            // Estiliza o Paper (fundo) do diálogo para ser escuro, garantindo o contraste com o texto branco.
-            '& .MuiPaper-root': {
-                backgroundColor: '#500000', // Um vermelho escuro/preto para o fundo do pop-up
-            },
-            
-            // 1. Estiliza a cor dos botões de ação (OK/CANCEL)
-            '& .MuiDialogActions-root .MuiButton-textPrimary': {
-                color: 'white !important', // Usamos !important para sobrescrever o tema
-            },
-            
-            // 2. Garante que o relógio e o calendário interno tenham o tema vermelho/branco
-            '& .MuiPickersLayout-root': {
-                // Cor do cabeçalho do relógio/calendário
-                '& .MuiPickersToolbar-root': {
-                    backgroundColor: '#7a0a0a', 
-                    color: 'white',
-                },
-                // Cor do texto dos números não selecionados no relógio/calendário (Se for escuro, mude para branco)
-                '& .MuiPickersDay-root, & .MuiTypography-root, & .MuiIconButton-root': {
-                    color: 'white',
-                },
-                // Cor de Destaque da Seleção (A caixa vermelha em torno do número da hora)
-                '& .Mui-selected': {
-                    backgroundColor: '#7a0a0a', 
-                    color: 'white',
-                },
-                '& .Mui-selected:hover': {
-                    backgroundColor: '#690808', 
-                },
-                // Cor dos ponteiros do relógio
-                '& .MuiClock-pin, & .MuiClock-hand': {
-                    backgroundColor: '#7a0a0a', 
-                },
-                '& .MuiClockPointer-root': {
-                    borderColor: '#7a0a0a',
-                },
-            }
-        },
-    },
-};
 
 export const Frequency: FC = () => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
@@ -91,6 +48,8 @@ export const Frequency: FC = () => {
         const update = () => {
             if (window.innerWidth < 600) setPerPage(4);
             else setPerPage(5);
+
+            if (window.innerHeight > 700) setPerPage(8);
         };
         update();
         window.addEventListener('resize', update);
@@ -107,6 +66,14 @@ export const Frequency: FC = () => {
         );
     };
 
+    const handleRegisterFrequency = () => {
+
+        setToast({
+            message: 'Frequência registrada com sucesso!',
+            type: 'success',
+        });
+    };
+
     const podiumData = {
         first: 'ANA LAURA',
         second: 'JOÃO LUCAS',
@@ -119,6 +86,11 @@ export const Frequency: FC = () => {
         { id: 3, name: 'NICHOLAS ALVES', avatarUrl: '/avatar3.png' },
     ];
 
+    const [toast, setToast] = useState<{
+        message: string;
+        type: 'success' | 'error';
+    } | null>(null);
+
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
             <Box className='flex flex-col items-center justify-center h-full p-4'>
@@ -129,7 +101,7 @@ export const Frequency: FC = () => {
 
                     <Grid container spacing={8} className='mt-4 md:pt-4 lg:pt-0'>
                         <Grid item xs={12} lg={8}>
-                            <div className='bg-[#7a0a0a] rounded-lg px-4 py-2 flex items-center text-center justify-center gap-3 mb-2'>
+                            <div className='bg-[#7a0a0a] rounded-lg px-4 py-2 flex items-center text-center justify-center gap-3 mb-2 mt-4 md:mt-0 lg:mt-0'>
                                 <Avatar src='/turmaIcon.png' />
                                 <Typography className='!font-bold text-white text-lg'>
                                     TURMA INFANTIL
@@ -137,17 +109,22 @@ export const Frequency: FC = () => {
                             </div>
 
                             {/* ---------- COLUNA ESQUERDA ---------- */}
-                            <Card className='!bg-[#690808] text-white p-4 !rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)] h-[600px]'>
-
+                            <Card className='
+                                !bg-[#690808] text-white p-4 !rounded-[10px]
+                                shadow-[0_5px_15px_rgba(0,0,0,0.4)]
+                                h-[720px]
+                                md:h-[600px]
+                                flex flex-col
+                            '>
                                 <Grid container spacing={3} className='mb-2 pl-4'>
                                     <Grid item xs={12} sm={4}>
-                                        <Typography className='text-xs !font-bold mb-1'>
+                                        <Typography className='!text-[10px] md:!text-[14px] !font-bold mb-1'>
                                             DATA DA AULA:
                                         </Typography>
                                         <DatePicker
                                             value={selectedDate}
                                             onChange={(newValue) => setSelectedDate(newValue)}
-                                            format="dd/MM/yyyy"
+                                            format='dd/MM/yyyy'
                                             slotProps={{
                                                 textField: {
                                                     size: 'small',
@@ -184,15 +161,15 @@ export const Frequency: FC = () => {
                                     </Grid>
 
                                     <Grid item xs={12} sm={4}>
-                                        <Typography className='text-xs !font-bold mb-1'>
+                                        <Typography className='!text-[10px] md:!text-[14px] !font-bold mb-1'>
                                             HORÁRIO DA AULA:
                                         </Typography>
                                         <TimePicker
                                             value={selectedTime}
                                             onChange={(newValue) => setSelectedTime(newValue)}
                                             ampm={false}
-                                            format="HH:mm"
-                                            openTo="hours"
+                                            format='HH:mm'
+                                            openTo='hours'
                                             slotProps={{
                                                 textField: {
                                                     size: 'small',
@@ -223,17 +200,15 @@ export const Frequency: FC = () => {
                                     </Grid>
                                 </Grid>
 
-                                {/* Lista de alunos (Restante do código mantido) */}
-                                <div className='rounded-lg p-4 space-y-3'>
-
+                                <div className='flex-1 overflow-y-auto rounded-lg p-3 space-y-2'>
                                     {pageStudents.map(student => (
                                         <div
                                             key={student.id}
-                                            className='flex items-center justify-between bg-[#f5eaea] p-3 rounded-lg'
+                                            className='flex items-center justify-between bg-[#f5eaea] !p-1 md:!p-3 rounded-lg'
                                         >
                                             <div className='flex items-center gap-4'>
-                                                <Avatar src={student.avatar} />
-                                                <span className='text-[#2b0505] font-medium'>
+                                                <Avatar src={student.avatar} className='!w-7 !h-7 md:!w-10 md:!h-10'/>
+                                                <span className='text-[#2b0505] text-[12px] md:text-[16px]'>
                                                     {student.name}
                                                 </span>
                                             </div>
@@ -248,7 +223,9 @@ export const Frequency: FC = () => {
                                             />
                                         </div>
                                     ))}
+                                </div>
 
+                                <div className='mt-auto pt-4 space-y-3'>
                                     {/* Paginação */}
                                     <div className='flex items-center justify-between text-white mt-2'>
                                         <IconButton onClick={() => setPage(p => Math.max(0, p - 1))}>
@@ -262,17 +239,17 @@ export const Frequency: FC = () => {
                                         </IconButton>
                                     </div>
 
-                                    <div className='flex justify-end items-end mt-3 md:ml-55 lg:ml-70'>
+                                    <div className='flex justify-end items-end mt-12 md:mt-2 ml-16 md:ml-55 lg:ml-90'>
                                         <Button
                                             variant='contained'
                                             fullWidth
-                                            className='!bg-[#3E0404] text-white mt-3 py-3 rounded-lg'
+                                            onClick={handleRegisterFrequency}
+                                            className='!bg-[#3E0404] text-white !mt-2 md:!mt-3 !py-2 md:!py-4 rounded-lg !text-[12px] md:!text-[15px]'
                                         >
                                             REGISTRAR FREQUÊNCIA
                                         </Button>
                                     </div>
                                 </div>
-
                             </Card>
                         </Grid>
 
@@ -342,7 +319,7 @@ export const Frequency: FC = () => {
                                 <Button
                                     variant='contained'
                                     fullWidth
-                                    className='bg-[#690808] text-white mt-10 py-5 rounded-lg'
+                                    className='bg-[#690808] text-white mt-10 !py-4 md:!py-5 rounded-lg !font-bold !text-[12px] md:!text-[14px]'
                                     onClick={handleNavigateToFrequency}
                                 >
                                     VISUALIZAR AULAS DOS ALUNOS ›
@@ -350,6 +327,14 @@ export const Frequency: FC = () => {
                             </div>
                         </Grid>
                     </Grid>
+                    
+                    {toast && (
+                        <FeedbackToast
+                            message={toast.message}
+                            type={toast.type}
+                            onClose={() => setToast(null)}
+                        />
+                    )}
                 </PageLayout>
             </Box>
         </LocalizationProvider>

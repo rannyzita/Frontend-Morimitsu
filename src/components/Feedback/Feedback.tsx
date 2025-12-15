@@ -53,20 +53,22 @@ export const FeedbackToast: FC<FeedbackToastProps> = ({
             `}</style>
 
             <div 
-                className={`fixed ${bottom} sm:${right} right-4 ${bgColor} text-white 
-                    p-4 sm:p-6 rounded-xl shadow-lg 
-                    flex items-center gap-4 sm:gap-14 z-80
-                    animate-slide-up-fade-in`}
+                className={`
+                    fixed ${bottom} sm:${right} right-4
+                    ${bgColor} text-white
+                    p-4 sm:p-6 rounded-xl shadow-lg
+                    flex items-start gap-4 sm:gap-6
+                    max-w-[85vw] md:max-w-[100vw]
+                    z-80 animate-slide-up-fade-in
+                `}
             >
-                {/* Ícone responsivo */}
                 <div className='w-8 h-8 sm:w-12 sm:h-12 flex-shrink-0'>
                     {type === 'success' ? 
                         <CheckCircle2 className='text-white w-full h-full' /> : 
                         <XCircle className='text-white w-full h-full' />}
                 </div>
 
-                {/* Texto responsivo */}
-                <span className='font-semibold text-sm sm:text-base truncate'>
+                <span className='font-semibold text-[14px] md:text-xl break-words whitespace-normal md:mt-2'>
                     {message}
                 </span>
 
