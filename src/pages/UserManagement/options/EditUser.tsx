@@ -1,13 +1,11 @@
-import { useState, type FC, type ReactNode } from 'react';
+import { useState, type FC } from 'react';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCardGray_';
 import { FeedbackToast } from '../../../components/Feedback/Feedback';
 import { FormField } from '../../../components/formField/formField';
 import { UserPen, CircleAlert } from 'lucide-react';
 
-// IMPORTAÇÃO DO NOVO COMPONENTE
-import { DateFormField } from '../components/DateFormField'; // AJUSTE O CAMINHO CONFORME O SEU PROJETO
-
+import { DateFormField } from '../components/DateFormField'; 
 interface GenderRadioProps {
     label: string;
     value: string;
@@ -41,7 +39,6 @@ const GenderRadio: FC<GenderRadioProps> = ({ label, value, isChecked, onChange }
 export const EditUsuario: FC = () => {
     const [nomeCompleto, setNomeCompleto] = useState('');
     
-    // 1. MUDANÇA: O estado da data agora deve ser Date | null
     const [dataNascimento, setDataNascimento] = useState<Date | null>(null); 
     
     const [cargo, setCargo] = useState('');
@@ -85,11 +82,10 @@ export const EditUsuario: FC = () => {
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
             <PageLayout
                 title='EDITAR USUÁRIO'
-                icon={<UserPen className='lg:w-[50px] lg:h-[50px]' />}
+                icon={<UserPen className='w-10 h-10 md:w-12 md:h-12' />}
+                className='flex flex-col h-full relative'
             >
                 <div className='flex flex-col justify-center min-h-[65vh] gap-8 px-4 md:gap-12 md:px-16'>
-
-                    {/* GRID PADRONIZADO */}
                     <div className='
                         grid grid-cols-1
                         md:grid-cols-2 
@@ -103,7 +99,6 @@ export const EditUsuario: FC = () => {
                         <FormField label={<RequiredLabel label='Nome completo:' />} value={nomeCompleto} onChange={setNomeCompleto} />
                         <FormField label={<StandardLabel label='Nome Social:' />} value={campoSocial} onChange={setCampoSocial} />
                         
-                        {/* 2. SUBSTITUIÇÃO: Usa DateFormField no lugar do FormField antigo */}
                         <DateFormField 
                             labelComponent={<RequiredLabel label='Data de nascimento:' />} 
                             value={dataNascimento} 

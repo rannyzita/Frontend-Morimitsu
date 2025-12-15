@@ -36,7 +36,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
                         shadow-none lg:shadow-xl
                         flex flex-col overflow-hidden 
                         w-full h-auto 
-                        md:w-5/6 md:h-[72vh] 
+                        md:w-5/6 md:h-[88vh] 
                         lg:w-[1200px] lg:h-[82vh] 
                         ${className}`}
         >
@@ -62,13 +62,11 @@ export const PageLayout: FC<PageLayoutProps> = ({
                                         ${info ? 'cursor-pointer' : 'cursor-default'}`}
                             onClick={info ? onClick : undefined}
                         >
-                            {/* Ícone exatamente igual nos dois layouts */}
                             <span className='w-6 h-6 md:w-15 md:h-15 flex items-center justify-center'>
                                 {icon}
                             </span>
 
-                            {/* Título padronizado */}
-                            <h1 className='text-[12px] md:text-2xl lg:text-3xl font-bold tracking-wide'>
+                            <h1 className='text-[12px] md:text-2xl lg:text-3xl font-bold'>
                                 {title}
                             </h1>
                         </div>

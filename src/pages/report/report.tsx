@@ -11,18 +11,18 @@ interface StatisticProps {
 }
 
 const StatisticCard: FC<StatisticProps> = ({ title, total }) => (
-    <Card className='!bg-[#690808] text-white p-4 flex flex-col items-center gap-1 !rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-        <div className='flex items-center justify-start'>
-            <Typography variant='body1' className='!font-bold tracking-wide lg:text-xl'>
+    <Card className='!bg-[#690808] text-white p-3 flex flex-col items-center gap-1 !rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
+        <div className='flex items-center justify-center'>
+            <Typography variant='body1' className='!font-bold tracking-wide !text-[10px] lg:!text-[16px]'>
                 {title}
             </Typography>
         </div>
 
-        <Card className='!bg-[#500000] text-white p-4 flex flex-col items-center rounded-xl h-32 lg:h-25 w-full justify-between'>
-            <Typography variant='h4' className='!font-extrabold lg:text-5xl'>
+        <Card className='!bg-[#500000] text-white p-2 flex flex-col items-center rounded-xl h-16 lg:h-24 w-full justify-center'>
+            <Typography variant='h4' className='!font-extrabold !text-xl md:!text-3xl lg:!text-4xl'>
                 {total}
             </Typography>
-            <Typography variant='caption' className='text-white lg:text-sm mb-4'>
+            <Typography variant='caption' className='text-white text-xs lg:text-sm'>
                 TOTAIS
             </Typography>
         </Card>
@@ -71,11 +71,11 @@ export const Report: FC = () => {
     return (
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
             <PageLayout backPath='/home' icon={<ClipboardList size={36} />} title='RELATÓRIO'>
-                <Grid container spacing={6} className='mt-8 lg:pt-8'>
+                <Grid container spacing={4} className='!mt-2 md:!mt-2'>
                     
-                    <Grid item xs={12} lg={5}>
+                    <Grid item xs={12} sm={12} lg={5}> 
                         <Grid container spacing={12} rowSpacing={5}>
-
+                            
                             <Grid item xs={6} sm={4} lg={6}>
                                 <StatisticCard title='TURMAS' total={metricas.totalTurmas} />
                             </Grid>
@@ -103,7 +103,7 @@ export const Report: FC = () => {
                         </Grid>
                     </Grid>
 
-                    <Grid item xs={12} lg={7}>
+                    <Grid item xs={12} sm={12} lg={7}>
                         <RankingCard
                             title='MAIOR PRESENÇA'
                             rankingPodium={podiumData}
@@ -111,7 +111,6 @@ export const Report: FC = () => {
                             graphTitle='GRÁFICO'
                         />
                     </Grid>
-
                 </Grid>
             </PageLayout>
         </Box>

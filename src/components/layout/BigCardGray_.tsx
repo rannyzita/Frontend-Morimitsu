@@ -48,7 +48,6 @@ export const PageLayout: FC<PageLayoutProps> = ({
             <header className='flex flex-col gap-4 px-6 pt-6 lg:px-8 lg:pt-8'>
                 <div className='relative flex justify-center items-center h-12'>
 
-                    {/* ✅ Botão voltar alinhado igual ao layout antigo */}
                     <button 
                         onClick={handleGoBack}
                         className='absolute left-0 
@@ -67,7 +66,6 @@ export const PageLayout: FC<PageLayoutProps> = ({
                                         ${info ? 'cursor-pointer' : 'cursor-default'}`}
                             onClick={info ? onClick : undefined}
                         >
-                            {/* Ícone exatamente igual nos dois layouts */}
                             <span className='w-6 h-6 md:w-12 md:h-12 flex items-center justify-center'>
                                 {icon}
                             </span>

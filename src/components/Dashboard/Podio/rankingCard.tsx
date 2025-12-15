@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { Box, Typography, Card, Divider } from '@mui/material';
 import { Trophy } from 'lucide-react'; 
-import { RankingBarChart } from '../Grafico/RankingBar';
+import { RankingBarChart } from '../Grafico/RankingBar'; 
 
 export interface RankedStudent {
     id: string | number;
@@ -40,22 +40,28 @@ export const RankingCard: FC<RankingCardProps> = ({
     <Card 
         className='!bg-[#690808] text-white p-6 !rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
         sx={{
+            minHeight: { xs: 'auto', sm: '560px' }, 
             height: { xs: 'auto', lg: '560px' }, 
         }}
     >
-        {/* TÍTULO PRINCIPAL (Prop) */}
-        <Typography variant='h4' className='!font-bold !text-[30px] tracking-wide text-center'>
+        <Typography variant='h4' className='!font-bold !text-[20px] md:text-[30px] tracking-wide text-center'>
             {title}
         </Typography>
 
-        <Divider className='!border-[#3E0404] !border-[2px] !my-3' />
+        <Divider className='!border-[#3E0404] !border-[2px] !my-1' />
         
-        <Box className='flex flex-col lg:flex-row gap-6 mt-4 h-113'>
-            <Box className='lg:w-1/2 flex flex-col items-center gap-4 bg-[#500000] border-3 border-[#3E0404] !rounded-[5px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
+        <Box 
+            className='flex flex-col sm:flex-row gap-6 mt-4 h-full' 
+            sx={{ height: 'calc(100% - 70px)' }} 
+        >
+            
+            <Box 
+                className='w-full sm:w-1/2 flex flex-col items-center gap-4 bg-[#500000] border-3 border-[#3E0404] !rounded-[5px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
+            >
                 <Typography variant='h6' className='!font-semibold text-white pt-4'>RANKING</Typography>
                 <Trophy size={64} className='text-white' strokeWidth={1.5} />
                 
-                {/* PÓDIO (Props) */}
+                {/* PÓDIO */}
                 <div className='w-full flex justify-center mt-6'>
                     <div className='flex items-end text-white font-bold select-none'>
 
@@ -86,7 +92,7 @@ export const RankingCard: FC<RankingCardProps> = ({
 
                     <Typography className='!font-bold text-center'>ALUNOS</Typography>
 
-                    {/* LISTA DE ALUNOS (Props - Usando map) */}
+                    {/* LISTA DE ALUNOS */}
                     {rankedStudents.map((student) => (
                         <div 
                             key={student.id} 
@@ -102,9 +108,11 @@ export const RankingCard: FC<RankingCardProps> = ({
                 </Box>
             </Box>
 
-            {/* GRÁFICO (Lado Direito) */}
-            <Box className='lg:w-1/2 flex flex-col items-center mt-6 lg:mt-0 bg-[#500000] border-3 border-[#3E0404] !rounded-[5px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'>
-                <RankingBarChart data={chartData} chartTitle='GRÁFICO' />
+            <Box 
+                className='w-full sm:w-1/2 flex flex-col items-center mt-6 sm:mt-0 bg-[#500000] border-3 border-[#3E0404] !rounded-[5px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
+                sx={{ height: { xs: '350px', sm: '100%' } }} 
+            >
+                <RankingBarChart data={chartData} chartTitle={graphTitle} />
             </Box>
         </Box>
     </Card>
