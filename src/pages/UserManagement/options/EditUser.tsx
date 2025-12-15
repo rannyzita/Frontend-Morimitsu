@@ -1,9 +1,12 @@
-import { useState, type FC } from 'react';
+import { useState, type FC, type ReactNode } from 'react';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCardGray_';
 import { FeedbackToast } from '../../../components/Feedback/Feedback';
 import { FormField } from '../../../components/formField/formField';
 import { UserPen, CircleAlert } from 'lucide-react';
+
+// IMPORTAÇÃO DO NOVO COMPONENTE
+import { DateFormField } from '../components/DateFormField'; // AJUSTE O CAMINHO CONFORME O SEU PROJETO
 
 interface GenderRadioProps {
     label: string;
@@ -37,7 +40,10 @@ const GenderRadio: FC<GenderRadioProps> = ({ label, value, isChecked, onChange }
 
 export const EditUsuario: FC = () => {
     const [nomeCompleto, setNomeCompleto] = useState('');
-    const [dataNascimento, setDataNascimento] = useState('');
+    
+    // 1. MUDANÇA: O estado da data agora deve ser Date | null
+    const [dataNascimento, setDataNascimento] = useState<Date | null>(null); 
+    
     const [cargo, setCargo] = useState('');
     const [endereco, setEndereco] = useState('');
     const [telefone, setTelefone] = useState('');
@@ -96,7 +102,14 @@ export const EditUsuario: FC = () => {
 
                         <FormField label={<RequiredLabel label='Nome completo:' />} value={nomeCompleto} onChange={setNomeCompleto} />
                         <FormField label={<StandardLabel label='Nome Social:' />} value={campoSocial} onChange={setCampoSocial} />
-                        <FormField label={<RequiredLabel label='Data de nascimento:' />} type='date' value={dataNascimento} onChange={setDataNascimento} />
+                        
+                        {/* 2. SUBSTITUIÇÃO: Usa DateFormField no lugar do FormField antigo */}
+                        <DateFormField 
+                            labelComponent={<RequiredLabel label='Data de nascimento:' />} 
+                            value={dataNascimento} 
+                            onChange={setDataNascimento} 
+                        />
+                        
                         <FormField label={<RequiredLabel label='Cargo:' />} value={cargo} onChange={setCargo} isSelect />
                         <FormField label={<StandardLabel label='Endereço:' />} value={endereco} onChange={setEndereco} />
 

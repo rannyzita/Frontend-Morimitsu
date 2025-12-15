@@ -5,6 +5,8 @@ import { FeedbackToast } from '../../../components/Feedback/Feedback';
 import { FormField } from '../../../components/formField/formField';
 import { UserPlus, CircleAlert } from 'lucide-react';
 
+// 1. IMPORTAÇÃO DO NOVO COMPONENTE
+import { DateFormField } from '../components/DateFormField'; 
 interface GenderRadioProps {
     label: string;
     value: string;
@@ -38,7 +40,8 @@ const GenderRadio: FC<GenderRadioProps> = ({ label, value, isChecked, onChange }
 
 export const CreateUsuario: FC = () => {
     const [nomeCompleto, setNomeCompleto] = useState('');
-    const [dataNascimento, setDataNascimento] = useState('');
+    // 2. MUDANÇA DE ESTADO: Agora armazena Date | null
+    const [dataNascimento, setDataNascimento] = useState<Date | null>(null); 
     const [cargo, setCargo] = useState('');
     const [endereco, setEndereco] = useState('');
     const [telefone, setTelefone] = useState('');
@@ -59,6 +62,10 @@ export const CreateUsuario: FC = () => {
     }>({ visible: false, message: '', type: 'success' });
 
     const handleCreateClick = () => {
+        // Exemplo de como você acessaria a data antes de enviar:
+        // const dataParaEnvio = dataNascimento ? dataNascimento.toLocaleDateString('pt-BR') : '';
+        // console.log("Data de Nascimento Formatada:", dataParaEnvio);
+
         setFeedback({
             visible: true,
             message: 'Usuário criado com sucesso!',
@@ -101,7 +108,14 @@ export const CreateUsuario: FC = () => {
                         {/* Campos obrigatórios */}
                         <FormField label={<RequiredLabel label='Nome completo:' />} value={nomeCompleto} onChange={setNomeCompleto} />
                         <FormField label={<StandardLabel label='Nome Social:' />} value={campoSocial} onChange={setCampoSocial} />
-                        <FormField label={<RequiredLabel label='Data de nascimento:' />} type='date' value={dataNascimento} onChange={setDataNascimento} />
+                        
+                        {/* 3. SUBSTITUIÇÃO: Usa DateFormField */}
+                        <DateFormField 
+                            labelComponent={<RequiredLabel label='Data de nascimento:' />} 
+                            value={dataNascimento} 
+                            onChange={setDataNascimento} 
+                        />
+
                         <FormField label={<RequiredLabel label='Cargo:' />} value={cargo} onChange={setCargo} isSelect={true} />
                         <FormField label={<RequiredLabel label='Endereço:' />} value={endereco} onChange={setEndereco} />
 
