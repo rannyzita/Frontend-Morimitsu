@@ -1,11 +1,14 @@
 import { X, User, SquarePen, Info } from 'lucide-react'
-import { type FC, useState } from 'react'
+import { type FC, useState, useEffect } from 'react'
 
 import IconTeacher from './assets/Professor.svg';
 import { InputField } from './components/input';
 import { ActionButton } from './components/actionButton';
 import { PromoveStudent } from '../PromoveStudent/PromoveStudent';
 import { FeedbackToast } from '../Feedback/Feedback';
+
+import { fetchObterUsuarioDetalhado } from '../../services/modals/User/User';
+import type { UsuarioDetalhado } from '../../services/modals/User/types/types';
 
 interface StudentModalProps {
     isOpen: boolean
@@ -30,6 +33,49 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
         console.log('Promovendo com:', user, pass);
     };
 
+    const [usuarioDetalhado, setUsuarioDetalhado] = useState<UsuarioDetalhado | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    const genero = usuarioDetalhado?.genero;
+
+    const isFeminino = genero === 'F';
+    const isMasculino = genero === 'M';
+    const isOutro = !isFeminino && !isMasculino;
+
+    useEffect(() => {
+        if (!isOpen || !student?.id) return;
+
+        const token = localStorage.getItem('token') ?? undefined;
+
+        async function loadUsuario() {
+            try {
+                setLoading(true);
+                if (!student) return;
+                const response = await fetchObterUsuarioDetalhado(student.id, token);
+                setUsuarioDetalhado(response.usuario);
+            } catch (error) {
+                console.error('Erro ao buscar usuário detalhado:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadUsuario();
+    }, [isOpen, student]);
+    
+    const turmas = usuarioDetalhado?.turma_matriculas
+    ?.map(t => t.turma.nome_turma)
+    .join(', ');
+
+    const telefoneResponsavel = usuarioDetalhado?.responsaveis
+    ?.map(r => r.telefone)
+    .filter(Boolean)
+    .join(', ');
+
+    const dataNascimentoFormatada = usuarioDetalhado?.dataNascimento
+    ? new Date(usuarioDetalhado.dataNascimento).toLocaleDateString('pt-BR')
+    : '—';
+
     return (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
 
@@ -53,7 +99,7 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                 {/* Cabeçalho */}
                 <div className='relative flex justify-center items-center mb-0 md:mb-2'>
                     <h2 className='text-[#690808] font-extrabold text-[18px] md:text-3xl lg:text-4xl uppercase'>
-                        DADOS DO {student.role}
+                        DADOS DO {usuarioDetalhado?.tipo}
                     </h2>
 
                     <button onClick={onClose} className='absolute right-0 cursor-pointer'>
@@ -92,17 +138,19 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                     {/* COLUNA 2: PERFIL (DESKTOP) */}
                     <div className='flex flex-col items-center text-center gap-2'>
                         <img
-                            src={student.avatar}
+                            src={usuarioDetalhado?.imagem_perfil_url ?? student.avatar}
                             className='w-[150px] h-[150px] rounded-full'
                         />
+
                         <h3 className='pt-2 text-lg text-black underline'>
-                            {student.nameSocial}
+                            {usuarioDetalhado?.nome_social ?? usuarioDetalhado?.nome ?? student.name}
                         </h3>
+
                         <p className='text-sm text-[#690808]'>
                             <span className='text-[#690808] font-extrabold'>
                                 Aulas Totais:
-                            </span>{' '}
-                                30/50
+                            </span>
+                            {''}{usuarioDetalhado?.aulas}
                         </p>
                     </div>
 
@@ -157,20 +205,20 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                     {/* PERFIL (Mobile Top) */}
                     <div className='flex flex-col items-center text-center order-1'>
                         <img
-                            // Foto menor para mobile
-                            src={student.avatar}
-                            className='w-[80px] h-[80px] rounded-full'  
+                            src={usuarioDetalhado?.imagem_perfil_url ?? student.avatar}
+                            className='w-[70px] h-[70px] rounded-full'
                         />
-                        {/* Texto menor para mobile */}
-                        <h3 className='pt-2 text-base text-black underline'>
-                            {student.nameSocial}    
+
+                        <h3 className='pt-2 text-lg text-black underline'>
+                            {usuarioDetalhado?.nome_social ?? usuarioDetalhado?.nome ?? student.name}
                         </h3>
+
                         {/* Texto menor para mobile */}
                         <p className='text-xs text-[#690808]'>
                             <span className='text-[#690808] font-extrabold'>
                                 Aulas Totais:
-                            </span>{' '}
-                                30/50
+                            </span>
+                            {''}{usuarioDetalhado?.aulas}
                         </p>
                     </div>
 
@@ -246,7 +294,7 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                 {/* Título das informações */}
                 <div className='border-b-5 border-[#690808] mb-2'>
                     <h4 className='text-center text-[#690808] font-extrabold mb-2 text-[12px] md:text-2xl uppercase'>
-                        INFORMAÇÕES DO {student.role}
+                        INFORMAÇÕES DO {usuarioDetalhado?.tipo}
                     </h4>   
                 </div>
 
@@ -255,57 +303,85 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
 
                     <InputField 
                         label='Nome completo:' 
-                        value={student.name} 
+                        value={usuarioDetalhado?.nome ?? '—'} 
                         hasInfoIcon
                     />
                     
                     {/* 2. CPF */}
                     <InputField 
                         label='CPF:' 
-                        value='XXX.XXX.XXX-XX' 
+                        value={usuarioDetalhado?.cpf ?? '—'}  
                         hasInfoIcon
                     />
                     
                     {/* 3. Data de nascimento */}
                     <InputField 
                         label='Data de nascimento:' 
-                        value='18/01/1980' 
+                        value={dataNascimentoFormatada} 
                     />
                     
                     {/* 4. Endereço */}
                     <InputField 
                         label='Endereço:' 
-                        value='Rua Obi Jucá Diniz, 153, Prado' 
+                        value={usuarioDetalhado?.endereco ?? '—'}
                     />
                     
                     {/* 5. Telefone */}
                     <InputField 
                         label='Telefone:' 
-                        value='(XX) XXXXX-XXXX' 
+                        value={usuarioDetalhado?.telefone ?? '—'}  
                     />
                     
                     {/* 6. Cargo */}
                     <InputField 
                         label='Cargo:' 
-                        value='Coordenador(a)' 
+                        value={usuarioDetalhado?.tipo ?? '—'} 
                         hasInfoIcon
                     />
 
                     {/* 7. Gênero (AJUSTE APLICADO: col-span-1 para md: e col-span-2 para mobile) */}
                     <div className='col-span-2 md:col-span-1'>
-                        <Info size={20} className='inline-block mr-2 mb-1 text-[#690808] w-4 h-4 md:w-6 md:h-6'strokeWidth={3}/>
-                        <label className='font-semibold text-[#690808] !text-[8px]md:text-sm'>Gênero:</label>
-                        <div className='flex gap-2 mt-2'>
+                        <Info
+                            size={20}
+                            className='inline-block mr-2 mb-1 text-[#690808] w-4 h-4 md:w-6 md:h-6'
+                            strokeWidth={3}
+                        />
+
+                        <label className='font-semibold text-[#690808] !text-[8px] md:!text-sm'>
+                            Gênero:
+                        </label>
+
+                        <div className='flex gap-4 mt-2'>
                             <label className='flex items-center gap-1'>
-                                <input type='radio' name='genero' disabled checked={true} readOnly/>
+                                <input
+                                    type='radio'
+                                    name='genero'
+                                    disabled
+                                    checked={isFeminino}
+                                    readOnly
+                                />
                                 Feminino
                             </label>
-                            <label className='flex items-center gap-1 opacity-50'>
-                                <input type='radio' name='genero' disabled/>
+
+                            <label className='flex items-center gap-1'>
+                                <input
+                                    type='radio'
+                                    name='genero'
+                                    disabled
+                                    checked={isMasculino}
+                                    readOnly
+                                />
                                 Masculino
                             </label>
-                            <label className='flex items-center gap-1 opacity-50'>
-                                <input type='radio' name='genero' disabled/>
+
+                            <label className='flex items-center gap-1'>
+                                <input
+                                    type='radio'
+                                    name='genero'
+                                    disabled
+                                    checked={isOutro}
+                                    readOnly
+                                />
                                 Outro
                             </label>
                         </div>
@@ -314,31 +390,31 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                     {/* 8. Faixa (Deve seguir imediatamente após o Gênero no desktop) */}
                     <InputField 
                         label='Faixa Atual:' 
-                        value='Roxa' 
+                        value={usuarioDetalhado?.faixa?.corFaixa ?? '—'} 
                     />
 
                     {/* 9. Grau */}
                     <InputField 
                         label='Grau atual:' 
-                        value='2º' 
+                        value={usuarioDetalhado?.grau ? `${usuarioDetalhado.grau}º` : '—'} 
                     />
 
                     {/* 10. Turma */}
                     <InputField 
                         label='Turma:' 
-                        value='Mista' 
+                        value={turmas || '—'} 
                     />
 
                     {/* 11. Matrícula */}
                     <InputField 
                         label='Matrícula:' 
-                        value='20231031020200' 
+                        value={usuarioDetalhado?.num_matricula ?? '—'} 
                     />
 
                     {/* 12. Telefone responsável */}
                     <InputField 
                         label='Telefone responsável:' 
-                        value='(XX) XXXXX-XXXX' 
+                        value={telefoneResponsavel || '—'} 
                     />
                 </div>
                     {isPromoteOpen && (

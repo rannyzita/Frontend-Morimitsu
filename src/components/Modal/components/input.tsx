@@ -21,7 +21,7 @@ export const InputField: FC<ReadOnlyInputFieldProps> = ({
                     <Info size={20} className='inline-block mr-2 text-[#690808] w-4 h-4 md:w-6 md:h-6'strokeWidth={3}/>
                 )}
                 
-                <label className='font-semibold text-[#690808] text-[12px] md:text-[18px] inline-block'>{label}</label>
+                <label className='font-semibold text-[#690808] text-[12px] md:text-sm inline-block'>{label}</label>
             </div>
             
             <input
