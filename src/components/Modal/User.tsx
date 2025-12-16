@@ -7,8 +7,9 @@ import { ActionButton } from './components/actionButton';
 import { PromoveStudent } from '../PromoveStudent/PromoveStudent';
 import { FeedbackToast } from '../Feedback/Feedback';
 
-import { fetchObterUsuarioDetalhado } from '../../services/modals/User/User';
-import type { UsuarioDetalhado } from '../../services/modals/User/types/types';
+import { fetchObterUsuarioDetalhado, fetchHistoricoGraduacao } from '../../services/modals/User/User';
+import type { UsuarioDetalhado } from '../../services/modals/User/types/typesUserDetails';
+import type { HistoricoGraduacao } from '../../services/modals/User/types/typesHistoricGraduation';
 
 interface StudentModalProps {
     isOpen: boolean
@@ -34,6 +35,8 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
     };
 
     const [usuarioDetalhado, setUsuarioDetalhado] = useState<UsuarioDetalhado | null>(null);
+    const [historico, setHistorico] = useState<HistoricoGraduacao[]>([]);
+
     const [loading, setLoading] = useState(false);
 
     const genero = usuarioDetalhado?.genero;
@@ -47,21 +50,28 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
 
         const token = localStorage.getItem('token') ?? undefined;
 
-        async function loadUsuario() {
+        async function loadData() {
             try {
                 setLoading(true);
+
                 if (!student) return;
-                const response = await fetchObterUsuarioDetalhado(student.id, token);
-                setUsuarioDetalhado(response.usuario);
+
+                const userResponse = await fetchObterUsuarioDetalhado(student.id, token);
+                setUsuarioDetalhado(userResponse.usuario);
+
+                const historicoResponse = await fetchHistoricoGraduacao(student.id, token);
+                setHistorico(historicoResponse);
+
             } catch (error) {
-                console.error('Erro ao buscar usuário detalhado:', error);
+                console.error('Erro ao carregar dados:', error);
             } finally {
                 setLoading(false);
             }
         }
 
-        loadUsuario();
+        loadData();
     }, [isOpen, student]);
+
     
     const turmas = usuarioDetalhado?.turma_matriculas
     ?.map(t => t.turma.nome_turma)
@@ -176,22 +186,21 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                                     [&::-webkit-scrollbar-thumb]:bg-gray-700 
                                     [&::-webkit-scrollbar-thumb]:rounded-full'
                         >
-                            <p className='text-orange-600'>01/01/2026: Faixa Roxa → Faixa Marrom</p>
-                            <p className='text-purple-700'>01/07/2025: Faixa Roxa → 4º Grau</p>
-                            <p className='text-purple-700'>01/01/2025: Faixa Roxa → 3º Grau</p>
-                            <p className='text-black'>01/07/2024: Faixa Azul → Roxa</p>
-                            <p className='text-black'>01/01/2024: Faixa Verde → Azul</p>
-                            <p className='text-black'>01/07/2023: Faixa Branca → Verde</p> 
-                            <p className='text-black'>01/01/2023: Faixa Branca → 1º Grau</p> 
-                            <p className='text-black'>01/07/2022: Novo Aluno</p> 
-                            <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                            <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                            <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                            <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                            <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                            <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                            <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                            <p className='text-black'>01/01/2022: Primeiro Treino</p> 
+                            {loading ? (
+                                <p className='text-center text-gray-800'>
+                                    Carregando histórico de avaliação...
+                                </p>
+                            ) : historico.length === 0 ? (
+                                <p className='text-center text-gray-800'>
+                                    Sem histórico de avaliações
+                                </p>
+                            ) : (
+                                historico.map((item, index) => (
+                                    <p key={index}>
+                                        {item.data}: {item.descricao}
+                                    </p>
+                                ))
+                            )}
                         </div>
                     </div>
                 </div>
@@ -269,22 +278,17 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
                                         [&::-webkit-scrollbar-thumb]:bg-gray-700 
                                         [&::-webkit-scrollbar-thumb]:rounded-full'
                             >
-                                <p className='text-orange-600'>01/01/2026: Faixa Roxa → Faixa Marrom</p>
-                                <p className='text-purple-700'>01/07/2025: Faixa Roxa → 4º Grau</p>
-                                <p className='text-purple-700'>01/01/2025: Faixa Roxa → 3º Grau</p>
-                                <p className='text-black'>01/07/2024: Faixa Azul → Roxa</p>
-                                <p className='text-black'>01/01/2024: Faixa Verde → Azul</p>
-                                <p className='text-black'>01/07/2023: Faixa Branca → Verde</p> 
-                                <p className='text-black'>01/01/2023: Faixa Branca → 1º Grau</p> 
-                                <p className='text-black'>01/07/2022: Novo Aluno</p> 
-                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
-                                <p className='text-black'>01/01/2022: Primeiro Treino</p> 
+                                {historico.length === 0 ? (
+                                    <p className='text-center text-gray-600'>
+                                        Sem histórico de graduações...
+                                    </p>
+                                ) : (
+                                    historico.map((item, index) => (
+                                        <p key={index}>
+                                            {item.data}: {item.descricao}
+                                        </p>
+                                    ))
+                                )}
                             </div>
                         </div>
                     </div>

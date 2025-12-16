@@ -9,32 +9,19 @@ import { SearchInput } from '../../components/SearchInput/SearchInput';
 import { StudentListItem } from './components/StudentList';
 import { EvaluationModal } from '../../components/Modal/Evaluation';
 
-import studentAvatar1 from '../../pages/UserManagement/options/assetsTest/IconBaby.png';
-import studentAvatar2 from '../../pages/UserManagement/options/assetsTest/TurmaInfantil.png';
-import studentAvatar3 from '../../pages/UserManagement/options/assetsTest/iconMista.png';
-import studentAvatar4 from '../../pages/UserManagement/options/assetsTest/IconBaby.png';
-
-const initialAlunos = [
-    { id: 1, name: 'Antônio Henrique Pereira da Silva', nameSocial:'Antônio', avatar: studentAvatar1, classname:'Mista', isPromoted: false, age: 10, isCloseToGraduation:true },
-    { id: 2, name: 'Anna Cristina Laurencio de Oliveira', nameSocial:'Anna', avatar: studentAvatar2, classname:'Mista', isPromoted: false, age: 10 },
-    { id: 3, name: 'Juliana Souza da Paz', nameSocial:'Juliana', avatar: studentAvatar3,classname:'Mista', isPromoted: false, age: 10 },
-    { id: 4, name: 'Enzo Alves da Costa', avatar: studentAvatar4, nameSocial:'Enzo', classname:'Mista', isPromoted: false, age: 10 },
-    { id: 5, name: 'Beatriz Martins', avatar: studentAvatar1, nameSocial:'Beatriz',classname:'Mista', isPromoted: false, age: 10 },
-    { id: 6, name: 'Carlos Eduardo Lima', nameSocial:'Carlos', avatar: studentAvatar2, classname:'Mista', isPromoted: false, age: 10 },
-    { id: 7, name: 'Daniela Ferreira', nameSocial:'Daniela', avatar: studentAvatar3, classname:'Mista', isPromoted: false, age: 10 },
-    { id: 8, name: 'Gabriel Ribeiro', nameSocial:'Gabriel', avatar: studentAvatar4, classname:'Mista', isPromoted: false, age: 10 },
-    { id: 9, name: 'Helena Santos', nameSocial:'Helena', avatar: studentAvatar1, classname:'Mista', isPromoted: false, age: 10 },
-    { id: 10, name: 'Isabela Rocha', nameSocial:'Isabela', avatar: studentAvatar2, classname:'Mista', isPromoted: false, age: 10 },
-    { id: 11, name: 'João Victor Almeida', nameSocial:'João', avatar: studentAvatar3, classname:'Mista', isPromoted: false, age: 10 },
-];
+import type { AlunoAptoGraduacao } from '../../services/graduation/types/types';
+import { fetchAptosGraduacaoTela } from '../../services/graduation/graduation';
+import { useAuth } from '../../contexts/AuthContext';
 
 export const Graduation: FC = () => {
+    const { token } = useAuth();
     const { id } = useParams<{ id: string }>();
     const [searchQuery, setSearchQuery] = useState('');
-    const [alunos, setAlunos] = useState(initialAlunos);
+    const [alunos, setAlunos] = useState<AlunoAptoGraduacao[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [studentsPerPage, setStudentsPerPage] = useState(6); // Valor inicial
+    const [studentsPerPage, setStudentsPerPage] = useState(5); 
     
     const [isEvaluationOpen, setIsEvaluationOpen] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState<any | null>(null);
@@ -42,10 +29,26 @@ export const Graduation: FC = () => {
     const HEIGHT_BREAKPOINT = 805;
 
     useEffect(() => {
+        async function loadAlunos() {
+            try {
+            setLoading(true);
+            const data = await fetchAptosGraduacaoTela(token as string);
+            setAlunos(data);
+            } catch (error) {
+            console.error('Erro ao buscar alunos aptos:', error);
+            } finally {
+            setLoading(false);
+            }
+        }
+
+    if (token) loadAlunos();
+    }, [token]);
+
+    useEffect(() => {
         const updateStudentsPerPage = () => {
             const screenHeight = window.innerHeight;
             
-            const newStudentsPerPage = screenHeight >= HEIGHT_BREAKPOINT ? 6 : 5;
+            const newStudentsPerPage = screenHeight >= HEIGHT_BREAKPOINT ? 5 : 6;
             
             setStudentsPerPage(newStudentsPerPage);
             
@@ -61,7 +64,7 @@ export const Graduation: FC = () => {
     useEffect(() => {
         if (studentsPerPage > 0) {
             const filteredAlunos = alunos.filter(aluno =>
-                aluno.name.toLowerCase().includes(searchQuery.toLowerCase())
+                aluno.nome.toLowerCase().includes(searchQuery.toLowerCase())
             );
             const maxPages = Math.ceil(filteredAlunos.length / studentsPerPage);
             if (currentPage > maxPages) {
@@ -71,12 +74,13 @@ export const Graduation: FC = () => {
     }, [studentsPerPage, alunos.length, searchQuery]);
 
 
-    const handleTogglePromoted = (studentId: number, isChecked: boolean) => {
-        const updatedAlunos = alunos.map(aluno => ({
+    const handleTogglePromoted = (studentId: string, isChecked: boolean) => {
+        setAlunos((prev) =>
+            prev.map((aluno) => ({
             ...aluno,
-            isPromoted: aluno.id === studentId ? isChecked : false
-        }));
-        setAlunos(updatedAlunos);
+            isPromoted: aluno.alunoId === studentId ? isChecked : false
+            }))
+        );
     };
 
     const handleOpenEvaluation = (aluno: any) => {
@@ -91,7 +95,7 @@ export const Graduation: FC = () => {
     };
 
     const filteredAlunos = alunos.filter(aluno =>
-        aluno.name.toLowerCase().includes(searchQuery.toLowerCase())
+        aluno.nome.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const totalPages = Math.ceil(filteredAlunos.length / studentsPerPage);
@@ -122,18 +126,31 @@ export const Graduation: FC = () => {
                     <div
                         className={`flex-1 flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-4 mb-20 md:min-h-[450px] lg:min-h-[400px]`}
                     >
-                        {currentAlunos.map((aluno) => (
-                            <StudentListItem
-                                key={aluno.id}
-                                studentId={aluno.id}
-                                name={aluno.name}
-                                avatar={aluno.avatar}
-                                classname={aluno.classname}
-                                isPromoted={aluno.isPromoted}
-                                onTogglePromoted={handleTogglePromoted}
-                                onOpenModal={() => handleOpenEvaluation(aluno)}
-                            />
-                        ))}
+                        {loading ? (
+                            <p className='text-white font-bold mt-50'>Carregando alunos...</p>
+                            ) : (
+                            currentAlunos.map((aluno) => (
+                                <StudentListItem
+                                    key={aluno.alunoId}
+                                    studentId={aluno.alunoId}
+                                    name={aluno.nome}
+                                    avatar={`${import.meta.env.VITE_API_URL}${aluno.imagemPerfil}`}
+                                    classname={aluno.turma}
+                                    currentBeltImage={`${import.meta.env.VITE_API_URL}${aluno.faixaAtual.imagem}`} 
+                                    isPromoted={false}
+                                    onTogglePromoted={(id, checked) =>
+                                        handleTogglePromoted(id, checked)
+                                    }
+                                    onOpenModal={() =>
+                                        handleOpenEvaluation({
+                                            id: aluno.alunoId,
+                                            name: aluno.nome,
+                                            avatar: `${import.meta.env.VITE_API_URL}${aluno.imagemPerfil}`,
+                                            classname: aluno.turma,
+                                        })
+                                    }
+                                />
+                            )))}
                     </div>
 
                     {/* Pagination fixa */}
