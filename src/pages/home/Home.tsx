@@ -6,6 +6,8 @@ import { Box, Typography } from '@mui/material';
 import { BirthdayCarousel } from '../../components/ScrollBirthday/scrollBirthday';
 import { useAuth } from '../../contexts/AuthContext';
 
+import { useAptosGraduacao } from '../../hooks/UseHomeAptosGraduacao';
+
 import { fetchAniversariantesMesAtual } from '../../services/home/home';
 import type { Aniversariante } from '../../services/home/types/types';
 
@@ -21,33 +23,33 @@ import {
     ClipboardList
 } from 'lucide-react';
 
-const graduationStudents = [
-    { 
-        name: 'Cleberson - Turma Mista', 
-        status: 'Está próximo de se graduar!', 
-        progressLabel: 'Grau: 1/4', 
-    },
-    { 
-        name: 'Maria Vitória - Turma Mista', 
-        status: 'Está promovido(a) de se graduar!', 
-        progressLabel: 'Aulas: 20/20', 
-    },
-    { 
-        name: 'Rodrigo Faro - Turma Adulto', 
-        status: 'Está próximo de se graduar!', 
-        progressLabel: 'Próxima Faixa: Azul', 
-    },
-    { 
-        name: 'Ana Julia - Turma Kids', 
-        status: 'Está próximo de se graduar!', 
-        progressLabel: 'Grau: 3/4', 
-    },
-    { 
-        name: 'Lucas Mendes - Turma Adulto', 
-        status: 'Está próximo de se graduar!', 
-        progressLabel: 'Próxima Faixa: Roxa', 
-    },
-];
+// const graduationStudents = [
+//     { 
+//         name: 'Cleberson - Turma Mista', 
+//         status: 'Está próximo de se graduar!', 
+//         progressLabel: 'Grau: 1/4', 
+//     },
+//     { 
+//         name: 'Maria Vitória - Turma Mista', 
+//         status: 'Está promovido(a) de se graduar!', 
+//         progressLabel: 'Aulas: 20/20', 
+//     },
+//     { 
+//         name: 'Rodrigo Faro - Turma Adulto', 
+//         status: 'Está próximo de se graduar!', 
+//         progressLabel: 'Próxima Faixa: Azul', 
+//     },
+//     { 
+//         name: 'Ana Julia - Turma Kids', 
+//         status: 'Está próximo de se graduar!', 
+//         progressLabel: 'Grau: 3/4', 
+//     },
+//     { 
+//         name: 'Lucas Mendes - Turma Adulto', 
+//         status: 'Está próximo de se graduar!', 
+//         progressLabel: 'Próxima Faixa: Roxa', 
+//     },
+// ];
 
 interface BigButtonProps {
     icon: ReactNode;
@@ -71,13 +73,29 @@ const BigButton: FC<BigButtonProps> = ({ icon, label }) => (
 );
 
 export const Home: FC = () => {
-
     const { user, token } = useAuth();
 
     if (!user) return null;
 
-    const [birthdays, setBirthdays] = useState<Aniversariante[]>([]);
+    const { aptos } = useAptosGraduacao(token as any);
 
+    const graduationStudents = aptos.map((aluno) => {
+        const isPronto = aluno.status === 'PRONTO';
+
+        return {
+            name: `${aluno.nome} - ${aluno.turma}`,
+
+            status: isPronto
+                ? 'Pronto(a) para graduação'
+                : 'Próximo da graduação',
+
+            progressLabel: isPronto
+                ? `Próxima faixa: ${aluno.proximaFaixa?.cor ?? '—'}`
+                : `Aulas: ${aluno.aulasPresente}/${aluno.minimoAulas}`,
+        };
+    });
+
+    const [birthdays, setBirthdays] = useState<Aniversariante[]>([]);
     const [currentPage, setCurrentPage] = useState(0); 
     const STUDENTS_PER_PAGE = 3; 
 
@@ -225,7 +243,7 @@ export const Home: FC = () => {
 
             {/* SEÇÃO 2: Aniversariantes do Mês */}
             <BirthdayCarousel 
-                title='ANIVERSARIANTES DO MÊS'
+                title='ANIVERSARIANTES DO MÊS:'
                 icon={true}
                 members={birthdays}
                 onMemberClick={(member) => {

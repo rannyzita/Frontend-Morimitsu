@@ -65,9 +65,8 @@ const BirthdayCard: FC<BirthdayCardProps> = ({
                     e.currentTarget.src = '/IconProfile.png';
                 }}
                 className='
-                    w-16 h-16 md:w-14 md:h-14 lg:w-20 lg:h-20
+                    w-18 h-18 md:w-14 md:h-14 lg:w-30 lg:h-30
                     rounded-full object-cover
-                    border-2 border-white/70
                 '
             />
 

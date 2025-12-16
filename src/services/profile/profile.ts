@@ -1,5 +1,5 @@
 import api from '../../../API/api'; 
-import type { UserProfileResponse, UserProfileUpdate } from './types/types';
+import type { UserProfileResponse, UserProfileUpdate, UsuarioPerfil } from './types/types';
 
 // 3. Função PATCH: Atualizar Perfil
 /**
@@ -11,5 +11,27 @@ import type { UserProfileResponse, UserProfileUpdate } from './types/types';
 export async function updateUserProfile(id: string, data: Partial<UserProfileUpdate>, token?: string): Promise<UserProfileResponse> {
     const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
     const response = await api.patch<UserProfileResponse>(`/usuarios/perfil/${id}`, data, config);
+    return response.data;
+}
+
+export async function updateUsuarioPerfil(
+    id: string,
+    data: Partial<UsuarioPerfil>,
+    token?: string
+) {
+    const config = token
+        ? { headers: { Authorization: `Bearer ${token}` } }
+        : {};
+
+    const response = await api.patch(`/usuarios/perfil/${id}`, data, config);
+    return response.data;
+}
+
+export async function readProfile(id: string, token?: string) {
+    const config = token
+        ? { headers: { Authorization: `Bearer ${token}` } }
+        : {};
+
+    const response = await api.get(`/usuarios/${id}`, config);
     return response.data;
 }
