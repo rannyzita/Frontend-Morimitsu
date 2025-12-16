@@ -5,6 +5,7 @@ import type { FC, ReactNode } from 'react';
 import { Box, Typography } from '@mui/material';
 import { BirthdayCarousel } from '../../components/ScrollBirthday/scrollBirthday';
 import { useAuth } from '../../contexts/AuthContext';
+import { UserModal } from '../../components/Modal/User';
 
 import { useAptosGraduacao } from '../../hooks/UseHomeAptosGraduacao';
 
@@ -65,6 +66,9 @@ export const Home: FC = () => {
     const [loadingBirthdays, setLoadingBirthdays] = useState(true);
     const [errorBirthdays, setErrorBirthdays] = useState(false);
 
+    const [selectedBirthday, setSelectedBirthday] = useState<Aniversariante | null>(null);
+    const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+
     const [currentPage, setCurrentPage] = useState(0); 
     const STUDENTS_PER_PAGE = 3; 
 
@@ -87,6 +91,16 @@ export const Home: FC = () => {
         }
     };
 
+    const handleOpenUserModal = (member: Aniversariante) => {
+        setSelectedBirthday(member);
+        setIsUserModalOpen(true);
+    };
+
+    const handleCloseUserModal = () => {
+        setIsUserModalOpen(false);
+        setSelectedBirthday(null);
+    };
+
     useEffect(() => {
         if (!token) return;
 
@@ -106,7 +120,6 @@ export const Home: FC = () => {
         loadBirthdays();
     }, [token]);
 
-    
     return (
         <Box component='div' className='max-w-7xl mx-auto lg:max-w-full lg:mx-0 flex flex-col gap-10 py-6 px-8 lg:py-26 lg:px-30'> 
 
@@ -250,9 +263,25 @@ export const Home: FC = () => {
                     title='ANIVERSARIANTES DO MÊS:'
                     icon
                     members={birthdays}
-                    onMemberClick={(member) => console.log(member)}
+                    onMemberClick={handleOpenUserModal}
                 />
             )}
+
+            <UserModal
+                isOpen={isUserModalOpen}
+                onClose={handleCloseUserModal}
+                student={
+                    selectedBirthday
+                    ? {
+                        id: selectedBirthday.id, 
+                        name: selectedBirthday.nome,
+                        nameSocial: selectedBirthday.nome_social ?? selectedBirthday.nome,
+                        avatar: selectedBirthday.imagem_perfil_url ?? '',
+                        role: 'ALUNO',
+                        }
+                    : null
+                }
+                />
         </Box>
     );
 }

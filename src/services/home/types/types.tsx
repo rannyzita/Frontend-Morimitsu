@@ -1,6 +1,9 @@
 // -------------------------------------------------
 // Types de Aniversariante do mes atual
 export interface Aniversariante {
+    id: string;
+    nome_social: string | null;
+    imagem_perfil_url: string | null;
     nome: string;
     aniversario: string;
     turma: string;

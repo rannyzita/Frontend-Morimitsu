@@ -7,18 +7,20 @@ import type { Aniversariante } from '../../services/home/types/types';
 
 export type BirthdayMember = Aniversariante;
 
-interface BirthdayCardProps extends BirthdayMember {
+interface BirthdayCardProps {
+    member: BirthdayMember;
     onCardClick: (member: BirthdayMember) => void;
 }
 
-const BirthdayCard: FC<BirthdayCardProps> = ({
-    nome,
-    aniversario,
-    turma,
-    fotoPerfil,
-    isToday,
-    onCardClick
-}) => {
+const BirthdayCard: FC<BirthdayCardProps> = ({ member, onCardClick }) => {
+    const {
+        nome,
+        aniversario,
+        turma,
+        fotoPerfil,
+        isToday
+    } = member;
+
     const imageUrl = fotoPerfil
         ? fotoPerfil.startsWith('http')
             ? fotoPerfil
@@ -27,15 +29,7 @@ const BirthdayCard: FC<BirthdayCardProps> = ({
 
     return (
         <div
-            onClick={() =>
-                onCardClick({
-                    nome,
-                    aniversario,
-                    turma,
-                    fotoPerfil,
-                    isToday
-                })
-            }
+            onClick={() => onCardClick(member)}
             className={`
                 rounded-lg p-2 flex flex-col items-center gap-2
                 min-w-[130px] md:min-w-[160px] lg:min-w-[180px]
@@ -67,6 +61,7 @@ const BirthdayCard: FC<BirthdayCardProps> = ({
                 className='
                     w-18 h-18 md:w-14 md:h-14 lg:w-30 lg:h-30
                     rounded-full object-cover
+
                 '
             />
 
@@ -171,8 +166,8 @@ export const BirthdayCarousel: FC<BirthdayCarouselProps> = ({
                 >
                     {members.map((member) => (
                         <BirthdayCard
-                            key={`${member.nome}-${member.aniversario}-${member.turma}`}
-                            {...member}
+                            key={member.id} 
+                            member={member}
                             onCardClick={onMemberClick}
                         />
                     ))}
