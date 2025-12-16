@@ -152,7 +152,6 @@ export const VerUsuarios: FC = () => {
                         className='w-full max-w-sm mx-auto lg:w-[650px] lg:max-w-none lg:mx-auto'
                     />
 
-                    {/* Lista de alunos */}
                     <div
                         className={`flex-1 ${mobileHeightClass} flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-8 mb-20 md:min-h-[450px] lg:min-h-[400px]`}
                     >
@@ -171,7 +170,6 @@ export const VerUsuarios: FC = () => {
                         ))}
                     </div>
 
-                    {/* Pagination fixa */}
                     <div className='absolute bottom-10 left-1/2 transform -translate-x-1/2 w-full max-w-[650px]'>
                         <Pagination
                             currentPage={currentPage}
