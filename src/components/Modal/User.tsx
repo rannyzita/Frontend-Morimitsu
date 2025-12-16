@@ -40,7 +40,7 @@ export const UserModal: FC<StudentModalProps> = ({ isOpen, onClose, student }) =
 
     const isFeminino = genero === 'F';
     const isMasculino = genero === 'M';
-    const isOutro = !isFeminino && !isMasculino;
+    const isOutro = genero === 'O';
 
     useEffect(() => {
         if (!isOpen || !student?.id) return;

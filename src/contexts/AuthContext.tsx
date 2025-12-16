@@ -1,12 +1,8 @@
-import React, { 
-    createContext, 
-    useContext, 
-    useState, 
-    useEffect, 
-    useCallback, 
-    useMemo 
-} from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import api from '../../API/api'; 
+
+import { jwtDecode, type JwtPayload } from 'jwt-decode'
+import { Navigate, Outlet } from 'react-router-dom';
 
 interface UserData {
     id: string;
@@ -28,6 +24,20 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+export const ProtectedRoute = () => {
+    const { isAuthenticated, isLoading } = useAuth();
+
+    if (isLoading) {
+        return <div>Carregando...</div>;
+    }
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
+    }
+
+    return <Outlet />;
+};
+
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {
@@ -35,6 +45,7 @@ export const useAuth = () => {
     }
     return context;
 };
+
 
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useState<UserData | null>(null);
@@ -75,20 +86,27 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
-        const storedUser = localStorage.getItem('user'); 
-        
+        const storedUser = localStorage.getItem('user');
+
         if (storedToken && storedUser) {
-            const userData: UserData = JSON.parse(storedUser); 
-            
-            setToken(storedToken);
-            setUser(userData);
-            
-            api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+            try {
+                const decoded = jwtDecode<JwtPayload>(storedToken);
+                const now = Date.now() / 1000;
+
+                if (decoded.exp && decoded.exp < now) {
+                    logout();
+                } else {
+                    setToken(storedToken);
+                    setUser(JSON.parse(storedUser));
+                    api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+                }
+            } catch {
+                logout();
+            }
         }
-        
+
         setIsLoading(false);
-        
-    }, []); 
+    }, []);
 
     const contextValue = useMemo(() => ({
         user,

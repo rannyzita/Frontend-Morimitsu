@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 import { MainLayout } from './components/layout/MainLayout'
 import { AuthProvider } from './contexts/AuthContext'
+import { ProtectedRoute } from './contexts/AuthContext'
 
 import { Login } from './pages/login/Login'
 import  RecuperarSenha from './pages/resetPassword/recuperarSenha'
@@ -53,44 +54,46 @@ export const AppRoutes = () => {
                     <Route path='/recuperar-senha' element={<RecuperarSenha/>} />
                     <Route path='*' element={<NotFound />} />
                     
-                    <Route element={<MainLayout />}>
-                        <Route path='/home' element={<Home />} />
+                    <Route element={<ProtectedRoute />}>
+                        <Route element={<MainLayout />}>
+                            <Route path='/home' element={<Home />} />
 
-                        {/* Rotas de turma */}
-                        <Route path='/gerenciamento-turmas' element={<GerenciamentoTurmas />} />
-                        <Route path='/gerenciamento-turmas/criar-turma' element={<CreateTurma />} />
-                        <Route path='/gerenciamento-turmas/deletar-turma' element={<DeleteTurma />} />
-                        <Route path='/gerenciamento-turmas/editar-turma' element={<EditTurma />} />
-                        <Route path='/gerenciamento-turmas/ver/:id' element={<VerDetalhesTurma />} /> 
-                        <Route path='/gerenciamento-turmas/ver-turmas' element={<VerTurmas />} />
-                        <Route path='/gerenciamento-turmas/enturmar-aluno' element={<ReadAddStudent />} />
-                        <Route path='/gerenciamento-turmas/desenturmar-aluno' element={<ReadUnassignStudent/>} />
-                        <Route path='/gerenciamento-turmas/enturmar-aluno/:id' element={<EnturmarAluno />} />
-                        <Route path='/gerenciamento-turmas/desenturmar-aluno/:id' element={<DesenturmarAluno/>} />
-                        <Route path='/gerenciamento-turmas/frequencia' element={<ReadClassFrequency/>} />
-                        <Route path='/gerenciamento-turmas/frequencia/:id' element={<Frequency/>} />
-                        <Route path='/gerenciamento-turmas/aulas-alunos' element={<AulasDosAlunos />} />
+                            {/* Rotas de turma */}
+                            <Route path='/gerenciamento-turmas' element={<GerenciamentoTurmas />} />
+                            <Route path='/gerenciamento-turmas/criar-turma' element={<CreateTurma />} />
+                            <Route path='/gerenciamento-turmas/deletar-turma' element={<DeleteTurma />} />
+                            <Route path='/gerenciamento-turmas/editar-turma' element={<EditTurma />} />
+                            <Route path='/gerenciamento-turmas/ver/:id' element={<VerDetalhesTurma />} /> 
+                            <Route path='/gerenciamento-turmas/ver-turmas' element={<VerTurmas />} />
+                            <Route path='/gerenciamento-turmas/enturmar-aluno' element={<ReadAddStudent />} />
+                            <Route path='/gerenciamento-turmas/desenturmar-aluno' element={<ReadUnassignStudent/>} />
+                            <Route path='/gerenciamento-turmas/enturmar-aluno/:id' element={<EnturmarAluno />} />
+                            <Route path='/gerenciamento-turmas/desenturmar-aluno/:id' element={<DesenturmarAluno/>} />
+                            <Route path='/gerenciamento-turmas/frequencia' element={<ReadClassFrequency/>} />
+                            <Route path='/gerenciamento-turmas/frequencia/:id' element={<Frequency/>} />
+                            <Route path='/gerenciamento-turmas/aulas-alunos' element={<AulasDosAlunos />} />
 
-                        {/* Rotas de Gerenciamento de Usuário */}
-                        <Route path='/gerenciamento-usuarios' element={<GerenciamentoUsuarios />} />
-                        <Route path='/gerenciamento-usuarios/ver-usuarios' element={<VerUsuarios />} />
-                        <Route path='/gerenciamento-usuarios/criar-usuario' element={<CreateUsuario />} />
-                        <Route path='/gerenciamento-usuarios/editar-usuario' element={<EditVerUsuarios />} />
-                        <Route path='/gerenciamento-usuarios/editar-usuario/:id' element={<EditUsuario />} />
-                        <Route path='/gerenciamento-usuarios/deletar-usuario' element={<DeletarUsuario />} />
-                        
+                            {/* Rotas de Gerenciamento de Usuário */}
+                            <Route path='/gerenciamento-usuarios' element={<GerenciamentoUsuarios />} />
+                            <Route path='/gerenciamento-usuarios/ver-usuarios' element={<VerUsuarios />} />
+                            <Route path='/gerenciamento-usuarios/criar-usuario' element={<CreateUsuario />} />
+                            <Route path='/gerenciamento-usuarios/editar-usuario' element={<EditVerUsuarios />} />
+                            <Route path='/gerenciamento-usuarios/editar-usuario/:id' element={<EditUsuario />} />
+                            <Route path='/gerenciamento-usuarios/deletar-usuario' element={<DeletarUsuario />} />
+                            
 
-                        {/* Rota de Usuário */}
-                        <Route path='/meu-perfil' element={<Profile />} />
+                            {/* Rota de Usuário */}
+                            <Route path='/meu-perfil' element={<Profile />} />
 
-                        {/* Rota de Relatorio */}
-                        <Route path='/relatorio' element={<Report />} />
+                            {/* Rota de Relatorio */}
+                            <Route path='/relatorio' element={<Report />} />
 
-                        {/* Rota de Aniversariantes */}
-                        <Route path='/aniversarios' element={<Birthday/>} />
+                            {/* Rota de Aniversariantes */}
+                            <Route path='/aniversarios' element={<Birthday/>} />
 
-                        {/* Rota de Graduacao */}
-                        <Route path='/graduacao' element={<Graduation/>} />
+                            {/* Rota de Graduacao */}
+                            <Route path='/graduacao' element={<Graduation/>} />
+                        </Route>
                     </Route>
                 </Routes>
             </BrowserRouter>  

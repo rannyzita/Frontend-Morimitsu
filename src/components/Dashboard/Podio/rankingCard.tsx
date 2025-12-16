@@ -39,7 +39,6 @@ export const RankingCard: FC<RankingCardProps> = ({
     onViewStudent
 }) => (
     
-
     <Card 
         className='!bg-[#690808] text-white p-6 !rounded-[10px] shadow-[0_5px_15px_rgba(0,0,0,0.4)]'
         sx={{
@@ -47,7 +46,7 @@ export const RankingCard: FC<RankingCardProps> = ({
             height: { xs: 'auto', lg: '560px' }, 
         }}
     >
-        <Typography variant='h4' className='!font-bold !text-[20px] md:text-[30px] tracking-wide text-center'>
+        <Typography variant='h4' className='!font-bold !text-[20px] md:!text-[30px] tracking-wide text-center md:!mb-3'>
             {title}
         </Typography>
 

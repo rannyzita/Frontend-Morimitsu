@@ -1,3 +1,4 @@
+// Types de Usuario Detalhado
 export interface UsuarioDetalhadoResponse {
     sucesso: boolean;
     usuario: UsuarioDetalhado;
@@ -71,3 +72,6 @@ export interface Faixa {
     ordem: number;
     imagem_faixa_url: string;
 }
+
+// ------------------------------------------------------------
+

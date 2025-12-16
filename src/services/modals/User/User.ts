@@ -7,3 +7,5 @@ export async function fetchObterUsuarioDetalhado(id: string, token?: string):Pro
 
     return response.data;
 }
+
+export async function fetchHistoricoGraduacao(id: string, token?: string)

@@ -147,6 +147,8 @@ export default function PasswordResetPage() {
                                 confirmPassword={confirmPassword}
                                 setConfirmPassword={setConfirmPassword}
                                 loading={loading}
+                                error={error}
+                                successMessage={successMessage}
                                 setStep={setStep as any}
                                 handleResetPassword={handleResetPassword}
                                 showPassword={showPassword}
