@@ -21,6 +21,7 @@ export function useLogin() {
             const userObject = {
                 id: user.id,
                 nome: user.nome || 'Usuário',
+                nome_social: user.nome_social || '',
                 email: user.email,
                 cpf: user.cpf || '',
                 tipo: user.tipo,

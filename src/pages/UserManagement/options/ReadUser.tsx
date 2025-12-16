@@ -44,6 +44,9 @@ const StudentListItem: FC<StudentListItemProps> = ({
     name,
     nameSocial,
     role,
+    studentId,
+    isPromoted,
+    onTogglePromoted,
     onOpenModal
 }) => {
     return (
@@ -71,13 +74,6 @@ const StudentListItem: FC<StudentListItemProps> = ({
                 <span className='hidden lg:flex text-white text-xs lg:text-sm pl-2 pr-6'>
                     Cargo: {role}
                 </span>
-
-                <div className='hidden relative lg:flex flex-col items-center justify-center bg-[#3E0404] py-1 px-1 rounded-[10px] w-28 h-10 cursor-pointer'
-                onClick={onOpenModal}>
-                    <span className='block text-white text-[10px] lg:text-[14px] leading-tight text-center'>
-                        Ver Mais
-                    </span>
-                </div>
             </div>
         </div>
     );

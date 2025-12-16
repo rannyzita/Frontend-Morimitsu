@@ -1,5 +1,6 @@
 import { Box, Button, TextField, CircularProgress, InputAdornment, IconButton } from '@mui/material';
 import { Eye, EyeOff } from 'lucide-react';
+import { AlertMessage } from '../../components/FeedbackPassword/Feedback'; 
 
 interface StepResetProps {
     newPassword: string;
@@ -7,12 +8,14 @@ interface StepResetProps {
     confirmPassword: string;
     setConfirmPassword: (value: string) => void;
     loading: boolean;
-    setStep: (value: string) => void;
+    setStep: (value: 'email' | 'code' | 'reset') => void;
     handleResetPassword: () => void;
     showPassword: boolean;
     togglePassword: () => void;
     showPasswordConfirmer: boolean;
     togglePasswordConfirmer: () => void;
+    error: string | null;
+    successMessage: string | null;
 }
 
 export function StepReset({
@@ -26,7 +29,9 @@ export function StepReset({
     showPassword,
     togglePassword,
     showPasswordConfirmer,
-    togglePasswordConfirmer
+    togglePasswordConfirmer,
+    error,
+    successMessage,
 }: StepResetProps) {
     return (
         <Box
@@ -48,6 +53,7 @@ export function StepReset({
                     • Pelo menos um número (0-9)
                 </p>
 
+                {/* CAMPO NOVA SENHA */}
                 <div>
                     <label htmlFor='password' className='text-[#9E9E9E] text-base text-[14px] md:text-lg mb-2 block'>Insira a nova senha:</label>
                     <TextField
@@ -103,6 +109,7 @@ export function StepReset({
                     />
                 </div>
 
+                {/* CAMPO CONFIRMAR SENHA */}
                 <div>
                     <label htmlFor='passwordConfirmer' className='text-[#9E9E9E] text-base  text-[14px] md:text-lg mb-2 block'>
                         Confirme a senha:
@@ -160,6 +167,18 @@ export function StepReset({
                         className='[&_input]:!text-white [&_.MuiOutlinedInput-root]:!rounded-2xl [&_.MuiOutlinedInput-notchedOutline]:!border-[1.95px] [&_.MuiOutlinedInput-notchedOutline]:!border-[#757575]'
                     />
                 </div>
+                
+                <div className='flex !justify-end min-h-[63px]'> 
+                    <div className='max-w-[500px] w-fit'> 
+                        {(error || successMessage) && ( 
+                            <AlertMessage 
+                                error={error} 
+                                successMessage={successMessage} 
+                            /> 
+                        )} 
+                    </div> 
+                </div>
+
             </div>
 
             <div className='flex items-center justify-between'>
@@ -174,7 +193,7 @@ export function StepReset({
                     type='submit'
                     variant='contained'
                     className='!px-12 !py-2 md:!py-3 !bg-[#690808] !text-white !rounded-[10px] hover:!bg-red-800 !normal-case relative flex justify-center items-center'
-                    disabled={loading || !newPassword || newPassword !== confirmPassword}
+                    disabled={loading}
                 >
                     <span className={loading ? 'invisible' : ''}>Confirmar</span>
 

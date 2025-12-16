@@ -10,22 +10,12 @@ export async function resendResetCode(email: string) {
   return response.data;
 }
 
-export async function verifyResetCode(codigoRecuperacao: number) {
-  const response = await api.post('/auth/verify-reset-code', { codigoRecuperacao });
+export async function verifyResetCode(code: string) {
+  const response = await api.post('/auth/verify-reset-code', { code });
   return response.data;
 }
 
-export async function resetPassword(
-  codigoRecuperacao: string,
-  newPassword: string,
-  confirmPassword: string,
-  token?: string
-) {
-  const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-  const response = await api.post(
-      '/auth/reset-password',
-    { codigoRecuperacao, newPassword, confirmPassword },
-    config
-  );
+export async function resetPassword(code: string, newPassword: string, confirmPassword: string,) {
+  const response = await api.post('/auth/reset-password', { code, newPassword, confirmPassword });
   return response.data;
 }

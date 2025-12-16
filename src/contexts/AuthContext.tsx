@@ -25,10 +25,8 @@ interface AuthContextType {
     isLoading: boolean; 
 }
 
-// --- Contexto (sem mudança) ---
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// --- Hook useAuth (sem mudança) ---
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {
@@ -44,21 +42,16 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
     const isAuthenticated = useMemo(() => !!token && !!user, [token, user]);
     
-    // --- MUDANÇA AQUI ---
     const login = useCallback((newToken: string, userData: UserData) => {
-        // Armazena AMBOS no localStorage
         localStorage.setItem('token', newToken);
-        localStorage.setItem('user', JSON.stringify(userData)); // Salva o usuário como string
+        localStorage.setItem('user', JSON.stringify(userData)); 
         
-        // Define o token no header da API para requisições futuras
         api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
         
-        // Atualiza os estados
         setToken(newToken);
         setUser(userData);
     }, []);
 
-    // --- MUDANÇA AQUI ---
     const logout = useCallback(async () => {
         
         if (token) {
@@ -70,41 +63,32 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
             }
         }
         
-        // Limpa AMBOS do localStorage
         localStorage.removeItem('token');
         localStorage.removeItem('user'); 
         
-        // Limpa o header da API
         delete api.defaults.headers.common['Authorization'];
 
-        // Limpa os estados
         setUser(null);
         setToken(null);
     }, [token]);
 
-    // --- MUDANÇA AQUI ---
     useEffect(() => {
-        // Ao carregar a app, tenta pegar ambos do localStorage
         const storedToken = localStorage.getItem('token');
-        const storedUser = localStorage.getItem('user'); // Pega o usuário
+        const storedUser = localStorage.getItem('user'); 
         
         if (storedToken && storedUser) {
-            // Se ambos existem, seta o estado com eles
-            const userData: UserData = JSON.parse(storedUser); // Converte string de volta para objeto
+            const userData: UserData = JSON.parse(storedUser); 
             
             setToken(storedToken);
             setUser(userData);
             
-            // Importante: Não se esqueça de reconfigurar o header da API!
             api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
         }
         
-        // Termina o loading
         setIsLoading(false);
         
-    }, []); // Array vazio, roda apenas uma vez no carregamento
+    }, []); 
 
-    // O valor do contexto (sem mudança)
     const contextValue = useMemo(() => ({
         user,
         token,

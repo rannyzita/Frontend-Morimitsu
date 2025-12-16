@@ -15,7 +15,7 @@ type StepCodeProps = {
     handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>, index: number) => void;
     handleResendCode: () => void;
     handleVerifyCode: () => void;
-    setStep: (step: 'email' | 'code' | 'new-password') => void;
+    setStep: (step: 'email' | 'code' | 'reset') => void;
     handleCodeChange: (index: number, value: string) => void;
 };
 

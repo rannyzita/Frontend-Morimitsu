@@ -3,17 +3,16 @@ import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../../../components/layout/BigCard';
 import { Pagination } from '../../../../components/Pagination/Pagination';
-import { Award} from 'lucide-react';
+import { Award, User as UserIcon } from 'lucide-react'; 
 
 import { SearchInput } from '../../../../components/SearchInput/SearchInput';
 
 import turmaBabyIcon from '../assetsTest/IconBaby.png';
 import studentAvatar1 from '../assetsTest/IconBaby.png';
-import studentAvatar2 from '../assetsTest/TurmaInfantil.png';
 import studentAvatar3 from '../assetsTest/iconMista.png';
-import studentAvatar4 from '../assetsTest/IconBaby.png';
 
 import { ClassModal } from '../../../../components/Modal/Turma';
+import { UserModal } from '../../../../components/Modal/User'; 
 
 const mockTurma = {
     id: '1',
@@ -22,22 +21,29 @@ const mockTurma = {
 };
 
 const initialAlunos = [
-    { id: 1, name: 'Antônio Henrique Pereira da Silva', avatar: studentAvatar1, current: 30, total: 40, isPromoted: false },
-    { id: 2, name: 'Anna Cristina Laurencio de Oliveira', avatar: studentAvatar2, current: 30, total: 40, isPromoted: false },
-    { id: 3, name: 'Juliana Souza da Paz', avatar: studentAvatar3, current: 30, total: 40, isPromoted: false },
-    { id: 4, name: 'Enzo Alves da Costa', avatar: studentAvatar4, current: 30, total: 40, isPromoted: false },
-    { id: 5, name: 'Beatriz Martins', avatar: studentAvatar1, current: 28, total: 40, isPromoted: false },
-    { id: 6, name: 'Carlos Eduardo Lima', avatar: studentAvatar2, current: 35, total: 40, isPromoted: false },
-    { id: 7, name: 'Daniela Ferreira', avatar: studentAvatar3, current: 22, total: 40, isPromoted: false },
-    { id: 8, name: 'Gabriel Ribeiro', avatar: studentAvatar4, current: 38, total: 40, isPromoted: false },
-    { id: 9, name: 'Helena Santos', avatar: studentAvatar1, current: 15, total: 40, isPromoted: false },
-    { id: 10, name: 'Isabela Rocha', avatar: studentAvatar2, current: 39, total: 40, isPromoted: false },
-    { id: 11, name: 'João Victor Almeida', avatar: studentAvatar3, current: 12, total: 40, isPromoted: false },
+    { id: 1, name: 'Antônio Henrique Pereira da Silva', nameSocial: 'Antônio', avatar: studentAvatar1, current: 30, total: 40, isPromoted: false },
+    { id: 2, name: 'Antônio Henrique Pereira da Silva', nameSocial: 'Antônio', avatar: studentAvatar1, current: 30, total: 40, isPromoted: false },
+    { id: 3, name: 'Antônio Henrique Pereira da Silva', nameSocial: 'Antônio', avatar: studentAvatar1, current: 30, total: 40, isPromoted: false },
+    { id: 4, name: 'Antônio Henrique Pereira da Silva', nameSocial: 'Antônio', avatar: studentAvatar1, current: 30, total: 40, isPromoted: false },
+    { id: 5, name: 'Antônio Henrique Pereira da Silva', nameSocial: 'Antônio', avatar: studentAvatar1, current: 30, total: 40, isPromoted: false },
+    { id: 6, name: 'Antônio Henrique Pereira da Silva', nameSocial: 'Antônio', avatar: studentAvatar1, current: 30, total: 40, isPromoted: false },
+    { id: 7, name: 'Antônio Henrique Pereira da Silva', nameSocial: 'Antônio', avatar: studentAvatar1, current: 30, total: 40, isPromoted: false },
+    { id: 11, name: 'João Victor Almeida', nameSocial: 'João', avatar: studentAvatar3, current: 12, total: 40, isPromoted: false },
 ];
+
+interface SelectedStudent {
+    id: number;
+    name: string;
+    nameSocial: string;
+    avatar: string;
+    role: string;
+}
 
 interface StudentListItemProps {
     avatar: string; name: string; currentClasses: number; totalClasses: number; studentId: number; isPromoted: boolean; index: number;
     onTogglePromoted: (studentId: number, isPromoted: boolean) => void;
+    onOpenUserModal: (student: typeof initialAlunos[0]) => void; // <-- NOVO PROP
+    studentData: typeof initialAlunos[0]; // <-- NOVO PROP: Passa o objeto completo
 }
 
 const StudentListItem: FC<StudentListItemProps> = ({
@@ -48,11 +54,14 @@ const StudentListItem: FC<StudentListItemProps> = ({
     studentId,
     isPromoted,
     onTogglePromoted,
-    index 
+    index,
+    onOpenUserModal, 
+    studentData, 
 }) => {
     return (
         <div
-            className='flex flex-col lg:flex-row lg:items-center bg-[#690808] p-3 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]'
+            className='flex flex-col lg:flex-row lg:items-center bg-[#690808] p-2 rounded-lg w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)] cursor-pointer' 
+            onClick={() => onOpenUserModal(studentData)} 
         >
             <div className='flex items-center gap-1 md:gap-3 w-full lg:w-auto'>
                 <img
@@ -107,7 +116,6 @@ const StudentListItem: FC<StudentListItemProps> = ({
     );
 };
 
-
 export const VerDetalhesTurma: FC = () => {
     const { id } = useParams<{ id: string }>();
     const [searchQuery, setSearchQuery] = useState('');
@@ -115,8 +123,10 @@ export const VerDetalhesTurma: FC = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [classToIgnoreId, setClassToIgnoreId] = useState<number | null>(null);
+    const [isClassModalOpen, setIsClassModalOpen] = useState(false); 
+
+    const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+    const [selectedStudent, setSelectedStudent] = useState<SelectedStudent | null>(null);
 
     const [studentsPerPage, setStudentsPerPage] = useState(5);
 
@@ -136,20 +146,23 @@ export const VerDetalhesTurma: FC = () => {
         return () => window.removeEventListener('resize', updateStudentsPerPage);
     }, []); 
 
-    const handleIgnoreAssessmentClick = (id: number) => {
-        setClassToIgnoreId(id);
-        setIsModalOpen(true);
+    const handleOpenUserModal = (alunoData: typeof initialAlunos[0]) => {
+         const mappedStudent: SelectedStudent = {
+            id: alunoData.id,
+            name: alunoData.name,
+            nameSocial: alunoData.nameSocial || alunoData.name, 
+            avatar: alunoData.avatar,
+            role: 'ALUNO(A)'
+        };
+        setSelectedStudent(mappedStudent);
+        setIsUserModalOpen(true);
     };
 
-    const handleConfirmIgnore = () => {
-        setIsModalOpen(false);
-        setClassToIgnoreId(null);
+    const handleCloseUserModal = () => {
+        setIsUserModalOpen(false);
+        setSelectedStudent(null);
     };
 
-    const handleCancelIgnore = () => {
-        setIsModalOpen(false);
-        setClassToIgnoreId(null);
-    };
 
     const handleTogglePromoted = (studentId: number, isChecked: boolean) => {
         const updatedAlunos = alunos.map(aluno => ({
@@ -187,7 +200,7 @@ export const VerDetalhesTurma: FC = () => {
                 icon={<img src={turma.icone} alt={turma.nome} className='w-8 h-8 lg:w-10 lg:h-10' />}
                 className='flex flex-col h-full relative'
                 info={true}
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => setIsClassModalOpen(true)} 
             >
                 <div className='flex flex-col h-full gap-4 pt-8 lg:gap-2 lg:pt-8'>
                     <div className='flex'>
@@ -199,9 +212,8 @@ export const VerDetalhesTurma: FC = () => {
                         />
                     </div>
 
-                    {/* Lista de alunos */}
                     <div
-                        className={`flex-1 ${mobileHeightClass} flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-4 mb-20`}
+                        className={`flex-1 ${mobileHeightClass} flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-2 mb-10`}
                     >
                     {currentAlunos.map((aluno, index) => (
                         <StudentListItem
@@ -214,12 +226,13 @@ export const VerDetalhesTurma: FC = () => {
                             totalClasses={aluno.total}
                             isPromoted={aluno.isPromoted}
                             onTogglePromoted={handleTogglePromoted}
+                            onOpenUserModal={handleOpenUserModal} 
+                            studentData={aluno}
                         />
                     ))}
                     </div>
 
-                    {/* Pagination fixa */}
-                    <div className='absolute bottom-10 left-1/2 transform -translate-x-1/2 w-full max-w-[650px]'>
+                    <div className='absolute bottom-5 left-1/2 transform -translate-x-1/2 w-full max-w-[650px]'>
                         <Pagination
                             currentPage={currentPage}
                             totalPages={totalPages}
@@ -229,8 +242,8 @@ export const VerDetalhesTurma: FC = () => {
                 </div>
 
                 <ClassModal
-                    isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
+                    isOpen={isClassModalOpen}
+                    onClose={() => setIsClassModalOpen(false)}
                     classInfo={{ 
                         id: 1,
                         name: "TURMA BABY",
@@ -241,6 +254,15 @@ export const VerDetalhesTurma: FC = () => {
                         quantityStudents: alunos.length
                     }}
                 />
+                
+                {selectedStudent && (
+                    <UserModal
+                        isOpen={isUserModalOpen}
+                        onClose={handleCloseUserModal}
+                        student={selectedStudent}
+                    />
+                )}
+
             </PageLayout>
         </Box>
     );

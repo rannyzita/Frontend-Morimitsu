@@ -34,11 +34,6 @@ export function usePasswordReset() {
         }
     }, [code, step]);
 
-    useEffect(() => {
-        setError(null);
-        setSuccessMessage(null);
-    }, [step]);
-
     const handleSendEmail = async () => {
         if (!email) {
             setError('Por favor, digite seu e-mail.');
@@ -89,25 +84,32 @@ export function usePasswordReset() {
 
     const handleVerifyCode = async () => {
         const fullCode = code.join('');
+
         if (fullCode.length !== 5) {
             setError('O código deve conter 5 dígitos.');
             return;
         }
 
         setLoading(true);
-        
-        const data = await verifyResetCode(fullCode as any); 
-        
-        console.log(data)
-        if (data?.message === 'Código válido') setStep('reset');
-        else setError('Código inválido ou expirado.');
-        
+        setError(null);
+
         try {
+            const data = await verifyResetCode(fullCode);
+
+            if (data?.message === 'Código válido') {
+                setStep('reset');
+            } else {
+                setError('Código inválido ou expirado.');
+            }
+
         } catch (err: any) {
             console.error('Erro ao verificar código:', err);
-            setError(err.response?.data?.message || 'Código inválido ou erro de conexão.');
+            setError(
+                err.response?.data?.message ||
+                'Código inválido ou erro de conexão.'
+            );
         } finally {
-            setLoading(false);
+            setLoading(false); 
         }
     };
 
@@ -123,9 +125,9 @@ export function usePasswordReset() {
 
         setLoading(true);
         try {
-            await resetPassword(code.join(''), newPassword, confirmPassword, token as any);
+            await resetPassword(code.join(''), newPassword, confirmPassword);
             setSuccessMessage('Senha atualizada com sucesso! Redirecionando...');
-            setTimeout(() => navigate('/login'), 3000);
+            setTimeout(() => navigate('/login'), 2500);
         } catch (err: any) {
             console.error('Erro ao resetar senha:', err);
             setError(err.response?.data?.message || 'Erro ao alterar a senha.');
