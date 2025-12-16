@@ -9,11 +9,12 @@ import React, {
 import api from '../../API/api'; 
 
 interface UserData {
-    id: number;
+    id: string;
     nome: string;
     nome_social: string;
     email: string;
-    tipo: 'COORDENADOR' | 'PROFESSOR' | 'ALUNO'; 
+    tipo: 'COORDENADOR' | 'PROFESSOR' | 'ALUNO';
+    imagem_perfil_url?: string;
 }
 
 interface AuthContextType {

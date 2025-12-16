@@ -1,15 +1,5 @@
 import api from '../../../API/api';
-
-interface LoginResponse {
-    token: string;
-    user: {
-        id: number;
-        nome: string;
-        email: string;
-        cpf?: string;
-        tipo: 'COORDENADOR' | 'PROFESSOR';
-    };
-}
+import { type LoginResponse } from './types/types';
 
 export async function loginService(identifier: string, password: string): Promise<LoginResponse> {
     const response = await api.post('/auth/login', { identifier, password });

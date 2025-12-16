@@ -6,7 +6,10 @@ import { Box, Typography } from '@mui/material';
 import { BirthdayCarousel } from '../../components/ScrollBirthday/scrollBirthday';
 import { useAuth } from '../../contexts/AuthContext';
 
-import { fetchMonthAniversariantes, type AniversarianteApi } from '../../services/aniversariantes/aniversariantes';
+import { fetchAniversariantesMesAtual } from '../../services/home/home';
+import type { Aniversariante } from '../../services/home/types/types';
+
+export type BirthdayMember = Aniversariante;
 
 import { 
     Users, 
@@ -73,7 +76,7 @@ export const Home: FC = () => {
 
     if (!user) return null;
 
-    const [birthdays, setBirthdays] = useState<AniversarianteApi[]>([]);
+    const [birthdays, setBirthdays] = useState<Aniversariante[]>([]);
 
     const [currentPage, setCurrentPage] = useState(0); 
     const STUDENTS_PER_PAGE = 3; 
@@ -102,7 +105,7 @@ export const Home: FC = () => {
 
     async function loadBirthdays() {
         try {
-        const data = await fetchMonthAniversariantes(token as string);
+        const data = await fetchAniversariantesMesAtual(token as string);
         setBirthdays(data.aniversariantes); 
         } catch (err) {
         console.error("Erro ao carregar aniversariantes:", err);
@@ -222,13 +225,12 @@ export const Home: FC = () => {
 
             {/* SEÇÃO 2: Aniversariantes do Mês */}
             <BirthdayCarousel 
-                members={birthdays.map(b => ({
-                    date: `${b.dia}/${b.mes}`,
-                    name: b.nome,
-                    team: ''
-                }))} 
-                title='ANIVERSARIANTES DO MÊS' 
+                title='ANIVERSARIANTES DO MÊS'
                 icon={true}
+                members={birthdays}
+                onMemberClick={(member) => {
+                    console.log('Aniversariante:', member);
+                }}
             />
         </Box>
     );

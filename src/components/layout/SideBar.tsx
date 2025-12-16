@@ -11,7 +11,7 @@ type NavItemProps = {
     to: string;
     icon: React.ElementType;
     children: React.ReactNode;
-    toggleSideBar: () => void; // Adicionado para fechar ao navegar
+    toggleSideBar: () => void; 
 };
 
 const NavItem: React.FC<NavItemProps> = ({ to, icon: Icon, children, toggleSideBar }) => {
@@ -71,14 +71,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
             <div className='flex flex-col items-center text-center mb-10'>
                 <Link to='/meu-perfil' className='cursor-pointer' onClick={handleLinkClick}>
                     <img
-                        src='/IconProfile.png' 
+                        src={user.imagem_perfil_url || '/IconProfile.png'}
                         alt='Foto do perfil'
                         className='w-22 h-22 md:w-36 md:h-36 rounded-full object-cover mb-4'
                     />
                 </Link>
                 <Link to='/meu-perfil' className='cursor-pointer' onClick={handleLinkClick}>
                     <h2 className='text-base md:text-xl font-semibold'>
-                        {user.tipo === 'COORDENADOR' ? user.nome : 'PROFESSOR'}
+                        {user.tipo === 'COORDENADOR' ? user.nome_social : 'PROFESSOR'}
                     </h2>
                 </Link>
             </div>

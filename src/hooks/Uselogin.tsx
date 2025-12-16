@@ -5,7 +5,7 @@ import { loginService } from '../services/login/login';
 
 export function useLogin() {
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const {login } = useAuth();
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -25,6 +25,7 @@ export function useLogin() {
                 email: user.email,
                 cpf: user.cpf || '',
                 tipo: user.tipo,
+                imagem_perfil_url: user.imagem_perfil_url
             };
 
             login(token, userObject);
