@@ -32,7 +32,7 @@ export const ProtectedRoute = () => {
     }
 
     if (!isAuthenticated) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to='/login' replace />;
     }
 
     return <Outlet />;
@@ -45,7 +45,6 @@ export const useAuth = () => {
     }
     return context;
 };
-
 
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useState<UserData | null>(null);
@@ -69,9 +68,9 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         if (token) {
             try {
                 await api.post('/auth/logout'); 
-                console.log("Logout bem-sucedido na API.");
+                console.log('Logout bem-sucedido na API.');
             } catch (error) {
-                console.error("Erro durante o logout na API, mas o token será limpo localmente:", error);
+                console.error('Erro durante o logout na API, mas o token será limpo localmente:', error);
             }
         }
         
@@ -95,18 +94,33 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
                 if (decoded.exp && decoded.exp < now) {
                     logout();
-                } else {
-                    setToken(storedToken);
-                    setUser(JSON.parse(storedUser));
-                    api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+                    window.location.reload();
+                    return;
+                }
+
+                const timeUntilExpire = decoded.exp
+                    ? decoded.exp * 1000 - Date.now()
+                    : 0;
+
+                setToken(storedToken);
+                setUser(JSON.parse(storedUser));
+                api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+
+                if (timeUntilExpire > 0) {
+                    setTimeout(() => {
+                        logout();
+                        window.location.reload();
+                    }, timeUntilExpire);
                 }
             } catch {
                 logout();
+                window.location.reload();
             }
         }
 
         setIsLoading(false);
     }, []);
+
 
     const contextValue = useMemo(() => ({
         user,
@@ -116,7 +130,6 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         logout,
         isLoading,
     }), [user, token, isAuthenticated, login, logout, isLoading]);
-
 
     if (isLoading) {
         return <div>Carregando autenticação...</div>; 

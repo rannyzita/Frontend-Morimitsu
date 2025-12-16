@@ -14,6 +14,8 @@ import type { Aniversariante } from '../../services/home/types/types';
 export type BirthdayMember = Aniversariante;
 
 import { Users, GraduationCap, ChevronRight, ChevronLeft, Bell,ListChecks,ClipboardList} from 'lucide-react';
+import { LoadingSection } from '../../components/Feedback/Loading';
+import { EmptyFeedback } from '../../components/Feedback/EmptyFeedback';
 
 interface BigButtonProps {
     icon: ReactNode;
@@ -41,7 +43,7 @@ export const Home: FC = () => {
 
     if (!user) return null;
 
-    const { aptos } = useAptosGraduacao(token as any);
+    const { aptos, loading, error } = useAptosGraduacao(token as any);
 
     const graduationStudents = aptos.map((aluno) => {
         const isPronto = aluno.status === 'PRONTO';
@@ -58,8 +60,11 @@ export const Home: FC = () => {
                 : `Aulas: ${aluno.aulasPresente}/${aluno.minimoAulas}`,
         };
     });
-
+    
     const [birthdays, setBirthdays] = useState<Aniversariante[]>([]);
+    const [loadingBirthdays, setLoadingBirthdays] = useState(true);
+    const [errorBirthdays, setErrorBirthdays] = useState(false);
+
     const [currentPage, setCurrentPage] = useState(0); 
     const STUDENTS_PER_PAGE = 3; 
 
@@ -83,19 +88,24 @@ export const Home: FC = () => {
     };
 
     useEffect(() => {
-    if (!token) return;
+        if (!token) return;
 
-    async function loadBirthdays() {
-        try {
-        const data = await fetchAniversariantesMesAtual(token as string);
-        setBirthdays(data.aniversariantes); 
-        } catch (err) {
-        console.error("Erro ao carregar aniversariantes:", err);
+        async function loadBirthdays() {
+            try {
+                setLoadingBirthdays(true);
+                const data = await fetchAniversariantesMesAtual(token as string);
+                setBirthdays(data.aniversariantes);
+                setErrorBirthdays(false);
+            } catch {
+                setErrorBirthdays(true);
+            } finally {
+                setLoadingBirthdays(false);
+            }
         }
-    }
 
-    loadBirthdays();
+        loadBirthdays();
     }, [token]);
+
     
     return (
         <Box component='div' className='max-w-7xl mx-auto lg:max-w-full lg:mx-0 flex flex-col gap-10 py-6 px-8 lg:py-26 lg:px-30'> 
@@ -119,7 +129,23 @@ export const Home: FC = () => {
                             </div>
 
                             <div className='space-y-2 px-4 md:px-5 pt-3 h-[200px] md:h-[230px] overflow-y-auto'>
-                                {currentStudents.map((student) => (
+                                {loading ? (
+                                    <LoadingSection height={160} message="Carregando alunos..." />
+                                ) : error ? (
+                                    <EmptyFeedback
+                                        type="error"
+                                        message="Sem respostas do servidor"
+                                        height={160}
+                                        textSize={{ mobile: '10px', tablet: '12px', desktop: '14px' }}
+                                    />
+                                ) : aptos.length === 0 ? (
+                                    <EmptyFeedback
+                                        message="Sem alunos aptos à graduação..."
+                                        height={160}
+                                        textSize={{ mobile: '10px', tablet: '12px', desktop: '14px' }}
+                                    />
+                                ) :
+                                (currentStudents.map((student) => (
                                     <div key={student.name} className='border-b border-white pb-2 last:border-b-0'>
                                         <Typography variant='body2' className='!font-semibold !text-[12px] md:!text-[16px]'>{student.name}</Typography>
                                         <div className='flex justify-between items-center mt-1'>
@@ -131,7 +157,7 @@ export const Home: FC = () => {
                                             </span>
                                         </div>
                                     </div>
-                                ))}
+                                )))}
                             </div>
 
                             {/* Paginação */}
@@ -206,14 +232,27 @@ export const Home: FC = () => {
             </section>
 
             {/* SEÇÃO 2: Aniversariantes do Mês */}
-            <BirthdayCarousel 
-                title='ANIVERSARIANTES DO MÊS:'
-                icon={true}
-                members={birthdays}
-                onMemberClick={(member) => {
-                    console.log('Aniversariante:', member);
-                }}
-            />
+            {loadingBirthdays ? (
+                <LoadingSection height={180} message='Carregando aniversariantes...' />
+            ) : errorBirthdays ? (
+                <EmptyFeedback
+                    type='error'
+                    message='Sem respostas do servidor'
+                    height={180}
+                />
+            ) : birthdays.length === 0 ? (
+                <EmptyFeedback
+                    message='Sem alunos(as) aniversariantes do mês'
+                    height={180}
+                />
+            ) : (
+                <BirthdayCarousel
+                    title='ANIVERSARIANTES DO MÊS:'
+                    icon
+                    members={birthdays}
+                    onMemberClick={(member) => console.log(member)}
+                />
+            )}
         </Box>
     );
 }
