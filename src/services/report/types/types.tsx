@@ -10,5 +10,6 @@ export interface RelatorioMetricas {
 export interface RelatorioRankingGeral {
     alunoId: string;
     nome: string;
+    foto: string;
     totalAulas: number;
 }

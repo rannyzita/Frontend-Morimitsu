@@ -11,7 +11,7 @@ interface StudentModalProps {
     isOpen: boolean
     onClose: () => void
     student: {
-        id: number
+        id: string
         name: string
         nameSocial: string
         avatar: string

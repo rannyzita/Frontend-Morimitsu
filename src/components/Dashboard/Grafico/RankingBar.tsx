@@ -6,6 +6,7 @@ import {
     VictoryBar, 
     VictoryAxis, 
     VictoryTheme, 
+    VictoryTooltip
 } from 'victory';
 
 interface ChartData {
@@ -74,8 +75,26 @@ export const RankingBarChart: FC<RankingBarChartProps> = ({ data, chartTitle }) 
 
                 <VictoryBar
                     data={data}
-                    x="name"
-                    y="value"
+                    x='name'
+                    y='value'
+                    labels={({ datum }) => `${datum.value} aulas`}
+                    labelComponent={
+                        <VictoryTooltip
+                            flyoutStyle={{
+                                fill: '#3E0404',
+                                stroke: '#690808',
+                                strokeWidth: 2,
+                            }}
+                            style={{
+                                fill: 'white',
+                                fontSize: 30,
+                                fontWeight: 'bold',
+                                
+                            }}
+                            cornerRadius={6}
+                            pointerLength={6}
+                        />
+                    }
                     style={{
                         data: {
                             fill: BAR_COLOR,

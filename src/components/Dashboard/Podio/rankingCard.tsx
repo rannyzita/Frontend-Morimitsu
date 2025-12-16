@@ -4,7 +4,7 @@ import { Trophy } from 'lucide-react';
 import { RankingBarChart } from '../Grafico/RankingBar'; 
 
 export interface RankedStudent {
-    id: string | number;
+    id: string;
     name: string;
     value?: string;
     avatarUrl?: string;
@@ -16,24 +16,27 @@ interface PodiumData {
     third: string;
 }
 
+export interface RankingChartItem {
+    name: string;
+    value: number;
+}
+
 export interface RankingCardProps {
     title: string;
     rankingPodium: PodiumData;
     rankedStudents: RankedStudent[];
     graphTitle: string;
+    chartData: RankingChartItem[];
+    onViewStudent: (studentId: string) => void;
 }
-
-const chartData = [
-        { name: 'NICHOLAS ALVES', value: 100 },
-        { name: 'JOÃO LUCAS', value: 200 },
-        { name: 'ANA LAURA', value: 300 },
-];
 
 export const RankingCard: FC<RankingCardProps> = ({ 
     title, 
     rankingPodium, 
     rankedStudents, 
-    graphTitle 
+    graphTitle,
+    chartData,
+    onViewStudent
 }) => (
     
 
@@ -100,9 +103,14 @@ export const RankingCard: FC<RankingCardProps> = ({
                         >
                             <div className='flex items-center gap-1'>
                                 <img src={student.avatarUrl} className='w-4 h-4 rounded-full' alt={student.name} />
-                                <span className='font-bold text-[10px]'>{student.name} {student.value}</span>
+                                <span className='font-bold text-[10px]'>{student.name}</span>
                             </div>
-                            <button className='bg-[#3E0404] px-3 py-1 rounded-md text-[10px]'>Ver mais</button>
+                            <button 
+                                onClick={() => onViewStudent(student.id)}
+                                className='bg-[#3E0404] px-3 py-1 rounded-md text-[10px] cursor-pointer'
+                            >
+                                Ver mais
+                            </button>
                         </div>
                     ))}
                 </Box>

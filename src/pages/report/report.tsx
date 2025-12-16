@@ -3,8 +3,10 @@ import { Box, Grid, Typography, Card } from '@mui/material';
 import { PageLayout } from '../../components/layout/BigCard';
 import { ClipboardList } from 'lucide-react';
 import { RankingCard, type RankedStudent } from '../../components/Dashboard/Podio/rankingCard';
-import { fetchRelatorioMetricas } from '../../services/report/report';
+import { fetchRelatorioMetricas, fetchRelatorioRankingGeral } from '../../services/report/report';
 import { useNavigate } from 'react-router-dom';
+import type { RelatorioRankingGeral } from '../../services/report/types/types';
+import { UserModal } from '../../components/Modal/User';
 
 interface StatisticProps {
     title: string;
@@ -55,7 +57,33 @@ export const Report: FC = () => {
         totalTurmas: 0,
         totalUsuarios: 0,
         totalAulas: 0
-    });
+    }); 
+
+    const handleViewStudent = (studentId: string) => {
+        const aluno = ranking.find(a => a.alunoId === studentId);
+
+        if (!aluno) return;
+
+        setSelectedStudent({
+            id:(aluno.alunoId),
+            name: aluno.nome,
+            nameSocial: aluno.nome, 
+            avatar: aluno.foto,
+            role: 'ALUNO',
+        });
+
+        setIsUserModalOpen(true);
+    };
+    const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+    const [selectedStudent, setSelectedStudent] = useState<{
+        id: string;
+        name: string;
+        nameSocial: string;
+        avatar: string;
+        role: string;
+    } | null>(null);
+
+    const [ranking, setRanking] = useState<RelatorioRankingGeral[]>([]);
 
     useEffect(() => {
         const rawToken = localStorage.getItem('token');
@@ -66,24 +94,44 @@ export const Report: FC = () => {
                 const data = await fetchRelatorioMetricas(token);
                 setMetricas(data);
             } catch (err) {
-                console.error('Erro ao carregar métricasss:', err);
+                console.error('Erro ao carregar métricas:', err);
+            }
+        }
+
+        async function loadRanking() {
+            try {
+                const data = await fetchRelatorioRankingGeral(token);
+                setRanking(data);
+            } catch (err) {
+                console.error('Erro ao carregar ranking:', err);
             }
         }
 
         loadMetricas();
+        loadRanking();
     }, []);
 
+    const orderedRanking = [...ranking].sort(
+        (a, b) => b.totalAulas - a.totalAulas
+    );
+
     const podiumData = {
-        first: 'ANA LAURA',
-        second: 'JOÃO LUCAS',   
-        third: 'NICHOLAS ALVES',
+        first: orderedRanking[0]?.nome ?? '—',
+        second: orderedRanking[1]?.nome ?? '—',
+        third: orderedRanking[2]?.nome ?? '—',
     };
 
-    const studentListData: RankedStudent[] = [
-        { id: 1, name: 'ANA LAURA', avatarUrl: '/avatar1.png' },
-        { id: 2, name: 'JOÃO LUCAS', avatarUrl: '/avatar2.png' },
-        { id: 3, name: 'NICHOLAS ALVES', avatarUrl: '/avatar3.png' },
-    ];
+    const studentListData: RankedStudent[] = orderedRanking.map((aluno) => ({
+        id: aluno.alunoId,
+        name: aluno.nome,
+        value: `${aluno.totalAulas} aulas`,
+        avatarUrl: aluno.foto,
+    }));
+
+    const chartData = orderedRanking.map((aluno) => ({
+        name: aluno.nome,
+        value: aluno.totalAulas, 
+    }));
 
     return (
         <Box component='div' className='flex flex-col items-center justify-center h-full p-4'>
@@ -125,9 +173,17 @@ export const Report: FC = () => {
                             rankingPodium={podiumData}
                             rankedStudents={studentListData}
                             graphTitle='GRÁFICO'
+                            chartData={chartData}
+                            onViewStudent={handleViewStudent}
                         />
                     </Grid>
                 </Grid>
+
+                <UserModal
+                    isOpen={isUserModalOpen}
+                    onClose={() => setIsUserModalOpen(false)}
+                    student={selectedStudent}
+                />
             </PageLayout>
         </Box>
     );

@@ -13,43 +13,7 @@ import type { Aniversariante } from '../../services/home/types/types';
 
 export type BirthdayMember = Aniversariante;
 
-import { 
-    Users, 
-    GraduationCap, 
-    ChevronRight, 
-    ChevronLeft, 
-    Bell,
-    ListChecks,
-    ClipboardList
-} from 'lucide-react';
-
-// const graduationStudents = [
-//     { 
-//         name: 'Cleberson - Turma Mista', 
-//         status: 'Está próximo de se graduar!', 
-//         progressLabel: 'Grau: 1/4', 
-//     },
-//     { 
-//         name: 'Maria Vitória - Turma Mista', 
-//         status: 'Está promovido(a) de se graduar!', 
-//         progressLabel: 'Aulas: 20/20', 
-//     },
-//     { 
-//         name: 'Rodrigo Faro - Turma Adulto', 
-//         status: 'Está próximo de se graduar!', 
-//         progressLabel: 'Próxima Faixa: Azul', 
-//     },
-//     { 
-//         name: 'Ana Julia - Turma Kids', 
-//         status: 'Está próximo de se graduar!', 
-//         progressLabel: 'Grau: 3/4', 
-//     },
-//     { 
-//         name: 'Lucas Mendes - Turma Adulto', 
-//         status: 'Está próximo de se graduar!', 
-//         progressLabel: 'Próxima Faixa: Roxa', 
-//     },
-// ];
+import { Users, GraduationCap, ChevronRight, ChevronLeft, Bell,ListChecks,ClipboardList} from 'lucide-react';
 
 interface BigButtonProps {
     icon: ReactNode;
