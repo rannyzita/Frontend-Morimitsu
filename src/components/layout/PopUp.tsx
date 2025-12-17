@@ -125,7 +125,7 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, data }) => {
 
                         {/* Arquivo PDF */}
                         <a 
-                            href='/arquivo-guia.pdf'
+                            href='./guiaManualUsuario/Manual-Para-Usuário.pdf'
                             download
                             className='
                                 px-4 py-2 rounded-lg text-[10px] font-medium 
@@ -135,7 +135,6 @@ export const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, data }) => {
                         >
                             Baixar PDF
                         </a>
-
                     </div>
                 </div>
 

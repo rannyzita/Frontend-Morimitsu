@@ -92,7 +92,7 @@ export const Home: FC = () => {
     };
 
     const handleOpenUserModal = (member: Aniversariante) => {
-        setSelectedBirthday(member);
+        setSelectedBirthday(member); 
         setIsUserModalOpen(true);
     };
 
@@ -100,6 +100,7 @@ export const Home: FC = () => {
         setIsUserModalOpen(false);
         setSelectedBirthday(null);
     };
+
 
     useEffect(() => {
         if (!token) return;
@@ -143,17 +144,17 @@ export const Home: FC = () => {
 
                             <div className='space-y-2 px-4 md:px-5 pt-3 h-[200px] md:h-[230px] overflow-y-auto'>
                                 {loading ? (
-                                    <LoadingSection height={160} message="Carregando alunos..." />
+                                    <LoadingSection height={160} message='Carregando alunos...' />
                                 ) : error ? (
                                     <EmptyFeedback
-                                        type="error"
-                                        message="Sem respostas do servidor"
+                                        type='error'
+                                        message='Sem respostas do servidor'
                                         height={160}
                                         textSize={{ mobile: '10px', tablet: '12px', desktop: '14px' }}
                                     />
                                 ) : aptos.length === 0 ? (
                                     <EmptyFeedback
-                                        message="Sem alunos aptos à graduação..."
+                                        message='Sem alunos aptos à graduação...'
                                         height={160}
                                         textSize={{ mobile: '10px', tablet: '12px', desktop: '14px' }}
                                     />
@@ -270,18 +271,8 @@ export const Home: FC = () => {
             <UserModal
                 isOpen={isUserModalOpen}
                 onClose={handleCloseUserModal}
-                student={
-                    selectedBirthday
-                    ? {
-                        id: selectedBirthday.id, 
-                        name: selectedBirthday.nome,
-                        nameSocial: selectedBirthday.nome_social ?? selectedBirthday.nome,
-                        avatar: selectedBirthday.imagem_perfil_url ?? '',
-                        role: 'ALUNO',
-                        }
-                    : null
-                }
-                />
+                studentId={selectedBirthday?.id ?? null}
+            />
         </Box>
     );
 }
