@@ -4,8 +4,10 @@ import { PageLayout } from '../../../components/layout/BigCardGray_';
 import { FeedbackToast } from '../../../components/Feedback/Feedback';
 import { FormField } from '../../../components/formField/formField';
 import { UserPlus, CircleAlert } from 'lucide-react';
+import { createUsuario } from '../../../services/Usuario/Usuario';
+import type { UsuarioPayload, UserTipo } from '../../../services/Usuario/types/types';
+import { useAuth } from '../../../contexts/AuthContext';
 
-// 1. IMPORTAÇÃO DO NOVO COMPONENTE
 import { DateFormField } from '../components/DateFormField'; 
 interface GenderRadioProps {
     label: string;
@@ -39,6 +41,8 @@ const GenderRadio: FC<GenderRadioProps> = ({ label, value, isChecked, onChange }
 
 
 export const CreateUsuario: FC = () => {
+    const { token } = useAuth();
+
     const [nomeCompleto, setNomeCompleto] = useState('');
     // 2. MUDANÇA DE ESTADO: Agora armazena Date | null
     const [dataNascimento, setDataNascimento] = useState<Date | null>(null); 
@@ -61,17 +65,69 @@ export const CreateUsuario: FC = () => {
         type: 'success' | 'error';
     }>({ visible: false, message: '', type: 'success' });
 
-    const handleCreateClick = () => {
-        // Exemplo de como você acessaria a data antes de enviar:
-        // const dataParaEnvio = dataNascimento ? dataNascimento.toLocaleDateString('pt-BR') : '';
-        // console.log("Data de Nascimento Formatada:", dataParaEnvio);
+    const handleCreateClick = async () => {
+        try {
+            if (!dataNascimento) {
+                setFeedback({
+                    visible: true,
+                    message: 'Informe a data de nascimento',
+                    type: 'error',
+                });
+                return;
+            }
 
-        setFeedback({
-            visible: true,
-            message: 'Usuário criado com sucesso!',
-            type: 'success',
-        });
+            const payload: UsuarioPayload = {
+                nome: nomeCompleto,
+                nome_social: campoSocial || null,
+                dataNascimento: dataNascimento.toISOString().split('T')[0], // YYYY-MM-DD
+                cpf,
+                tipo: cargo as UserTipo,
+                endereco,
+                genero: genero as 'M' | 'F' | 'O',
+                telefone,
+                id_faixa: faixa,
+                grau: Number(grau),
+                responsaveis: telefoneResponsavel
+                    ? [{ telefone: telefoneResponsavel }]
+                    : undefined,
+                num_matricula: matricula || null,
+                turmaIds: turma ? [turma] : undefined,
+                aulas: aulas ? Number(aulas) : null,
+            };
+
+            await createUsuario(payload, token);
+
+            setFeedback({
+                visible: true,
+                message: 'Usuário criado com sucesso!',
+                type: 'success',
+            });
+
+            // (opcional) limpar formulário
+            setNomeCompleto('');
+            setCampoSocial('');
+            setDataNascimento(null);
+            setCargo('');
+            setEndereco('');
+            setTelefone('');
+            setCpf('');
+            setFaixa('');
+            setGrau('');
+            setTelefoneResponsavel('');
+            setMatricula('');
+            setTurma('');
+            setAulas('');
+            setGenero('F');
+
+        } catch (error) {
+            setFeedback({
+                visible: true,
+                message: 'Erro ao criar usuário',
+                type: 'error',
+            });
+        }
     };
+
 
     const RequiredLabel: FC<{ label: string }> = ({ label }) => (
         <div className='flex items-center gap-2 h-7'>

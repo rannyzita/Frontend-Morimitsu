@@ -1,51 +1,32 @@
-import { useState, type FC, useEffect } from 'react'; // Importar useEffect
-import { useParams } from 'react-router-dom';
-import { Box } from '@mui/material';
+import { useState, type FC, useEffect } from 'react';
+import { Box, CircularProgress } from '@mui/material';
 import { PageLayout } from '../../../components/layout/BigCard';
 import { Pagination } from '../../../components/Pagination/Pagination';
-import { Award, UserMinus, X } from 'lucide-react';
+import { UserMinus, Award } from 'lucide-react';
 
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 import { AlertModal } from '../../../components/Alert/alert';
 import { FeedbackToast } from '../../../components/Feedback/Feedback';
 import { CustomCheckbox } from '../../../components/CheckBox/checkBox';
 
-import studentAvatar1 from '../options/assetsTest/IconBaby.png';
-import studentAvatar2 from '../options/assetsTest/TurmaInfantil.png';
-import studentAvatar3 from '../options/assetsTest/iconMista.png';
-import studentAvatar4 from '../options/assetsTest/IconBaby.png';
+// Importe das funções da API e tipos
+import { fetchUsuarios, deleteUsuario } from '../../../services/Usuario/Usuario'; 
+import type { UsuarioResumo } from '../../../services/Usuario/types/types';
 
-// Define o breakpoint de altura desejado
 const HEIGHT_BREAKPOINT = 800;
 
-const initialAlunos = [
-    { id: 1, name: 'Antônio Henrique Pereira da Silva', avatar: studentAvatar1 },
-    { id: 2, name: 'Anna Cristina Laurencio de Oliveira', avatar: studentAvatar2 },
-    { id: 3, name: 'Juliana Souza da Paz', avatar: studentAvatar3 },
-    { id: 4, name: 'Enzo Alves da Costa', avatar: studentAvatar4 },
-    { id: 5, name: 'Beatriz Martins', avatar: studentAvatar1 },
-    { id: 6, name: 'Carlos Eduardo Lima', avatar: studentAvatar2 },
-    { id: 7, name: 'Daniela Ferreira', avatar: studentAvatar3 },
-    { id: 8, name: 'Gabriel Ribeiro', avatar: studentAvatar4 },
-    { id: 9, name: 'Helena Santos', avatar: studentAvatar1 },
-    { id: 10, name: 'Isabela Rocha', avatar: studentAvatar2 },
-    { id: 11, name: 'João Victor Almeida', avatar: studentAvatar3 },
-];
-
-interface StudentListItemProps {
+const StudentListItem: FC<{
     avatar: string;
     name: string;
-    studentId: number;
+    studentId: string;
     isSelected: boolean;
-    onToggleSelect: (studentId: number) => void;
-}
-
-const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, studentId, isSelected, onToggleSelect }) => {
+    onToggleSelect: (studentId: string) => void;
+}> = ({ avatar, name, studentId, isSelected, onToggleSelect }) => {
     return (
         <div className='relative flex items-center bg-[#690808] p-2 lg:p-3 rounded-lg
                         w-full max-w-lg lg:w-[950px] lg:max-w-none shadow-[0_5px_15px_rgba(0,0,0,0.3)]'>
 
-            <img src={avatar} alt={name} className='w-8 h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0' />
+            <img src={avatar || 'https://via.placeholder.com/40'} alt={name} className='w-8 h-8 lg:w-10 lg:h-10 rounded-full flex-shrink-0 object-cover' />
 
             <Award size={18} className='text-white lg:w-6 lg:h-6 ml-1' />
 
@@ -64,64 +45,71 @@ const StudentListItem: FC<StudentListItemProps> = ({ avatar, name, studentId, is
 };
 
 export const DeletarUsuario: FC = () => {
-    const { id } = useParams<{ id: string }>();
+    const [usuarios, setUsuarios] = useState<UsuarioResumo[]>([]);
+    const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
-    const [alunos, setAlunos] = useState(initialAlunos);
-    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [showAlert, setShowAlert] = useState(false);
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
-    
-    // 1. Estado para o número de estudantes por página, com valor inicial padrão
-    const [studentsPerPage, setStudentsPerPage] = useState(5); 
+    const [studentsPerPage, setStudentsPerPage] = useState(4);
 
-    // 2. Lógica para calcular studentsPerPage com base na altura da tela
-    const calculateStudentsPerPage = () => {
-        const screenHeight = window.innerHeight;
-        
-        // Define 5 para altura >= 800px, e 4 para altura < 800px
-        const newStudentsPerPage = screenHeight >= HEIGHT_BREAKPOINT ? 5 : 4;
-        
-        setStudentsPerPage(newStudentsPerPage);
+    const token = localStorage.getItem('token'); 
+
+    const loadData = async () => {
+        setLoading(true);
+        try {
+            const response = await fetchUsuarios(token);
+            if (response.sucesso) {
+                setUsuarios(response.dados);
+            }
+        } catch (error) {
+            setToast({ message: 'Erro ao carregar usuários.', type: 'error' });
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
-        calculateStudentsPerPage(); 
+        loadData();
+    }, []);
 
-        // Adiciona o event listener para redimensionamento
-        window.addEventListener('resize', calculateStudentsPerPage);
+    const calculateStudentsPerPage = () => {
+        const screenHeight = window.innerHeight;
+        setStudentsPerPage(screenHeight >= HEIGHT_BREAKPOINT ? 4 : 4);
+    };
 
-        // Limpeza do event listener
-        return () => {
-            window.removeEventListener('resize', calculateStudentsPerPage);
-        };
-    }, []); // Executa apenas na montagem/desmontagem
-
-    // Garante que a página atual não exceda o novo total de páginas após redimensionamento
     useEffect(() => {
-        if (studentsPerPage > 0) {
-            const maxPages = Math.ceil(filtered.length / studentsPerPage);
-            if (currentPage > maxPages) {
-                setCurrentPage(maxPages > 0 ? maxPages : 1);
-            }
-        }
-    }, [studentsPerPage, alunos.length, searchQuery]);
+        calculateStudentsPerPage();
+        window.addEventListener('resize', calculateStudentsPerPage);
+        return () => window.removeEventListener('resize', calculateStudentsPerPage);
+    }, []);
 
+    const filtered = usuarios.filter(u => 
+        u.nome.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
-    const filtered = alunos.filter(a => a.name.toLowerCase().includes(searchQuery.toLowerCase()));
-    
-    // Usa a variável de estado
     const totalPages = Math.ceil(filtered.length / studentsPerPage);
-    const current = filtered.slice((currentPage - 1) * studentsPerPage, currentPage * studentsPerPage);
+    const currentItems = filtered.slice(
+        (currentPage - 1) * studentsPerPage, 
+        currentPage * studentsPerPage
+    );
 
-    const toggle = (id: number) =>
+    const toggle = (id: string) =>
         setSelectedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
 
-    const confirmDelete = () => {
-        setAlunos(alunos.filter(a => !selectedIds.includes(a.id)));
-        setSelectedIds([]);
-        setShowAlert(false);
-        setToast({ message: 'Usuário(s) excluído(s) com sucesso.', type: 'success' });
+    const confirmDelete = async () => {
+        try {
+            // Executa a deleção para todos os IDs selecionados
+            await Promise.all(selectedIds.map(id => deleteUsuario(id, token)));
+            
+            setToast({ message: 'Usuário(s) excluído(s) com sucesso.', type: 'success' });
+            setSelectedIds([]);
+            setShowAlert(false);
+            loadData(); // Recarrega a lista da API
+        } catch (error) {
+            setToast({ message: 'Erro ao excluir usuário(s).', type: 'error' });
+        }
     };
 
     return (
@@ -141,31 +129,40 @@ export const DeletarUsuario: FC = () => {
                     />
 
                     <div className='flex-1 lg:min-h-[420px] flex flex-col gap-6 items-center overflow-y-auto mt-2 md:mt-8 mb-20'>
-                        {current.map(a => (
-                            <StudentListItem
-                                key={a.id}
-                                {...a}
-                                studentId={a.id}
-                                isSelected={selectedIds.includes(a.id)}
-                                onToggleSelect={toggle}
-                            />
-                        ))}
+                        {loading ? (
+                            <CircularProgress color="inherit" sx={{ mt: 10 }} />
+                        ) : (
+                            currentItems.map(user => (
+                                <StudentListItem
+                                    key={user.id}
+                                    studentId={user.id}
+                                    name={user.nome}
+                                    avatar={user.fotoPerfil}
+                                    isSelected={selectedIds.includes(user.id)}
+                                    onToggleSelect={toggle}
+                                />
+                            ))
+                        )}
                     </div>
 
-                    {/* posição do botão: mobile ↑ — iPad ↓ — desktop estável */}
+                    {/* Botão com as classes originais restauradas */}
                     <div className='absolute md:right-18 right-6 lg:right-[123px] bottom-[17%] md:bottom-[13%] lg:bottom-[12%]'>
                         <button
                             onClick={() => selectedIds.length ? setShowAlert(true) : setToast({ message: 'Selecione pelo menos um usuário.', type: 'error' })}
                             className='bg-[#690808] hover:bg-red-900 text-white font-semibold
-                            py-3 px-4 text-sm md:py-4 md:px-8 lg:py-4 lg:px-8 lg:text-base
-                            rounded-lg shadow-md transition-colors'
+                                       py-3 px-4 text-sm md:py-4 md:px-8 lg:py-4 lg:px-8 lg:text-base
+                                       rounded-lg shadow-md transition-colors'
                         >
                             Excluir Selecionado(as)
                         </button>
                     </div>
 
                     <div className='absolute bottom-10 left-1/2 -translate-x-1/2 w-full max-w-[650px]'>
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+                        <Pagination 
+                            currentPage={currentPage} 
+                            totalPages={totalPages > 0 ? totalPages : 1} 
+                            onPageChange={setCurrentPage} 
+                        />
                     </div>
                 </div>
             </PageLayout>

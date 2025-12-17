@@ -7,6 +7,9 @@ import { Award, User } from 'lucide-react';
 
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 
+import { fetchUsuarios } from '../../../services/Usuario/Usuario';
+import { useAuth } from '../../../contexts/AuthContext';
+
 import { UserModal } from '../../../components/Modal/User';
 
 import studentAvatar1 from '../options/assetsTest/IconBaby.png';
@@ -14,29 +17,38 @@ import studentAvatar2 from '../options/assetsTest/TurmaInfantil.png';
 import studentAvatar3 from '../options/assetsTest/iconMista.png';
 import studentAvatar4 from '../options/assetsTest/IconBaby.png';
 
-const initialAlunos = [
-    { id: 1, name: 'Antônio Henrique Pereira da Silva', nameSocial: 'Antônio', avatar: studentAvatar1, role: 'Coordenador(a)', isPromoted: false },
-    { id: 2, name: 'Anna Cristina Laurencio de Oliveira', nameSocial: 'Anna', avatar: studentAvatar2, role: 'Aluno(a)', isPromoted: false },
-    { id: 3, name: 'Juliana Souza da Paz', nameSocial: 'Juliana',avatar: studentAvatar3, role: 'Professor(a)', isPromoted: false },
-    { id: 4, name: 'Enzo Alves da Costa', nameSocial: 'Enzo', avatar: studentAvatar4, role: 'Professor(a)', isPromoted: false },
-    { id: 5, name: 'Beatriz Martins', nameSocial: 'Beatriz', avatar: studentAvatar1, role: 'Aluno(a)', isPromoted: false },
-    { id: 6, name: 'Carlos Eduardo Lima',nameSocial: 'Carlos', avatar: studentAvatar2, role: 'Professor(a)', isPromoted: false },
-    { id: 7, name: 'Daniela Ferreira', nameSocial: 'Daniela', avatar: studentAvatar3, role: 'Professor(a)', isPromoted: false },
-    { id: 8, name: 'Gabriel Ribeiro', nameSocial: 'Gabriel', avatar: studentAvatar4, role: 'Professor(a)', isPromoted: false },
-    { id: 9, name: 'Helena Santos', nameSocial: 'Helena', avatar: studentAvatar1, role: 'Aluno(a)', isPromoted: false },
-    { id: 10, name: 'Isabela Rocha', nameSocial: 'Isabela', avatar: studentAvatar2, role: 'Professor(a)', isPromoted: false },
-    { id: 11, name: 'João Victor Almeida', nameSocial: 'João', avatar: studentAvatar3, role: 'Professor(a)', isPromoted: false },
-];
+// const initialAlunos = [
+//     { id: 1, name: 'Antônio Henrique Pereira da Silva', nameSocial: 'Antônio', avatar: studentAvatar1, role: 'Coordenador(a)', isPromoted: false },
+//     { id: 2, name: 'Anna Cristina Laurencio de Oliveira', nameSocial: 'Anna', avatar: studentAvatar2, role: 'Aluno(a)', isPromoted: false },
+//     { id: 3, name: 'Juliana Souza da Paz', nameSocial: 'Juliana',avatar: studentAvatar3, role: 'Professor(a)', isPromoted: false },
+//     { id: 4, name: 'Enzo Alves da Costa', nameSocial: 'Enzo', avatar: studentAvatar4, role: 'Professor(a)', isPromoted: false },
+//     { id: 5, name: 'Beatriz Martins', nameSocial: 'Beatriz', avatar: studentAvatar1, role: 'Aluno(a)', isPromoted: false },
+//     { id: 6, name: 'Carlos Eduardo Lima',nameSocial: 'Carlos', avatar: studentAvatar2, role: 'Professor(a)', isPromoted: false },
+//     { id: 7, name: 'Daniela Ferreira', nameSocial: 'Daniela', avatar: studentAvatar3, role: 'Professor(a)', isPromoted: false },
+//     { id: 8, name: 'Gabriel Ribeiro', nameSocial: 'Gabriel', avatar: studentAvatar4, role: 'Professor(a)', isPromoted: false },
+//     { id: 9, name: 'Helena Santos', nameSocial: 'Helena', avatar: studentAvatar1, role: 'Aluno(a)', isPromoted: false },
+//     { id: 10, name: 'Isabela Rocha', nameSocial: 'Isabela', avatar: studentAvatar2, role: 'Professor(a)', isPromoted: false },
+//     { id: 11, name: 'João Victor Almeida', nameSocial: 'João', avatar: studentAvatar3, role: 'Professor(a)', isPromoted: false },
+// ];
 
 interface StudentListItemProps {
     avatar: string;
     name: string;
     nameSocial: string;
     role: string;
-    studentId: number;
+    studentId: string;
     isPromoted: boolean;
-    onTogglePromoted: (studentId: number, isPromoted: boolean) => void;
+    onTogglePromoted: (studentId: string, isPromoted: boolean) => void;
     onOpenModal: () => void;
+}
+
+interface UsuarioListItem {
+    id: string;
+    name: string;
+    nameSocial: string;
+    avatar: string;
+    role: string;
+    isPromoted: boolean;
 }
 
 const StudentListItem: FC<StudentListItemProps> = ({
@@ -81,8 +93,13 @@ const StudentListItem: FC<StudentListItemProps> = ({
 
 export const VerUsuarios: FC = () => {
     const { id } = useParams<{ id: string }>();
+    const { token } = useAuth();
     const [searchQuery, setSearchQuery] = useState('');
-    const [alunos, setAlunos] = useState(initialAlunos);
+    // const [alunos, setAlunos] = useState(initialAlunos);
+
+    const [alunos, setAlunos] = useState<UsuarioListItem[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [studentsPerPage, setStudentsPerPage] = useState(5);
@@ -101,6 +118,33 @@ export const VerUsuarios: FC = () => {
     };
 
     useEffect(() => {
+        async function loadUsuarios() {
+            try {
+                setLoading(true);
+                const response = await fetchUsuarios(token);
+
+                const mappedUsuarios: UsuarioListItem[] = response.dados.map((user) => ({
+                    id: user.id,
+                    name: user.nome,
+                    nameSocial: user.nome, // backend não mandou nome_social no GET
+                    avatar: user.fotoPerfil || '/default-avatar.png',
+                    role: user.tipo,
+                    isPromoted: false,
+                }));
+
+                setAlunos(mappedUsuarios);
+                setError(false);
+            } catch {
+                setError(true);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadUsuarios();
+    }, [token]);
+
+    useEffect(() => {
         const updateStudentsPerPage = () => {
             const newStudentsPerPage = window.innerWidth < 768 ? 5 : 5; 
             setStudentsPerPage(newStudentsPerPage);
@@ -112,12 +156,13 @@ export const VerUsuarios: FC = () => {
         return () => window.removeEventListener('resize', updateStudentsPerPage);
     }, []);
 
-    const handleTogglePromoted = (studentId: number, isChecked: boolean) => {
-        const updatedAlunos = alunos.map(aluno => ({
-            ...aluno,
-            isPromoted: aluno.id === studentId ? isChecked : false
-        }));
-        setAlunos(updatedAlunos);
+    const handleTogglePromoted = (studentId: string, isChecked: boolean) => {
+        setAlunos((prev) =>
+            prev.map((aluno) => ({
+                ...aluno,
+                isPromoted: aluno.id === studentId ? isChecked : false,
+            }))
+        );
     };
 
     const filteredAlunos = alunos.filter(aluno =>
@@ -151,19 +196,25 @@ export const VerUsuarios: FC = () => {
                     <div
                         className={`flex-1 ${mobileHeightClass} flex flex-col gap-6 items-center overflow-y-auto pr-0 md:pr-2 mt-2 md:mt-8 mb-20 md:min-h-[450px] lg:min-h-[400px]`}
                     >
-                        {currentAlunos.map((aluno) => (
-                            <StudentListItem
-                                key={aluno.id}
-                                studentId={aluno.id}
-                                name={aluno.name}
-                                nameSocial={aluno.nameSocial}
-                                avatar={aluno.avatar}
-                                role={aluno.role}
-                                isPromoted={aluno.isPromoted}
-                                onTogglePromoted={handleTogglePromoted}
-                                onOpenModal={() => handleOpenModal(aluno)}
-                            />
-                        ))}
+                        {loading ? (
+                            <span className='text-white'>Carregando usuários...</span>
+                        ) : error ? (
+                            <span className='text-white'>Erro ao carregar usuários</span>
+                        ) : (
+                            currentAlunos.map((aluno) => (
+                                <StudentListItem
+                                    key={aluno.id}
+                                    studentId={aluno.id}
+                                    name={aluno.name}
+                                    nameSocial={aluno.nameSocial}
+                                    avatar={aluno.avatar}
+                                    role={aluno.role}
+                                    isPromoted={aluno.isPromoted}
+                                    onTogglePromoted={handleTogglePromoted}
+                                    onOpenModal={() => handleOpenModal(aluno)}
+                                />
+                            ))
+                        )}
                     </div>
 
                     <div className='absolute bottom-10 left-1/2 transform -translate-x-1/2 w-full max-w-[650px]'>
@@ -173,12 +224,13 @@ export const VerUsuarios: FC = () => {
                             onPageChange={handlePageChange}
                         />
                     </div>
-
-                    <UserModal
+                    
+                    {/* arrumar esse modal depois, ignore por enquanto */}
+                    {/* <UserModal
                         isOpen={isModalOpen}
                         onClose={handleCloseModal}
                         student={selectedStudent}
-                    />
+                    /> */}
                 </div>
             </PageLayout>
         </Box>
