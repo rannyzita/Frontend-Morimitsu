@@ -18,8 +18,9 @@ interface AuthContextType {
     token: string | null;
     isAuthenticated: boolean;
     login: (token: string, userData: UserData) => void;
-    logout: () => Promise<void>; 
-    isLoading: boolean; 
+    logout: () => Promise<void>;
+    updateUser: (data: Partial<UserData>) => void; 
+    isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -62,6 +63,22 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         setToken(newToken);
         setUser(userData);
     }, []);
+
+    const updateUser = useCallback((data: Partial<UserData>) => {
+        setUser((prev) => {
+            if (!prev) return prev;
+
+            const updatedUser = {
+                ...prev,
+                ...data,
+            };
+
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+
+            return updatedUser;
+        });
+    }, []);
+
 
     const logout = useCallback(async () => {
         
@@ -128,6 +145,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         isAuthenticated,
         login,
         logout,
+        updateUser,
         isLoading,
     }), [user, token, isAuthenticated, login, logout, isLoading]);
 

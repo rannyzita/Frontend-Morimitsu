@@ -14,23 +14,30 @@ export async function updateUserProfile(id: string, data: Partial<UserProfileUpd
     return response.data;
 }
 
-export async function updateUsuarioPerfil(
+export async function updateProfileImage(
     id: string,
-    data: Partial<UsuarioPerfil>,
+    imageUrl: string,
     token?: string
-) {
+): Promise<UserProfileResponse> {
     const config = token
         ? { headers: { Authorization: `Bearer ${token}` } }
         : {};
 
-    const response = await api.patch(`/usuarios/perfil/${id}`, data, config);
+    const response = await api.patch<UserProfileResponse>(
+        `/usuarios/perfil/${id}`,
+        {
+            imagem_perfil_url: imageUrl,
+        },
+        config
+    );
+
     return response.data;
 }
 
 export async function readProfile(id: string, token?: string) {
     const config = token
         ? { headers: { Authorization: `Bearer ${token}` } }
-        : {};
+        : {};   
 
     const response = await api.get(`/usuarios/${id}`, config);
     return response.data;

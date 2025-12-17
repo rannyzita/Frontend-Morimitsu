@@ -71,7 +71,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSideBar }) => {
             <div className='flex flex-col items-center text-center mb-10'>
                 <Link to='/meu-perfil' className='cursor-pointer' onClick={handleLinkClick}>
                     <img
-                        src={user.imagem_perfil_url || '/IconProfile.png'}
+                        // src={user.imagem_perfil_url || '/IconProfile.png'}
+                        src={'/IconProfile.png'}
                         alt='Foto do perfil'
                         className='w-22 h-22 md:w-36 md:h-36 rounded-full object-cover mb-4'
                     />

@@ -1,16 +1,18 @@
-import { useState, type FC, type ReactNode, useEffect, useCallback } from 'react';
+import { useState, type FC, type ReactNode, useEffect, useCallback, useRef } from 'react';
 import { Box } from '@mui/material';
 import { PageLayout } from '../../components/layout/BigCardGray_';
 import { SquarePen, LogOut, Save, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { updateUserProfile, type UserProfileUpdate } from '../../services/profile/profile';  
+import { updateUserProfile } from '../../services/profile/profile';  
+import type { UserProfileUpdate } from '../../services/profile/types/types';
 import FaixaTeste  from './assetsTest/FaixaPretaTeste.png'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ptBR } from 'date-fns/locale';
 import { ProfileDateField } from './components/ProfileDateField/ProfileDateField';
 import { FeedbackToast } from '../../components/Feedback/Feedback';
+import { updateProfileImage } from '../../services/profile/profile';
 
 interface ProfileFieldProps {
     label: string;
@@ -232,8 +234,41 @@ const GenderRadio: FC<GenderRadioProps> = ({ label, value, isChecked, onChange, 
 };
 
 export const Profile: FC = () => {
-    const { user, token, logout, login } = useAuth(); 
-    
+    const { user, token, logout, login, updateUser } = useAuth(); 
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+    const handlePhotoChange = async (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        if (!e.target.files?.[0] || !user || !token) return;
+
+        const file = e.target.files[0];
+
+        try {
+            const imageUrl = uploadResponse.url;
+
+            // 2️⃣ salva URL no perfil
+            await updateProfileImage(user.id, imageUrl, token);
+
+            // 3️⃣ atualiza tela
+            setProfileData(prev => ({
+                ...prev,
+                imagem_perfil_url: imageUrl,
+            }));
+
+            // 4️⃣ atualiza AuthContext (sidebar, header, etc)
+            updateUser({
+                imagem_perfil_url: imageUrl,
+            });
+
+            displayStatusMessage('Foto atualizada com sucesso!', 'success');
+        } catch (error) {
+            console.error('Erro ao atualizar foto:', error);
+            displayStatusMessage('Erro ao atualizar foto.', 'error');
+        }
+    };
+
+
     const [statusMessage, setStatusMessage] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
 
     const [birthDate, setBirthDate] = useState<Date | null>(null);
@@ -258,7 +293,6 @@ export const Profile: FC = () => {
     
     const handleFieldUpdate = useCallback(async (fieldName: keyof UserProfileUpdate, newValue: string | 'F' | 'M' | 'O' | Date | null) => {
         if (!user || !token) {
-            console.error('Usuário não autenticado.');
             throw new Error('Usuário não autenticado.'); 
         }
 
@@ -266,9 +300,16 @@ export const Profile: FC = () => {
         
         try {
             const updatedProfile = await updateUserProfile(String(user.id), dataToUpdate, token);
+            
 
             setProfileData(prev => ({ ...prev, [fieldName]: newValue }));
             
+            if (fieldName === 'nome_social' || fieldName === 'imagem_perfil_url') {
+                updateUser({
+                    [fieldName]: newValue as string,
+                });
+            }
+
             displayStatusMessage('Atualizado com sucesso!', 'success');
 
             if (fieldName === 'nome' || fieldName === 'email') {
@@ -292,18 +333,21 @@ export const Profile: FC = () => {
     useEffect(() => {
         if (user) {
             const fetchProfileData = async () => {
-                const simulatedApiData: UserProfileUpdate = {
-                    nome: user.nome,
-                    nome_social: 'Saulo S. Bezerra (Social)', 
-                    dataNascimento: '18/01/1980', 
-                    cpf: '123.456.789-00', 
-                    genero: 'M', 
-                    email: user.email,
-                    endereco: 'Rua das Flores, 100, Centro', 
-                    telefone: '(21) 98765-4321', 
-                    imagem_perfil_url: '/IconProfile.png',
+                const response = await api.get(`/usuarios/${user.id}`);
+
+                const apiData: UserProfileUpdate = {
+                    nome: response.data.nome,
+                    nome_social: response.data.nome_social,
+                    dataNascimento: response.data.dataNascimento,
+                    cpf: response.data.cpf,
+                    genero: response.data.genero,
+                    email: response.data.email,
+                    endereco: response.data.endereco,
+                    telefone: response.data.telefone,
+                    imagem_perfil_url: response.data.imagem_perfil_url,
                 };
-                setProfileData(simulatedApiData);
+
+                setProfileData(apiData);
             };
 
             fetchProfileData();
